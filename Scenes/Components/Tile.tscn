@@ -8,4 +8,4 @@ material = ExtResource("1_uujge")
 
 [node name="Tile" type="MeshInstance3D"]
 mesh = SubResource("BoxMesh_y4byh")
-metadata/height = 0
+metadata/height = 1
