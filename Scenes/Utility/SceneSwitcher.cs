@@ -7,12 +7,14 @@ public partial class SceneSwitcher : Node
 
     public Stack<Node> sceneStack = new Stack<Node>();
 
+    static Node root;
+
+
 
     public override void _Ready()
     {
+        root = GetTree().Root;
         PushScene(GD.Load<PackedScene>("res://Scenes/menus/MainMenu.tscn").Instantiate<Node>());
-
-
     }
 
     public void PushScene(Node node)
