@@ -9,6 +9,8 @@ public partial class ChunkGenerator : Node3D
 
     const int DEFAULT_CHUNK_SIZE = 7;
 
+    private Array<MeshInstance3D> LineMeshes = new Array<MeshInstance3D>();
+
 
     [Export]
     bool generate = false;

@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=3 uid="uid://bvmpgisf2elg1"]
+[gd_scene load_steps=58 format=3 uid="uid://bvmpgisf2elg1"]
 
 [ext_resource type="Script" path="res://Scenes/Components/ChunkGenerator.cs" id="1_4cflw"]
 [ext_resource type="Script" path="res://Scenes/Components/Chunk.cs" id="2_otvyu"]
@@ -20,7 +20,8 @@ material = ExtResource("3_vdoem")
 
 [sub_resource type="BoxMesh" id="BoxMesh_pu53o"]
 resource_local_to_scene = true
-material = ExtResource("3_vdoem")
+material = ExtResource("5_7h8sv")
+size = Vector3(1, 0.9, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_h6ue7"]
 resource_local_to_scene = true
@@ -48,15 +49,18 @@ material = ExtResource("3_vdoem")
 
 [sub_resource type="BoxMesh" id="BoxMesh_xu3yj"]
 resource_local_to_scene = true
-material = ExtResource("3_vdoem")
+material = ExtResource("5_7h8sv")
+size = Vector3(1, 0.9, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_8ls6p"]
 resource_local_to_scene = true
-material = ExtResource("3_vdoem")
+material = ExtResource("5_7h8sv")
+size = Vector3(1, 0.9, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_olojb"]
 resource_local_to_scene = true
-material = ExtResource("3_vdoem")
+material = ExtResource("5_7h8sv")
+size = Vector3(1, 0.9, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_xr5gb"]
 resource_local_to_scene = true
@@ -76,7 +80,8 @@ material = ExtResource("3_vdoem")
 
 [sub_resource type="BoxMesh" id="BoxMesh_h3su8"]
 resource_local_to_scene = true
-material = ExtResource("3_vdoem")
+material = ExtResource("5_7h8sv")
+size = Vector3(1, 0.9, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_1qke2"]
 resource_local_to_scene = true
@@ -84,7 +89,8 @@ material = ExtResource("3_vdoem")
 
 [sub_resource type="BoxMesh" id="BoxMesh_arvlu"]
 resource_local_to_scene = true
-material = ExtResource("3_vdoem")
+material = ExtResource("5_7h8sv")
+size = Vector3(1, 0.9, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_2pok1"]
 resource_local_to_scene = true
@@ -92,18 +98,15 @@ material = ExtResource("3_vdoem")
 
 [sub_resource type="BoxMesh" id="BoxMesh_5ykqm"]
 resource_local_to_scene = true
-material = ExtResource("5_7h8sv")
-size = Vector3(1, 0.9, 1)
+material = ExtResource("3_vdoem")
 
 [sub_resource type="BoxMesh" id="BoxMesh_dhg4h"]
 resource_local_to_scene = true
-material = ExtResource("5_7h8sv")
-size = Vector3(1, 0.9, 1)
+material = ExtResource("3_vdoem")
 
 [sub_resource type="BoxMesh" id="BoxMesh_s6566"]
 resource_local_to_scene = true
-material = ExtResource("5_7h8sv")
-size = Vector3(1, 0.9, 1)
+material = ExtResource("3_vdoem")
 
 [sub_resource type="BoxMesh" id="BoxMesh_3k8oi"]
 resource_local_to_scene = true
@@ -139,7 +142,8 @@ material = ExtResource("3_vdoem")
 
 [sub_resource type="BoxMesh" id="BoxMesh_78wwd"]
 resource_local_to_scene = true
-material = ExtResource("3_vdoem")
+material = ExtResource("5_7h8sv")
+size = Vector3(1, 0.9, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_p6lft"]
 resource_local_to_scene = true
@@ -167,7 +171,8 @@ material = ExtResource("3_vdoem")
 
 [sub_resource type="BoxMesh" id="BoxMesh_0wya6"]
 resource_local_to_scene = true
-material = ExtResource("3_vdoem")
+material = ExtResource("5_7h8sv")
+size = Vector3(1, 0.9, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_girbs"]
 resource_local_to_scene = true
@@ -195,7 +200,8 @@ material = ExtResource("3_vdoem")
 
 [sub_resource type="BoxMesh" id="BoxMesh_6qnlb"]
 resource_local_to_scene = true
-material = ExtResource("3_vdoem")
+material = ExtResource("5_7h8sv")
+size = Vector3(1, 0.9, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_h0mm4"]
 resource_local_to_scene = true
@@ -209,14 +215,40 @@ material = ExtResource("3_vdoem")
 resource_local_to_scene = true
 material = ExtResource("3_vdoem")
 
+[sub_resource type="Curve3D" id="Curve3D_ko2qj"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 3, 0.95, 0),
+"tilts": PackedFloat32Array(0)
+}
+point_count = 1
+
+[sub_resource type="Curve3D" id="Curve3D_juk4o"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 3, 0.95, 0),
+"tilts": PackedFloat32Array(0)
+}
+point_count = 1
+
+[sub_resource type="Curve3D" id="Curve3D_506pe"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 3, 0.95, 0),
+"tilts": PackedFloat32Array(0)
+}
+point_count = 1
+
 [node name="ChunkGenerator" type="Node3D"]
 script = ExtResource("1_4cflw")
 
-[node name="Chunk" type="Node3D" parent="."]
-transform = Transform3D(-1, 0, -1.19249e-07, 0, 1, 0, 1.19249e-07, 0, -1, 0, 0, 0)
+[node name="Chunk" type="Node3D" parent="." node_paths=PackedStringArray("ExitTile", "NorthTile", "EastTile", "SouthTile")]
+transform = Transform3D(1.31529e-06, 0, 1, 0, 1, 0, -1, 0, 1.31529e-06, 0, 0, 0)
 script = ExtResource("2_otvyu")
 NorthEntrance = true
+EastEntrance = true
 SouthEntrance = true
+ExitTile = NodePath("3, 0")
+NorthTile = NodePath("3, 0")
+EastTile = NodePath("0, 3")
+SouthTile = NodePath("-3, 0")
 
 [node name="-3, -3" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -3)
@@ -231,8 +263,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -1)
 mesh = SubResource("BoxMesh_6axlr")
 
 [node name="-3, 0" parent="Chunk" instance=ExtResource("2_uow1w")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, -0.05, 0)
 mesh = SubResource("BoxMesh_pu53o")
+metadata/height = 0
 
 [node name="-3, 1" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 1)
@@ -259,16 +292,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -1)
 mesh = SubResource("BoxMesh_jajuu")
 
 [node name="-2, 0" parent="Chunk" instance=ExtResource("2_uow1w")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -0.05, 0)
 mesh = SubResource("BoxMesh_xu3yj")
+metadata/height = 0
 
 [node name="-2, 1" parent="Chunk" instance=ExtResource("2_uow1w")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -0.05, 1)
 mesh = SubResource("BoxMesh_8ls6p")
+metadata/height = 0
 
 [node name="-2, 2" parent="Chunk" instance=ExtResource("2_uow1w")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -0.05, 2)
 mesh = SubResource("BoxMesh_olojb")
+metadata/height = 0
 
 [node name="-2, 3" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 3)
@@ -287,35 +323,34 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -1)
 mesh = SubResource("BoxMesh_pyh4r")
 
 [node name="-1, 0" parent="Chunk" instance=ExtResource("2_uow1w")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, -0.05, 0)
 mesh = SubResource("BoxMesh_h3su8")
+metadata/height = 0
 
 [node name="-1, 1" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 1)
 mesh = SubResource("BoxMesh_1qke2")
 
 [node name="-1, 2" parent="Chunk" instance=ExtResource("2_uow1w")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, -0.05, 2)
 mesh = SubResource("BoxMesh_arvlu")
+metadata/height = 0
 
 [node name="-1, 3" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 3)
 mesh = SubResource("BoxMesh_2pok1")
 
 [node name="0, -3" parent="Chunk" instance=ExtResource("2_uow1w")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, -3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
 mesh = SubResource("BoxMesh_5ykqm")
-metadata/height = 0
 
 [node name="0, -2" parent="Chunk" instance=ExtResource("2_uow1w")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, -2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
 mesh = SubResource("BoxMesh_dhg4h")
-metadata/height = 0
 
 [node name="0, -1" parent="Chunk" instance=ExtResource("2_uow1w")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, -1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
 mesh = SubResource("BoxMesh_s6566")
-metadata/height = 0
 
 [node name="0, 0" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
@@ -350,8 +385,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -1)
 mesh = SubResource("BoxMesh_m4ikx")
 
 [node name="1, 0" parent="Chunk" instance=ExtResource("2_uow1w")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -0.05, 0)
 mesh = SubResource("BoxMesh_78wwd")
+metadata/height = 0
 
 [node name="1, 1" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
@@ -378,8 +414,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -1)
 mesh = SubResource("BoxMesh_rnxg0")
 
 [node name="2, 0" parent="Chunk" instance=ExtResource("2_uow1w")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -0.05, 0)
 mesh = SubResource("BoxMesh_0wya6")
+metadata/height = 0
 
 [node name="2, 1" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 1)
@@ -406,8 +443,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -1)
 mesh = SubResource("BoxMesh_uukqq")
 
 [node name="3, 0" parent="Chunk" instance=ExtResource("2_uow1w")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -0.05, 0)
 mesh = SubResource("BoxMesh_6qnlb")
+metadata/height = 0
 
 [node name="3, 1" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 1)
@@ -420,3 +458,12 @@ mesh = SubResource("BoxMesh_dmnhh")
 [node name="3, 3" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 3)
 mesh = SubResource("BoxMesh_ixjxh")
+
+[node name="@Path3D@19549" type="Path3D" parent="Chunk"]
+curve = SubResource("Curve3D_ko2qj")
+
+[node name="@Path3D@19550" type="Path3D" parent="Chunk"]
+curve = SubResource("Curve3D_juk4o")
+
+[node name="@Path3D@19551" type="Path3D" parent="Chunk"]
+curve = SubResource("Curve3D_506pe")

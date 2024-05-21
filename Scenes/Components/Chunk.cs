@@ -25,18 +25,23 @@ public partial class Chunk : Node3D
     bool SouthEntrance = false;
 
     [Export]
+    MeshInstance3D ExitTile = null;
+
+    [Export]
     bool RotateCW = false;
     [Export]
     bool RotateCCW = false;
     [Export]
     bool GeneratePath = false;
 
+    [Export]
     MeshInstance3D NorthTile = null;
+    [Export]
     MeshInstance3D EastTile = null;
+    [Export]
     MeshInstance3D WestTile = null;
+    [Export]
     MeshInstance3D SouthTile = null;
-
-
 
     //this is so we know how big the chunk is. For later.
     public int ChunkSize = 7;
@@ -47,6 +52,11 @@ public partial class Chunk : Node3D
 
 
     Dictionary<MeshInstance3D, Array<MeshInstance3D>> AdjacencyList = new();
+    Array<MeshInstance3D> AllLaneTiles = new();
+
+    public Array<Path3D> AllLanePaths = new();
+
+
 
     /// <summary>
     /// Raycasts 1m out from origin in direction. if Direction.Down is supplied, it will raycast downward.
@@ -102,6 +112,11 @@ public partial class Chunk : Node3D
 
     public void UpdateAdjacencyList()
     {
+        AllLaneTiles.Clear();
+        AdjacencyList.Clear();
+
+
+
         for (int i = 0; i < ChunkSize; i++)
         {
             for (int j = 0; j < ChunkSize; j++)
@@ -109,6 +124,9 @@ public partial class Chunk : Node3D
                 MeshInstance3D tile = GetAdjacentTile(Direction.Down, Position + new Vector3(Position.X - i + ChunkSize / 2, Position.Y + 1, Position.Z - j + ChunkSize / 2));
                 if (tile.GetMeta("height").AsInt32() == 0)
                 {
+
+                    AllLaneTiles.Add(tile);
+
                     if (!AdjacencyList.ContainsKey(tile))
                     {
                         AdjacencyList.Add(tile, new Array<MeshInstance3D>());
@@ -123,7 +141,6 @@ public partial class Chunk : Node3D
                         if (temp != null && this.IsAncestorOf(temp) && temp.GetMeta("height").AsInt32() == 0)
                         {
                             AdjacencyList[tile].Add(temp);
-                            GD.Print(tile.Name + " Is adjacent to " + temp.Name);
                         }
                     }
                 }
@@ -226,27 +243,39 @@ public partial class Chunk : Node3D
         }
     }
 
-    public static Array<Array<int>> FindAllPaths(Dictionary<int, Array<int>> graph, int startVertex, int endVertex)
+
+    public static Array<Array<MeshInstance3D>> FindAllPaths(Dictionary<MeshInstance3D, Array<MeshInstance3D>> graph, MeshInstance3D startVertex, MeshInstance3D endVertex)
     {
-        Array<Array<int>> allPaths = new Array<Array<int>>();
-        bool[] visited = new bool[graph.Count];
-        Array<int> currentPath = new Array<int>();
+        Array<Array<MeshInstance3D>> allPaths = new Array<Array<MeshInstance3D>>();
+        Dictionary<MeshInstance3D, bool> visited = new();
+        foreach (MeshInstance3D key in graph.Keys)
+        {
+            visited[key] = false;
+        }
+
+
+        Array<MeshInstance3D> currentPath = new Array<MeshInstance3D>();
         DFS(graph, startVertex, endVertex, visited, currentPath, allPaths);
         return allPaths;
     }
 
-    private static void DFS(Dictionary<int, Array<int>> graph, int current, int end, bool[] visited, Array<int> currentPath, Array<Array<int>> allPaths)
+
+    private static void DFS(Dictionary<MeshInstance3D, Array<MeshInstance3D>> graph, MeshInstance3D current, MeshInstance3D end, Dictionary<MeshInstance3D, bool> visited, Array<MeshInstance3D> currentPath, Array<Array<MeshInstance3D>> allPaths)
     {
         visited[current] = true;
         currentPath.Add(current);
 
         if (current == end)
         {
-            allPaths.Add(new Array<int>(currentPath));
+            allPaths.Add(new Array<MeshInstance3D>(currentPath));
         }
         else
         {
-            foreach (int neighbor in graph[current])
+            if(!graph.ContainsKey(current))
+            {
+                GD.Print(current.Name);
+            }
+            foreach (MeshInstance3D neighbor in graph[current])
             {
                 if (!visited[neighbor])
                 {
@@ -272,6 +301,7 @@ public partial class Chunk : Node3D
 
     public void RotateClockwise()
     {
+
         bool temp = NorthEntrance;
         NorthEntrance = WestEntrance;
         WestEntrance = SouthEntrance;
@@ -287,7 +317,6 @@ public partial class Chunk : Node3D
         ChunkRotation++;
         Tween tween = GetTree().CreateTween();
         tween.TweenProperty(this, "rotation", new Vector3(0, (float)-Math.PI / 2f * ChunkRotation, 0), 0.2f);
-
     }
 
     public void RotateCounterClockwise()
@@ -309,6 +338,35 @@ public partial class Chunk : Node3D
         tween.TweenProperty(this, "rotation", new Vector3(0, (float)-Math.PI / 2f * ChunkRotation, 0), 0.2f);
     }
 
+    public void CreatePaths(MeshInstance3D Entrance)
+    {
+        Array<Array<MeshInstance3D>> allPaths = FindAllPaths(AdjacencyList, NorthTile, ExitTile);
+
+
+        foreach (Array<MeshInstance3D> path in allPaths)
+        {
+            Path3D temp = new Path3D();
+            temp.Curve = new Curve3D();
+            AllLanePaths.Add(temp);
+
+            foreach (MeshInstance3D mesh in path)
+            {
+                temp.Curve.AddPoint(mesh.Position + new Vector3(0, 1, 0));
+            }
+
+            if (Engine.IsEditorHint())
+            {
+                GetTree().EditedSceneRoot.GetNode("Chunk").AddChild(temp);
+                temp.Owner = GetTree().EditedSceneRoot;
+
+            }
+            else
+            {
+                AddChild(temp);
+            }
+        }
+    }
+
     public override void _Process(double delta)
     {
         if (RotateCW)
@@ -326,24 +384,36 @@ public partial class Chunk : Node3D
         if (GeneratePath)
         {
             GeneratePath = false;
-            var graph = new Dictionary<int, Array<int>>
-            {
-                { 0, new Array<int> { 1, 2 } },
-                { 1, new Array<int> { 2, 3 } },
-                { 2, new Array<int> { 3, 4 } },
-                { 3, new Array<int> { 4, 5 } },
-                { 4, new Array<int> { 5, 6 } },
-                { 5, new Array<int> { 6 } },
-                { 6, new Array<int>() }
-            };
 
-            int startVertex = 0;
-            int endVertex = 6;
-            Array<Array<int>> allPaths = FindAllPaths(graph, startVertex, endVertex);
-            GD.Print("we get here");
-            foreach (var path in allPaths)
+            foreach(Path3D p in AllLanePaths)
             {
-                GD.Print(string.Join(" -> ", path));
+                if (p != null)
+                {
+                    p.QueueFree();
+                }
+            }
+
+            AllLanePaths.Clear();
+
+            if(NorthEntrance)
+            {
+                GD.Print("making paths from " + NorthTile.Name + " To " + ExitTile.Name);
+                CreatePaths(NorthTile);
+            }
+            if (SouthEntrance)
+            {
+                GD.Print("making paths from " + SouthTile.Name + " To " + ExitTile.Name);
+                CreatePaths(SouthTile);
+            }
+            if (EastEntrance)
+            {
+                GD.Print("making paths from " + EastTile.Name + " To " + ExitTile.Name);
+                CreatePaths(EastTile);
+            }
+            if (WestEntrance)
+            {
+                GD.Print("making paths from " + WestTile.Name + " To " + ExitTile.Name);
+                CreatePaths(WestTile);
             }
         }
     }
