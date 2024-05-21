@@ -46,53 +46,57 @@ public partial class ChunkGenerator : Node3D
         {
             if (Input.IsKeyPressed(Key.Up))
             {
-                string nName = EditorInterface.Singleton.GetSelection().GetSelectedNodes()[0].Name;
-                
-                Vector2 pos = new Vector2(int.Parse(nName.Split(',')[0]), int.Parse(nName.Split(",")[1]));
+                Node3D n = (Node3D)EditorInterface.Singleton.GetSelection().GetSelectedNodes()[0];
+                PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
+                PhysicsRayQueryParameters3D query = PhysicsRayQueryParameters3D.Create(n.GlobalPosition, n.GlobalPosition + new Vector3(0, 0, -1));
+                Dictionary result = spaceState.IntersectRay(query);
 
-                if (pos.Y >= -2 && pos.Y <= 3)
+                if (result.Count > 1)
                 {
                     EditorInterface.Singleton.GetSelection().Clear();
-                    EditorInterface.Singleton.GetSelection().AddNode(GetTree().EditedSceneRoot.GetNode($"Chunk/{pos.X}, {pos.Y - 1}"));
+                    EditorInterface.Singleton.GetSelection().AddNode(((Node3D)result["collider"]).GetParent());
                 }
             }
 
             if (Input.IsKeyPressed(Key.Left))
             {
-                string nName = EditorInterface.Singleton.GetSelection().GetSelectedNodes()[0].Name;
+                Node3D n = (Node3D)EditorInterface.Singleton.GetSelection().GetSelectedNodes()[0];
+                PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
+                PhysicsRayQueryParameters3D query = PhysicsRayQueryParameters3D.Create(n.GlobalPosition, n.GlobalPosition + new Vector3(-1, 0, 0));
+                Dictionary result = spaceState.IntersectRay(query);
 
-                Vector2 pos = new Vector2(int.Parse(nName.Split(',')[0]), int.Parse(nName.Split(",")[1]));
-
-                if (pos.X >= -2 && pos.X <= 3)
+                if (result.Count > 1)
                 {
                     EditorInterface.Singleton.GetSelection().Clear();
-                    EditorInterface.Singleton.GetSelection().AddNode(GetTree().EditedSceneRoot.GetNode($"Chunk/{pos.X - 1}, {pos.Y}"));
+                    EditorInterface.Singleton.GetSelection().AddNode(((Node3D)result["collider"]).GetParent());
                 }
             }
 
             if (Input.IsKeyPressed(Key.Right))
             {
-                string nName = EditorInterface.Singleton.GetSelection().GetSelectedNodes()[0].Name;
+                Node3D n = (Node3D)EditorInterface.Singleton.GetSelection().GetSelectedNodes()[0];
+                PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
+                PhysicsRayQueryParameters3D query = PhysicsRayQueryParameters3D.Create(n.GlobalPosition, n.GlobalPosition + new Vector3(1, 0, 0));
+                Dictionary result = spaceState.IntersectRay(query);
 
-                Vector2 pos = new Vector2(int.Parse(nName.Split(',')[0]), int.Parse(nName.Split(",")[1]));
-
-                if (pos.X >= -3 && pos.X <= 2)
+                if (result.Count > 1)
                 {
                     EditorInterface.Singleton.GetSelection().Clear();
-                    EditorInterface.Singleton.GetSelection().AddNode(GetTree().EditedSceneRoot.GetNode($"Chunk/{pos.X + 1}, {pos.Y}"));
+                    EditorInterface.Singleton.GetSelection().AddNode(((Node3D)result["collider"]).GetParent());
                 }
             }
 
             if (Input.IsKeyPressed(Key.Down))
             {
-                string nName = EditorInterface.Singleton.GetSelection().GetSelectedNodes()[0].Name;
+                Node3D n = (Node3D)EditorInterface.Singleton.GetSelection().GetSelectedNodes()[0];
+                PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
+                PhysicsRayQueryParameters3D query = PhysicsRayQueryParameters3D.Create(n.GlobalPosition, n.GlobalPosition + new Vector3(0, 0, 1));
+                Dictionary result = spaceState.IntersectRay(query);
 
-                Vector2 pos = new Vector2(int.Parse(nName.Split(',')[0]), int.Parse(nName.Split(",")[1]));
-
-                if (pos.Y >= -3 && pos.Y <= 2)
+                if (result.Count > 1)
                 {
                     EditorInterface.Singleton.GetSelection().Clear();
-                    EditorInterface.Singleton.GetSelection().AddNode(GetTree().EditedSceneRoot.GetNode($"Chunk/{pos.X}, {pos.Y + 1}"));
+                    EditorInterface.Singleton.GetSelection().AddNode(((Node3D)result["collider"]).GetParent());
                 }
             }
 

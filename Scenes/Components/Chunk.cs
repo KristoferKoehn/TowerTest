@@ -11,7 +11,7 @@ public enum Direction
     West
 }
 
-
+[Tool]
 public partial class Chunk : Node3D
 {
 
@@ -26,6 +26,8 @@ public partial class Chunk : Node3D
 
     [Export]
     bool RotateCW = false;
+    [Export]
+    bool RotateCCW = false;
 
     MeshInstance3D NorthTile = null;
     MeshInstance3D EastTile = null;
@@ -112,6 +114,26 @@ public partial class Chunk : Node3D
 
     }
 
+    public void RotateCounterClockwise()
+    {
+        bool temp = NorthEntrance;
+        NorthEntrance = EastEntrance;
+        EastEntrance = SouthEntrance;
+        SouthEntrance = WestEntrance;
+        WestEntrance = temp;
+
+        MeshInstance3D tempTile = NorthTile;
+        NorthTile = EastTile;
+        EastTile = SouthTile;
+        SouthTile = WestTile;
+        WestTile = tempTile;
+
+        ChunkRotation--;
+        Tween tween = GetTree().CreateTween();
+        tween.TweenProperty(this, "rotation", new Vector3(0, (float)-Math.PI / 2f * ChunkRotation, 0), 0.2f);
+
+    }
+
 
 
     public override void _Process(double delta)
@@ -120,6 +142,12 @@ public partial class Chunk : Node3D
         {
             RotateCW = false;
             RotateClockwise();
+        }
+
+        if (RotateCCW)
+        {
+            RotateCCW = false;
+            RotateCounterClockwise();
         }
     }
 

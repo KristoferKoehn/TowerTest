@@ -1,9 +1,10 @@
-[gd_scene load_steps=54 format=3 uid="uid://bvmpgisf2elg1"]
+[gd_scene load_steps=55 format=3 uid="uid://bvmpgisf2elg1"]
 
 [ext_resource type="Script" path="res://Scenes/Components/ChunkGenerator.cs" id="1_4cflw"]
 [ext_resource type="Script" path="res://Scenes/Components/Chunk.cs" id="2_otvyu"]
 [ext_resource type="PackedScene" uid="uid://c1s4nmec58fg5" path="res://Scenes/Components/Tile.tscn" id="2_uow1w"]
 [ext_resource type="Material" uid="uid://w1yydihlo2w0" path="res://Assets/Materials/GrassMaterial.tres" id="3_vdoem"]
+[ext_resource type="Material" uid="uid://bwcy0e4ve716y" path="res://Assets/Materials/LaneMaterial.tres" id="5_7h8sv"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_yvidq"]
 resource_local_to_scene = true
@@ -91,15 +92,18 @@ material = ExtResource("3_vdoem")
 
 [sub_resource type="BoxMesh" id="BoxMesh_5ykqm"]
 resource_local_to_scene = true
-material = ExtResource("3_vdoem")
+material = ExtResource("5_7h8sv")
+size = Vector3(1, 0.9, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_dhg4h"]
 resource_local_to_scene = true
-material = ExtResource("3_vdoem")
+material = ExtResource("5_7h8sv")
+size = Vector3(1, 0.9, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_s6566"]
 resource_local_to_scene = true
-material = ExtResource("3_vdoem")
+material = ExtResource("5_7h8sv")
+size = Vector3(1, 0.9, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_3k8oi"]
 resource_local_to_scene = true
@@ -205,248 +209,203 @@ material = ExtResource("3_vdoem")
 script = ExtResource("1_4cflw")
 
 [node name="Chunk" type="Node3D" parent="."]
+transform = Transform3D(6.60871e-05, 0, 1, 0, 1, 0, -1, 0, 6.60871e-05, 0, 0, 0)
 script = ExtResource("2_otvyu")
 
-[node name="-3, -3" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="-3, -3" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -3)
 mesh = SubResource("BoxMesh_yvidq")
-metadata/height = 1
 
-[node name="-3, -2" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="-3, -2" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -2)
 mesh = SubResource("BoxMesh_xtpbc")
-metadata/height = 1
 
-[node name="-3, -1" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="-3, -1" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -1)
 mesh = SubResource("BoxMesh_6axlr")
-metadata/height = 1
 
-[node name="-3, 0" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="-3, 0" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 0)
 mesh = SubResource("BoxMesh_pu53o")
-metadata/height = 1
 
-[node name="-3, 1" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="-3, 1" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 1)
 mesh = SubResource("BoxMesh_h6ue7")
-metadata/height = 1
 
-[node name="-3, 2" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="-3, 2" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 2)
 mesh = SubResource("BoxMesh_d7e3g")
-metadata/height = 1
 
-[node name="-3, 3" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="-3, 3" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 3)
 mesh = SubResource("BoxMesh_celi2")
-metadata/height = 1
 
-[node name="-2, -3" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="-2, -3" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -3)
 mesh = SubResource("BoxMesh_w8cj8")
-metadata/height = 1
 
-[node name="-2, -2" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="-2, -2" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -2)
 mesh = SubResource("BoxMesh_wrrho")
-metadata/height = 1
 
-[node name="-2, -1" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="-2, -1" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -1)
 mesh = SubResource("BoxMesh_jajuu")
-metadata/height = 1
 
-[node name="-2, 0" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="-2, 0" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
 mesh = SubResource("BoxMesh_xu3yj")
-metadata/height = 1
 
-[node name="-2, 1" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="-2, 1" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 1)
 mesh = SubResource("BoxMesh_8ls6p")
-metadata/height = 1
 
-[node name="-2, 2" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="-2, 2" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 2)
 mesh = SubResource("BoxMesh_olojb")
-metadata/height = 1
 
-[node name="-2, 3" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="-2, 3" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 3)
 mesh = SubResource("BoxMesh_xr5gb")
-metadata/height = 1
 
-[node name="-1, -3" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="-1, -3" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -3)
 mesh = SubResource("BoxMesh_32j2l")
-metadata/height = 1
 
-[node name="-1, -2" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="-1, -2" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -2)
 mesh = SubResource("BoxMesh_561dl")
-metadata/height = 1
 
-[node name="-1, -1" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="-1, -1" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -1)
 mesh = SubResource("BoxMesh_pyh4r")
-metadata/height = 1
 
-[node name="-1, 0" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="-1, 0" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
 mesh = SubResource("BoxMesh_h3su8")
-metadata/height = 1
 
-[node name="-1, 1" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="-1, 1" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 1)
 mesh = SubResource("BoxMesh_1qke2")
-metadata/height = 1
 
-[node name="-1, 2" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="-1, 2" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 2)
 mesh = SubResource("BoxMesh_arvlu")
-metadata/height = 1
 
-[node name="-1, 3" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="-1, 3" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 3)
 mesh = SubResource("BoxMesh_2pok1")
-metadata/height = 1
 
-[node name="0, -3" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
+[node name="0, -3" parent="Chunk" instance=ExtResource("2_uow1w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, -3)
 mesh = SubResource("BoxMesh_5ykqm")
-metadata/height = 1
+metadata/height = 0
 
-[node name="0, -2" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+[node name="0, -2" parent="Chunk" instance=ExtResource("2_uow1w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, -2)
 mesh = SubResource("BoxMesh_dhg4h")
-metadata/height = 1
+metadata/height = 0
 
-[node name="0, -1" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+[node name="0, -1" parent="Chunk" instance=ExtResource("2_uow1w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, -1)
 mesh = SubResource("BoxMesh_s6566")
-metadata/height = 1
+metadata/height = 0
 
-[node name="0, 0" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="0, 0" parent="Chunk" instance=ExtResource("2_uow1w")]
 mesh = SubResource("BoxMesh_3k8oi")
-metadata/height = 1
 
-[node name="0, 1" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="0, 1" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
 mesh = SubResource("BoxMesh_cf01a")
-metadata/height = 1
 
-[node name="0, 2" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="0, 2" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
 mesh = SubResource("BoxMesh_hxc0j")
-metadata/height = 1
 
-[node name="0, 3" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="0, 3" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
 mesh = SubResource("BoxMesh_uc4ag")
-metadata/height = 1
 
-[node name="1, -3" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="1, -3" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -3)
 mesh = SubResource("BoxMesh_s42dv")
-metadata/height = 1
 
-[node name="1, -2" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="1, -2" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -2)
 mesh = SubResource("BoxMesh_6047p")
-metadata/height = 1
 
-[node name="1, -1" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="1, -1" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -1)
 mesh = SubResource("BoxMesh_m4ikx")
-metadata/height = 1
 
-[node name="1, 0" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="1, 0" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
 mesh = SubResource("BoxMesh_78wwd")
-metadata/height = 1
 
-[node name="1, 1" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="1, 1" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
 mesh = SubResource("BoxMesh_p6lft")
-metadata/height = 1
 
-[node name="1, 2" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="1, 2" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 2)
 mesh = SubResource("BoxMesh_cbhuu")
-metadata/height = 1
 
-[node name="1, 3" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="1, 3" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 3)
 mesh = SubResource("BoxMesh_achph")
-metadata/height = 1
 
-[node name="2, -3" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="2, -3" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -3)
 mesh = SubResource("BoxMesh_rcx6j")
-metadata/height = 1
 
-[node name="2, -2" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="2, -2" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -2)
 mesh = SubResource("BoxMesh_uaerf")
-metadata/height = 1
 
-[node name="2, -1" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="2, -1" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -1)
 mesh = SubResource("BoxMesh_rnxg0")
-metadata/height = 1
 
-[node name="2, 0" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="2, 0" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
 mesh = SubResource("BoxMesh_0wya6")
-metadata/height = 1
 
-[node name="2, 1" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="2, 1" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 1)
 mesh = SubResource("BoxMesh_girbs")
-metadata/height = 1
 
-[node name="2, 2" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="2, 2" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2)
 mesh = SubResource("BoxMesh_1wbsr")
-metadata/height = 1
 
-[node name="2, 3" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="2, 3" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 3)
 mesh = SubResource("BoxMesh_15u25")
-metadata/height = 1
 
-[node name="3, -3" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="3, -3" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -3)
 mesh = SubResource("BoxMesh_oyt05")
-metadata/height = 1
 
-[node name="3, -2" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="3, -2" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -2)
 mesh = SubResource("BoxMesh_06xex")
-metadata/height = 1
 
-[node name="3, -1" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="3, -1" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -1)
 mesh = SubResource("BoxMesh_uukqq")
-metadata/height = 1
 
-[node name="3, 0" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="3, 0" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 0)
 mesh = SubResource("BoxMesh_6qnlb")
-metadata/height = 1
 
-[node name="3, 1" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="3, 1" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 1)
 mesh = SubResource("BoxMesh_h0mm4")
-metadata/height = 1
 
-[node name="3, 2" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="3, 2" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 2)
 mesh = SubResource("BoxMesh_dmnhh")
-metadata/height = 1
 
-[node name="3, 3" type="MeshInstance3D" parent="Chunk" instance=ExtResource("2_uow1w")]
+[node name="3, 3" parent="Chunk" instance=ExtResource("2_uow1w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 3)
 mesh = SubResource("BoxMesh_ixjxh")
-metadata/height = 1
