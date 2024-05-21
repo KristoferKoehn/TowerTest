@@ -2,14 +2,12 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class SceneSwitcher : Node
+public partial class SceneSwitcher : Node3D
 {
 
     public Stack<Node> sceneStack = new Stack<Node>();
 
-    static Node root;
-
-
+    public static Node root;
 
     public override void _Ready()
     {

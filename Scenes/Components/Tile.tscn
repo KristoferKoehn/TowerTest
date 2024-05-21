@@ -13,6 +13,7 @@ mesh = SubResource("BoxMesh_y4byh")
 metadata/height = 1
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 8
 collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]

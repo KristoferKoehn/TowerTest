@@ -7,6 +7,9 @@ public partial class ChunkGenerator : Node3D
 {
     PackedScene TileScene = GD.Load<PackedScene>("res://Scenes/Components/Tile.tscn");
 
+    const int DEFAULT_CHUNK_SIZE = 7;
+
+
     [Export]
     bool generate = false;
 
@@ -23,19 +26,18 @@ public partial class ChunkGenerator : Node3D
             chunk.SetScript(GD.Load<Script>("res://Scenes/Components/Chunk.cs"));
             chunk.Owner = GetTree().EditedSceneRoot;
 
+            ((Chunk)chunk).ChunkSize = DEFAULT_CHUNK_SIZE;
 
-            GD.Print("button pressed");
-
-            for (int i = 0; i < 7; i++) {
+            for (int i = 0; i < DEFAULT_CHUNK_SIZE; i++) {
                 
-                for (int j = 0; j < 7; j++)
+                for (int j = 0; j < DEFAULT_CHUNK_SIZE; j++)
                 {
                     
                     Node3D node = TileScene.Instantiate<Node3D>();
                     GetTree().EditedSceneRoot.GetNode("Chunk").AddChild(node);
                     node.Owner = GetTree().EditedSceneRoot;
-                    node.Position = new Vector3(i - 3, 0, j - 3);
-                    node.Name = $"{i - 3}, {j - 3}";
+                    node.Position = new Vector3(i - DEFAULT_CHUNK_SIZE/2, 0, j - DEFAULT_CHUNK_SIZE/2);
+                    node.Name = $"{i - DEFAULT_CHUNK_SIZE/2}, {j - DEFAULT_CHUNK_SIZE / 2}";
 
                 }
             }
@@ -48,7 +50,7 @@ public partial class ChunkGenerator : Node3D
             {
                 Node3D n = (Node3D)EditorInterface.Singleton.GetSelection().GetSelectedNodes()[0];
                 PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
-                PhysicsRayQueryParameters3D query = PhysicsRayQueryParameters3D.Create(n.GlobalPosition, n.GlobalPosition + new Vector3(0, 0, -1));
+                PhysicsRayQueryParameters3D query = PhysicsRayQueryParameters3D.Create(n.GlobalPosition, n.GlobalPosition + new Vector3(0, 0, -1), collisionMask: 8);
                 Dictionary result = spaceState.IntersectRay(query);
 
                 if (result.Count > 1)
@@ -62,7 +64,7 @@ public partial class ChunkGenerator : Node3D
             {
                 Node3D n = (Node3D)EditorInterface.Singleton.GetSelection().GetSelectedNodes()[0];
                 PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
-                PhysicsRayQueryParameters3D query = PhysicsRayQueryParameters3D.Create(n.GlobalPosition, n.GlobalPosition + new Vector3(-1, 0, 0));
+                PhysicsRayQueryParameters3D query = PhysicsRayQueryParameters3D.Create(n.GlobalPosition, n.GlobalPosition + new Vector3(-1, 0, 0), collisionMask: 8);
                 Dictionary result = spaceState.IntersectRay(query);
 
                 if (result.Count > 1)
@@ -76,7 +78,7 @@ public partial class ChunkGenerator : Node3D
             {
                 Node3D n = (Node3D)EditorInterface.Singleton.GetSelection().GetSelectedNodes()[0];
                 PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
-                PhysicsRayQueryParameters3D query = PhysicsRayQueryParameters3D.Create(n.GlobalPosition, n.GlobalPosition + new Vector3(1, 0, 0));
+                PhysicsRayQueryParameters3D query = PhysicsRayQueryParameters3D.Create(n.GlobalPosition, n.GlobalPosition + new Vector3(1, 0, 0), collisionMask: 8);
                 Dictionary result = spaceState.IntersectRay(query);
 
                 if (result.Count > 1)
@@ -90,7 +92,7 @@ public partial class ChunkGenerator : Node3D
             {
                 Node3D n = (Node3D)EditorInterface.Singleton.GetSelection().GetSelectedNodes()[0];
                 PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
-                PhysicsRayQueryParameters3D query = PhysicsRayQueryParameters3D.Create(n.GlobalPosition, n.GlobalPosition + new Vector3(0, 0, 1));
+                PhysicsRayQueryParameters3D query = PhysicsRayQueryParameters3D.Create(n.GlobalPosition, n.GlobalPosition + new Vector3(0, 0, 1), collisionMask: 8);
                 Dictionary result = spaceState.IntersectRay(query);
 
                 if (result.Count > 1)
