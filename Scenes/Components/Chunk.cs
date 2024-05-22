@@ -71,8 +71,10 @@ public partial class Chunk : Node3D
     public MeshInstance3D GetAdjacentTile(Direction direction, Vector3 origin)
     {
         PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
-
         PhysicsRayQueryParameters3D query = null;
+
+        GD.Print(origin, Enum.GetName(typeof(Direction), direction));
+
         if (direction == Direction.North)
         {
             query = PhysicsRayQueryParameters3D.Create(origin, origin + new Vector3(0, 0, -1), collisionMask: 8);
@@ -111,8 +113,6 @@ public partial class Chunk : Node3D
     public override void _Ready()
     {
 
-        UpdateEntrances();
-        UpdateAdjacencyList();
     }
 
     public void UpdateAdjacencyList()
@@ -124,12 +124,13 @@ public partial class Chunk : Node3D
         {
             for (int j = 0; j < ChunkSize; j++)
             {
-                MeshInstance3D tile = GetAdjacentTile(Direction.Down, GlobalPosition + new Vector3(GlobalPosition.X - i + ChunkSize / 2, GlobalPosition.Y + 1, GlobalPosition.Z - j + ChunkSize / 2));
+                
+                MeshInstance3D tile = GetAdjacentTile(Direction.Down, new Vector3(GlobalPosition.X - i + ChunkSize / 2, GlobalPosition.Y + 1, GlobalPosition.Z - j + ChunkSize / 2));
                 if (tile.GetMeta("height").AsInt32() == 0)
                 {
-
+                    GD.Print("Added tile: " + (GlobalPosition.X - i + ChunkSize / 2) + " " + (GlobalPosition.Y + 1) + " " + (GlobalPosition.Z - j + ChunkSize / 2));
                     AllLaneTiles.Add(tile);
-
+                    
                     if (!AdjacencyList.ContainsKey(tile))
                     {
                         AdjacencyList.Add(tile, new Array<MeshInstance3D>());
@@ -153,7 +154,6 @@ public partial class Chunk : Node3D
 
     public void UpdateEntrances()
     {
-
         PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
         PhysicsRayQueryParameters3D query = PhysicsRayQueryParameters3D.Create(GlobalPosition + new Vector3(0, 2, -3), GlobalPosition + new Vector3(0, 0, -3), collisionMask: 8);
         Dictionary result = spaceState.IntersectRay(query);
@@ -297,10 +297,6 @@ public partial class Chunk : Node3D
         }
         else
         {
-            if(!graph.ContainsKey(current))
-            {
-                GD.Print(current.Name);
-            }
             foreach (MeshInstance3D neighbor in graph[current])
             {
                 if (!visited[neighbor])
@@ -335,31 +331,24 @@ public partial class Chunk : Node3D
 
         if (NorthEntrance && ExitDirection != Direction.North)
         {
-            GD.Print("making paths from North " + NorthTile.Name + " To " + Enum.GetName(typeof(Direction), ExitDirection));
             CreatePaths(NorthTile);
         }
         if (SouthEntrance && ExitDirection != Direction.South)
         {
-            GD.Print("making paths from south " + SouthTile.Name + " To " + Enum.GetName(typeof(Direction), ExitDirection));
             CreatePaths(SouthTile);
         }
         if (EastEntrance && ExitDirection != Direction.East)
         {
-            GD.Print("making paths from east " + EastTile.Name + " To " + Enum.GetName(typeof(Direction), ExitDirection));
             CreatePaths(EastTile);
         }
         if (WestEntrance && ExitDirection != Direction.West)
         {
-            GD.Print("making paths from west " + WestTile.Name + " To " + Enum.GetName(typeof(Direction), ExitDirection));
             CreatePaths(WestTile);
         }
         if (CenterEntrance && ExitDirection != Direction.Down)
         {
-            GD.Print("making paths from center " + CenterTile.Name + " To " + Enum.GetName(typeof(Direction), ExitDirection));
             CreatePaths(CenterTile);
         }
-
-
     }
 
     public void RotateClockwise()
@@ -380,6 +369,8 @@ public partial class Chunk : Node3D
 
     public void CreatePaths(MeshInstance3D Entrance)
     {
+        UpdateAdjacencyList();
+        UpdateEntrances();
 
         MeshInstance3D ExitTile = null;
         if (ExitDirection == Direction.North)
@@ -404,6 +395,8 @@ public partial class Chunk : Node3D
         }
 
         GD.Print("Exit Tile: " + ExitTile.Name);
+
+
 
         Array<Array<MeshInstance3D>> allPaths = FindAllPaths(AdjacencyList, Entrance, ExitTile);
         Array<Path3D> EntrancePaths = new();
@@ -439,7 +432,6 @@ public partial class Chunk : Node3D
             }
         }
 
-        GD.Print("lane paths count: " + AllLanePaths.Count);
         EntrancePathList[Entrance] = EntrancePaths;
     }
 
