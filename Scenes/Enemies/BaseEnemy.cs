@@ -1,6 +1,8 @@
 using Godot;
+using Godot.Collections;
 using System;
 
+[Tool]
 public partial class BaseEnemy : PathFollow3D
 {
 
@@ -22,9 +24,49 @@ public partial class BaseEnemy : PathFollow3D
 	{
 		if (ProgressRatio == 1)
 		{
+            AttachNextPath();
+
+
             //switch paths
             //raycasting down (to hit the tile), asking for it's parent, then passing the tile into the chunk's thingy (GetPathsFromEntrance)
 			//reparent to new path, set progress ratio to 0
         }
+
+
+
     }
+
+    public MeshInstance3D GetTileAt(Vector3 to, Vector3 from)
+    {
+        PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
+        PhysicsRayQueryParameters3D query = PhysicsRayQueryParameters3D.Create(to, from, collisionMask: 8);
+        Dictionary result = spaceState.IntersectRay(query);
+
+        if (result.Count > 1)
+        {
+            return ((StaticBody3D)result["collider"]).GetParent<MeshInstance3D>();
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public Chunk GetChunkReferenceFromTile(MeshInstance3D tile)
+    {
+        return tile.GetParent<Chunk>();
+    }
+
+    public void AttachNextPath()
+    {
+        MeshInstance3D temp = GetTileAt(GlobalPosition = new Vector3(0,1,0), new Vector3(0, -1, 0));
+        Chunk chunk = GetChunkReferenceFromTile(temp);
+        Array<Path3D> paths = chunk.GetPathsFromEntrance(temp);
+        Random random = new Random();
+        int randomIndex = random.Next(paths.Count);
+        Reparent(paths[randomIndex]);
+    }
+    
+
+
 }

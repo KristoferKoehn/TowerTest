@@ -5,6 +5,7 @@
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_0c41l"]
 
 [node name="BaseEnemy" type="PathFollow3D"]
+loop = false
 script = ExtResource("1_jtkxi")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

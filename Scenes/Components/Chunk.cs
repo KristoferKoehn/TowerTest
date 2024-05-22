@@ -23,6 +23,8 @@ public partial class Chunk : Node3D
     bool WestEntrance = false;
     [Export]
     bool SouthEntrance = false;
+    [Export]
+    bool CenterEntrance = false;
 
     [Export]
     Direction ExitDirection = Direction.North;
@@ -42,6 +44,8 @@ public partial class Chunk : Node3D
     MeshInstance3D WestTile = null;
     [Export]
     MeshInstance3D SouthTile = null;
+    [Export]
+    MeshInstance3D CenterTile = null;
 
     //this is so we know how big the chunk is. For later.
     public int ChunkSize = 7;
@@ -120,7 +124,7 @@ public partial class Chunk : Node3D
         {
             for (int j = 0; j < ChunkSize; j++)
             {
-                MeshInstance3D tile = GetAdjacentTile(Direction.Down, Position + new Vector3(Position.X - i + ChunkSize / 2, Position.Y + 1, Position.Z - j + ChunkSize / 2));
+                MeshInstance3D tile = GetAdjacentTile(Direction.Down, GlobalPosition + new Vector3(GlobalPosition.X - i + ChunkSize / 2, GlobalPosition.Y + 1, GlobalPosition.Z - j + ChunkSize / 2));
                 if (tile.GetMeta("height").AsInt32() == 0)
                 {
 
@@ -240,6 +244,29 @@ public partial class Chunk : Node3D
         {
             SouthTile = null;
         }
+
+        query = PhysicsRayQueryParameters3D.Create(GlobalPosition + new Vector3(0, 2, 0), GlobalPosition + new Vector3(0, 0, 0), collisionMask: 8);
+        result = spaceState.IntersectRay(query);
+
+        if (result.Count > 1)
+        {
+            MeshInstance3D temp = ((StaticBody3D)result["collider"]).GetParent<MeshInstance3D>();
+            if (temp.GetMeta("height").AsInt32() == 0)
+            {
+                CenterTile = temp;
+                CenterEntrance = true;
+            }
+            else
+            {
+                CenterTile = null;
+                CenterEntrance = false;
+            }
+        }
+        else
+        {
+            CenterTile = null;
+        }
+
     }
 
 
@@ -292,16 +319,6 @@ public partial class Chunk : Node3D
     public void PlaceChunk(Direction ConnectedDirection)
     {
 
-        // talk to chunk in that direction
-        // tell it to turn off that spawner
-
-        // make generator generate spawners?
-        // what do spawners do
-
-        // 
-
-
-
         ExitDirection = ConnectedDirection;
 
         UpdateEntrances();
@@ -336,6 +353,12 @@ public partial class Chunk : Node3D
             GD.Print("making paths from west " + WestTile.Name + " To " + Enum.GetName(typeof(Direction), ExitDirection));
             CreatePaths(WestTile);
         }
+        if (CenterEntrance && ExitDirection != Direction.Down)
+        {
+            GD.Print("making paths from center " + CenterTile.Name + " To " + Enum.GetName(typeof(Direction), ExitDirection));
+            CreatePaths(CenterTile);
+        }
+
 
     }
 
@@ -361,23 +384,23 @@ public partial class Chunk : Node3D
         MeshInstance3D ExitTile = null;
         if (ExitDirection == Direction.North)
         {
-            ExitTile = GetAdjacentTile(Direction.Down, Position + new Vector3(0, 1, -3));
+            ExitTile = GetAdjacentTile(Direction.Down, GlobalPosition + new Vector3(0, 1, -3));
         }
         if (ExitDirection == Direction.South)
         {
-            ExitTile = GetAdjacentTile(Direction.Down, Position + new Vector3(0, 1, 3));
+            ExitTile = GetAdjacentTile(Direction.Down, GlobalPosition + new Vector3(0, 1, 3));
         }
         if (ExitDirection == Direction.East)
         {
-            ExitTile = GetAdjacentTile(Direction.Down, Position + new Vector3(3, 1, 0));
+            ExitTile = GetAdjacentTile(Direction.Down, GlobalPosition + new Vector3(3, 1, 0));
         }
         if (ExitDirection == Direction.West)
         {
-            ExitTile = GetAdjacentTile(Direction.Down, Position + new Vector3(-3, 1, 0));
+            ExitTile = GetAdjacentTile(Direction.Down, GlobalPosition + new Vector3(-3, 1, 0));
         }
         if (ExitDirection == Direction.Down)
         {
-            return;
+            ExitTile = GetAdjacentTile(Direction.Down, GlobalPosition + new Vector3(0, 1, 0));
         }
 
         GD.Print("Exit Tile: " + ExitTile.Name);
@@ -406,7 +429,7 @@ public partial class Chunk : Node3D
 
             if (Engine.IsEditorHint())
             {
-                GetTree().EditedSceneRoot.GetNode("Chunk").AddChild(temp);
+                GetTree().EditedSceneRoot.GetNode(GetPath()).AddChild(temp);
                 temp.Owner = GetTree().EditedSceneRoot;
 
             }
@@ -416,6 +439,7 @@ public partial class Chunk : Node3D
             }
         }
 
+        GD.Print("lane paths count: " + AllLanePaths.Count);
         EntrancePathList[Entrance] = EntrancePaths;
     }
 
