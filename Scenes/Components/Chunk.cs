@@ -25,7 +25,7 @@ public partial class Chunk : Node3D
     bool SouthEntrance = false;
 
     [Export]
-    MeshInstance3D ExitTile = null;
+    Direction ExitDirection = Direction.North;
 
     [Export]
     bool RotateCW = false;
@@ -56,7 +56,7 @@ public partial class Chunk : Node3D
 
     public Array<Path3D> AllLanePaths = new();
 
-
+    Dictionary<MeshInstance3D, Array<Path3D>> EntrancePathList = new();
 
     /// <summary>
     /// Raycasts 1m out from origin in direction. if Direction.Down is supplied, it will raycast downward.
@@ -106,6 +106,7 @@ public partial class Chunk : Node3D
 
     public override void _Ready()
     {
+
         UpdateEntrances();
         UpdateAdjacencyList();
     }
@@ -114,8 +115,6 @@ public partial class Chunk : Node3D
     {
         AllLaneTiles.Clear();
         AdjacencyList.Clear();
-
-
 
         for (int i = 0; i < ChunkSize; i++)
         {
@@ -293,66 +292,117 @@ public partial class Chunk : Node3D
     public void PlaceChunk(Direction ConnectedDirection)
     {
 
-        //find all lane tiles
+        // talk to chunk in that direction
+        // tell it to turn off that spawner
 
-        //go from one entrance to the other
+        // make generator generate spawners?
+        // what do spawners do
+
+        // 
+
+
+
+        ExitDirection = ConnectedDirection;
+
+        UpdateEntrances();
+
+        foreach (Path3D p in AllLanePaths)
+        {
+            if (p != null)
+            {
+                p.QueueFree();
+            }
+        }
+
+        AllLanePaths.Clear();
+
+        if (NorthEntrance && ExitDirection != Direction.North)
+        {
+            GD.Print("making paths from North " + NorthTile.Name + " To " + Enum.GetName(typeof(Direction), ExitDirection));
+            CreatePaths(NorthTile);
+        }
+        if (SouthEntrance && ExitDirection != Direction.South)
+        {
+            GD.Print("making paths from south " + SouthTile.Name + " To " + Enum.GetName(typeof(Direction), ExitDirection));
+            CreatePaths(SouthTile);
+        }
+        if (EastEntrance && ExitDirection != Direction.East)
+        {
+            GD.Print("making paths from east " + EastTile.Name + " To " + Enum.GetName(typeof(Direction), ExitDirection));
+            CreatePaths(EastTile);
+        }
+        if (WestEntrance && ExitDirection != Direction.West)
+        {
+            GD.Print("making paths from west " + WestTile.Name + " To " + Enum.GetName(typeof(Direction), ExitDirection));
+            CreatePaths(WestTile);
+        }
 
     }
 
     public void RotateClockwise()
     {
-
-        bool temp = NorthEntrance;
-        NorthEntrance = WestEntrance;
-        WestEntrance = SouthEntrance;
-        SouthEntrance = EastEntrance;
-        EastEntrance = temp;
-
-        MeshInstance3D tempTile = NorthTile;
-        NorthTile = WestTile;
-        WestTile = SouthTile;
-        SouthTile = EastTile;
-        EastTile = tempTile;
-
         ChunkRotation++;
         Tween tween = GetTree().CreateTween();
         tween.TweenProperty(this, "rotation", new Vector3(0, (float)-Math.PI / 2f * ChunkRotation, 0), 0.2f);
+        tween.Finished += UpdateEntrances;
     }
 
     public void RotateCounterClockwise()
     {
-        bool temp = NorthEntrance;
-        NorthEntrance = EastEntrance;
-        EastEntrance = SouthEntrance;
-        SouthEntrance = WestEntrance;
-        WestEntrance = temp;
-
-        MeshInstance3D tempTile = NorthTile;
-        NorthTile = EastTile;
-        EastTile = SouthTile;
-        SouthTile = WestTile;
-        WestTile = tempTile;
-
         ChunkRotation--;
         Tween tween = GetTree().CreateTween();
         tween.TweenProperty(this, "rotation", new Vector3(0, (float)-Math.PI / 2f * ChunkRotation, 0), 0.2f);
+        tween.Finished += UpdateEntrances;
     }
 
     public void CreatePaths(MeshInstance3D Entrance)
     {
-        Array<Array<MeshInstance3D>> allPaths = FindAllPaths(AdjacencyList, NorthTile, ExitTile);
 
+        MeshInstance3D ExitTile = null;
+        if (ExitDirection == Direction.North)
+        {
+            ExitTile = GetAdjacentTile(Direction.Down, Position + new Vector3(0, 1, -3));
+        }
+        if (ExitDirection == Direction.South)
+        {
+            ExitTile = GetAdjacentTile(Direction.Down, Position + new Vector3(0, 1, 3));
+        }
+        if (ExitDirection == Direction.East)
+        {
+            ExitTile = GetAdjacentTile(Direction.Down, Position + new Vector3(3, 1, 0));
+        }
+        if (ExitDirection == Direction.West)
+        {
+            ExitTile = GetAdjacentTile(Direction.Down, Position + new Vector3(-3, 1, 0));
+        }
+        if (ExitDirection == Direction.Down)
+        {
+            return;
+        }
+
+        GD.Print("Exit Tile: " + ExitTile.Name);
+
+        Array<Array<MeshInstance3D>> allPaths = FindAllPaths(AdjacencyList, Entrance, ExitTile);
+        Array<Path3D> EntrancePaths = new();
 
         foreach (Array<MeshInstance3D> path in allPaths)
         {
             Path3D temp = new Path3D();
             temp.Curve = new Curve3D();
             AllLanePaths.Add(temp);
+            EntrancePaths.Add(temp);
 
             foreach (MeshInstance3D mesh in path)
             {
                 temp.Curve.AddPoint(mesh.Position + new Vector3(0, 1, 0));
             }
+
+            //don't ask
+            temp.Curve.AddPoint(new Vector3(ExitTile.Position.Normalized().X * 4, 0.95f, ExitTile.Position.Normalized().Z * 4));
+
+            //for each entrance, EntrancePathList[entrance] = array of paths
+
+            
 
             if (Engine.IsEditorHint())
             {
@@ -365,7 +415,15 @@ public partial class Chunk : Node3D
                 AddChild(temp);
             }
         }
+
+        EntrancePathList[Entrance] = EntrancePaths;
     }
+
+    public Array<Path3D> GetPathsFromEntrance(MeshInstance3D entrance)
+    {
+        return EntrancePathList[entrance];
+    }
+
 
     public override void _Process(double delta)
     {
@@ -384,37 +442,7 @@ public partial class Chunk : Node3D
         if (GeneratePath)
         {
             GeneratePath = false;
-
-            foreach(Path3D p in AllLanePaths)
-            {
-                if (p != null)
-                {
-                    p.QueueFree();
-                }
-            }
-
-            AllLanePaths.Clear();
-
-            if(NorthEntrance)
-            {
-                GD.Print("making paths from " + NorthTile.Name + " To " + ExitTile.Name);
-                CreatePaths(NorthTile);
-            }
-            if (SouthEntrance)
-            {
-                GD.Print("making paths from " + SouthTile.Name + " To " + ExitTile.Name);
-                CreatePaths(SouthTile);
-            }
-            if (EastEntrance)
-            {
-                GD.Print("making paths from " + EastTile.Name + " To " + ExitTile.Name);
-                CreatePaths(EastTile);
-            }
-            if (WestEntrance)
-            {
-                GD.Print("making paths from " + WestTile.Name + " To " + ExitTile.Name);
-                CreatePaths(WestTile);
-            }
+            PlaceChunk(ExitDirection);
         }
     }
 }

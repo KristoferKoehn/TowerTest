@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class SceneSwitcher : Node3D
+public partial class SceneSwitcher : Node
 {
 
     public Stack<Node> sceneStack = new Stack<Node>();
@@ -17,6 +17,10 @@ public partial class SceneSwitcher : Node3D
 
     public void PushScene(Node node)
     {
+        if (sceneStack.Count > 0)
+        {
+            this.RemoveChild(sceneStack.Peek());
+        }
         this.sceneStack.Push(node);
         this.AddChild(node);
     }

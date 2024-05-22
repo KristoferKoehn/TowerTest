@@ -25,10 +25,9 @@ public partial class ChunkGenerator : Node3D
             Node3D chunk = new Node3D();
             GetTree().EditedSceneRoot.AddChild(chunk);
             chunk.Name = "Chunk";
-            chunk.SetScript(GD.Load<Script>("res://Scenes/Components/Chunk.cs"));
             chunk.Owner = GetTree().EditedSceneRoot;
 
-            ((Chunk)chunk).ChunkSize = DEFAULT_CHUNK_SIZE;
+            //((Chunk)chunk).ChunkSize = DEFAULT_CHUNK_SIZE;
 
             for (int i = 0; i < DEFAULT_CHUNK_SIZE; i++) {
                 
@@ -43,6 +42,39 @@ public partial class ChunkGenerator : Node3D
 
                 }
             }
+
+
+
+            Spawner North = GD.Load<PackedScene>("res://Scenes/Components/Spawner.tscn").Instantiate<Spawner>();
+            North.Name = "SpawnerNorth";
+            GetTree().EditedSceneRoot.GetNode("Chunk").AddChild(North);
+            North.Owner = GetTree().EditedSceneRoot;
+            North.Position = new Vector3(0, 0, -4);
+            North.RotateY(Mathf.Pi);
+
+            Spawner South = GD.Load<PackedScene>("res://Scenes/Components/Spawner.tscn").Instantiate<Spawner>();
+            South.Name = "SpawnerSouth";
+            GetTree().EditedSceneRoot.GetNode("Chunk").AddChild(South);
+            South.Owner = GetTree().EditedSceneRoot;
+            South.Position = new Vector3(0, 0, 4);
+
+            Spawner East = GD.Load<PackedScene>("res://Scenes/Components/Spawner.tscn").Instantiate<Spawner>();
+            East.Name = "SpawnerEast";
+            GetTree().EditedSceneRoot.GetNode("Chunk").AddChild(East);
+            East.Owner = GetTree().EditedSceneRoot;
+            East.Position = new Vector3(4, 0, 0);
+            East.RotateY(Mathf.Pi/2);
+
+            Spawner West = GD.Load<PackedScene>("res://Scenes/Components/Spawner.tscn").Instantiate<Spawner>();
+            West.Name = "SpawnerWest";
+            GetTree().EditedSceneRoot.GetNode("Chunk").AddChild(West);
+            West.Owner = GetTree().EditedSceneRoot;
+            West.Position = new Vector3(-4, 0, 0);
+            West.RotateY(-Mathf.Pi / 2);
+
+
+
+            chunk.SetScript(GD.Load<Script>("res://Scenes/Components/Chunk.cs"));
         }
 
 

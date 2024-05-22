@@ -1,6 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://bqi5yficpytv4"]
+[gd_scene load_steps=3 format=3 uid="uid://bqi5yficpytv4"]
 
 [ext_resource type="Script" path="res://Scenes/GameLoop/GameLoop.cs" id="1_l1214"]
+[ext_resource type="PackedScene" uid="uid://b0qj8lu8u6ba" path="res://Scenes/Chunks/StartChunk.tscn" id="2_n7myf"]
 
 [node name="GameLoop" type="Node3D"]
 script = ExtResource("1_l1214")
+
+[node name="Chunk" parent="." node_paths=PackedStringArray("WestTile") instance=ExtResource("2_n7myf")]
+EastEntrance = false
+WestTile = NodePath("-3, 0")
