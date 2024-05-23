@@ -1,24 +1,125 @@
-[gd_scene load_steps=4 format=3 uid="uid://bqi5yficpytv4"]
+[gd_scene load_steps=12 format=3 uid="uid://bqi5yficpytv4"]
 
 [ext_resource type="Script" path="res://Scenes/GameLoop/GameLoop.cs" id="1_l1214"]
 [ext_resource type="PackedScene" uid="uid://476ga4je70pe" path="res://Scenes/Chunks/ForkWithCycle.tscn" id="3_k4tvn"]
+[ext_resource type="PackedScene" uid="uid://chp22ot4ypmd3" path="res://Scenes/Chunks/StartingChunk.tscn" id="3_wuc8u"]
+[ext_resource type="PackedScene" uid="uid://r87yt6bi4vkt" path="res://Scenes/Chunks/2EntranceForkA.tscn" id="4_8c4ga"]
+[ext_resource type="PackedScene" uid="uid://cd384sin5yvji" path="res://Scenes/Chunks/2EntranceSnakeA.tscn" id="5_ds0yi"]
+[ext_resource type="PackedScene" uid="uid://cbgrcqg2f5sem" path="res://Scenes/Chunks/2EAngle.tscn" id="6_02nq6"]
+[ext_resource type="PackedScene" uid="uid://cfilo238favuj" path="res://Scenes/Chunks/4EB.tscn" id="7_5727m"]
+[ext_resource type="PackedScene" uid="uid://cj4e12nbtf7ia" path="res://Scenes/Chunks/2EAngleB.tscn" id="8_v3w5p"]
 
-[sub_resource type="SphereMesh" id="SphereMesh_1ou32"]
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_qk85b"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nli3u"]
+transparency = 1
+albedo_color = Color(1.5, 1.5, 0.137, 0.251)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_v43gy"]
+material = SubResource("StandardMaterial3D_nli3u")
+size = Vector2(1, 1)
 
 [node name="GameLoop" type="Node3D"]
 script = ExtResource("1_l1214")
 
-[node name="Chunk" parent="." node_paths=PackedStringArray("NorthTile", "EastTile", "SouthTile", "CenterTile") instance=ExtResource("3_k4tvn")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.6471, 0, -11.9586)
-NorthEntrance = true
-WestEntrance = false
-CenterEntrance = true
-ExitDirection = 1
+[node name="Chunk" parent="." node_paths=PackedStringArray("NorthTile", "CenterTile") instance=ExtResource("3_wuc8u")]
 NorthTile = NodePath("0, -3")
-EastTile = NodePath("3, 0")
-SouthTile = NodePath("0, 3")
 CenterTile = NodePath("0, 0")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 1, -20)
-mesh = SubResource("SphereMesh_1ou32")
+[node name="Chunk2" parent="." node_paths=PackedStringArray("EastTile", "WestTile", "SouthTile", "CenterTile") instance=ExtResource("3_k4tvn")]
+transform = Transform3D(1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, 0, 0, -7)
+CenterEntrance = true
+ExitDirection = 2
+EastTile = NodePath("0, -3")
+WestTile = NodePath("0, 3")
+SouthTile = NodePath("3, 0")
+CenterTile = NodePath("0, 0")
+
+[node name="Chunk3" parent="." node_paths=PackedStringArray("EastTile", "WestTile") instance=ExtResource("4_8c4ga")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 7, 0, -7)
+NorthEntrance = false
+EastEntrance = true
+WestEntrance = true
+SouthEntrance = false
+ExitDirection = 3
+EastTile = NodePath("0, -3")
+WestTile = NodePath("0, 3")
+
+[node name="Chunk4" parent="." node_paths=PackedStringArray("EastTile", "WestTile", "CenterTile") instance=ExtResource("5_ds0yi")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -7, 0, -7)
+NorthEntrance = false
+EastEntrance = true
+WestEntrance = true
+SouthEntrance = false
+ExitDirection = 1
+EastTile = NodePath("0, 3")
+WestTile = NodePath("0, -3")
+CenterTile = NodePath("0, 0")
+
+[node name="Chunk5" parent="." node_paths=PackedStringArray("NorthTile", "WestTile") instance=ExtResource("6_02nq6")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 14, 0, -7)
+NorthEntrance = true
+EastEntrance = false
+WestEntrance = true
+SouthEntrance = false
+ExitDirection = 3
+NorthTile = NodePath("0, 3")
+WestTile = NodePath("3, 0")
+
+[node name="Chunk6" parent="." node_paths=PackedStringArray("NorthTile", "EastTile", "WestTile", "SouthTile", "CenterTile") instance=ExtResource("7_5727m")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 14, 0, -14)
+ExitDirection = 2
+NorthTile = NodePath("3, 0")
+EastTile = NodePath("0, 3")
+WestTile = NodePath("0, -3")
+SouthTile = NodePath("-3, 0")
+CenterTile = NodePath("0, 0")
+
+[node name="Chunk7" parent="." node_paths=PackedStringArray("EastTile", "WestTile", "CenterTile") instance=ExtResource("5_ds0yi")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 7, 0, -14)
+NorthEntrance = false
+EastEntrance = true
+WestEntrance = true
+SouthEntrance = false
+ExitDirection = 1
+EastTile = NodePath("0, 3")
+WestTile = NodePath("0, -3")
+CenterTile = NodePath("0, 0")
+
+[node name="Chunk8" parent="." node_paths=PackedStringArray("NorthTile", "EastTile") instance=ExtResource("8_v3w5p")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -14, 0, -7)
+NorthEntrance = true
+EastEntrance = true
+WestEntrance = false
+SouthEntrance = false
+ExitDirection = 1
+NorthTile = NodePath("0, 3")
+EastTile = NodePath("-3, 0")
+
+[node name="Chunk9" parent="." node_paths=PackedStringArray("EastTile", "WestTile", "SouthTile", "CenterTile") instance=ExtResource("3_k4tvn")]
+transform = Transform3D(1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, -14, 0, -14)
+CenterEntrance = true
+ExitDirection = 2
+EastTile = NodePath("0, -3")
+WestTile = NodePath("0, 3")
+SouthTile = NodePath("3, 0")
+CenterTile = NodePath("0, 0")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("WorldBoundaryShape3D_qk85b")
+
+[node name="CameraGimbal" type="Node3D" parent="."]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0)
+rotation_edit_mode = 1
+
+[node name="Camera3D" type="Camera3D" parent="CameraGimbal"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 15, 15)
+size = 42.1762
+near = 2.0
+
+[node name="SelectHighlight" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.13099, 0)
+mesh = SubResource("PlaneMesh_v43gy")

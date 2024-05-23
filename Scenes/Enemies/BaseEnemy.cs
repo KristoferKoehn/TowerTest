@@ -2,7 +2,6 @@ using Godot;
 using Godot.Collections;
 using System;
 
-[Tool]
 public partial class BaseEnemy : PathFollow3D
 {
 
@@ -32,7 +31,7 @@ public partial class BaseEnemy : PathFollow3D
 			//reparent to new path, set progress ratio to 0
         }
 
-
+        Progress += 1.6f * (float)delta;
 
     }
 
@@ -59,12 +58,21 @@ public partial class BaseEnemy : PathFollow3D
 
     public void AttachNextPath()
     {
-        MeshInstance3D temp = GetTileAt(GlobalPosition = new Vector3(0,1,0), new Vector3(0, -1, 0));
+        MeshInstance3D temp = GetTileAt(ToGlobal(new Vector3(0,1,0)), ToGlobal(new Vector3(0, -1, 0)));
         Chunk chunk = GetChunkReferenceFromTile(temp);
         Array<Path3D> paths = chunk.GetPathsFromEntrance(temp);
-        Random random = new Random();
-        int randomIndex = random.Next(paths.Count);
-        Reparent(paths[randomIndex]);
+
+        if (paths != null)
+        {
+            Random random = new Random();
+            int randomIndex = random.Next(paths.Count);
+            Reparent(paths[randomIndex]);
+            ProgressRatio = 0;
+        } else
+        {
+            QueueFree();
+        }
+
     }
     
 

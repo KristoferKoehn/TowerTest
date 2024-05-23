@@ -73,8 +73,6 @@ public partial class Chunk : Node3D
         PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
         PhysicsRayQueryParameters3D query = null;
 
-        GD.Print(origin, Enum.GetName(typeof(Direction), direction));
-
         if (direction == Direction.North)
         {
             query = PhysicsRayQueryParameters3D.Create(origin, origin + new Vector3(0, 0, -1), collisionMask: 8);
@@ -112,7 +110,11 @@ public partial class Chunk : Node3D
 
     public override void _Ready()
     {
-
+        UpdateEntrances();
+        UpdateAdjacencyList();
+        if (!Engine.IsEditorHint()) {
+            PlaceChunk(ExitDirection);
+        }
     }
 
     public void UpdateAdjacencyList()
@@ -128,7 +130,6 @@ public partial class Chunk : Node3D
                 MeshInstance3D tile = GetAdjacentTile(Direction.Down, new Vector3(GlobalPosition.X - i + ChunkSize / 2, GlobalPosition.Y + 1, GlobalPosition.Z - j + ChunkSize / 2));
                 if (tile.GetMeta("height").AsInt32() == 0)
                 {
-                    GD.Print("Added tile: " + (GlobalPosition.X - i + ChunkSize / 2) + " " + (GlobalPosition.Y + 1) + " " + (GlobalPosition.Z - j + ChunkSize / 2));
                     AllLaneTiles.Add(tile);
                     
                     if (!AdjacencyList.ContainsKey(tile))
@@ -394,8 +395,6 @@ public partial class Chunk : Node3D
             ExitTile = GetAdjacentTile(Direction.Down, GlobalPosition + new Vector3(0, 1, 0));
         }
 
-        GD.Print("Exit Tile: " + ExitTile.Name);
-
 
 
         Array<Array<MeshInstance3D>> allPaths = FindAllPaths(AdjacencyList, Entrance, ExitTile);
@@ -432,12 +431,19 @@ public partial class Chunk : Node3D
             }
         }
 
+        GD.Print("adding entrance to path list: " + Entrance.Name + " On chunk " + Name + " with path count " + EntrancePaths.Count);
         EntrancePathList[Entrance] = EntrancePaths;
     }
 
     public Array<Path3D> GetPathsFromEntrance(MeshInstance3D entrance)
     {
-        return EntrancePathList[entrance];
+        if (EntrancePathList.ContainsKey(entrance))
+        {
+            return EntrancePathList[entrance];
+        }
+
+        return null;
+
     }
 
 

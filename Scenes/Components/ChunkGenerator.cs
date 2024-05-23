@@ -14,6 +14,8 @@ public partial class ChunkGenerator : Node3D
 
     [Export]
     bool generate = false;
+    [Export]
+    bool UpdateChunk = false;
 
 
     public override void _Process(double delta)
@@ -43,8 +45,6 @@ public partial class ChunkGenerator : Node3D
                 }
             }
 
-
-
             Spawner North = GD.Load<PackedScene>("res://Scenes/Components/Spawner.tscn").Instantiate<Spawner>();
             North.Name = "SpawnerNorth";
             GetTree().EditedSceneRoot.GetNode("Chunk").AddChild(North);
@@ -72,9 +72,18 @@ public partial class ChunkGenerator : Node3D
             West.Position = new Vector3(-4, 0, 0);
             West.RotateY(-Mathf.Pi / 2);
 
-
-
             chunk.SetScript(GD.Load<Script>("res://Scenes/Components/Chunk.cs"));
+        }
+
+        if (UpdateChunk)
+        {
+            UpdateChunk = false;
+            Chunk ch = GetNodeOrNull<Chunk>("Chunk");
+            if (ch != null)
+            {
+                ch.UpdateAdjacencyList();
+                ch.UpdateEntrances();
+            }
         }
 
 
