@@ -354,17 +354,17 @@ public partial class Chunk : Node3D
 
     public void RotateClockwise()
     {
-        ChunkRotation++;
+        Quaternion q = new Quaternion(Vector3.Up, -Mathf.Pi / 2);
         Tween tween = GetTree().CreateTween();
-        tween.TweenProperty(this, "rotation", new Vector3(0, (float)-Math.PI / 2f * ChunkRotation, 0), 0.2f);
+        tween.TweenProperty(this, "quaternion", q * Quaternion, 0.2f);
         tween.Finished += UpdateEntrances;
     }
 
     public void RotateCounterClockwise()
     {
-        ChunkRotation--;
+        Quaternion q = new Quaternion(Vector3.Up, Mathf.Pi / 2);
         Tween tween = GetTree().CreateTween();
-        tween.TweenProperty(this, "rotation", new Vector3(0, (float)-Math.PI / 2f * ChunkRotation, 0), 0.2f);
+        tween.TweenProperty(this, "quaternion", q * Quaternion, 0.2f);
         tween.Finished += UpdateEntrances;
     }
 

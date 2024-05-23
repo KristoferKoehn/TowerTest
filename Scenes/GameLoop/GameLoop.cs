@@ -21,6 +21,12 @@ public partial class GameLoop : Node3D
 
     public override void _Process(double delta)
     {
+        void SetTurning()
+        {
+            turning = false;
+            GD.Print("turn false");
+        }
+
         if (Input.IsActionPressed("ui_left"))
         {
             CameraGimbal.TranslateObjectLocal(-Transform.Basis.X / 2.0f);
@@ -83,10 +89,10 @@ public partial class GameLoop : Node3D
     public override void _Input(InputEvent @event)
     {
         
-        if (@event is InputEventMouseButton eventMouseButton && eventMouseButton.Pressed && eventMouseButton.ButtonIndex == MouseButton.Left)
+        if (@event.IsActionPressed("select"))
         {
-            Vector3 from = Camera.ProjectRayOrigin(eventMouseButton.Position);
-            Vector3 to = from + Camera.ProjectRayNormal(eventMouseButton.Position) * 1000;
+            Vector3 from = Camera.ProjectRayOrigin(GetViewport().GetMousePosition());
+            Vector3 to = from + Camera.ProjectRayNormal(GetViewport().GetMousePosition()) * 1000;
 
             PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
 
@@ -105,12 +111,5 @@ public partial class GameLoop : Node3D
                 GD.Print(temp.Name + " clicked at position " + result["position"]);
             }
         }
-        
-    }
-
-    private void SetTurning()
-    {
-        turning = false;
-        GD.Print("turn false");
     }
 }
