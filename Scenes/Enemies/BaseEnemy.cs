@@ -4,6 +4,9 @@ using System;
 
 public partial class BaseEnemy : PathFollow3D
 {
+    private int Health;
+    private int Speed; // in m/s
+    private int Armor;
 
 	//stats, health whatever
 	//speed
