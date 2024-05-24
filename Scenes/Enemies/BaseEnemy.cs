@@ -1,13 +1,11 @@
 using Godot;
 using Godot.Collections;
+using MMOTest.Backend;
 using System;
 
 public partial class BaseEnemy : PathFollow3D
 {
-    private int Health;
-    private int Speed; // in m/s
-    private int Armor;
-
+	public StatBlock StatBlock;
 	//stats, health whatever
 	//speed
 
