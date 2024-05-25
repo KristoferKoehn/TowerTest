@@ -1,3 +1,12 @@
-[gd_scene format=3 uid="uid://cyhlvn4xsw5pc"]
+[gd_scene load_steps=2 format=3 uid="uid://cyhlvn4xsw5pc"]
+
+[ext_resource type="PackedScene" uid="uid://d0jhbxvd1nr3o" path="res://Assets/EnemyModels/Skeleton_Rogue.glb" id="1_spkhr"]
 
 [node name="RogueSkeleton" type="PathFollow3D"]
+
+[node name="Skeleton_Rogue" parent="." instance=ExtResource("1_spkhr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.124763, 0, 0.2033)
+
+[node name="Area3D" type="Area3D" parent="Skeleton_Rogue"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Skeleton_Rogue/Area3D"]
