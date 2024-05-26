@@ -6,6 +6,8 @@ using System;
 public partial class BaseEnemy : PathFollow3D
 {
 	public StatBlock StatBlock;
+	protected string ModelName;
+
 	//stats, health whatever
 	//speed
 
@@ -75,7 +77,27 @@ public partial class BaseEnemy : PathFollow3D
 		}
 
 	}
-	
 
+	// Rough of what we might do
+	public void TakeDamage(int damage)
+	{
+		if (damage <= 0) { return; }
+
+		float CurrentHealth = this.StatBlock.GetStat(StatType.Health);
+		float NewHealth = CurrentHealth - damage;
+		if (NewHealth > 0)
+		{
+            this.StatBlock.SetStat(StatType.Health, CurrentHealth - damage);
+        }
+		else
+		{
+			// Die
+		}
+	}
+
+	public void PlayAnimation(string AnimationName)
+	{
+		GetNode<Node3D>(this.ModelName).GetNode<AnimationPlayer>("AnimationPlayer").Play(AnimationName);
+	}
 
 }

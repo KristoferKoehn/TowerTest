@@ -8,7 +8,7 @@ public enum StatType
 	Speed,
 	Armor,
 	FireResist,
-	Damage,
+
 }
 
 namespace MMOTest.Backend
