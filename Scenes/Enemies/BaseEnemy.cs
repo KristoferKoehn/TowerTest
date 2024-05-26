@@ -5,7 +5,6 @@ using System;
 
 public partial class BaseEnemy : PathFollow3D
 {
-
 	public StatBlock StatBlock;
 	protected string ModelName;
 
