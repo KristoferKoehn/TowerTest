@@ -1,9 +1,13 @@
 using Godot;
-using System.Collections.Generic;
+using Godot.Collections;
 
 public enum StatType
 {
 	//put stats here
+	Health,
+	Speed,
+	Armor,
+	FireResist,
 
 }
 

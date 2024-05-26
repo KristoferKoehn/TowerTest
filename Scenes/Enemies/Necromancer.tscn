@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://bcugew43jjg3s"]
+
+[ext_resource type="Script" path="res://Scenes/Enemies/Necromancer.cs" id="1_vqey3"]
+[ext_resource type="PackedScene" uid="uid://c63mo00h7566u" path="res://Assets/EnemyModels/Necromancer.glb" id="1_xuwwy"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_6i7er"]
+height = 2.89117
+radius = 1.01538
+
+[node name="Necromancer" type="PathFollow3D"]
+script = ExtResource("1_vqey3")
+
+[node name="Necromancer" parent="." instance=ExtResource("1_xuwwy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0672294, 0, -0.247998)
+
+[node name="Area3D" type="Area3D" parent="Necromancer"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Necromancer/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CylinderShape3D_6i7er")
+
+[editable path="Necromancer"]

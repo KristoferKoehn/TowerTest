@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://cl46fq7xjls82"]
+
+[ext_resource type="Script" path="res://Scenes/Enemies/ArmoredSkeleton.cs" id="1_jwr5h"]
+[ext_resource type="PackedScene" uid="uid://c45mfoww6kvh4" path="res://Assets/EnemyModels/Skeleton_Warrior.glb" id="1_yhda4"]
+
+[node name="ArmoredSkeleton" type="PathFollow3D"]
+script = ExtResource("1_jwr5h")
+
+[node name="Skeleton_Warrior" parent="." instance=ExtResource("1_yhda4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0268081, -1.19209e-07, -0.171765)
+
+[node name="Skeleton_Warrior_Helmet" parent="Skeleton_Warrior/Rig/Skeleton3D" index="0"]
+transform = Transform3D(1, -2.20965e-22, 1.69407e-21, 2.20965e-22, 1, 0, -1.69407e-21, 3.58732e-43, 1, 0, 1.21587, -1.35973e-07)
+
+[node name="Area3D" type="Area3D" parent="Skeleton_Warrior"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Skeleton_Warrior/Area3D"]
+
+[editable path="Skeleton_Warrior"]
