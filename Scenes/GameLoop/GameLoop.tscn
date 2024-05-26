@@ -22,76 +22,87 @@ size = Vector2(1, 1)
 [node name="GameLoop" type="Node3D"]
 script = ExtResource("1_l1214")
 
-[node name="Chunk" parent="." instance=ExtResource("3_wuc8u")]
+[node name="Chunk" parent="." node_paths=PackedStringArray("NorthTile", "CenterTile") instance=ExtResource("3_wuc8u")]
+NorthTile = NodePath("0, -3")
+CenterTile = NodePath("0, 0")
 
-[node name="Chunk2" parent="." node_paths=PackedStringArray("CenterTile") instance=ExtResource("3_k4tvn")]
+[node name="Chunk2" parent="." node_paths=PackedStringArray("EastTile", "WestTile", "SouthTile", "CenterTile") instance=ExtResource("3_k4tvn")]
 transform = Transform3D(1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, 0, 0, -7)
 CenterEntrance = true
 ExitDirection = 2
+EastTile = NodePath("0, -3")
+WestTile = NodePath("0, 3")
+SouthTile = NodePath("3, 0")
 CenterTile = NodePath("0, 0")
 
 [node name="Chunk3" parent="." node_paths=PackedStringArray("EastTile", "WestTile") instance=ExtResource("4_8c4ga")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 7, 0, -7)
 NorthEntrance = false
-SouthEntrance = false
 EastEntrance = true
 WestEntrance = true
+SouthEntrance = false
 ExitDirection = 3
 EastTile = NodePath("0, -3")
 WestTile = NodePath("0, 3")
 
-[node name="Chunk4" parent="." node_paths=PackedStringArray("EastTile", "WestTile") instance=ExtResource("5_ds0yi")]
+[node name="Chunk4" parent="." node_paths=PackedStringArray("EastTile", "WestTile", "CenterTile") instance=ExtResource("5_ds0yi")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -7, 0, -7)
 NorthEntrance = false
-SouthEntrance = false
 EastEntrance = true
 WestEntrance = true
+SouthEntrance = false
 ExitDirection = 1
 EastTile = NodePath("0, 3")
 WestTile = NodePath("0, -3")
+CenterTile = NodePath("0, 0")
 
 [node name="Chunk5" parent="." node_paths=PackedStringArray("NorthTile", "WestTile") instance=ExtResource("6_02nq6")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 14, 0, -7)
-EastEntrance = false
-SouthEntrance = false
 NorthEntrance = true
+EastEntrance = false
 WestEntrance = true
+SouthEntrance = false
 ExitDirection = 3
 NorthTile = NodePath("0, 3")
 WestTile = NodePath("3, 0")
 
-[node name="Chunk6" parent="." node_paths=PackedStringArray("NorthTile", "EastTile", "WestTile", "SouthTile") instance=ExtResource("7_5727m")]
+[node name="Chunk6" parent="." node_paths=PackedStringArray("NorthTile", "EastTile", "WestTile", "SouthTile", "CenterTile") instance=ExtResource("7_5727m")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 14, 0, -14)
+ExitDirection = 2
 NorthTile = NodePath("3, 0")
 EastTile = NodePath("0, 3")
 WestTile = NodePath("0, -3")
 SouthTile = NodePath("-3, 0")
-ExitDirection = 2
+CenterTile = NodePath("0, 0")
 
-[node name="Chunk7" parent="." node_paths=PackedStringArray("EastTile", "WestTile") instance=ExtResource("5_ds0yi")]
+[node name="Chunk7" parent="." node_paths=PackedStringArray("EastTile", "WestTile", "CenterTile") instance=ExtResource("5_ds0yi")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 7, 0, -14)
 NorthEntrance = false
-SouthEntrance = false
 EastEntrance = true
 WestEntrance = true
+SouthEntrance = false
 ExitDirection = 1
 EastTile = NodePath("0, 3")
 WestTile = NodePath("0, -3")
+CenterTile = NodePath("0, 0")
 
 [node name="Chunk8" parent="." node_paths=PackedStringArray("NorthTile", "EastTile") instance=ExtResource("8_v3w5p")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -14, 0, -7)
-WestEntrance = false
-SouthEntrance = false
 NorthEntrance = true
 EastEntrance = true
+WestEntrance = false
+SouthEntrance = false
 ExitDirection = 1
 NorthTile = NodePath("0, 3")
 EastTile = NodePath("-3, 0")
 
-[node name="Chunk9" parent="." node_paths=PackedStringArray("CenterTile") instance=ExtResource("3_k4tvn")]
+[node name="Chunk9" parent="." node_paths=PackedStringArray("EastTile", "WestTile", "SouthTile", "CenterTile") instance=ExtResource("3_k4tvn")]
 transform = Transform3D(1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, -14, 0, -14)
 CenterEntrance = true
 ExitDirection = 2
+EastTile = NodePath("0, -3")
+WestTile = NodePath("0, 3")
+SouthTile = NodePath("3, 0")
 CenterTile = NodePath("0, 0")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]

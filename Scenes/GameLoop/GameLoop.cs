@@ -27,21 +27,23 @@ public partial class GameLoop : Node3D
             GD.Print("turn false");
         }
 
+        //make this cooler
+
         if (Input.IsActionPressed("ui_left"))
         {
-            CameraGimbal.TranslateObjectLocal(-Transform.Basis.X / 2.0f);
+            CameraGimbal.TranslateObjectLocal(new Vector3(-0.1f,0,0));
         }
         if (Input.IsActionPressed("ui_right"))
         {
-            CameraGimbal.TranslateObjectLocal(Transform.Basis.X / 2.0f);
+            CameraGimbal.TranslateObjectLocal(new Vector3(0.1f, 0, 0));
         }
         if (Input.IsActionPressed("ui_up"))
         {
-            CameraGimbal.TranslateObjectLocal(-Transform.Basis.Z / 2.0f);
+            CameraGimbal.TranslateObjectLocal(new Vector3(0, 0, -0.1f));
         }
         if (Input.IsActionPressed("ui_down"))
         {
-            CameraGimbal.TranslateObjectLocal(Transform.Basis.Z / 2.0f);
+            CameraGimbal.TranslateObjectLocal(new Vector3(0, 0, 0.1f));
         }
         if (Input.IsActionPressed("rotate_right"))
         {

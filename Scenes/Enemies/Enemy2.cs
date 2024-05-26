@@ -13,9 +13,9 @@ public partial class Enemy2 : BaseEnemy
 			{StatType.Health, 500 },
 			{StatType.Speed, 200 },
 			{StatType.Armor, 100 },
-			{ StatType.FireResist, 0},
-			{StatType.Damage,  500}
-		};
+			{StatType.FireResist, 0},
+            {StatType.Damage,  500}
+        };
 
 		StatBlock = new StatBlock();
 		StatBlock.SetStatBlock(sb);

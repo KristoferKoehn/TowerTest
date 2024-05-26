@@ -8,6 +8,7 @@ public enum StatType
 	Speed,
 	Armor,
 	FireResist,
+	Damage
 
 }
 
