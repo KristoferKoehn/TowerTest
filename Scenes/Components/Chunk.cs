@@ -356,7 +356,7 @@ public partial class Chunk : Node3D
     {
         Quaternion q = new Quaternion(Vector3.Up, -Mathf.Pi / 2);
         Tween tween = GetTree().CreateTween();
-        tween.TweenProperty(this, "quaternion", q * Quaternion, 0.2f);
+        tween.TweenProperty(this, "quaternion", q * Quaternion, 0.4f);
         tween.Finished += UpdateEntrances;
     }
 
@@ -364,7 +364,7 @@ public partial class Chunk : Node3D
     {
         Quaternion q = new Quaternion(Vector3.Up, Mathf.Pi / 2);
         Tween tween = GetTree().CreateTween();
-        tween.TweenProperty(this, "quaternion", q * Quaternion, 0.2f);
+        tween.TweenProperty(this, "quaternion", q * Quaternion, 0.4f).SetTrans(Tween.TransitionType.Back);
         tween.Finished += UpdateEntrances;
     }
 
@@ -449,6 +449,13 @@ public partial class Chunk : Node3D
 
     public override void _Process(double delta)
     {
+
+        
+
+
+        base._Process(delta);
+
+
         if (RotateCW)
         {
             RotateCW = false;
