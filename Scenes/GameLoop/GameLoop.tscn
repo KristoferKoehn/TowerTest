@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bqi5yficpytv4"]
+[gd_scene load_steps=13 format=3 uid="uid://bqi5yficpytv4"]
 
 [ext_resource type="Script" path="res://Scenes/GameLoop/GameLoop.cs" id="1_l1214"]
 [ext_resource type="PackedScene" uid="uid://476ga4je70pe" path="res://Scenes/Chunks/ForkWithCycle.tscn" id="3_k4tvn"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://cbgrcqg2f5sem" path="res://Scenes/Chunks/2EAngle.tscn" id="6_02nq6"]
 [ext_resource type="PackedScene" uid="uid://cfilo238favuj" path="res://Scenes/Chunks/4EB.tscn" id="7_5727m"]
 [ext_resource type="PackedScene" uid="uid://cj4e12nbtf7ia" path="res://Scenes/Chunks/2EAngleB.tscn" id="8_v3w5p"]
+[ext_resource type="PackedScene" uid="uid://ba4apx2hsn1c0" path="res://Scenes/Towers/Ballista.tscn" id="9_07tk2"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_qk85b"]
 
@@ -116,10 +117,14 @@ transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 
 rotation_edit_mode = 1
 
 [node name="Camera3D" type="Camera3D" parent="CameraGimbal"]
-transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 15, 15)
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 10, 10)
 size = 42.1762
 near = 2.0
 
 [node name="SelectHighlight" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.13099, 0)
+visible = false
 mesh = SubResource("PlaneMesh_v43gy")
+
+[node name="Ballista" parent="." instance=ExtResource("9_07tk2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.71724, 0.892861, 3.54415)
