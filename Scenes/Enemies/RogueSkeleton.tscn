@@ -17,10 +17,10 @@ transform = Transform3D(1, -1.42109e-14, 1.42109e-14, 1.42109e-14, 1, 6.17863e-1
 [node name="Skeleton_Rogue_Cape" parent="Skeleton_Rogue/Rig/Skeleton3D" index="1"]
 transform = Transform3D(1, 1.25214e-21, 0, -1.25214e-21, 1, 7.17465e-43, 0, 0, 1, -1.90735e-06, 1.21587, -1.3411e-07)
 
-[node name="Area3D" type="Area3D" parent="Skeleton_Rogue"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.04342, 0)
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.124763, 1.04342, 0.2033)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Skeleton_Rogue/Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 shape = SubResource("CylinderShape3D_2n6ii")
 
 [editable path="Skeleton_Rogue"]
