@@ -436,16 +436,27 @@ mesh = SubResource("BoxMesh_tppm4")
 
 [node name="SpawnerNorth" parent="." instance=ExtResource("5_k7322")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -4)
+visible = false
 Enabled = false
 
 [node name="SpawnerSouth" parent="." instance=ExtResource("5_k7322")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
-Enabled = false
+visible = false
 
 [node name="SpawnerEast" parent="." instance=ExtResource("5_k7322")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 4, 0, 0)
-Enabled = false
+visible = false
 
 [node name="SpawnerWest" parent="." instance=ExtResource("5_k7322")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -4, 0, 0)
+visible = false
 Enabled = false
+
+[node name="CameraGimbal" type="Node3D" parent="."]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0)
+rotation_edit_mode = 1
+
+[node name="Camera3D" type="Camera3D" parent="CameraGimbal"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 15, 15)
+size = 42.1762
+near = 2.0
