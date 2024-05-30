@@ -8,6 +8,7 @@ public partial class RogueSkeleton : BaseEnemy
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		ModelName = "Skeleton_Rogue";
 		Dictionary<StatType, float> sb = new()
 		{
 			{StatType.Health, 100 },

@@ -3,7 +3,8 @@
 [ext_resource type="Script" path="res://Scenes/Enemies/Enemy2.cs" id="1_cige6"]
 [ext_resource type="PackedScene" uid="uid://cd3frymucgnea" path="res://Assets/EnemyModels/Skeleton_Golem.glb" id="2_gtmi1"]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_hsug4"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_bpf5r"]
+height = 3.869
 
 [node name="Enemy2" type="PathFollow3D"]
 script = ExtResource("1_cige6")
@@ -11,8 +12,11 @@ script = ExtResource("1_cige6")
 [node name="Skeleton_Golem" parent="." instance=ExtResource("2_gtmi1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.386846, 0, -0.125793)
 
-[node name="Area3D" type="Area3D" parent="Skeleton_Golem"]
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.386846, 0, -0.125793)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Skeleton_Golem/Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.35467, 0)
-shape = SubResource("SphereShape3D_hsug4")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2572, 0)
+shape = SubResource("CylinderShape3D_bpf5r")
+
+[editable path="Skeleton_Golem"]
