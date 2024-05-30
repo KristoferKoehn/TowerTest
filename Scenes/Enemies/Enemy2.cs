@@ -5,7 +5,7 @@ using System;
 
 public partial class Enemy2 : BaseEnemy
 {
-	ModelName = "Skeleton_Golem";
+	//ModelName = "Skeleton_Golem";
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
