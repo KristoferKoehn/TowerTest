@@ -6,7 +6,6 @@ public partial class GameLoop : Node3D
 {
     Camera3D Camera { get; set; }
     Node3D CameraGimbal { get; set; }
-    MeshInstance3D SelectHighlight { get; set; }
 
 
     bool turning = false;
@@ -15,7 +14,6 @@ public partial class GameLoop : Node3D
     {
         Camera = GetNode<Camera3D>("CameraGimbal/Camera3D");
         CameraGimbal = GetNode<Node3D>("CameraGimbal");
-        SelectHighlight = GetNode<MeshInstance3D>("SelectHighlight");
     }
 
 
@@ -67,24 +65,6 @@ public partial class GameLoop : Node3D
                 t.Finished += SetTurning;
             }
         }
-
-        //raycast at all times to where mouse is
-
-        PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
-        Vector3 from = Camera.ProjectRayOrigin(GetViewport().GetMousePosition());
-        Vector3 to = from + Camera.ProjectRayNormal(GetViewport().GetMousePosition()) * 1000;
-        PhysicsRayQueryParameters3D query = PhysicsRayQueryParameters3D.Create(from, to, collisionMask: 8);
-        Dictionary result = spaceState.IntersectRay(query);
-
-        if (result.Count > 0)
-        {
-            MeshInstance3D temp = ((StaticBody3D)result["collider"]).GetParent<MeshInstance3D>();
-            SelectHighlight.GlobalPosition = new Vector3(temp.GlobalPosition.X, result["position"].AsVector3().Y + 0.05f, temp.GlobalPosition.Z);
-        } else
-        {
-            SelectHighlight.GlobalPosition = new Vector3(100, 200, 100);
-        }
-
 
     }
 

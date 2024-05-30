@@ -10,10 +10,8 @@ height = 3.869
 script = ExtResource("1_cige6")
 
 [node name="Skeleton_Golem" parent="." instance=ExtResource("2_gtmi1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.386846, 0, -0.125793)
 
 [node name="Area3D" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.386846, 0, -0.125793)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2572, 0)
