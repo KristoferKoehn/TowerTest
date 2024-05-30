@@ -87,8 +87,8 @@ public partial class BaseEnemy : PathFollow3D
 		float NewHealth = CurrentHealth - damage;
 		if (NewHealth > 0)
 		{
-            this.StatBlock.SetStat(StatType.Health, CurrentHealth - damage);
-        }
+			this.StatBlock.SetStat(StatType.Health, CurrentHealth - damage);
+		}
 		else
 		{
 			// Die
