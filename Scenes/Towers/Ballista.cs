@@ -1,8 +1,7 @@
 using Godot;
+using MMOTest.Backend;
 using System;
-
-
-
+using System.Collections.Generic;
 
 [Tool]
 public partial class Ballista : Node3D
@@ -15,6 +14,8 @@ public partial class Ballista : Node3D
     [Signal]
     public delegate void TowerSoldEventHandler(Node tower);
 
+	public StatBlock StatBlock { get; set; }
+
     MeshInstance3D TowerBase;
 	MeshInstance3D BallistaMount;
 	MeshInstance3D BallistaBow;
@@ -24,9 +25,17 @@ public partial class Ballista : Node3D
 	StandardMaterial3D MouseOverOutline;
 	StandardMaterial3D SelectOutline;
 
+	List<BaseEnemy> EnemyList = new();
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
+		Dictionary<StatType, float> sb = new()
+		{
+			{StatType.Speed, 1.0f},
+		};
+
+
 		MouseOverOutline = GD.Load<StandardMaterial3D>("res://Assets/Materials/MouseOverOutline.tres");
 		SelectOutline = GD.Load<StandardMaterial3D>("res://Assets/Materials/MouseOverOutline.tres");
         TowerBase = GetNode<MeshInstance3D>("towerSquare_bottomA2/tmpParent/towerSquare_bottomA");
@@ -53,6 +62,23 @@ public partial class Ballista : Node3D
         Outline.Visible = false;
     }
 
+	public void _on_active_range_area_entered(Area3D area)
+	{
+		BaseEnemy be = area.GetParent() as BaseEnemy;
+		if (be != null)
+		{
+            EnemyList.Add(be);
+        }
+	}
+
+	public void _on_active_range_area_exited(Area3D area)
+	{
+        BaseEnemy be = area.GetParent() as BaseEnemy;
+        if (be != null)
+        {
+            EnemyList.Remove(be);
+        }
+    }
 
     public void _on_static_body_3d_input_event(Node camera, InputEvent inputEvent, Vector3 position, Vector3 normal, int shape_idx) 
 	{

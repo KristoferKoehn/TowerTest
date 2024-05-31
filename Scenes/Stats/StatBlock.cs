@@ -1,5 +1,5 @@
 using Godot;
-using Godot.Collections;
+using System.Collections.Generic;
 
 public enum StatType
 {
@@ -54,17 +54,5 @@ namespace MMOTest.Backend
 		{
 			statblock = sb;
 		}
-
-
-		//public void ApplyAllChanges(Dictionary<StatType, float> sb)
-		//{
-			//foreach (StatType statType in sb.Keys)
-			//{
-				//
-				//statblock[statType] = GetStat(statType) + sb[statType];
-				//GD.Print(statType.ToString() + " set to " + statblock[statType]);
-//
-			//}
-		//}
 	}
 }

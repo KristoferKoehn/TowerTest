@@ -56,6 +56,12 @@ visible = false
 mesh = SubResource("ArrayMesh_qm46p")
 skeleton = NodePath("../../towerSquare_bottomA2/tmpParent/towerSquare_bottomA")
 
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
+[connection signal="area_entered" from="ActiveRange" to="." method="_on_active_range_area_entered"]
+[connection signal="area_exited" from="ActiveRange" to="." method="_on_active_range_area_exited"]
 [connection signal="input_event" from="StaticBody3D" to="." method="_on_static_body_3d_input_event"]
 [connection signal="mouse_entered" from="StaticBody3D" to="." method="_on_static_body_3d_mouse_entered"]
 [connection signal="mouse_exited" from="StaticBody3D" to="." method="_on_static_body_3d_mouse_exited"]

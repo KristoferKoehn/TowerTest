@@ -256,3 +256,4 @@ layout_mode = 2
 text = "Begin Wave"
 
 [node name="Ballista" parent="." instance=ExtResource("9_07tk2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

@@ -20,6 +20,8 @@ public partial class BaseEnemy : PathFollow3D
     public StatBlock StatBlock;
 	protected string ModelName;
 
+	int ChunkCounter = 0;
+
 	//stats, health whatever
 	//speed
 
@@ -73,7 +75,9 @@ public partial class BaseEnemy : PathFollow3D
 
 	public void AttachNextPath()
 	{
-		MeshInstance3D temp = GetTileAt(ToGlobal(new Vector3(0,1,0)), ToGlobal(new Vector3(0, -1, 0)));
+		ChunkCounter += 10;
+
+        MeshInstance3D temp = GetTileAt(ToGlobal(new Vector3(0,1,0)), ToGlobal(new Vector3(0, -1, 0)));
 		Chunk chunk = GetChunkReferenceFromTile(temp);
 		Array<Path3D> paths = chunk.GetPathsFromEntrance(temp);
 
@@ -105,6 +109,11 @@ public partial class BaseEnemy : PathFollow3D
 		{
 			// Die
 		}
+	}
+
+	public float GetTotalProgress()
+	{
+		return ChunkCounter + (GetParent<Path3D>().Curve.GetBakedLength() - Progress);
 	}
 
 	public void PlayAnimation(string AnimationName)
