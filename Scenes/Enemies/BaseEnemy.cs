@@ -5,7 +5,19 @@ using System;
 
 public partial class BaseEnemy : PathFollow3D
 {
-	public StatBlock StatBlock;
+
+    [Signal]
+    public delegate void SpawnedEventHandler(Node self);
+
+    [Signal]
+    public delegate void DamageTakenEventHandler(Node self, Node source);
+
+    [Signal]
+    public delegate void DiedEventHandler(Node self);
+
+
+
+    public StatBlock StatBlock;
 	protected string ModelName;
 
 	//stats, health whatever

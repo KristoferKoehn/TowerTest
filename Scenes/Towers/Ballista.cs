@@ -1,11 +1,21 @@
 using Godot;
 using System;
 
+
+
+
 [Tool]
 public partial class Ballista : Node3D
 {
 
-	MeshInstance3D TowerBase;
+    [Signal]
+    public delegate void TowerFiredEventHandler(Node tower, Node target = null);
+    [Signal]
+    public delegate void TowerPlacedEventHandler(Node tower, Vector3 pos, Node tile);
+    [Signal]
+    public delegate void TowerSoldEventHandler(Node tower);
+
+    MeshInstance3D TowerBase;
 	MeshInstance3D BallistaMount;
 	MeshInstance3D BallistaBow;
     MeshInstance3D Arrow;
