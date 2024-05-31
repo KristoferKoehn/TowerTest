@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bqi5yficpytv4"]
+[gd_scene load_steps=14 format=3 uid="uid://bqi5yficpytv4"]
 
 [ext_resource type="Script" path="res://Scenes/GameLoop/GameLoop.cs" id="1_l1214"]
 [ext_resource type="PackedScene" uid="uid://476ga4je70pe" path="res://Scenes/Chunks/ForkWithCycle.tscn" id="3_k4tvn"]
@@ -9,9 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://ba4apx2hsn1c0" path="res://Scenes/Towers/Ballista.tscn" id="9_07tk2"]
 [ext_resource type="Texture2D" uid="uid://b3p6kmoe4foeh" path="res://Assets/Icons/PauseButton.tres" id="9_fky3n"]
 [ext_resource type="Texture2D" uid="uid://dg85yvsjdkql5" path="res://Assets/Icons/PlayButton.tres" id="10_0fy5r"]
-[ext_resource type="PackedScene" uid="uid://cciwbc2ilhjfv" path="res://Scenes/Chunks/TestChunk.tscn" id="11_15b35"]
 [ext_resource type="Texture2D" uid="uid://cd5cs1b3m55qf" path="res://Assets/Icons/SettingsButton.tres" id="11_baj22"]
-[ext_resource type="PackedScene" uid="uid://ba4apx2hsn1c0" path="res://Scenes/Towers/Ballista.tscn" id="12_5cb1k"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_qk85b"]
 
@@ -24,12 +22,17 @@ bg_color = Color(0, 0.752861, 0.134393, 1)
 [node name="GameLoop" type="Node3D"]
 script = ExtResource("1_l1214")
 
-[node name="Chunk" parent="." instance=ExtResource("3_wuc8u")]
+[node name="Chunk" parent="." node_paths=PackedStringArray("NorthTile", "CenterTile") instance=ExtResource("3_wuc8u")]
+NorthTile = NodePath("0, -3")
+CenterTile = NodePath("0, 0")
 
-
-[node name="Chunk2" parent="." instance=ExtResource("3_k4tvn")]
+[node name="Chunk2" parent="." node_paths=PackedStringArray("EastTile", "WestTile", "SouthTile", "CenterTile") instance=ExtResource("3_k4tvn")]
 transform = Transform3D(1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, 0, 0, -7)
 ExitDirection = 2
+EastTile = NodePath("0, -3")
+WestTile = NodePath("0, 3")
+SouthTile = NodePath("3, 0")
+CenterTile = NodePath("0, 0")
 
 [node name="Chunk3" parent="." node_paths=PackedStringArray("EastTile", "WestTile") instance=ExtResource("4_8c4ga")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 7, 0, -7)
@@ -41,8 +44,7 @@ ExitDirection = 3
 EastTile = NodePath("0, -3")
 WestTile = NodePath("0, 3")
 
-[node name="Chunk4" parent="." node_paths=PackedStringArray("EastTile", "WestTile") instance=ExtResource("5_ds0yi")]
-
+[node name="Chunk4" parent="." node_paths=PackedStringArray("EastTile", "WestTile", "CenterTile") instance=ExtResource("5_ds0yi")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -7, 0, -7)
 NorthEntrance = false
 EastEntrance = true
@@ -51,16 +53,7 @@ SouthEntrance = false
 ExitDirection = 1
 EastTile = NodePath("0, 3")
 WestTile = NodePath("0, -3")
-
-[node name="Chunk7" parent="." node_paths=PackedStringArray("EastTile", "WestTile") instance=ExtResource("5_ds0yi")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 7, 0, -14)
-NorthEntrance = false
-EastEntrance = true
-WestEntrance = true
-SouthEntrance = false
-ExitDirection = 1
-EastTile = NodePath("0, 3")
-WestTile = NodePath("0, -3")
+CenterTile = NodePath("0, 0")
 
 [node name="Chunk8" parent="." node_paths=PackedStringArray("NorthTile", "EastTile") instance=ExtResource("8_v3w5p")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -14, 0, -7)
@@ -72,10 +65,13 @@ ExitDirection = 1
 NorthTile = NodePath("0, 3")
 EastTile = NodePath("-3, 0")
 
-
-[node name="Chunk9" parent="." instance=ExtResource("3_k4tvn")]
+[node name="Chunk9" parent="." node_paths=PackedStringArray("EastTile", "WestTile", "SouthTile", "CenterTile") instance=ExtResource("3_k4tvn")]
 transform = Transform3D(1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, -14, 0, -14)
 ExitDirection = 2
+EastTile = NodePath("0, -3")
+WestTile = NodePath("0, 3")
+SouthTile = NodePath("3, 0")
+CenterTile = NodePath("0, 0")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 collision_mask = 0
@@ -213,3 +209,7 @@ text = "Chunks"
 layout_mode = 2
 text = "Begin Wave"
 
+[node name="Ballista" parent="." instance=ExtResource("9_07tk2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.82207, 0.396202, -1.57797)
+
+[connection signal="pressed" from="CanvasLayer/Control/BottomUI/HBoxContainer/BeginWaveButton" to="." method="_on_begin_wave_button_pressed"]

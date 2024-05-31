@@ -32,11 +32,7 @@ public partial class BaseEnemy : PathFollow3D
 	public override void _Ready()
 	{
 		Loop = false;
-		Timer t = new Timer();
-		AddChild(t);
-		t.Timeout += () => GetProgress();
-		t.Start(0.25);
-
+		EnemyManager.GetInstance().RegisterEnemy(this);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -93,6 +89,7 @@ public partial class BaseEnemy : PathFollow3D
 			ProgressRatio = 0;
 		} else
 		{
+			EnemyManager.GetInstance().UnregisterEnemy(this);
 			QueueFree();
 		}
 

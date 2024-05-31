@@ -7,6 +7,8 @@ public partial class Necromancer : BaseEnemy
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		base._Ready();
+
 		ModelName = "Necromancer";
 
 		Dictionary<StatType, float> sb = new()

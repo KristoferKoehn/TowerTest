@@ -4,60 +4,41 @@
 [ext_resource type="PackedScene" uid="uid://c63mo00h7566u" path="res://Assets/EnemyModels/Necromancer.glb" id="1_xuwwy"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_6i7er"]
-height = 2.89117
-radius = 1.01538
+height = 1.42137
+radius = 0.453648
 
 [node name="Necromancer" type="PathFollow3D"]
 loop = false
 script = ExtResource("1_vqey3")
 
 [node name="Necromancer" parent="." instance=ExtResource("1_xuwwy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0672294, 0, -0.247998)
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 
 [node name="Skeleton3D" parent="Necromancer/Rig" index="0"]
-bones/1/position = Vector3(0, 0.392064, 0)
-bones/1/rotation = Quaternion(-1.11123e-10, 0.0431578, 2.57241e-09, 0.999068)
-bones/2/rotation = Quaternion(-6.93889e-18, 1.42109e-14, 9.86076e-32, 1)
-bones/3/rotation = Quaternion(8.27181e-25, 3.72529e-09, 0, 1)
-bones/4/rotation = Quaternion(-0.559906, -0.0608803, -0.643974, 0.517779)
-bones/5/rotation = Quaternion(3.65498e-08, -4.88301e-08, -0.494719, 0.869053)
-bones/6/rotation = Quaternion(-9.73784e-11, -2.98437e-10, 0.0266581, 0.999645)
-bones/7/rotation = Quaternion(-0.321065, -0.325319, 0.145726, 0.87741)
+bones/4/rotation = Quaternion(-0.514121, -0.485468, -0.485468, 0.514122)
+bones/5/rotation = Quaternion(1.64805e-09, -5.95036e-08, -0.0552855, 0.998471)
 bones/8/rotation = Quaternion(1.60975e-09, 1.60975e-09, -0.707107, 0.707107)
-bones/9/rotation = Quaternion(-0.618244, 0.0807287, 0.618012, 0.478873)
-bones/10/rotation = Quaternion(2.09853e-08, 5.12855e-08, 0.517939, 0.855417)
-bones/11/rotation = Quaternion(-9.73784e-11, 2.98437e-10, -0.0266581, 0.999645)
-bones/12/rotation = Quaternion(-0.319291, 0.300524, -0.22735, 0.869512)
-bones/13/rotation = Quaternion(-1.02444e-09, -4.24391e-09, 0.707107, 0.707107)
-bones/14/rotation = Quaternion(-5.80608e-11, -0.0313417, -1.88012e-09, 0.999509)
-bones/15/rotation = Quaternion(0.996185, 0.0479136, 0.0566427, -0.045939)
-bones/16/rotation = Quaternion(0.165014, 6.49414e-08, -1.11407e-07, 0.986291)
-bones/17/rotation = Quaternion(-0.533729, -0.260895, -1.73177e-05, 0.804405)
-bones/18/rotation = Quaternion(0.000263473, 0.920216, -0.391412, -5.96221e-05)
-bones/19/rotation = Quaternion(0.997322, -0.0294574, 0.0315293, 0.0590483)
-bones/20/rotation = Quaternion(0.274008, -6.38135e-08, 1.92761e-07, 0.961727)
-bones/21/rotation = Quaternion(-0.559039, 0.114513, -0.00862766, 0.82115)
-bones/22/rotation = Quaternion(-8.93315e-05, 0.920222, -0.391398, 2.03357e-05)
+bones/9/rotation = Quaternion(-0.514121, 0.485468, 0.485468, 0.514122)
+bones/10/rotation = Quaternion(1.64805e-09, 5.95036e-08, 0.0552855, 0.998471)
+bones/13/rotation = Quaternion(1.60973e-09, -1.60973e-09, 0.707107, 0.707107)
+bones/16/rotation = Quaternion(0.106225, 6.86528e-08, -7.37699e-08, 0.994342)
+bones/18/rotation = Quaternion(6.84096e-08, 0.920355, -0.391084, 9.07626e-08)
+bones/20/rotation = Quaternion(0.106225, -6.86528e-08, 7.37699e-08, 0.994342)
+bones/22/rotation = Quaternion(4.18695e-08, 0.920355, -0.391084, 9.7253e-08)
 bones/23/rotation = Quaternion(0.707107, -2.29302e-07, -4.60552e-08, 0.707107)
-bones/24/position = Vector3(0.213918, 0.0259903, 0.173866)
-bones/24/rotation = Quaternion(-0.705092, 0.0533355, 0.0533355, 0.705092)
-bones/25/rotation = Quaternion(9.65792e-09, 1.77955e-09, 0.985719, -0.168398)
-bones/27/rotation = Quaternion(-0.391084, 2.95078e-08, 1.06805e-08, 0.920355)
-bones/28/rotation = Quaternion(1, -2.66454e-15, 7.54979e-08, -5.36445e-22)
-bones/30/rotation = Quaternion(0.707107, -3.82385e-08, 1.45009e-07, 0.707107)
-bones/31/rotation = Quaternion(-0.707107, -7.05285e-08, -7.05285e-08, 0.707107)
-bones/32/rotation = Quaternion(-5.83589e-09, 6.43837e-10, 0.994809, 0.101756)
-bones/33/rotation = Quaternion(3.49345e-08, 0.391084, 0.920355, 2.95261e-08)
-bones/38/position = Vector3(0.520841, 0.788312, -0.0576373)
-bones/38/rotation = Quaternion(0.794627, -1.11759e-07, 0.607098, -5.96046e-08)
-bones/40/position = Vector3(-0.510844, 0.788312, 0.0597369)
-bones/40/rotation = Quaternion(-0.758253, -1.52737e-07, 0.651961, -1.11759e-08)
+bones/25/rotation = Quaternion(7.10544e-15, -1.38321e-22, 1, -3.01397e-34)
+bones/28/rotation = Quaternion(1, -2.66454e-15, 7.54979e-08, -2.68222e-22)
+bones/38/rotation = Quaternion(0.5, 0.5, 0.5, -0.5)
+bones/40/rotation = Quaternion(0.5, -0.5, -0.5, -0.5)
+
+[node name="AnimationPlayer" parent="Necromancer" index="1"]
+autoplay = "T-Pose"
 
 [node name="Area3D" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0672294, 0, -0.247998)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.554525, 0)
 shape = SubResource("CylinderShape3D_6i7er")
 
 [editable path="Necromancer"]

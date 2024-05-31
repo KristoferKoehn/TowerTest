@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://cghjwfq1ampdt"]
+[gd_scene load_steps=7 format=3 uid="uid://cghjwfq1ampdt"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e5y8r"]
 resource_name = "wood"
@@ -67,13 +67,18 @@ shadow_mesh = SubResource("ArrayMesh_brkor")
 [sub_resource type="BoxShape3D" id="BoxShape3D_xw5po"]
 size = Vector3(0.125244, 0.175842, 1.28259)
 
+[sub_resource type="SphereMesh" id="SphereMesh_i23uq"]
+
 [node name="BallistaArrow" type="MeshInstance3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.5, -1.44382e-15, 0.0177304, -0.0391551)
 mesh = SubResource("ArrayMesh_jrpnw")
 skeleton = NodePath("")
 
 [node name="Hitbox" type="Area3D" parent="."]
+collision_layer = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00720215, 0.00570679, 0.0548706)
 shape = SubResource("BoxShape3D_xw5po")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_i23uq")

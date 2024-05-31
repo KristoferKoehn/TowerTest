@@ -1,5 +1,6 @@
 using Godot;
 using Godot.Collections;
+using Managers;
 using System;
 
 public partial class GameLoop : Node3D
@@ -10,10 +11,20 @@ public partial class GameLoop : Node3D
 
     bool turning = false;
 
+
+    public override void _EnterTree()
+    {
+        WaveManager.GetInstance();
+        BallistaArrowManager.GetInstance();
+    }
+
     public override void _Ready()
     {
+        
+
         Camera = GetNode<Camera3D>("CameraGimbal/Camera3D");
         CameraGimbal = GetNode<Node3D>("CameraGimbal");
+
     }
 
 
@@ -91,4 +102,11 @@ public partial class GameLoop : Node3D
             }
         }
     }
+
+    public void _on_begin_wave_button_pressed()
+    {
+        WaveManager.GetInstance().StartWave();
+        GD.Print("Button pressed");
+    }
+
 }
