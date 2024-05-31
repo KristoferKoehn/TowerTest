@@ -9,7 +9,6 @@
 script = ExtResource("1_jwr5h")
 
 [node name="Skeleton_Warrior" parent="." instance=ExtResource("1_yhda4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0268081, -1.19209e-07, -0.171765)
 
 [node name="Skeleton3D" parent="Skeleton_Warrior/Rig" index="0"]
 bones/1/position = Vector3(0, 0.392064, 0)
@@ -51,10 +50,9 @@ bones/41/position = Vector3(-0.510844, 0.788312, 0.0597369)
 bones/41/rotation = Quaternion(-0.758253, -1.52737e-07, 0.651961, -1.11759e-08)
 
 [node name="Skeleton_Warrior_Helmet" parent="Skeleton_Warrior/Rig/Skeleton3D" index="0"]
-transform = Transform3D(0.99972, -1.40143e-09, 0.0236466, 1.39341e-09, 1, 3.55686e-10, -0.0236466, -3.22637e-10, 0.99972, -7.48335e-09, 1.20227, -1.35927e-07)
+transform = Transform3D(0.99972, -1.40145e-09, 0.0236468, 1.39343e-09, 1, 3.55687e-10, -0.0236468, -3.22638e-10, 0.99972, -7.48338e-09, 1.20227, -1.35927e-07)
 
 [node name="Area3D" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0268081, -1.19209e-07, -0.171765)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.12225, 0)

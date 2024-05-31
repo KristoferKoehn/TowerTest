@@ -11,7 +11,6 @@ radius = 0.792459
 script = ExtResource("1_ipq3q")
 
 [node name="Skeleton_Minion" parent="." instance=ExtResource("2_hj2lj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.566785, 0, 0.216825)
 
 [node name="Skeleton3D" parent="Skeleton_Minion/Rig" index="0"]
 bones/1/position = Vector3(0, 0.392064, 0)
@@ -52,9 +51,9 @@ bones/38/rotation = Quaternion(0.794627, -1.11759e-07, 0.607098, -5.96046e-08)
 bones/40/position = Vector3(-0.510844, 0.788312, 0.0597369)
 bones/40/rotation = Quaternion(-0.758253, -1.52737e-07, 0.651961, -1.11759e-08)
 
-[node name="Area3D" type="Area3D" parent="Skeleton_Minion"]
+[node name="Area3D" type="Area3D" parent="."]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Skeleton_Minion/Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CylinderShape3D_xcf8q")
 

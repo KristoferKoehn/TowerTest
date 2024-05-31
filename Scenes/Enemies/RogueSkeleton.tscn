@@ -9,16 +9,15 @@
 script = ExtResource("1_nud0t")
 
 [node name="Skeleton_Rogue" parent="." instance=ExtResource("1_spkhr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.124763, 0, 0.2033)
 
 [node name="Skeleton_Rogue_Hood" parent="Skeleton_Rogue/Rig/Skeleton3D" index="0"]
 transform = Transform3D(1, -1.42109e-14, 1.42109e-14, 1.42109e-14, 1, 6.17863e-15, -1.42109e-14, -6.17863e-15, 1, 1.90735e-06, 1.21587, -1.37836e-07)
 
 [node name="Skeleton_Rogue_Cape" parent="Skeleton_Rogue/Rig/Skeleton3D" index="1"]
-transform = Transform3D(1, 1.25214e-21, 0, -1.25214e-21, 1, 7.17465e-43, 0, 0, 1, -1.90735e-06, 1.21587, -1.3411e-07)
+transform = Transform3D(1, 1.25214e-21, 0, -1.25214e-21, 1, 0, 0, 0, 1, -1.90735e-06, 1.21587, -1.3411e-07)
 
 [node name="Area3D" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.124763, 1.04342, 0.2033)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.07946, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 shape = SubResource("CylinderShape3D_2n6ii")
