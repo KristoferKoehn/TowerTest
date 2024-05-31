@@ -1,14 +1,26 @@
 using Godot;
-using Godot.Collections;
+using System.Collections.Generic;
 
 public enum StatType
 {
-	//put stats here
+	//Enemy Stats
 	Health,
 	Speed,
 	Armor,
 	FireResist,
-	Damage
+
+
+	Damage,
+
+
+	//Tower Stats
+	AttackSpeed,
+	Range,
+	SellValue,
+	FireDamage,
+	IceDamage,
+	WaterDamage,
+
 
 }
 
@@ -37,7 +49,6 @@ namespace MMOTest.Backend
 	{
 
 		private Dictionary<StatType, float> statblock = new Dictionary<StatType, float>();
-		//private JObject statblock = new JObject();
 		public StatBlock() { }
 
 		public void SetStat(StatType statType, float value)
@@ -54,17 +65,5 @@ namespace MMOTest.Backend
 		{
 			statblock = sb;
 		}
-
-
-		//public void ApplyAllChanges(Dictionary<StatType, float> sb)
-		//{
-			//foreach (StatType statType in sb.Keys)
-			//{
-				//
-				//statblock[statType] = GetStat(statType) + sb[statType];
-				//GD.Print(statType.ToString() + " set to " + statblock[statType]);
-//
-			//}
-		//}
 	}
 }

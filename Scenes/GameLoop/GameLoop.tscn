@@ -5,11 +5,11 @@
 [ext_resource type="PackedScene" uid="uid://chp22ot4ypmd3" path="res://Scenes/Chunks/StartingChunk.tscn" id="3_wuc8u"]
 [ext_resource type="PackedScene" uid="uid://r87yt6bi4vkt" path="res://Scenes/Chunks/2EntranceForkA.tscn" id="4_8c4ga"]
 [ext_resource type="PackedScene" uid="uid://cd384sin5yvji" path="res://Scenes/Chunks/2EntranceSnakeA.tscn" id="5_ds0yi"]
-[ext_resource type="PackedScene" uid="uid://cbgrcqg2f5sem" path="res://Scenes/Chunks/2EAngle.tscn" id="6_02nq6"]
-[ext_resource type="PackedScene" uid="uid://cfilo238favuj" path="res://Scenes/Chunks/4EB.tscn" id="7_5727m"]
 [ext_resource type="PackedScene" uid="uid://cj4e12nbtf7ia" path="res://Scenes/Chunks/2EAngleB.tscn" id="8_v3w5p"]
+[ext_resource type="PackedScene" uid="uid://ba4apx2hsn1c0" path="res://Scenes/Towers/Ballista.tscn" id="9_07tk2"]
 [ext_resource type="Texture2D" uid="uid://b3p6kmoe4foeh" path="res://Assets/Icons/PauseButton.tres" id="9_fky3n"]
 [ext_resource type="Texture2D" uid="uid://dg85yvsjdkql5" path="res://Assets/Icons/PlayButton.tres" id="10_0fy5r"]
+[ext_resource type="PackedScene" uid="uid://cciwbc2ilhjfv" path="res://Scenes/Chunks/TestChunk.tscn" id="11_15b35"]
 [ext_resource type="Texture2D" uid="uid://cd5cs1b3m55qf" path="res://Assets/Icons/SettingsButton.tres" id="11_baj22"]
 [ext_resource type="PackedScene" uid="uid://ba4apx2hsn1c0" path="res://Scenes/Towers/Ballista.tscn" id="12_5cb1k"]
 
@@ -26,6 +26,7 @@ script = ExtResource("1_l1214")
 
 [node name="Chunk" parent="." instance=ExtResource("3_wuc8u")]
 
+
 [node name="Chunk2" parent="." instance=ExtResource("3_k4tvn")]
 transform = Transform3D(1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, 0, 0, -7)
 ExitDirection = 2
@@ -41,6 +42,7 @@ EastTile = NodePath("0, -3")
 WestTile = NodePath("0, 3")
 
 [node name="Chunk4" parent="." node_paths=PackedStringArray("EastTile", "WestTile") instance=ExtResource("5_ds0yi")]
+
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -7, 0, -7)
 NorthEntrance = false
 EastEntrance = true
@@ -49,6 +51,7 @@ SouthEntrance = false
 ExitDirection = 1
 EastTile = NodePath("0, 3")
 WestTile = NodePath("0, -3")
+
 
 [node name="Chunk5" parent="." node_paths=PackedStringArray("NorthTile", "WestTile") instance=ExtResource("6_02nq6")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 14, 0, -7)
@@ -87,6 +90,7 @@ SouthEntrance = false
 ExitDirection = 1
 NorthTile = NodePath("0, 3")
 EastTile = NodePath("-3, 0")
+
 
 [node name="Chunk9" parent="." instance=ExtResource("3_k4tvn")]
 transform = Transform3D(1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, -14, 0, -14)
@@ -228,5 +232,7 @@ text = "Chunks"
 layout_mode = 2
 text = "Begin Wave"
 
+
 [node name="Ballista" parent="." instance=ExtResource("12_5cb1k")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000151634, 0.660806, 2.03983)
+

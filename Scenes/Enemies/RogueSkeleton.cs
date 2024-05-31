@@ -1,7 +1,6 @@
 using Godot;
-using Godot.Collections;
-using MMOTest.Backend;
 using System;
+using System.Collections.Generic;
 
 public partial class RogueSkeleton : BaseEnemy
 {
@@ -18,7 +17,6 @@ public partial class RogueSkeleton : BaseEnemy
 			{StatType.Damage,  100}
 		};
 
-		StatBlock = new StatBlock();
 		StatBlock.SetStatBlock(sb);
 	}
 

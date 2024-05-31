@@ -5,8 +5,22 @@ using System;
 
 public partial class BaseEnemy : PathFollow3D
 {
-	public StatBlock StatBlock;
+
+    [Signal]
+    public delegate void SpawnedEventHandler(Node self);
+
+    [Signal]
+    public delegate void DamageTakenEventHandler(Node self, Node source);
+
+    [Signal]
+    public delegate void DiedEventHandler(Node self);
+
+
+
+    public StatBlock StatBlock;
 	protected string ModelName;
+
+	int ChunkCounter = 0;
 
 	//stats, health whatever
 	//speed
@@ -17,7 +31,11 @@ public partial class BaseEnemy : PathFollow3D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-
+		Loop = false;
+		Timer t = new Timer();
+		AddChild(t);
+		t.Timeout += () => GetProgress();
+		t.Start(0.25);
 
 	}
 
@@ -61,7 +79,9 @@ public partial class BaseEnemy : PathFollow3D
 
 	public void AttachNextPath()
 	{
-		MeshInstance3D temp = GetTileAt(ToGlobal(new Vector3(0,1,0)), ToGlobal(new Vector3(0, -1, 0)));
+		ChunkCounter += 1;
+
+        MeshInstance3D temp = GetTileAt(ToGlobal(new Vector3(0,1,0)), ToGlobal(new Vector3(0, -1, 0)));
 		Chunk chunk = GetChunkReferenceFromTile(temp);
 		Array<Path3D> paths = chunk.GetPathsFromEntrance(temp);
 
@@ -93,6 +113,11 @@ public partial class BaseEnemy : PathFollow3D
 		{
 			// Die
 		}
+	}
+
+	public float GetProgress()
+	{
+		return ChunkCounter + ProgressRatio;
 	}
 
 	public void PlayAnimation(string AnimationName)
