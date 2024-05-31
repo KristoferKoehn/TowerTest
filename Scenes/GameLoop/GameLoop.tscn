@@ -52,25 +52,6 @@ ExitDirection = 1
 EastTile = NodePath("0, 3")
 WestTile = NodePath("0, -3")
 
-
-[node name="Chunk5" parent="." node_paths=PackedStringArray("NorthTile", "WestTile") instance=ExtResource("6_02nq6")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 14, 0, -7)
-NorthEntrance = true
-EastEntrance = false
-WestEntrance = true
-SouthEntrance = false
-ExitDirection = 3
-NorthTile = NodePath("0, 3")
-WestTile = NodePath("3, 0")
-
-[node name="Chunk6" parent="." node_paths=PackedStringArray("NorthTile", "EastTile", "WestTile", "SouthTile") instance=ExtResource("7_5727m")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 14, 0, -14)
-ExitDirection = 2
-NorthTile = NodePath("3, 0")
-EastTile = NodePath("0, 3")
-WestTile = NodePath("0, -3")
-SouthTile = NodePath("-3, 0")
-
 [node name="Chunk7" parent="." node_paths=PackedStringArray("EastTile", "WestTile") instance=ExtResource("5_ds0yi")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 7, 0, -14)
 NorthEntrance = false
@@ -231,8 +212,4 @@ text = "Chunks"
 [node name="BeginWaveButton" type="Button" parent="CanvasLayer/Control/BottomUI/HBoxContainer"]
 layout_mode = 2
 text = "Begin Wave"
-
-
-[node name="Ballista" parent="." instance=ExtResource("12_5cb1k")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000151634, 0.660806, 2.03983)
 
