@@ -430,8 +430,6 @@ public partial class Chunk : Node3D
                 AddChild(temp);
             }
         }
-
-        GD.Print("adding entrance to path list: " + Entrance.Name + " On chunk " + Name + " with path count " + EntrancePaths.Count);
         EntrancePathList[Entrance] = EntrancePaths;
     }
 

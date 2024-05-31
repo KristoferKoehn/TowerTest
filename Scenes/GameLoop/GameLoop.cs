@@ -24,7 +24,6 @@ public partial class GameLoop : Node3D
         void SetTurning()
         {
             turning = false;
-            GD.Print("turn false");
         }
 
         //make this cooler
@@ -101,7 +100,6 @@ public partial class GameLoop : Node3D
 
             PhysicsRayQueryParameters3D query = PhysicsRayQueryParameters3D.Create(from, to, collisionMask: 1);
             Dictionary result = spaceState.IntersectRay(query);
-            GD.Print(result["position"]);
 
 
             query = PhysicsRayQueryParameters3D.Create(from, to, collisionMask: 8);
@@ -110,7 +108,6 @@ public partial class GameLoop : Node3D
             if (result.Count > 0)
             {
                 MeshInstance3D temp = ((StaticBody3D)result["collider"]).GetParent<MeshInstance3D>();
-                GD.Print(temp.Name + " clicked at position " + result["position"]);
             }
         }
     }

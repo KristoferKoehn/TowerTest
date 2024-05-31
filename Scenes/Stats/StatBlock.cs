@@ -3,12 +3,24 @@ using System.Collections.Generic;
 
 public enum StatType
 {
-	//put stats here
+	//Enemy Stats
 	Health,
 	Speed,
 	Armor,
 	FireResist,
-	Damage
+
+
+	Damage,
+
+
+	//Tower Stats
+	AttackSpeed,
+	Range,
+	SellValue,
+	FireDamage,
+	IceDamage,
+	WaterDamage,
+
 
 }
 
@@ -37,7 +49,6 @@ namespace MMOTest.Backend
 	{
 
 		private Dictionary<StatType, float> statblock = new Dictionary<StatType, float>();
-		//private JObject statblock = new JObject();
 		public StatBlock() { }
 
 		public void SetStat(StatType statType, float value)

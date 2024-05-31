@@ -70,7 +70,7 @@ public partial class Spawner : Node3D
         {
             if (Enabled)
             {
-                BaseEnemy b = GD.Load<PackedScene>("res://Scenes/Enemies/BaseEnemy.tscn").Instantiate<BaseEnemy>();
+                BaseEnemy b = GD.Load<PackedScene>("res://Scenes/Enemies/Necromancer.tscn").Instantiate<BaseEnemy>();
                 GetNode<Path3D>("Path3D").AddChild(b);
             }
         }

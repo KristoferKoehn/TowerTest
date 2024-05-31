@@ -31,7 +31,11 @@ public partial class BaseEnemy : PathFollow3D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-
+		Loop = false;
+		Timer t = new Timer();
+		AddChild(t);
+		t.Timeout += () => GetProgress();
+		t.Start(0.25);
 
 	}
 
@@ -75,7 +79,7 @@ public partial class BaseEnemy : PathFollow3D
 
 	public void AttachNextPath()
 	{
-		ChunkCounter += 10;
+		ChunkCounter += 1;
 
         MeshInstance3D temp = GetTileAt(ToGlobal(new Vector3(0,1,0)), ToGlobal(new Vector3(0, -1, 0)));
 		Chunk chunk = GetChunkReferenceFromTile(temp);
@@ -111,9 +115,9 @@ public partial class BaseEnemy : PathFollow3D
 		}
 	}
 
-	public float GetTotalProgress()
+	public float GetProgress()
 	{
-		return ChunkCounter + (GetParent<Path3D>().Curve.GetBakedLength() - Progress);
+		return ChunkCounter + ProgressRatio;
 	}
 
 	public void PlayAnimation(string AnimationName)
