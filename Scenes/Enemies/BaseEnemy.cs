@@ -15,9 +15,7 @@ public partial class BaseEnemy : PathFollow3D
     [Signal]
     public delegate void DiedEventHandler(Node self);
 
-
-
-    public StatBlock StatBlock;
+    public StatBlock StatBlock = new();
 	protected string ModelName;
 
 	int ChunkCounter = 0;
@@ -38,6 +36,17 @@ public partial class BaseEnemy : PathFollow3D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+
+		if(StatBlock.GetStat(StatType.Health) <= 0.00f)
+		{
+			EmitSignal("Died",this);
+			GD.Print("Dead");
+			//change this later
+			EnemyManager.GetInstance().UnregisterEnemy(this);
+			QueueFree();
+
+		}
+
 		if (ProgressRatio == 1)
 		{
 			AttachNextPath();
@@ -49,7 +58,6 @@ public partial class BaseEnemy : PathFollow3D
 		}
 
 		Progress += 1.6f * (float)delta;
-
 	}
 
 	public MeshInstance3D GetTileAt(Vector3 to, Vector3 from)

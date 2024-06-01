@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-[Tool]
 public partial class Ballista : Node3D
 {
 
@@ -38,7 +37,7 @@ public partial class Ballista : Node3D
         Dictionary<StatType, float> sb = new()
 		{
 			{StatType.AttackSpeed, 1.0f},
-            {StatType.Damage, 10.0f},
+            {StatType.Damage, 34.0f},
         };
         StatBlock.SetStatBlock(sb);
 
@@ -72,8 +71,7 @@ public partial class Ballista : Node3D
                 {
                     CanShoot = false;
                     ShotTimer.Start(StatBlock.GetStat(StatType.AttackSpeed));
-                    EmitSignal("TowerFired", this, EnemyList[0]);
-                    GD.Print("Shooty shoot shoot");
+                    EmitSignal("TowerFired", this, EnemyList[index]);
                 }
             }
         }
@@ -90,8 +88,6 @@ public partial class Ballista : Node3D
             EnemyList.Add(be);
         }
 
-        EnemyList.OrderByDescending(item => item.GetProgress());
-
     }
 
 	public void _on_active_range_area_exited(Area3D area)
@@ -101,16 +97,11 @@ public partial class Ballista : Node3D
         {
             EnemyList.Remove(be);
         }
-        EnemyList.OrderByDescending(item => item.GetProgress());
     }
 
 	public void _on_shot_timer_timeout()
 	{
         CanShoot = true;
-        if (EnemyList.Count > 0)
-        {
-            EnemyList.OrderByDescending(item => item.GetProgress());
-        }
     }
 
     //input

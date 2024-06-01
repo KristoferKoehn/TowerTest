@@ -1,12 +1,13 @@
 using Godot;
-using Godot.Collections;
 using System;
+using System.Collections.Generic;
 
 public partial class Skeleton : BaseEnemy
 {
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		base._Ready();
 		ModelName = "Skeleton_Minion";
 
 		Dictionary<StatType, float> sb = new()
@@ -14,6 +15,7 @@ public partial class Skeleton : BaseEnemy
 			{StatType.Health, 100 },
 			{StatType.Speed, 3 },
 		};
+		StatBlock.SetStatBlock(sb);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

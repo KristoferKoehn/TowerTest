@@ -1,6 +1,6 @@
 using Godot;
-using Godot.Collections;
 using System;
+using System.Collections.Generic;
 
 public partial class Necromancer : BaseEnemy
 {
@@ -16,6 +16,7 @@ public partial class Necromancer : BaseEnemy
 			{StatType.Health, 600 },
 			{StatType.Speed, 2 },
 		};
+		StatBlock.SetStatBlock(sb);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

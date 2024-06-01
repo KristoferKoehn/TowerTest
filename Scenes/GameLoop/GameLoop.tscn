@@ -212,4 +212,7 @@ text = "Begin Wave"
 [node name="Ballista" parent="." instance=ExtResource("9_07tk2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.82207, 0.396202, -1.57797)
 
+[node name="Ballista2" parent="." instance=ExtResource("9_07tk2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.17793, 0.396202, -8.57797)
+
 [connection signal="pressed" from="CanvasLayer/Control/BottomUI/HBoxContainer/BeginWaveButton" to="." method="_on_begin_wave_button_pressed"]

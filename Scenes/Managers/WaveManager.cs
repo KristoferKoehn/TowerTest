@@ -20,6 +20,7 @@ namespace Managers
         Dictionary<Timer,List<PackedScene>> WaveBuckets = new();
 
         PackedScene necromancer;
+        PackedScene SkeletonMinion;
 
         bool WaveActive = false;
 
@@ -46,6 +47,10 @@ namespace Managers
         public override void _Ready()
         {
             necromancer = GD.Load<PackedScene>("res://Scenes/Enemies/Necromancer.tscn");
+            SkeletonMinion = GD.Load<PackedScene>("res://Scenes/Enemies/Skeleton.tscn");
+
+
+        
         }
 
         public override void _Process(double delta)
@@ -96,13 +101,13 @@ namespace Managers
 
             int enemyCount = 4 + WaveNumber + ValidSpawners.Count;
             //GD.Print($"{ValidSpawners.Count} valid spawners, {enemyCount} enemies per spawner");
-            foreach (var item in ValidSpawners)
+            foreach (Spawner item in ValidSpawners)
             {
                 List<PackedScene> enemy = new();
                 GD.Print($"at {item.GlobalPosition}");
                 for (int i = 0;  i < enemyCount; i++)
                 {
-                    enemy.Add(necromancer);
+                    enemy.Add(SkeletonMinion);
                 }
 
                 Timer t = new Timer();
