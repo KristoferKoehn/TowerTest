@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 public partial class EnemyManager : Node
 {
+    [Signal]
+    public delegate void SpawnedEventHandler(BaseEnemy enemy);
 
     private static EnemyManager instance;
 
@@ -35,6 +37,7 @@ public partial class EnemyManager : Node
     public void RegisterEnemy(BaseEnemy enemy)
     {
         Enemies.Add(enemy);
+        EmitSignal("Spawned", enemy);
     }
 
     public void UnregisterEnemy(BaseEnemy enemy)
