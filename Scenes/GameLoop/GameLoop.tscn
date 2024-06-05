@@ -1,13 +1,15 @@
-[gd_scene load_steps=13 format=3 uid="uid://bqi5yficpytv4"]
+[gd_scene load_steps=15 format=3 uid="uid://bqi5yficpytv4"]
 
 [ext_resource type="Script" path="res://Scenes/GameLoop/GameLoop.cs" id="1_l1214"]
 [ext_resource type="PackedScene" uid="uid://476ga4je70pe" path="res://Scenes/Chunks/ForkWithCycle.tscn" id="3_k4tvn"]
 [ext_resource type="PackedScene" uid="uid://chp22ot4ypmd3" path="res://Scenes/Chunks/StartingChunk.tscn" id="3_wuc8u"]
 [ext_resource type="PackedScene" uid="uid://r87yt6bi4vkt" path="res://Scenes/Chunks/2EntranceForkA.tscn" id="4_8c4ga"]
 [ext_resource type="PackedScene" uid="uid://cd384sin5yvji" path="res://Scenes/Chunks/2EntranceSnakeA.tscn" id="5_ds0yi"]
+[ext_resource type="Script" path="res://Scenes/GameLoop/UI.cs" id="7_tphpa"]
 [ext_resource type="PackedScene" uid="uid://cj4e12nbtf7ia" path="res://Scenes/Chunks/2EAngleB.tscn" id="8_v3w5p"]
 [ext_resource type="Texture2D" uid="uid://b3p6kmoe4foeh" path="res://Assets/Icons/PauseButton.tres" id="9_fky3n"]
 [ext_resource type="Texture2D" uid="uid://dg85yvsjdkql5" path="res://Assets/Icons/PlayButton.tres" id="10_0fy5r"]
+[ext_resource type="Texture2D" uid="uid://t0i5wqr683y6" path="res://Assets/Icons/SpeedUpButton.tres" id="10_ajo73"]
 [ext_resource type="Texture2D" uid="uid://cd5cs1b3m55qf" path="res://Assets/Icons/SettingsButton.tres" id="11_baj22"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_qk85b"]
@@ -86,9 +88,10 @@ transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 
 size = 42.1762
 near = 2.0
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="."]
+script = ExtResource("7_tphpa")
 
-[node name="Control" type="Control" parent="CanvasLayer"]
+[node name="Control" type="Control" parent="UI"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -97,14 +100,14 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 
-[node name="TopUI" type="Panel" parent="CanvasLayer/Control"]
+[node name="TopUI" type="Panel" parent="UI/Control"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 73.0
 grow_horizontal = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/TopUI"]
+[node name="PlayerInfo_HBoxContainer" type="HBoxContainer" parent="UI/Control/TopUI"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -119,33 +122,33 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 20
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/TopUI/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Control/TopUI/PlayerInfo_HBoxContainer"]
 layout_mode = 2
 
-[node name="TowerHealthLabel" type="Label" parent="CanvasLayer/Control/TopUI/HBoxContainer/VBoxContainer"]
+[node name="TowerHealthLabel" type="Label" parent="UI/Control/TopUI/PlayerInfo_HBoxContainer/VBoxContainer"]
 layout_mode = 2
 text = "Tower Health:"
 
-[node name="PlayerTowerHealth" type="ProgressBar" parent="CanvasLayer/Control/TopUI/HBoxContainer/VBoxContainer"]
+[node name="PlayerTowerHealth" type="ProgressBar" parent="UI/Control/TopUI/PlayerInfo_HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_852s0")
 theme_override_styles/fill = SubResource("StyleBoxFlat_xhtbk")
 value = 85.0
 
-[node name="WaveCounter" type="Label" parent="CanvasLayer/Control/TopUI/HBoxContainer"]
+[node name="WaveCounter" type="Label" parent="UI/Control/TopUI/PlayerInfo_HBoxContainer"]
 layout_mode = 2
 text = "Wave: 1"
 
-[node name="Currency" type="Label" parent="CanvasLayer/Control/TopUI/HBoxContainer"]
+[node name="Currency" type="Label" parent="UI/Control/TopUI/PlayerInfo_HBoxContainer"]
 layout_mode = 2
 text = "Currency: 100 G"
 
-[node name="Score" type="Label" parent="CanvasLayer/Control/TopUI/HBoxContainer"]
+[node name="Score" type="Label" parent="UI/Control/TopUI/PlayerInfo_HBoxContainer"]
 layout_mode = 2
 text = "Score: 550"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/Control/TopUI"]
+[node name="Buttons_HBoxContainer" type="HBoxContainer" parent="UI/Control/TopUI"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -158,21 +161,24 @@ offset_bottom = 12.5
 grow_horizontal = 0
 grow_vertical = 2
 
-[node name="PauseButton" type="Button" parent="CanvasLayer/Control/TopUI/HBoxContainer2"]
+[node name="PausePlayButton" type="TextureButton" parent="UI/Control/TopUI/Buttons_HBoxContainer"]
+process_mode = 3
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("9_fky3n")
+texture_pressed = ExtResource("10_0fy5r")
+stretch_mode = 3
+
+[node name="SpeedUpButton" type="Button" parent="UI/Control/TopUI/Buttons_HBoxContainer"]
 layout_mode = 2
 theme_type_variation = &"FlatButton"
-icon = ExtResource("9_fky3n")
+icon = ExtResource("10_ajo73")
 
-[node name="ResumeButton" type="Button" parent="CanvasLayer/Control/TopUI/HBoxContainer2"]
-layout_mode = 2
-theme_type_variation = &"FlatButton"
-icon = ExtResource("10_0fy5r")
-
-[node name="SettingsButton" type="MenuButton" parent="CanvasLayer/Control/TopUI/HBoxContainer2"]
+[node name="SettingsButton" type="MenuButton" parent="UI/Control/TopUI/Buttons_HBoxContainer"]
 layout_mode = 2
 icon = ExtResource("11_baj22")
 
-[node name="BottomUI" type="Panel" parent="CanvasLayer/Control"]
+[node name="BottomUI" type="Panel" parent="UI/Control"]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -182,7 +188,7 @@ offset_top = -93.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/BottomUI"]
+[node name="Actions_HBoxContainer" type="HBoxContainer" parent="UI/Control/BottomUI"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -197,14 +203,17 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 20
 
-[node name="SkillTreeButton" type="Button" parent="CanvasLayer/Control/BottomUI/HBoxContainer"]
+[node name="SkillTreeButton" type="Button" parent="UI/Control/BottomUI/Actions_HBoxContainer"]
 layout_mode = 2
 text = "Skill Tree"
 
-[node name="ChunksButton" type="Button" parent="CanvasLayer/Control/BottomUI/HBoxContainer"]
+[node name="ChunksButton" type="Button" parent="UI/Control/BottomUI/Actions_HBoxContainer"]
 layout_mode = 2
 text = "Chunks"
 
-[node name="BeginWaveButton" type="Button" parent="CanvasLayer/Control/BottomUI/HBoxContainer"]
+[node name="BeginWaveButton" type="Button" parent="UI/Control/BottomUI/Actions_HBoxContainer"]
 layout_mode = 2
 text = "Begin Wave"
+
+[connection signal="pressed" from="UI/Control/TopUI/Buttons_HBoxContainer/PausePlayButton" to="UI" method="_on_pause_play_button_pressed"]
+[connection signal="pressed" from="UI/Control/TopUI/Buttons_HBoxContainer/SpeedUpButton" to="UI" method="_on_speed_up_button_pressed"]
