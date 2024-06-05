@@ -44,4 +44,9 @@ public partial class UI : CanvasLayer
 
         GD.Print($"Setting speed to {Engine.TimeScale}x");
     }
+
+    public void _on_settings_button_pressed()
+    {
+        //this.FindParent("SceneSwitcher").PushScene(GD.Load<PackedScene>("res://Scenes/menus/SettingsMenu.tscn").Instantiate<Control>());
+    }
 }
