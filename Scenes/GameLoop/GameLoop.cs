@@ -16,13 +16,14 @@ public partial class GameLoop : Node3D
 	{
 		WaveManager.GetInstance();
 		BallistaArrowManager.GetInstance();
+		
 	}
 
 	public override void _Ready()
 	{
-		
+        HealthBarManager.GetInstance();
 
-		Camera = GetNode<Camera3D>("CameraGimbal/Camera3D");
+        Camera = GetNode<Camera3D>("CameraGimbal/Camera3D");
 		CameraGimbal = GetNode<Node3D>("CameraGimbal");
 
 	}
