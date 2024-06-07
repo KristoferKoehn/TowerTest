@@ -24,8 +24,6 @@ namespace Managers
 
         bool WaveActive = false;
 
-
-
         int WaveNumber = 0;
 
         //some way to determine wave content

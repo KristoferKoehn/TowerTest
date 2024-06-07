@@ -6,11 +6,8 @@ using System;
 public partial class BaseEnemy : PathFollow3D
 {
 
-	[Signal]
-	public delegate void SpawnedEventHandler(Node self);
-
-	[Signal]
-	public delegate void DamageTakenEventHandler(Node self, Node source);
+    [Signal]
+    public delegate void DamageTakenEventHandler(Node self, Node source);
 
 	[Signal]
 	public delegate void DiedEventHandler(Node self);
@@ -31,6 +28,7 @@ public partial class BaseEnemy : PathFollow3D
 	{
 		Loop = false;
 		EnemyManager.GetInstance().RegisterEnemy(this);
+
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
