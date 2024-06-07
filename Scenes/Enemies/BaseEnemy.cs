@@ -7,15 +7,12 @@ public partial class BaseEnemy : PathFollow3D
 {
 
     [Signal]
-    public delegate void SpawnedEventHandler(Node self);
-
-    [Signal]
     public delegate void DamageTakenEventHandler(Node self, Node source);
 
-    [Signal]
-    public delegate void DiedEventHandler(Node self);
+	[Signal]
+	public delegate void DiedEventHandler(Node self);
 
-    public StatBlock StatBlock = new();
+	public StatBlock StatBlock = new();
 	protected string ModelName;
 
 	int ChunkCounter = 0;
@@ -34,9 +31,10 @@ public partial class BaseEnemy : PathFollow3D
 	{
 		Loop = false;
 		EnemyManager.GetInstance().RegisterEnemy(this);
-        currentHealth = this.StatBlock.GetStat(StatType.Health);
+    currentHealth = this.StatBlock.GetStat(StatType.Health);
 		currentArmor = this.StatBlock.GetStat(StatType.Armor);
     }
+
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
@@ -90,7 +88,7 @@ public partial class BaseEnemy : PathFollow3D
 	{
 		ChunkCounter += 1;
 
-        MeshInstance3D temp = GetTileAt(ToGlobal(new Vector3(0,1,0)), ToGlobal(new Vector3(0, -1, 0)));
+		MeshInstance3D temp = GetTileAt(ToGlobal(new Vector3(0,1,0)), ToGlobal(new Vector3(0, -1, 0)));
 		Chunk chunk = GetChunkReferenceFromTile(temp);
 		Array<Path3D> paths = chunk.GetPathsFromEntrance(temp);
 

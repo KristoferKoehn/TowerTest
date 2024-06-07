@@ -1,6 +1,8 @@
 using Godot;
 using Godot.Collections;
 using System;
+using System.Linq;
+using System.Security.Cryptography;
 
 public enum Direction
 {
@@ -46,6 +48,17 @@ public partial class Chunk : Node3D
     MeshInstance3D SouthTile = null;
     [Export]
     MeshInstance3D CenterTile = null;
+
+
+    [Export]
+    bool QueryValid = false;
+    [Export]
+    bool QueryInvalid = false;
+    [Export]
+    bool ClearOverrides = false;
+
+
+
 
     //this is so we know how big the chunk is. For later.
     public int ChunkSize = 7;
@@ -104,16 +117,6 @@ public partial class Chunk : Node3D
         else
         {
             return null;
-        }
-    }
-
-
-    public override void _Ready()
-    {
-        UpdateEntrances();
-        UpdateAdjacencyList();
-        if (!Engine.IsEditorHint()) {
-            PlaceChunk(ExitDirection);
         }
     }
 
@@ -444,15 +447,96 @@ public partial class Chunk : Node3D
 
     }
 
+    public void CheckValidPlacement()
+    {
+        //check adjacent chunks for compatible entrances
+        //cannot connect to more than 1 external entrance
+
+        //check other entrances for gaps
+        //if adjacent empty space has entrances leading out of it, not valid
+        bool valid = true;
+
+        int ConnectedEntranceCount = 0;
+
+        if (NorthEntrance)
+        {
+            MeshInstance3D tile = GetAdjacentTile(Direction.North, NorthTile.GlobalPosition);
+            if (tile != null)
+            {
+                ConnectedEntranceCount++;
+            } else
+            {
+
+                Vector3 EmptyOrigin = new Vector3(0, 0, -6);
+                if (GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(0,0,-4)).GetMeta("height").AsInt32() == 0) {
+                    valid = false;
+                }
+                if (GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(-4, 0, 0)).GetMeta("height").AsInt32() == 0)
+                {
+                    valid = false;
+                }
+                if (GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(4, 0, 0)).GetMeta("height").AsInt32() == 0)
+                {
+                    valid = false;
+                }
+            
+            }
+        }
+
+        if (SouthEntrance)
+        {
+            MeshInstance3D tile = GetAdjacentTile(Direction.South, SouthTile.GlobalPosition);
+            if (tile != null)
+            {
+                ConnectedEntranceCount++;
+            }
+        }
+
+        if (EastEntrance)
+        {
+            MeshInstance3D tile = GetAdjacentTile(Direction.East, EastTile.GlobalPosition);
+            if (tile != null)
+            {
+                ConnectedEntranceCount++;
+            }
+        }
+
+        if (WestEntrance)
+        {
+            MeshInstance3D tile = GetAdjacentTile(Direction.West, WestTile.GlobalPosition);
+            if (tile != null)
+            {
+                ConnectedEntranceCount++;
+            }
+        }
+
+        if (ConnectedEntranceCount > 1)
+        {
+            valid = false;
+            return;
+        }
+
+
+
+
+
+    }
+
+
+    public override void _Ready()
+    {
+        UpdateEntrances();
+        UpdateAdjacencyList();
+        if (!Engine.IsEditorHint())
+        {
+            PlaceChunk(ExitDirection);
+        }
+    }
 
     public override void _Process(double delta)
     {
 
-        
-
-
         base._Process(delta);
-
 
         if (RotateCW)
         {
@@ -470,6 +554,69 @@ public partial class Chunk : Node3D
         {
             GeneratePath = false;
             PlaceChunk(ExitDirection);
+        }
+
+        if (QueryValid)
+        {
+            QueryValid = false;
+            StandardMaterial3D ValidMaterial = GD.Load<StandardMaterial3D>("res://Assets/Materials/QueryValid.tres");
+            StandardMaterial3D ValidLaneMaterial = GD.Load<StandardMaterial3D>("res://Assets/Materials/QueryValidLane.tres");
+            foreach (Node3D node in GetChildren())
+            {
+                MeshInstance3D mi = node as MeshInstance3D;
+                if (mi != null)
+                {
+                    if (mi.GetMeta("height").AsInt32() == 0) {
+                        mi.SetSurfaceOverrideMaterial(0, ValidLaneMaterial);
+                    } else
+                    {
+                        mi.SetSurfaceOverrideMaterial(0, ValidMaterial);
+                    }
+                }
+            }
+        }
+
+        if (QueryInvalid)
+        {
+            QueryInvalid = false;
+            StandardMaterial3D InvalidMaterial = GD.Load<StandardMaterial3D>("res://Assets/Materials/QueryInvalid.tres");
+            StandardMaterial3D InvalidLaneMaterial = GD.Load<StandardMaterial3D>("res://Assets/Materials/QueryInvalidLane.tres");
+            foreach (Node3D node in GetChildren())
+            {
+                MeshInstance3D mi = node as MeshInstance3D;
+                if (mi != null)
+                {
+                    if (mi.GetMeta("height").AsInt32() == 0)
+                    {
+                        mi.SetSurfaceOverrideMaterial(0, InvalidLaneMaterial);
+                    }
+                    else
+                    {
+                        mi.SetSurfaceOverrideMaterial(0, InvalidMaterial);
+                    }
+                }
+            }
+        }
+
+        if (ClearOverrides)
+        {
+            ClearOverrides = false;
+
+            foreach (Node3D node in GetChildren())
+            {
+                MeshInstance3D mi = node as MeshInstance3D;
+                if (mi != null)
+                {
+                    if (mi.GetMeta("height").AsInt32() == 0)
+                    {
+                        mi.SetSurfaceOverrideMaterial(0, null);
+                    }
+                    else
+                    {
+                        mi.SetSurfaceOverrideMaterial(0, null);
+                    }
+                }
+            }
         }
     }
 }
