@@ -118,16 +118,6 @@ public partial class Chunk : Node3D
         }
     }
 
-
-    public override void _Ready()
-    {
-        UpdateEntrances();
-        UpdateAdjacencyList();
-        if (!Engine.IsEditorHint()) {
-            PlaceChunk(ExitDirection);
-        }
-    }
-
     public void UpdateAdjacencyList()
     {
         AllLaneTiles.Clear();
@@ -455,6 +445,15 @@ public partial class Chunk : Node3D
 
     }
 
+    public override void _Ready()
+    {
+        UpdateEntrances();
+        UpdateAdjacencyList();
+        if (!Engine.IsEditorHint())
+        {
+            PlaceChunk(ExitDirection);
+        }
+    }
 
     public override void _Process(double delta)
     {
