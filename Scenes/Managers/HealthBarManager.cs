@@ -1,4 +1,5 @@
 using Godot;
+using Managers;
 using System;
 
 public partial class HealthBarManager : Node
@@ -8,8 +9,19 @@ public partial class HealthBarManager : Node
 
 	private HealthBarManager() { }
 
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
+    public static HealthBarManager GetInstance()
+    {
+        if (instance == null)
+        {
+            instance = new HealthBarManager();
+            SceneSwitcher.root.GetNode<GameLoop>("SceneSwitcher/GameLoop").AddChild(instance);
+            instance.Name = "HealthBarManager";
+        }
+        return instance;
+    }
+    
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
 	{
 		EnemyManager.GetInstance().Spawned += AttachHealthBar;
 	}
