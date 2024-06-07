@@ -445,6 +445,17 @@ public partial class Chunk : Node3D
 
     }
 
+    public void CheckValidPlacement()
+    {
+        //check adjacent chunks for compatible entrances
+            //cannot connect to more than 1 external entrance
+
+        //check other entrances for gaps
+            //if adjacent empty space has entrances leading out of it, not valid
+
+    }
+
+
     public override void _Ready()
     {
         UpdateEntrances();
