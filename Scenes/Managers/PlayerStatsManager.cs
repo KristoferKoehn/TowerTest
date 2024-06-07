@@ -1,4 +1,5 @@
 using Godot;
+using Managers;
 using MMOTest.Backend;
 using System;
 using System.Collections.Generic;
@@ -24,10 +25,12 @@ public partial class PlayerStatsManager : Node
 
     public override void _Ready()
     {
-        Dictionary<StatType, float> sb = new()
-        {
+        EnemyManager.GetInstance().Spawned += AttachHealthBar;
+    }
 
-        };
+    public void AttachHealthBar(BaseEnemy enemy)
+    {
+        GetParent<BaseEnemy>();
     }
 
 }

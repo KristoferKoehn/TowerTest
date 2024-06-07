@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bqi5yficpytv4"]
+[gd_scene load_steps=15 format=3 uid="uid://bqi5yficpytv4"]
 
 [ext_resource type="Script" path="res://Scenes/GameLoop/GameLoop.cs" id="1_l1214"]
 [ext_resource type="PackedScene" uid="uid://476ga4je70pe" path="res://Scenes/Chunks/ForkWithCycle.tscn" id="3_k4tvn"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://b3p6kmoe4foeh" path="res://Assets/Icons/PauseButton.tres" id="9_fky3n"]
 [ext_resource type="Texture2D" uid="uid://dg85yvsjdkql5" path="res://Assets/Icons/PlayButton.tres" id="10_0fy5r"]
 [ext_resource type="Texture2D" uid="uid://cd5cs1b3m55qf" path="res://Assets/Icons/SettingsButton.tres" id="11_baj22"]
+[ext_resource type="PackedScene" uid="uid://cbgrcqg2f5sem" path="res://Scenes/Chunks/2EAngle.tscn" id="11_e3li2"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_qk85b"]
 
@@ -214,5 +215,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.82207, 0.396202, -1.57797)
 
 [node name="Ballista2" parent="." instance=ExtResource("9_07tk2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.17793, 0.396202, -8.57797)
+
+[node name="Chunk5" parent="." node_paths=PackedStringArray("NorthTile", "WestTile") instance=ExtResource("11_e3li2")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, -14)
+NorthEntrance = true
+EastEntrance = false
+WestEntrance = true
+SouthEntrance = false
+NorthTile = NodePath("0, 3")
+WestTile = NodePath("3, 0")
 
 [connection signal="pressed" from="CanvasLayer/Control/BottomUI/HBoxContainer/BeginWaveButton" to="." method="_on_begin_wave_button_pressed"]

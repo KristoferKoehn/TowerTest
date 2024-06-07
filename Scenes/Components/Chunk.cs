@@ -1,6 +1,8 @@
 using Godot;
 using Godot.Collections;
 using System;
+using System.Linq;
+using System.Security.Cryptography;
 
 public enum Direction
 {
@@ -448,10 +450,75 @@ public partial class Chunk : Node3D
     public void CheckValidPlacement()
     {
         //check adjacent chunks for compatible entrances
-            //cannot connect to more than 1 external entrance
+        //cannot connect to more than 1 external entrance
 
         //check other entrances for gaps
-            //if adjacent empty space has entrances leading out of it, not valid
+        //if adjacent empty space has entrances leading out of it, not valid
+        bool valid = true;
+
+        int ConnectedEntranceCount = 0;
+
+        if (NorthEntrance)
+        {
+            MeshInstance3D tile = GetAdjacentTile(Direction.North, NorthTile.GlobalPosition);
+            if (tile != null)
+            {
+                ConnectedEntranceCount++;
+            } else
+            {
+
+                Vector3 EmptyOrigin = new Vector3(0, 0, -6);
+                if (GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(0,0,-4)).GetMeta("height").AsInt32() == 0) {
+                    valid = false;
+                }
+                if (GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(-4, 0, 0)).GetMeta("height").AsInt32() == 0)
+                {
+                    valid = false;
+                }
+                if (GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(4, 0, 0)).GetMeta("height").AsInt32() == 0)
+                {
+                    valid = false;
+                }
+            
+            }
+        }
+
+        if (SouthEntrance)
+        {
+            MeshInstance3D tile = GetAdjacentTile(Direction.South, SouthTile.GlobalPosition);
+            if (tile != null)
+            {
+                ConnectedEntranceCount++;
+            }
+        }
+
+        if (EastEntrance)
+        {
+            MeshInstance3D tile = GetAdjacentTile(Direction.East, EastTile.GlobalPosition);
+            if (tile != null)
+            {
+                ConnectedEntranceCount++;
+            }
+        }
+
+        if (WestEntrance)
+        {
+            MeshInstance3D tile = GetAdjacentTile(Direction.West, WestTile.GlobalPosition);
+            if (tile != null)
+            {
+                ConnectedEntranceCount++;
+            }
+        }
+
+        if (ConnectedEntranceCount > 1)
+        {
+            valid = false;
+            return;
+        }
+
+
+
+
 
     }
 

@@ -6,8 +6,6 @@ using System;
 public partial class BaseEnemy : PathFollow3D
 {
 
-
-
     [Signal]
     public delegate void DamageTakenEventHandler(Node self, Node source);
 
