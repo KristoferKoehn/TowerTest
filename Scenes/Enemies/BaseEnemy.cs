@@ -20,21 +20,26 @@ public partial class BaseEnemy : PathFollow3D
 
 	int ChunkCounter = 0;
 
-	//stats, health whatever
-	//speed
+    //stats, health whatever
+    //speed
 
-	//a spawner somewhere (not here)
+    //a spawner somewhere (not here)
+
+	public double currentHealth;
+	public double currentArmor;
 
 
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
 	{
 		Loop = false;
 		EnemyManager.GetInstance().RegisterEnemy(this);
-	}
+        currentHealth = this.StatBlock.GetStat(StatType.Health);
+		currentArmor = this.StatBlock.GetStat(StatType.Armor);
+    }
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(double delta)
 	{
 
 		if(StatBlock.GetStat(StatType.Health) <= 0.00f)
