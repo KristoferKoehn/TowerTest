@@ -409,11 +409,11 @@ public partial class Chunk : Node3D
 
             foreach (MeshInstance3D mesh in path)
             {
-                temp.Curve.AddPoint(mesh.Position + new Vector3(0, 1, 0));
+                temp.Curve.AddPoint(new Vector3(mesh.Position.X, 0.45f, mesh.Position.Z));
             }
 
             //don't ask
-            temp.Curve.AddPoint(new Vector3(ExitTile.Position.Normalized().X * 4, 0.95f, ExitTile.Position.Normalized().Z * 4));
+            temp.Curve.AddPoint(new Vector3(ExitTile.Position.Normalized().X * 4, 0.45f, ExitTile.Position.Normalized().Z * 4));
 
             //for each entrance, EntrancePathList[entrance] = array of paths
 

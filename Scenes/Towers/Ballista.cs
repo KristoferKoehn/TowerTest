@@ -4,16 +4,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-[Tool]
 public partial class Ballista : Node3D
 {
 
     [Signal]
-    public delegate void TowerFiredEventHandler(Node tower, Node target = null);
+    public delegate void TowerFiredEventHandler(Node3D tower, Node3D target = null);
     [Signal]
-    public delegate void TowerPlacedEventHandler(Node tower, Vector3 pos, Node tile);
+    public delegate void TowerPlacedEventHandler(Node3D tower, Vector3 pos, Node3D tile);
     [Signal]
-    public delegate void TowerSoldEventHandler(Node tower);
+    public delegate void TowerSoldEventHandler(Node3D tower);
 
     public StatBlock StatBlock = new();
 
@@ -27,18 +26,18 @@ public partial class Ballista : Node3D
 	StandardMaterial3D MouseOverOutline;
 	StandardMaterial3D SelectOutline;
 
-	List<BaseEnemy> EnemyList = new();
+	List<BaseEnemy> EnemyList = new List<BaseEnemy>();
     bool CanShoot = false;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
-
+        BallistaArrowManager.GetInstance().RegisterBallista(this);
 
         Dictionary<StatType, float> sb = new()
 		{
 			{StatType.AttackSpeed, 1.0f},
-            {StatType.Damage, 10.0f},
+            {StatType.Damage, 34.0f},
         };
         StatBlock.SetStatBlock(sb);
 
@@ -51,11 +50,6 @@ public partial class Ballista : Node3D
 		Outline = GetNode<MeshInstance3D>("Outline/MeshInstance3D");
         ShotTimer = GetNode<Timer>("ShotTimer");
 
-
-        ShotTimer.Timeout += () => EnemyList.ForEach(item => GD.Print("Progress " + item.GetProgress()));
-
-
-
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -64,14 +58,21 @@ public partial class Ballista : Node3D
 
         if (EnemyList.Count > 0)
         {
-            EnemyList.OrderByDescending(item => item.GetProgress());
-            BallistaMount.LookAt(EnemyList[0].GlobalPosition);
-            if (CanShoot)
+            int index = EnemyList
+            .Select((item, index) => new { Item = item, Index = index, Progress = item.GetProgress() })
+            .OrderByDescending(x => x.Progress)
+            .First()
+            .Index;
+            
+            if (index != -1 )
             {
-                CanShoot = false;
-                ShotTimer.Start(StatBlock.GetStat(StatType.AttackSpeed));
-                EmitSignal("TowerFired", this, EnemyList[0]);
-                GD.Print("Shooty shoot shoot");
+                BallistaMount.LookAt(EnemyList[index].GlobalPosition);
+                if (CanShoot)
+                {
+                    CanShoot = false;
+                    ShotTimer.Start(StatBlock.GetStat(StatType.AttackSpeed));
+                    EmitSignal("TowerFired", this, EnemyList[index]);
+                }
             }
         }
 	}
@@ -87,8 +88,6 @@ public partial class Ballista : Node3D
             EnemyList.Add(be);
         }
 
-        EnemyList.OrderByDescending(item => item.GetProgress());
-
     }
 
 	public void _on_active_range_area_exited(Area3D area)
@@ -98,16 +97,11 @@ public partial class Ballista : Node3D
         {
             EnemyList.Remove(be);
         }
-        EnemyList.OrderByDescending(item => item.GetProgress());
     }
 
 	public void _on_shot_timer_timeout()
 	{
         CanShoot = true;
-        if (EnemyList.Count > 0)
-        {
-            EnemyList.OrderByDescending(item => item.GetProgress());
-        }
     }
 
     //input
