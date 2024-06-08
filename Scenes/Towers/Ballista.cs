@@ -37,7 +37,7 @@ public partial class Ballista : Node3D
         Dictionary<StatType, float> sb = new()
 		{
 			{StatType.AttackSpeed, 1.0f},
-            {StatType.Damage, 34.0f},
+            {StatType.Damage, 201.0f},
         };
         StatBlock.SetStatBlock(sb);
 
@@ -81,6 +81,7 @@ public partial class Ballista : Node3D
     {
         BaseEnemy be = area.GetParent<BaseEnemy>();
         be.StatBlock.SetStat(StatType.Health, be.StatBlock.GetStat(StatType.Health) - StatBlock.GetStat(StatType.Damage));
+        GD.Print($"Enemy Damaged by {StatBlock.GetStat(StatType.Damage)} points, now at: {be.StatBlock.GetStat(StatType.Health)}");
         be.EmitSignal("DamageTaken", be, this);
     }
 

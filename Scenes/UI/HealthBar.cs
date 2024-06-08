@@ -14,13 +14,16 @@ public partial class HealthBar : Sprite3D
         healthBar = GetNode<ProgressBar>("SubViewport/HealthBar");
         armorBar = GetNode<ProgressBar>("SubViewport/ArmorBar");
 
-
+        
         BaseEnemy be = GetParent<BaseEnemy>();
         healthBar.MaxValue = be.StatBlock.GetStat(StatType.MaxHealth);
         armorBar.MaxValue = be.StatBlock.GetStat(StatType.MaxArmor);
 
         healthBar.Value = be.StatBlock.GetStat(StatType.Health);
         armorBar.Value = be.StatBlock.GetStat(StatType.Armor);
+
+        GD.Print($"Health bar on {be.Name} with max {be.StatBlock.GetStat(StatType.MaxHealth)} and current {be.StatBlock.GetStat(StatType.Health)}");
+
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -33,7 +36,13 @@ public partial class HealthBar : Sprite3D
     {
         BaseEnemy enemy = enemy2 as BaseEnemy;
         // Update the health bar's value
+        healthBar.MaxValue = enemy.StatBlock.GetStat(StatType.MaxHealth);
+        armorBar.MaxValue = enemy.StatBlock.GetStat(StatType.MaxArmor);
+
+
         healthBar.Value = enemy.StatBlock.GetStat(StatType.Health);
         armorBar.Value = enemy.StatBlock.GetStat(StatType.Armor);
+
+        GD.Print($"updated with max {enemy.StatBlock.GetStat(StatType.MaxHealth)} and current {enemy.StatBlock.GetStat(StatType.Health)}");
     }
 }

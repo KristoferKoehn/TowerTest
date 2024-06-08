@@ -33,15 +33,8 @@ public partial class HealthBarManager : Node
 
 	public void AttachHealthBar(BaseEnemy enemy)
 	{
-        GD.Print("Attaching health bar");
-
-        // Instantiate the health bar
-
 		HealthBar temp = HealthBarScene.Instantiate<HealthBar>();
-
-
         enemy.AddChild(temp);
-
         enemy.DamageTaken += temp.UpdateHealthBar;
 	}
 

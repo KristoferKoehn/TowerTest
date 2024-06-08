@@ -68,6 +68,12 @@ public partial class BallistaArrowManager : Node
         //
         MeshInstance3D arrow = ArrowScene.Instantiate<MeshInstance3D>();
         arrow.GetNode<Area3D>("Hitbox").AreaEntered += (Area3D area) => {
+            //overdamage protection, prevents damage being dealt to multiple enemies erroneously 
+            if (!arrow.HasMeta("struck"))
+            {
+                arrow.SetMeta("struck", "");
+                arrow.GetNode<Area3D>("Hitbox").AreaEntered -= ((Ballista)tower).DealDamage;
+            }
             Arrows.Remove(arrow);
             arrow.QueueFree();
         };

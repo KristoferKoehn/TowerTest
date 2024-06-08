@@ -22,17 +22,12 @@ public partial class BaseEnemy : PathFollow3D
 
     //a spawner somewhere (not here)
 
-	public double currentHealth;
-	public double currentArmor;
-
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
 		Loop = false;
 		EnemyManager.GetInstance().RegisterEnemy(this);
-    currentHealth = this.StatBlock.GetStat(StatType.Health);
-		currentArmor = this.StatBlock.GetStat(StatType.Armor);
     }
 
 
