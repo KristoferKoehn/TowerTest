@@ -77,7 +77,12 @@ public partial class Ballista : Node3D
         }
 	}
 
-
+    public void DealDamage(Area3D area)
+    {
+        BaseEnemy be = area.GetParent<BaseEnemy>();
+        be.StatBlock.SetStat(StatType.Health, be.StatBlock.GetStat(StatType.Health) - StatBlock.GetStat(StatType.Damage));
+        be.EmitSignal("DamageTaken", be, this);
+    }
 
 	public void _on_active_range_area_entered(Area3D area)
 	{

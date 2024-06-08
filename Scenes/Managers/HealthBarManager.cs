@@ -36,13 +36,11 @@ public partial class HealthBarManager : Node
         GD.Print("Attaching health bar");
 
         // Instantiate the health bar
-        Sprite3D healthBarInstance = (Sprite3D)HealthBarScene.Instantiate();
-
-        enemy.AddChild(healthBarInstance);
 
 		HealthBar temp = HealthBarScene.Instantiate<HealthBar>();
 
 
+        enemy.AddChild(temp);
 
         enemy.DamageTaken += temp.UpdateHealthBar;
 	}

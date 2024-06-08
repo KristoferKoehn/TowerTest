@@ -68,13 +68,10 @@ public partial class BallistaArrowManager : Node
         //
         MeshInstance3D arrow = ArrowScene.Instantiate<MeshInstance3D>();
         arrow.GetNode<Area3D>("Hitbox").AreaEntered += (Area3D area) => {
-            BaseEnemy be = area.GetParent<BaseEnemy>();
-            be.StatBlock.SetStat(StatType.Health, be.StatBlock.GetStat(StatType.Health) - ((Ballista)tower).StatBlock.GetStat(StatType.Damage));
-
-            //put logic here
             Arrows.Remove(arrow);
             arrow.QueueFree();
         };
+        arrow.GetNode<Area3D>("Hitbox").AreaEntered += ((Ballista)tower).DealDamage;
         SceneSwitcher.root.AddChild(arrow);
         arrow.GlobalPosition = tower.GetNode<MeshInstance3D>("weapon_ballista2/tmpParent/weapon_ballista/bow/arrow").GlobalPosition;
         arrow.LookAt(target.GlobalPosition);
