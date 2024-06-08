@@ -1,8 +1,6 @@
 using Godot;
 using Godot.Collections;
 using System;
-using System.Linq;
-using System.Security.Cryptography;
 
 public enum Direction
 {
@@ -56,17 +54,18 @@ public partial class Chunk : Node3D
     bool QueryInvalid = false;
     [Export]
     bool ClearOverrides = false;
-
     [Export]
-    bool Placement = false;
+    public bool CurrentlyPlacing = false;
 
 
     //this is so we know how big the chunk is. For later.
     public int ChunkSize = 7;
 
-
     //this is for tweening.
-    int ChunkRotation = 0;
+    bool ChunkRotating = false;
+
+
+    public bool PlacementValid = false;
 
 
     Dictionary<MeshInstance3D, Array<MeshInstance3D>> AdjacencyList = new();
@@ -125,8 +124,7 @@ public partial class Chunk : Node3D
 
         immediateMesh.SurfaceEnd();
         material.ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded;
-        material.AlbedoColor = Colors.LimeGreen;
-        GetTree().Root.AddChild(meshInstance3D);
+        
 
         Timer timer = new Timer();
         GetTree().Root.AddChild(timer);
@@ -138,14 +136,24 @@ public partial class Chunk : Node3D
         };
 
 
+
+
+
         Dictionary result = spaceState.IntersectRay(query);
 
         if (result.Count > 1)
         {
+            material.AlbedoColor = Colors.Red;
+            GetTree().Root.AddChild(meshInstance3D);
+
+
+
             return ((StaticBody3D)result["collider"]).GetParent<MeshInstance3D>();
         }
         else
         {
+            material.AlbedoColor = Colors.LimeGreen;
+            GetTree().Root.AddChild(meshInstance3D);
             return null;
         }
     }
@@ -300,8 +308,6 @@ public partial class Chunk : Node3D
         {
             CenterTile = null;
         }
-
-        GD.Print($"North {NorthEntrance}, East {EastEntrance}, South {SouthEntrance}, West {WestEntrance}");
     }
 
 
@@ -388,26 +394,40 @@ public partial class Chunk : Node3D
 
     public void RotateClockwise()
     {
-        Quaternion q = new Quaternion(Vector3.Up, -Mathf.Pi / 2);
-        Tween tween = GetTree().CreateTween();
-        tween.TweenProperty(this, "quaternion", q * Quaternion, 0.4f);
-        tween.Finished += UpdateEntrances;
-        if (Placement)
+        if(!ChunkRotating)
         {
-            tween.Finished += CheckValidPlacement;
+            ChunkRotating = true;
+            Quaternion q = new Quaternion(Vector3.Up, -Mathf.Pi / 2);
+            Tween tween = GetTree().CreateTween();
+            tween.TweenProperty(this, "quaternion", q * Quaternion, 0.4f);
+            tween.Finished += UpdateEntrances;
+            tween.Finished += () => ChunkRotating = false;
+            if (CurrentlyPlacing)
+            {
+                tween.Finished += CheckValidPlacement;
+            }
         }
+
+
+
     }
 
     public void RotateCounterClockwise()
     {
-        Quaternion q = new Quaternion(Vector3.Up, Mathf.Pi / 2);
-        Tween tween = GetTree().CreateTween();
-        tween.TweenProperty(this, "quaternion", q * Quaternion, 0.4f).SetTrans(Tween.TransitionType.Back);
-        tween.Finished += UpdateEntrances;
-        if (Placement)
+        if (!ChunkRotating)
         {
-            tween.Finished += CheckValidPlacement;
+            ChunkRotating = true;
+            Quaternion q = new Quaternion(Vector3.Up, Mathf.Pi / 2);
+            Tween tween = GetTree().CreateTween();
+            tween.TweenProperty(this, "quaternion", q * Quaternion, 0.4f).SetTrans(Tween.TransitionType.Back);
+            tween.Finished += UpdateEntrances;
+            tween.Finished += () => ChunkRotating = false;
+            if (CurrentlyPlacing)
+            {
+                tween.Finished += CheckValidPlacement;
+            }
         }
+        
     }
 
     public void CreatePaths(MeshInstance3D Entrance)
@@ -607,6 +627,8 @@ public partial class Chunk : Node3D
         {
             SetOverridesInvalid();
         }
+
+        PlacementValid = valid;
     }
 
 
@@ -688,7 +710,7 @@ public partial class Chunk : Node3D
 
         base._Process(delta);
 
-        if (Placement && !Engine.IsEditorHint())
+        if (CurrentlyPlacing && !Engine.IsEditorHint())
         {
             if(Input.IsActionJustPressed("select"))
             {

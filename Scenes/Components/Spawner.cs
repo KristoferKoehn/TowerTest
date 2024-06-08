@@ -31,6 +31,12 @@ public partial class Spawner : Node3D
             return;
         }
 
+        if (!GetParent<Chunk>().CurrentlyPlacing)
+        {
+            Enabled = false;
+            return;
+        }
+
         Enabled = true;
 
     }

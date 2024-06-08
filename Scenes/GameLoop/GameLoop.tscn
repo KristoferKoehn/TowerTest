@@ -44,7 +44,6 @@ SouthEntrance = false
 ExitDirection = 3
 EastTile = NodePath("0, -3")
 WestTile = NodePath("0, 3")
-Placement = true
 
 [node name="Chunk4" parent="." node_paths=PackedStringArray("EastTile", "WestTile", "CenterTile") instance=ExtResource("5_ds0yi")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -7, 0, -7)
@@ -74,6 +73,7 @@ EastTile = NodePath("0, -3")
 WestTile = NodePath("0, 3")
 SouthTile = NodePath("3, 0")
 CenterTile = NodePath("0, 0")
+CurrentlyPlacing = true
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 collision_mask = 0
@@ -86,7 +86,8 @@ transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 
 rotation_edit_mode = 1
 
 [node name="Camera3D" type="Camera3D" parent="CameraGimbal"]
-transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 10, 10)
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 20, 20)
+fov = 70.0
 size = 42.1762
 near = 2.0
 
