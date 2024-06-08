@@ -57,7 +57,8 @@ public partial class Chunk : Node3D
     [Export]
     bool ClearOverrides = false;
 
-
+    [Export]
+    bool Placement = false;
 
 
     //this is so we know how big the chunk is. For later.
@@ -86,26 +87,55 @@ public partial class Chunk : Node3D
         PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
         PhysicsRayQueryParameters3D query = null;
 
+        MeshInstance3D meshInstance3D = new MeshInstance3D();
+        ImmediateMesh immediateMesh = new();
+        OrmMaterial3D material = new();
+        meshInstance3D.Mesh = immediateMesh;
+        meshInstance3D.CastShadow = GeometryInstance3D.ShadowCastingSetting.Off;
+        immediateMesh.SurfaceBegin(Mesh.PrimitiveType.Lines, material);
+        immediateMesh.SurfaceAddVertex(origin);
+       
+
+
         if (direction == Direction.North)
         {
+            immediateMesh.SurfaceAddVertex(origin + new Vector3(0, 0, -1));
             query = PhysicsRayQueryParameters3D.Create(origin, origin + new Vector3(0, 0, -1), collisionMask: 8);
         }
         if (direction == Direction.West)
         {
+            immediateMesh.SurfaceAddVertex(origin + new Vector3(-1, 0, 0));
             query = PhysicsRayQueryParameters3D.Create(origin, origin + new Vector3(-1, 0, 0), collisionMask: 8);
         }
         if (direction == Direction.South)
         {
+            immediateMesh.SurfaceAddVertex(origin + new Vector3(0, 0, 1));
             query = PhysicsRayQueryParameters3D.Create(origin, origin + new Vector3(0, 0, 1), collisionMask: 8);
         }
         if (direction == Direction.East)
         {
+            immediateMesh.SurfaceAddVertex(origin + new Vector3(1, 0, 0));
             query = PhysicsRayQueryParameters3D.Create(origin, origin + new Vector3(1, 0, 0), collisionMask: 8);
         }
         if (direction == Direction.Down)
         {
+            immediateMesh.SurfaceAddVertex(origin + new Vector3(0, -1, 0));
             query = PhysicsRayQueryParameters3D.Create(origin, origin + new Vector3(0, -1, 0), collisionMask: 8);
         }
+
+        immediateMesh.SurfaceEnd();
+        material.ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded;
+        material.AlbedoColor = Colors.LimeGreen;
+        GetTree().Root.AddChild(meshInstance3D);
+
+        Timer timer = new Timer();
+        GetTree().Root.AddChild(timer);
+        timer.Start(0.3);
+        timer.Timeout += () =>
+        {
+            meshInstance3D.QueueFree();
+            timer.QueueFree();
+        };
 
 
         Dictionary result = spaceState.IntersectRay(query);
@@ -271,6 +301,7 @@ public partial class Chunk : Node3D
             CenterTile = null;
         }
 
+        GD.Print($"North {NorthEntrance}, East {EastEntrance}, South {SouthEntrance}, West {WestEntrance}");
     }
 
 
@@ -361,6 +392,10 @@ public partial class Chunk : Node3D
         Tween tween = GetTree().CreateTween();
         tween.TweenProperty(this, "quaternion", q * Quaternion, 0.4f);
         tween.Finished += UpdateEntrances;
+        if (Placement)
+        {
+            tween.Finished += CheckValidPlacement;
+        }
     }
 
     public void RotateCounterClockwise()
@@ -369,6 +404,10 @@ public partial class Chunk : Node3D
         Tween tween = GetTree().CreateTween();
         tween.TweenProperty(this, "quaternion", q * Quaternion, 0.4f).SetTrans(Tween.TransitionType.Back);
         tween.Finished += UpdateEntrances;
+        if (Placement)
+        {
+            tween.Finished += CheckValidPlacement;
+        }
     }
 
     public void CreatePaths(MeshInstance3D Entrance)
@@ -397,7 +436,6 @@ public partial class Chunk : Node3D
         {
             ExitTile = GetAdjacentTile(Direction.Down, GlobalPosition + new Vector3(0, 1, 0));
         }
-
 
 
         Array<Array<MeshInstance3D>> allPaths = FindAllPaths(AdjacencyList, Entrance, ExitTile);
@@ -457,69 +495,118 @@ public partial class Chunk : Node3D
         bool valid = true;
 
         int ConnectedEntranceCount = 0;
-
         if (NorthEntrance)
         {
             MeshInstance3D tile = GetAdjacentTile(Direction.North, NorthTile.GlobalPosition);
-            if (tile != null)
+            if (tile != null && tile.GetMeta("height").AsInt32() == 0)
             {
                 ConnectedEntranceCount++;
             } else
             {
-
-                Vector3 EmptyOrigin = new Vector3(0, 0, -6);
-                if (GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(0,0,-4)).GetMeta("height").AsInt32() == 0) {
-                    valid = false;
-                }
-                if (GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(-4, 0, 0)).GetMeta("height").AsInt32() == 0)
+                Vector3 EmptyOrigin = GlobalPosition + new Vector3(0, 1, -7);
+                if (GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(0, 0, -4)) != null && GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(0,0,-4)).GetMeta("height").AsInt32() == 0) 
                 {
                     valid = false;
                 }
-                if (GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(4, 0, 0)).GetMeta("height").AsInt32() == 0)
+                if (GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(-4, 0, 0)) != null && GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(-4, 0, 0)).GetMeta("height").AsInt32() == 0)
                 {
                     valid = false;
                 }
-            
-            }
-        }
-
-        if (SouthEntrance)
-        {
-            MeshInstance3D tile = GetAdjacentTile(Direction.South, SouthTile.GlobalPosition);
-            if (tile != null)
-            {
-                ConnectedEntranceCount++;
+                if (GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(4, 0, 0)) != null && GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(4, 0, 0)).GetMeta("height").AsInt32() == 0)
+                {
+                    valid = false;
+                }
             }
         }
 
         if (EastEntrance)
         {
             MeshInstance3D tile = GetAdjacentTile(Direction.East, EastTile.GlobalPosition);
-            if (tile != null)
+            if (tile != null && tile.GetMeta("height").AsInt32() == 0)
             {
                 ConnectedEntranceCount++;
+            }
+            else
+            {
+                Vector3 EmptyOrigin = GlobalPosition + new Vector3(7, 1, 0);
+                if (GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(0, 0, -4)) != null && GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(0, 0, -4)).GetMeta("height").AsInt32() == 0)
+                {
+                    valid = false;
+                }
+                if (GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(4, 0, 0)) != null && GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(4, 0, 0)).GetMeta("height").AsInt32() == 0)
+                {
+                    valid = false;
+                }
+                if (GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(0, 0, 4)) != null && GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(0, 0, 4)).GetMeta("height").AsInt32() == 0)
+                {
+                    valid = false;
+                }
+            }
+        }
+
+        if (SouthEntrance)
+        {
+            MeshInstance3D tile = GetAdjacentTile(Direction.South, SouthTile.GlobalPosition);
+            if (tile != null && tile.GetMeta("height").AsInt32() == 0)
+            {
+                ConnectedEntranceCount++;
+            }
+            else
+            {
+                Vector3 EmptyOrigin = GlobalPosition + new Vector3(0, 1, 7);
+                if (GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(4, 0, 0)) != null && GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(4, 0, 0)).GetMeta("height").AsInt32() == 0)
+                {
+                    valid = false;
+                }
+                if (GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(-4, 0, 0)) != null && GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(-4, 0, 0)).GetMeta("height").AsInt32() == 0)
+                {
+                    valid = false;
+                }
+                if (GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(0, 0, 4)) != null && GetAdjacentTile(Direction.Down,EmptyOrigin + new Vector3(0, 0, 4)).GetMeta("height").AsInt32() == 0)
+                {
+                    valid = false;
+                }
             }
         }
 
         if (WestEntrance)
         {
             MeshInstance3D tile = GetAdjacentTile(Direction.West, WestTile.GlobalPosition);
-            if (tile != null)
+            if (tile != null && tile.GetMeta("height").AsInt32() == 0)
             {
                 ConnectedEntranceCount++;
             }
+            else
+            {
+                Vector3 EmptyOrigin = GlobalPosition + new Vector3(-7, 1, 0);
+                if (GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(0, 0, -4)) != null && GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(0, 0, -4)).GetMeta("height").AsInt32() == 0)
+                {
+                    valid = false;
+                }
+                if (GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(-4, 0, 0)) != null && GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(-4, 0, 0)).GetMeta("height").AsInt32() == 0)
+                {
+                    valid = false;
+                }
+                if (GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(0, 0, 4)) != null && GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(0, 0, 4)).GetMeta("height").AsInt32() == 0)
+                {
+                    valid = false;
+                }
+            }
         }
 
-        if (ConnectedEntranceCount > 1)
+
+        if (ConnectedEntranceCount > 1 || ConnectedEntranceCount == 0)
         {
             valid = false;
-            return;
         }
 
-
-
-
-
+        if(valid)
+        {
+            SetOverridesValid();
+        } else
+        {
+            SetOverridesInvalid();
+        }
     }
 
 
@@ -533,10 +620,114 @@ public partial class Chunk : Node3D
         }
     }
 
+    public void SetOverridesInvalid()
+    {
+        StandardMaterial3D InvalidMaterial = GD.Load<StandardMaterial3D>("res://Assets/Materials/QueryInvalid.tres");
+        StandardMaterial3D InvalidLaneMaterial = GD.Load<StandardMaterial3D>("res://Assets/Materials/QueryInvalidLane.tres");
+        foreach (Node3D node in GetChildren())
+        {
+            MeshInstance3D mi = node as MeshInstance3D;
+            if (mi != null)
+            {
+                if (mi.GetMeta("height").AsInt32() == 0)
+                {
+                    mi.SetSurfaceOverrideMaterial(0, InvalidLaneMaterial);
+                }
+                else
+                {
+                    mi.SetSurfaceOverrideMaterial(0, InvalidMaterial);
+                }
+            }
+        }
+    }
+
+    public void SetOverridesValid()
+    {
+        StandardMaterial3D ValidMaterial = GD.Load<StandardMaterial3D>("res://Assets/Materials/QueryValid.tres");
+        StandardMaterial3D ValidLaneMaterial = GD.Load<StandardMaterial3D>("res://Assets/Materials/QueryValidLane.tres");
+        foreach (Node3D node in GetChildren())
+        {
+            MeshInstance3D mi = node as MeshInstance3D;
+            if (mi != null)
+            {
+                if (mi.GetMeta("height").AsInt32() == 0)
+                {
+                    mi.SetSurfaceOverrideMaterial(0, ValidLaneMaterial);
+                }
+                else
+                {
+                    mi.SetSurfaceOverrideMaterial(0, ValidMaterial);
+                }
+            }
+        }
+    }
+
+    public void ClearOverrideVisuals()
+    {
+        foreach (Node3D node in GetChildren())
+        {
+            MeshInstance3D mi = node as MeshInstance3D;
+            if (mi != null)
+            {
+                if (mi.GetMeta("height").AsInt32() == 0)
+                {
+                    mi.SetSurfaceOverrideMaterial(0, null);
+                }
+                else
+                {
+                    mi.SetSurfaceOverrideMaterial(0, null);
+                }
+            }
+        }
+    }
+
+    bool CurrentlyMoving = false;
+
     public override void _Process(double delta)
     {
 
         base._Process(delta);
+
+        if (Placement && !Engine.IsEditorHint())
+        {
+            if(Input.IsActionJustPressed("select"))
+            {
+                RotateCCW = true;
+            }
+
+
+            if (!CurrentlyMoving)
+            {
+                Vector3 from = GetViewport().GetCamera3D().ProjectRayOrigin(GetViewport().GetMousePosition());
+                Vector3 to = from + GetViewport().GetCamera3D().ProjectRayNormal(GetViewport().GetMousePosition()) * 1000;
+
+                PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
+
+                PhysicsRayQueryParameters3D query = PhysicsRayQueryParameters3D.Create(from, to, collisionMask: 1);
+                Dictionary result = spaceState.IntersectRay(query);
+
+                PhysicsRayQueryParameters3D ChunkCheckQuery = PhysicsRayQueryParameters3D.Create(from, to, collisionMask: 8);
+                Dictionary ChunkCheckResult = spaceState.IntersectRay(ChunkCheckQuery);
+
+
+                if (result.Count > 0 && ChunkCheckResult.Count <= 0)
+                {
+                    Vector3 pos = (Vector3)result["position"];
+                    pos = new Vector3(Mathf.Round(pos.X / 7f) * 7f, 0, Mathf.Round(pos.Z / 7f) * 7f);
+
+
+                    if (pos != GlobalPosition)
+                    {
+                        CurrentlyMoving = true;
+                        Tween t = GetTree().CreateTween();
+                        t.TweenProperty(this, "global_position", pos, 0.1);
+                        t.Finished += () => CheckValidPlacement();
+                        t.Finished += () => CurrentlyMoving = false;
+                    }
+                }
+            }
+        }
+
 
         if (RotateCW)
         {
@@ -559,64 +750,19 @@ public partial class Chunk : Node3D
         if (QueryValid)
         {
             QueryValid = false;
-            StandardMaterial3D ValidMaterial = GD.Load<StandardMaterial3D>("res://Assets/Materials/QueryValid.tres");
-            StandardMaterial3D ValidLaneMaterial = GD.Load<StandardMaterial3D>("res://Assets/Materials/QueryValidLane.tres");
-            foreach (Node3D node in GetChildren())
-            {
-                MeshInstance3D mi = node as MeshInstance3D;
-                if (mi != null)
-                {
-                    if (mi.GetMeta("height").AsInt32() == 0) {
-                        mi.SetSurfaceOverrideMaterial(0, ValidLaneMaterial);
-                    } else
-                    {
-                        mi.SetSurfaceOverrideMaterial(0, ValidMaterial);
-                    }
-                }
-            }
+            SetOverridesValid();
         }
 
         if (QueryInvalid)
         {
             QueryInvalid = false;
-            StandardMaterial3D InvalidMaterial = GD.Load<StandardMaterial3D>("res://Assets/Materials/QueryInvalid.tres");
-            StandardMaterial3D InvalidLaneMaterial = GD.Load<StandardMaterial3D>("res://Assets/Materials/QueryInvalidLane.tres");
-            foreach (Node3D node in GetChildren())
-            {
-                MeshInstance3D mi = node as MeshInstance3D;
-                if (mi != null)
-                {
-                    if (mi.GetMeta("height").AsInt32() == 0)
-                    {
-                        mi.SetSurfaceOverrideMaterial(0, InvalidLaneMaterial);
-                    }
-                    else
-                    {
-                        mi.SetSurfaceOverrideMaterial(0, InvalidMaterial);
-                    }
-                }
-            }
+            SetOverridesInvalid();
         }
 
         if (ClearOverrides)
         {
             ClearOverrides = false;
-
-            foreach (Node3D node in GetChildren())
-            {
-                MeshInstance3D mi = node as MeshInstance3D;
-                if (mi != null)
-                {
-                    if (mi.GetMeta("height").AsInt32() == 0)
-                    {
-                        mi.SetSurfaceOverrideMaterial(0, null);
-                    }
-                    else
-                    {
-                        mi.SetSurfaceOverrideMaterial(0, null);
-                    }
-                }
-            }
+            ClearOverrideVisuals();
         }
     }
 }
