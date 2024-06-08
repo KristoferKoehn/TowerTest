@@ -4,6 +4,8 @@ using System.Collections.Generic;
 public enum StatType
 {
 	//Enemy Stats
+	MaxHealth,
+	MaxArmor,
 	Health,
 	Speed,
 	Armor,

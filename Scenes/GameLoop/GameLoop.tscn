@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bqi5yficpytv4"]
+[gd_scene load_steps=16 format=3 uid="uid://bqi5yficpytv4"]
 
 [ext_resource type="Script" path="res://Scenes/GameLoop/GameLoop.cs" id="1_l1214"]
 [ext_resource type="PackedScene" uid="uid://476ga4je70pe" path="res://Scenes/Chunks/ForkWithCycle.tscn" id="3_k4tvn"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cd384sin5yvji" path="res://Scenes/Chunks/2EntranceSnakeA.tscn" id="5_ds0yi"]
 [ext_resource type="Script" path="res://Scenes/GameLoop/UI.cs" id="7_tphpa"]
 [ext_resource type="PackedScene" uid="uid://cj4e12nbtf7ia" path="res://Scenes/Chunks/2EAngleB.tscn" id="8_v3w5p"]
+[ext_resource type="PackedScene" uid="uid://ba4apx2hsn1c0" path="res://Scenes/Towers/Ballista.tscn" id="9_07tk2"]
 [ext_resource type="Texture2D" uid="uid://b3p6kmoe4foeh" path="res://Assets/Icons/PauseButton.tres" id="9_fky3n"]
 [ext_resource type="Texture2D" uid="uid://dg85yvsjdkql5" path="res://Assets/Icons/PlayButton.tres" id="10_0fy5r"]
 [ext_resource type="Texture2D" path="res://Assets/Icons/SpeedUpButton.tres" id="10_ajo73"]
@@ -73,7 +74,6 @@ EastTile = NodePath("0, -3")
 WestTile = NodePath("0, 3")
 SouthTile = NodePath("3, 0")
 CenterTile = NodePath("0, 0")
-CurrentlyPlacing = true
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 collision_mask = 0
@@ -217,6 +217,9 @@ text = "Chunks"
 [node name="BeginWaveButton" type="Button" parent="UI/Control/BottomUI/Actions_HBoxContainer"]
 layout_mode = 2
 text = "Begin Wave"
+
+[node name="Ballista" parent="." instance=ExtResource("9_07tk2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.96934, 0.519979, -3.07789)
 
 [connection signal="pressed" from="UI/Control/TopUI/Buttons_HBoxContainer/PausePlayButton" to="UI" method="_on_pause_play_button_pressed"]
 [connection signal="pressed" from="UI/Control/TopUI/Buttons_HBoxContainer/SpeedUpButton" to="UI" method="_on_speed_up_button_pressed"]
