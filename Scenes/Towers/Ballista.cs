@@ -72,6 +72,7 @@ public partial class Ballista : Node3D
                     CanShoot = false;
                     ShotTimer.Start(StatBlock.GetStat(StatType.AttackSpeed));
                     EmitSignal("TowerFired", this, EnemyList[index]);
+                    GetNode<AudioStreamPlayer3D>("FiringSound").Play();
                 }
             }
         }
@@ -80,9 +81,9 @@ public partial class Ballista : Node3D
     public void DealDamage(Area3D area)
     {
         BaseEnemy be = area.GetParent<BaseEnemy>();
-        be.StatBlock.SetStat(StatType.Health, be.StatBlock.GetStat(StatType.Health) - StatBlock.GetStat(StatType.Damage));
-        GD.Print($"Enemy Damaged by {StatBlock.GetStat(StatType.Damage)} points, now at: {be.StatBlock.GetStat(StatType.Health)}");
-        be.EmitSignal("DamageTaken", be, this);
+        be.TakeDamage(StatBlock.GetStat(StatType.Damage), this);
+        be.StrikeSound.Play();
+        
     }
 
 	public void _on_active_range_area_entered(Area3D area)

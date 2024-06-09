@@ -20,9 +20,6 @@ public partial class HealthBar : Sprite3D
 
         healthBar.Value = be.StatBlock.GetStat(StatType.Health);
         armorBar.Value = be.StatBlock.GetStat(StatType.Armor);
-
-        GD.Print($"Health bar on {be.Name} with max {be.StatBlock.GetStat(StatType.MaxHealth)} and current {be.StatBlock.GetStat(StatType.Health)}");
-
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -42,6 +39,5 @@ public partial class HealthBar : Sprite3D
         healthBar.Value = enemy.StatBlock.GetStat(StatType.Health);
         armorBar.Value = enemy.StatBlock.GetStat(StatType.Armor);
 
-        GD.Print($"updated with max {enemy.StatBlock.GetStat(StatType.MaxHealth)} and current {enemy.StatBlock.GetStat(StatType.Health)}");
     }
 }
