@@ -29,6 +29,7 @@ public partial class HealthBarManager : Node
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+
 	}
 
 	public void AttachHealthBar(BaseEnemy enemy)

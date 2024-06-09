@@ -70,7 +70,6 @@ namespace MMOTest.Backend
 				sb[StatType.MaxHealth] = sb[StatType.Health];
 			}
 
-
 			statblock = sb;
 		}
 	}

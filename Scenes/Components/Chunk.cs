@@ -93,8 +93,6 @@ public partial class Chunk : Node3D
         meshInstance3D.CastShadow = GeometryInstance3D.ShadowCastingSetting.Off;
         immediateMesh.SurfaceBegin(Mesh.PrimitiveType.Lines, material);
         immediateMesh.SurfaceAddVertex(origin);
-       
-
 
         if (direction == Direction.North)
         {
@@ -135,18 +133,12 @@ public partial class Chunk : Node3D
             timer.QueueFree();
         };
 
-
-
-
-
         Dictionary result = spaceState.IntersectRay(query);
 
         if (result.Count > 1)
         {
             material.AlbedoColor = Colors.Red;
             GetTree().Root.AddChild(meshInstance3D);
-
-
 
             return ((StaticBody3D)result["collider"]).GetParent<MeshInstance3D>();
         }
@@ -205,11 +197,20 @@ public partial class Chunk : Node3D
             MeshInstance3D temp = ((StaticBody3D)result["collider"]).GetParent<MeshInstance3D>();
             if (temp.GetMeta("height").AsInt32() == 0)
             {
+                if (ExitDirection == Direction.North)
+                {
+                    temp.SetMeta("exit", true);
+                }
+                else
+                {
+                    temp.RemoveMeta("exit");
+                }
                 NorthTile = temp;
                 NorthEntrance = true;
             }
             else
             {
+
                 NorthTile = null;
                 NorthEntrance = false;
             }
@@ -228,6 +229,14 @@ public partial class Chunk : Node3D
             MeshInstance3D temp = ((StaticBody3D)result["collider"]).GetParent<MeshInstance3D>();
             if (temp.GetMeta("height").AsInt32() == 0)
             {
+                if (ExitDirection == Direction.East)
+                {
+                    temp.SetMeta("exit", true);
+                }
+                else
+                {
+                    temp.RemoveMeta("exit");
+                }
                 EastTile = temp;
                 EastEntrance = true;
             }
@@ -242,7 +251,6 @@ public partial class Chunk : Node3D
             EastTile = null;
         }
 
-
         query = PhysicsRayQueryParameters3D.Create(GlobalPosition + new Vector3(-3, 2, 0), GlobalPosition + new Vector3(-3, 0, 0), collisionMask: 8);
         result = spaceState.IntersectRay(query);
 
@@ -251,6 +259,14 @@ public partial class Chunk : Node3D
             MeshInstance3D temp = ((StaticBody3D)result["collider"]).GetParent<MeshInstance3D>();
             if (temp.GetMeta("height").AsInt32() == 0)
             {
+                if (ExitDirection == Direction.West)
+                {
+                    temp.SetMeta("exit", true);
+                }
+                else
+                {
+                    temp.RemoveMeta("exit");
+                }
                 WestTile = temp;
                 WestEntrance = true;
             } else
@@ -273,6 +289,14 @@ public partial class Chunk : Node3D
             MeshInstance3D temp = ((StaticBody3D)result["collider"]).GetParent<MeshInstance3D>();
             if (temp.GetMeta("height").AsInt32() == 0)
             {
+                if (ExitDirection == Direction.South)
+                {
+                    temp.SetMeta("exit", true);
+                }
+                else
+                {
+                    temp.RemoveMeta("exit");
+                }
                 SouthTile = temp;
                 SouthEntrance = true;
             }
@@ -295,6 +319,14 @@ public partial class Chunk : Node3D
             MeshInstance3D temp = ((StaticBody3D)result["collider"]).GetParent<MeshInstance3D>();
             if (temp.GetMeta("height").AsInt32() == 0)
             {
+                if (ExitDirection == Direction.Down)
+                {
+                    temp.SetMeta("exit", true);
+                }
+                else
+                {
+                    temp.RemoveMeta("exit");
+                }
                 CenterTile = temp;
                 CenterEntrance = true;
             }
@@ -319,7 +351,6 @@ public partial class Chunk : Node3D
         {
             visited[key] = false;
         }
-
 
         Array<MeshInstance3D> currentPath = new Array<MeshInstance3D>();
         DFS(graph, startVertex, endVertex, visited, currentPath, allPaths);
@@ -407,9 +438,6 @@ public partial class Chunk : Node3D
                 tween.Finished += CheckValidPlacement;
             }
         }
-
-
-
     }
 
     public void RotateCounterClockwise()
@@ -502,7 +530,6 @@ public partial class Chunk : Node3D
         }
 
         return null;
-
     }
 
     public void CheckValidPlacement()
@@ -518,9 +545,10 @@ public partial class Chunk : Node3D
         if (NorthEntrance)
         {
             MeshInstance3D tile = GetAdjacentTile(Direction.North, NorthTile.GlobalPosition);
-            if (tile != null && tile.GetMeta("height").AsInt32() == 0)
+            if (tile != null && tile.GetMeta("height").AsInt32() == 0 && !tile.HasMeta("exit"))
             {
                 ConnectedEntranceCount++;
+                ExitDirection = Direction.North;
             } else
             {
                 Vector3 EmptyOrigin = GlobalPosition + new Vector3(0, 1, -7);
@@ -542,9 +570,10 @@ public partial class Chunk : Node3D
         if (EastEntrance)
         {
             MeshInstance3D tile = GetAdjacentTile(Direction.East, EastTile.GlobalPosition);
-            if (tile != null && tile.GetMeta("height").AsInt32() == 0)
+            if (tile != null && tile.GetMeta("height").AsInt32() == 0 && !tile.HasMeta("exit"))
             {
                 ConnectedEntranceCount++;
+                ExitDirection = Direction.East;
             }
             else
             {
@@ -567,9 +596,10 @@ public partial class Chunk : Node3D
         if (SouthEntrance)
         {
             MeshInstance3D tile = GetAdjacentTile(Direction.South, SouthTile.GlobalPosition);
-            if (tile != null && tile.GetMeta("height").AsInt32() == 0)
+            if (tile != null && tile.GetMeta("height").AsInt32() == 0 && !tile.HasMeta("exit"))
             {
                 ConnectedEntranceCount++;
+                ExitDirection = Direction.South;
             }
             else
             {
@@ -592,9 +622,10 @@ public partial class Chunk : Node3D
         if (WestEntrance)
         {
             MeshInstance3D tile = GetAdjacentTile(Direction.West, WestTile.GlobalPosition);
-            if (tile != null && tile.GetMeta("height").AsInt32() == 0)
+            if (tile != null && tile.GetMeta("height").AsInt32() == 0 && !tile.HasMeta("exit"))
             {
                 ConnectedEntranceCount++;
+                ExitDirection = Direction.West;
             }
             else
             {
