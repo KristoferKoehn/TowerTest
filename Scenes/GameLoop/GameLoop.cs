@@ -11,6 +11,8 @@ public partial class GameLoop : Node3D
 
 	bool turning = false;
 
+	bool DraggingCamera = false;
+
 
 	public override void _EnterTree()
 	{
@@ -76,6 +78,9 @@ public partial class GameLoop : Node3D
 		}
     }
 
+
+
+
 	public override void _Input(InputEvent @event)
 	{
 		
@@ -100,7 +105,7 @@ public partial class GameLoop : Node3D
 			}
 		}
 
-        if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed)
+        if (@event is InputEventMouseButton mouseEvent)
         {
             if (@event.IsActionPressed("zoom_in"))
 			{
@@ -119,6 +124,25 @@ public partial class GameLoop : Node3D
                 }
             }
 
+			if (@event.IsActionPressed("camera_drag"))
+			{
+				DraggingCamera = true;
+            } 
+			if(@event.IsActionReleased("camera_drag"))
+			{
+                DraggingCamera = false;
+            }
+				
+
+        }
+
+        if (@event is InputEventMouseMotion mouseMotion)
+        {
+
+            if (DraggingCamera)
+            {
+				CameraGimbal.TranslateObjectLocal(new Vector3(mouseMotion.ScreenRelative.X, 0, mouseMotion.ScreenRelative.Y) * -0.05f);
+            }
         }
 
     }
