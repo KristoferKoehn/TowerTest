@@ -134,14 +134,14 @@ public partial class Ballista : Node3D
             if(MouseOver)
             {
                 Tween t = GetTree().CreateTween();
-                t.TweenProperty(Outline, "scale", new Vector3(1.1f, 1.1f, 1.1f), 0.15).SetTrans(Tween.TransitionType.Back);
+                t.TweenProperty(Outline, "scale", new Vector3(1f, 1f, 1f), 0.15).SetTrans(Tween.TransitionType.Back);
                 t.StepFinished += (long idx) => { Outline.Mesh.SurfaceSetMaterial(0, MouseOverOutline); };
-                t.Chain().TweenProperty(Outline, "scale", new Vector3(1f, 1f, 1f), 0.09).SetTrans(Tween.TransitionType.Back);
+                t.Chain().TweenProperty(Outline, "scale", new Vector3(0.95f, 0.95f, 0.95f), 0.09).SetTrans(Tween.TransitionType.Back);
             } 
             else
             {
                 Tween t = GetTree().CreateTween();
-                t.TweenProperty(Outline, "scale", new Vector3(0.5f, 0.5f, 0.5f), 0.2).SetTrans(Tween.TransitionType.Back);
+                t.TweenProperty(Outline, "scale", new Vector3(0.7f, 0.7f, 0.7f), 0.2).SetTrans(Tween.TransitionType.Back);
             }
         }
     }
@@ -203,8 +203,9 @@ public partial class Ballista : Node3D
             Outline.Mesh.SurfaceSetMaterial(0, MouseOverOutline);
         }
         Tween t = GetTree().CreateTween();
-        t.TweenProperty(Outline, "scale", new Vector3(1f, 1f, 1f), 0.2).SetTrans(Tween.TransitionType.Back);
+        t.TweenProperty(Outline, "scale", new Vector3(0.95f, 0.95f, 0.95f), 0.15).SetTrans(Tween.TransitionType.Back);
         MouseOver = true;
+        GetNode<AudioStreamPlayer3D>("SelectSound").Play();
     }
 
     public void _on_static_body_3d_mouse_exited()
@@ -214,12 +215,13 @@ public partial class Ballista : Node3D
         if (!Selected)
         {
             Tween t = GetTree().CreateTween();
-            t.TweenProperty(Outline, "scale", new Vector3(0.5f, 0.5f, 0.5f), 0.2).SetTrans(Tween.TransitionType.Back);
+            t.TweenProperty(Outline, "scale", new Vector3(0.7f, 0.7f, 0.7f), 0.2).SetTrans(Tween.TransitionType.Back);
         } else
         {
             Tween t = GetTree().CreateTween();
-            t.TweenProperty(Outline, "scale", new Vector3(0.9f, 0.9f, 0.9f), 0.2).SetTrans(Tween.TransitionType.Back);
+            t.TweenProperty(Outline, "scale", new Vector3(0.9f, 0.9f, 0.9f), 0.15).SetTrans(Tween.TransitionType.Back);
         }
+        GetNode<AudioStreamPlayer3D>("SelectSound").Play();
     }
 
     public void _on_static_body_3d_input_event(Node camera, InputEvent inputEvent, Vector3 position, Vector3 normal, int shape_idx)
@@ -230,6 +232,13 @@ public partial class Ballista : Node3D
             Tween t = GetTree().CreateTween();
             t.TweenProperty(Outline, "scale", new Vector3(0.9f, 0.9f, 0.9f), 0.08).SetTrans(Tween.TransitionType.Back);
             PressWhileMousedOver = true;
+
+
+            if(!Selected)
+            {
+                GetNode<AudioStreamPlayer3D>("SelectSound").Play();
+            }
+            
         }
 
         if (inputEvent.IsActionReleased("select"))
@@ -240,8 +249,9 @@ public partial class Ballista : Node3D
                 Outline.Mesh.SurfaceSetMaterial(0, SelectOutline);
                 Selected = true;
                 Tween t = GetTree().CreateTween();
-                t.TweenProperty(Outline, "scale", new Vector3(1f, 1f, 1f), 0.08).SetTrans(Tween.TransitionType.Back);
+                t.TweenProperty(Outline, "scale", new Vector3(0.95f, 0.95f, 0.95f), 0.08).SetTrans(Tween.TransitionType.Back);
             }
+            GetNode<AudioStreamPlayer3D>("SelectSound").Play();
         }
     }
 }

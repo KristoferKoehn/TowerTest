@@ -56,6 +56,8 @@ public partial class Chunk : Node3D
     bool ClearOverrides = false;
     [Export]
     public bool CurrentlyPlacing = false;
+    [Export]
+    public bool Disabled = false;
 
 
     //this is so we know how big the chunk is. For later.
@@ -673,6 +675,8 @@ public partial class Chunk : Node3D
 
     public override void _Ready()
     {
+        if(Disabled) return;
+
         UpdateEntrances();
         UpdateAdjacencyList();
         if (!Engine.IsEditorHint())
@@ -747,7 +751,10 @@ public partial class Chunk : Node3D
     public override void _Process(double delta)
     {
 
-        base._Process(delta);
+        if (Disabled)
+        {
+            return;
+        }
 
         if (CurrentlyPlacing && !Engine.IsEditorHint())
         {
