@@ -118,7 +118,8 @@ public partial class BaseEnemy : PathFollow3D
 		StatBlock.SetStat(StatType.Speed, 0);
         EnemyManager.GetInstance().UnregisterEnemy(this);
         EmitSignal("Died", this);
-        
+
+		GetNode<AnimationPlayer>("AnimationPlayer").SpeedScale = 2;
         GetNode<AnimationPlayer>("AnimationPlayer").Play("Death_A");
 		GetNode<AnimationPlayer>("AnimationPlayer").AnimationFinished += (StringName anim) =>
 		{

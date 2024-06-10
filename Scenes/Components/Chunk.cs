@@ -646,6 +646,14 @@ public partial class Chunk : Node3D
         }
 
 
+        /*
+         * FOR NO LANE CHUNKS --- TO DO
+         * 
+         * allow placement of exclusively no lane connection as a separate case.
+         * 
+         * 
+         */
+
         if (ConnectedEntranceCount > 1 || ConnectedEntranceCount == 0)
         {
             valid = false;

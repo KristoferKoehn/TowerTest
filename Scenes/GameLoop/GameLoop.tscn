@@ -10,7 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://ba4apx2hsn1c0" path="res://Scenes/Towers/Ballista.tscn" id="9_07tk2"]
 [ext_resource type="Texture2D" uid="uid://b3p6kmoe4foeh" path="res://Assets/Icons/PauseButton.tres" id="9_fky3n"]
 [ext_resource type="Texture2D" uid="uid://dg85yvsjdkql5" path="res://Assets/Icons/PlayButton.tres" id="10_0fy5r"]
-[ext_resource type="Texture2D" path="res://Assets/Icons/SpeedUpButton.tres" id="10_ajo73"]
+[ext_resource type="Texture2D" uid="uid://t0i5wqr683y6" path="res://Assets/Icons/SpeedUpButton.tres" id="10_ajo73"]
 [ext_resource type="Texture2D" uid="uid://cd5cs1b3m55qf" path="res://Assets/Icons/SettingsButton.tres" id="11_baj22"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_qk85b"]
@@ -87,8 +87,8 @@ rotation_edit_mode = 1
 
 [node name="Camera3D" type="Camera3D" parent="CameraGimbal"]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 20, 20)
-fov = 70.0
-size = 42.1762
+fov = 60.0
+size = 31.462
 near = 2.0
 
 [node name="UI" type="CanvasLayer" parent="."]
@@ -219,7 +219,7 @@ layout_mode = 2
 text = "Begin Wave"
 
 [node name="Ballista" parent="." instance=ExtResource("9_07tk2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.96934, 0.519979, -3.07789)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.96479, 0.519979, -8.99522)
 
 [connection signal="pressed" from="UI/Control/TopUI/Buttons_HBoxContainer/PausePlayButton" to="UI" method="_on_pause_play_button_pressed"]
 [connection signal="pressed" from="UI/Control/TopUI/Buttons_HBoxContainer/SpeedUpButton" to="UI" method="_on_speed_up_button_pressed"]
