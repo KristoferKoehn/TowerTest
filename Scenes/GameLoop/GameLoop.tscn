@@ -7,11 +7,11 @@
 [ext_resource type="PackedScene" uid="uid://cd384sin5yvji" path="res://Scenes/Chunks/2EntranceSnakeA.tscn" id="5_ds0yi"]
 [ext_resource type="Script" path="res://Scenes/GameLoop/UI.cs" id="7_tphpa"]
 [ext_resource type="PackedScene" uid="uid://cj4e12nbtf7ia" path="res://Scenes/Chunks/2EAngleB.tscn" id="8_v3w5p"]
-[ext_resource type="PackedScene" uid="uid://ba4apx2hsn1c0" path="res://Scenes/Towers/Ballista.tscn" id="9_07tk2"]
 [ext_resource type="Texture2D" uid="uid://b3p6kmoe4foeh" path="res://Assets/Icons/PauseButton.tres" id="9_fky3n"]
 [ext_resource type="Texture2D" uid="uid://dg85yvsjdkql5" path="res://Assets/Icons/PlayButton.tres" id="10_0fy5r"]
 [ext_resource type="Texture2D" uid="uid://t0i5wqr683y6" path="res://Assets/Icons/SpeedUpButton.tres" id="10_ajo73"]
 [ext_resource type="Texture2D" uid="uid://cd5cs1b3m55qf" path="res://Assets/Icons/SettingsButton.tres" id="11_baj22"]
+[ext_resource type="PackedScene" uid="uid://bd01imkykmoa" path="res://Scenes/Towers/LaserCrystal.tscn" id="13_pjvdq"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_qk85b"]
 
@@ -218,8 +218,11 @@ text = "Chunks"
 layout_mode = 2
 text = "Begin Wave"
 
-[node name="Ballista" parent="." instance=ExtResource("9_07tk2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.96479, 0.519979, -8.99522)
+[node name="LaserCrystal" parent="." node_paths=PackedStringArray("Outline", "RangeHitbox", "ShotTimer") instance=ExtResource("13_pjvdq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.16118, 0.491692, -1.29246)
+Outline = NodePath("Outline/Outline")
+RangeHitbox = NodePath("ActiveRange/CollisionShape3D")
+ShotTimer = NodePath("ShotTimer")
 
 [connection signal="pressed" from="UI/Control/TopUI/Buttons_HBoxContainer/PausePlayButton" to="UI" method="_on_pause_play_button_pressed"]
 [connection signal="pressed" from="UI/Control/TopUI/Buttons_HBoxContainer/SpeedUpButton" to="UI" method="_on_speed_up_button_pressed"]

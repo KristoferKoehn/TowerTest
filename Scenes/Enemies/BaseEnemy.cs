@@ -100,7 +100,6 @@ public partial class BaseEnemy : PathFollow3D
 		float NewHealth = CurrentHealth - damage;
         this.StatBlock.SetStat(StatType.Health, NewHealth);
 
-        GD.Print($"new health: {NewHealth}");
 		if (NewHealth <= 0)
 		{
 			Die();
@@ -113,8 +112,13 @@ public partial class BaseEnemy : PathFollow3D
 		return ChunkCounter + ProgressRatio;
 	}
 
+	bool dead = false;
+
 	public void Die()
 	{
+		if (dead) return;
+
+		dead = true;
 		StatBlock.SetStat(StatType.Speed, 0);
         EnemyManager.GetInstance().UnregisterEnemy(this);
         EmitSignal("Died", this);
