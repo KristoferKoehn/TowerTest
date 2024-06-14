@@ -5,8 +5,10 @@ using System;
 
 public partial class GameLoop : Node3D
 {
-	Camera3D Camera { get; set; }
+	public Camera3D Camera { get; set; }
 	Node3D CameraGimbal { get; set; }
+
+	public Node3D CurrentDraggedChunk { get; set; }
 
 
 	bool turning = false;
