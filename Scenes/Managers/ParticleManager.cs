@@ -29,8 +29,8 @@ public partial class ParticleManager : Node
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
-
-	}
+        particleSignals.p1 += (Vector3 c, Vector3 d) => makeP1(c, d);
+    }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
@@ -38,9 +38,9 @@ public partial class ParticleManager : Node
 	}
 
     //will have to have a few of these or a switcher to tell where to put it.
-    public void RegisterParticle(GpuParticles3D p)
+    public void RegisterParticle(ParticleWrapper p)
     {
-        Particles.Add(new ParticleWrapper(p));
+        Particles.Add(p);
     }
 
     public void UnregisterParticle(ParticleWrapper p)
@@ -48,17 +48,19 @@ public partial class ParticleManager : Node
         Particles.Remove(p);
     }
 
-    private void fireP1(Vector3 c, Vector3 d)
+    private void fireP1(ParticleWrapper p, Vector3 c, Vector3 d)
     {
-        //currently written for the single list, so here's how it will work
-        //go through the list until you hit a P1 that can emit.
-        foreach (ParticleWrapper p in Particles)
-        {
-            if (p.readyToFire)
-            {
                 p.emitEffect(c, d);
-                break;
-            }
-        }
+    }
+
+    private void makeP1(Vector3 c, Vector3 d)
+    {
+        var inst = GD.Load<PackedScene>("res://Scenes/Particles/Particle1.tscn");
+        var particleScene = inst.Instantiate();
+        AddChild(particleScene);
+        GpuParticles3D p = (GpuParticles3D) particleScene.GetChild(0);
+        ParticleWrapper tempWraper = new ParticleWrapper(p);
+        Particles.Add(tempWraper);
+        fireP1(tempWraper, c, d);
     }
 }
