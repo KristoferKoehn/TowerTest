@@ -122,6 +122,9 @@ grow_vertical = 2
 texture = ExtResource("1_kyv8i")
 expand_mode = 1
 
+[node name="SubViewport" type="SubViewport" parent="MarginContainer/Bars/Panel/TextureRect"]
+transparent_bg = true
+
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Bars"]
 layout_mode = 2
 size_flags_vertical = 3
