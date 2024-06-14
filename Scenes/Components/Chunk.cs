@@ -58,6 +58,8 @@ public partial class Chunk : Node3D
     public bool CurrentlyPlacing = false;
     [Export]
     public bool Disabled = false;
+    [Export]
+    public bool Debug = false;
 
 
     //this is so we know how big the chunk is. For later.
@@ -65,8 +67,6 @@ public partial class Chunk : Node3D
 
     //this is for tweening.
     bool ChunkRotating = false;
-
-
     public bool PlacementValid = false;
 
 
@@ -134,7 +134,6 @@ public partial class Chunk : Node3D
 
             immediateMesh.SurfaceEnd();
             material.ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded;
-
 
             Timer timer = new Timer();
             GetTree().Root.AddChild(timer);
@@ -407,7 +406,8 @@ public partial class Chunk : Node3D
 
     public void PlaceChunk(Direction ConnectedDirection)
     {
-
+        CurrentlyPlacing = false;
+        ClearOverrides = true;
         ExitDirection = ConnectedDirection;
 
         UpdateEntrances();
@@ -555,6 +555,10 @@ public partial class Chunk : Node3D
 
     public void CheckValidPlacement()
     {
+
+        //UpdateEntrances();
+
+
         //check adjacent chunks for compatible entrances
         //cannot connect to more than 1 external entrance
 
@@ -694,11 +698,12 @@ public partial class Chunk : Node3D
 
     public override void _Ready()
     {
-        if(Disabled) return;
+        if (Disabled) return;
 
         UpdateEntrances();
         UpdateAdjacencyList();
-        if (!Engine.IsEditorHint())
+
+        if (!Engine.IsEditorHint() && !CurrentlyPlacing)
         {
             PlaceChunk(ExitDirection);
         }
@@ -775,16 +780,23 @@ public partial class Chunk : Node3D
             return;
         }
 
+        //if (Debug) GD.Print($"Disabled {Disabled}, CurrentlyPlacing {CurrentlyPlacing}, PlacementValid {PlacementValid}, CurrentlyMoving {CurrentlyMoving}");
+
         if (CurrentlyPlacing && !Engine.IsEditorHint())
         {
-            if(Input.IsActionJustPressed("select"))
-            {
-                RotateCCW = true;
-            }
 
+            //add rotation stuff
+
+            if(Input.IsActionJustPressed("select") && PlacementValid)
+            {
+                PlaceChunk(ExitDirection);
+            }
 
             if (!CurrentlyMoving)
             {
+
+                if (Debug) GD.Print("WE get here");
+
                 Vector3 from = GetViewport().GetCamera3D().ProjectRayOrigin(GetViewport().GetMousePosition());
                 Vector3 to = from + GetViewport().GetCamera3D().ProjectRayNormal(GetViewport().GetMousePosition()) * 1000;
 
@@ -797,6 +809,8 @@ public partial class Chunk : Node3D
                 Dictionary ChunkCheckResult = spaceState.IntersectRay(ChunkCheckQuery);
 
 
+                
+
                 if (result.Count > 0 && ChunkCheckResult.Count <= 0)
                 {
                     Vector3 pos = (Vector3)result["position"];
@@ -805,6 +819,7 @@ public partial class Chunk : Node3D
 
                     if (pos != GlobalPosition)
                     {
+                        UpdateEntrances();
                         CurrentlyMoving = true;
                         Tween t = GetTree().CreateTween();
                         t.TweenProperty(this, "global_position", pos, 0.1);

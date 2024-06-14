@@ -115,6 +115,7 @@ namespace Managers
                         BaseEnemy be = WaveBuckets[t][0].Instantiate<BaseEnemy>();
                         WaveBuckets[t].Remove(WaveBuckets[t][0]);
                         t.GetParent<Spawner>().GetNode<Path3D>("Path3D").AddChild(be);
+                        GD.Print("Spawn Stuff");
                     } else
                     {
                         t.QueueFree();

@@ -8,8 +8,6 @@ public partial class GameLoop : Node3D
 	public Camera3D Camera { get; set; }
 	Node3D CameraGimbal { get; set; }
 
-	public Node3D CurrentDraggedChunk { get; set; }
-
 
 	bool turning = false;
 
@@ -56,6 +54,7 @@ public partial class GameLoop : Node3D
 		{
 			CameraGimbal.TranslateObjectLocal(new Vector3(0, 0, 0.1f));
 		}
+		/*
 		if (Input.IsActionPressed("rotate_right"))
 		{
 			if (!turning)
@@ -78,6 +77,8 @@ public partial class GameLoop : Node3D
 				t.Finished += SetTurning;
 			}
 		}
+
+		*/
     }
 
 

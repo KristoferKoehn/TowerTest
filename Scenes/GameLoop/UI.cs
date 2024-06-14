@@ -15,22 +15,26 @@ public partial class UI : CanvasLayer
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
-        _gameLoop = GetTree().Root.GetNode<Node3D>("GameLoop") as GameLoop;
+        //_gameLoop = GetTree().Root.GetNode<Node3D>("GameLoop") as GameLoop;
+        _gameLoop = GetParent<GameLoop>();
         SetUpChunkCardPanel();
+
     }
 
     private void SetUpChunkCardPanel()
     {
         // Cache the reference to the CardsPanel node
         _cardsPanel = GetNode<ScrollContainer>("Control/CardsPanel");
-
+        _cardsPanel.Visible = false;
         _cardScene = (PackedScene)ResourceLoader.Load("res://Scenes/UI/BaseCard.tscn");
         _gridContainer = GetNode<GridContainer>("Control/CardsPanel/GridContainer");
 
-        // Create and add cards to the GridContainer
-        for (int i = 0; i < 10; i++)
+        string[] ListOfChunks = DirAccess.GetFilesAt("res://Scenes/Chunks");
+
+        foreach (string File in ListOfChunks)
         {
             //Texture rect slot:
+
             TextureRect slot = new TextureRect();
             slot.CustomMinimumSize = new Vector2(125, 175);
             slot.ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize;
@@ -42,16 +46,30 @@ public partial class UI : CanvasLayer
             slot.AddChild(viewport);
 
             // Instance the card scene and add it to the viewport
-            Control card = (Control)_cardScene.Instantiate();
+            BaseCard card = _cardScene.Instantiate<BaseCard>();
+            card.SetCard(File);
             viewport.AddChild(card);
 
             // Create a TextureRect to display the viewport texture
             slot.Texture = viewport.GetTexture();
 
-            slot.GuiInput += (InputEvent @event) => { OnChunkCardClicked(@event, slot); };
+            slot.GuiInput += (InputEvent @event) => {
+                if (@event.IsAction("select"))
+                {
+                    OnChunkCardClicked(@event, slot);
+                }
+
+            };
 
             // Add the TextureRect to the GridContainer
             _gridContainer.AddChild(slot);
+        }
+
+
+        // Create and add cards to the GridContainer
+        for (int i = 0; i < 10; i++)
+        {
+            
         }
     }
 
@@ -70,9 +88,11 @@ public partial class UI : CanvasLayer
             if (card != null)
             {
                 // Load and instantiate the chunk
-                Node3D newchunk = GD.Load<PackedScene>(card.ChunkPath).Instantiate<Node3D>();
+                Chunk newchunk = GD.Load<PackedScene>(card.ChunkPath).Instantiate<Chunk>();
+                newchunk.CurrentlyPlacing = true;
+                newchunk.Debug = true;
                 _gameLoop.AddChild(newchunk);
-                _gameLoop.CurrentDraggedChunk = newchunk;
+
 
                 // Close the panel
                 _cardsPanel.Visible = !card.Visible;

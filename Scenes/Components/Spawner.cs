@@ -61,8 +61,9 @@ public partial class Spawner : Node3D
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
-        if(GetParent<Chunk>().Disabled)
+        if (GetParent<Chunk>().Disabled)
         {
+            Enabled = false;
             return;
         }
         WaveManager.GetInstance().RegisterSpawner(this);
@@ -71,13 +72,14 @@ public partial class Spawner : Node3D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-        if (GetParent<Chunk>().Disabled)
-        {
-            return;
-        }
 
         CheckValid();
 
+        if (GetParent<Chunk>().Disabled || GetParent<Chunk>().CurrentlyPlacing)
+        {
+            Enabled = false;
+            return;
+        }
 
         if (Engine.IsEditorHint())
         {
