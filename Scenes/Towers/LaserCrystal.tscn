@@ -208,7 +208,7 @@ mesh = SubResource("ArrayMesh_pud76")
 skeleton = NodePath("")
 
 [node name="crystal" type="MeshInstance3D" parent="towerRound_crystals2/tmpParent/towerRound_crystals"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 0.75, 0, -1, 0, -4.37114e-08, 1.01068e-14, 0.54375, -2.88765e-15)
+transform = Transform3D(1, 0, 0, 0, 0.75, 0, 0, 0, 1, 1.01068e-14, 0.54375, -2.88765e-15)
 mesh = SubResource("ArrayMesh_8p7ik")
 skeleton = NodePath("")
 

@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://drhjbft37k1hk"]
+
+[ext_resource type="Script" path="res://Scenes/Utility/Test2.cs" id="1_lm5nb"]
+[ext_resource type="Texture2D" uid="uid://dplcqs8mgsnja" path="res://Assets/ChunkImages/Chunk2EAngle.png" id="2_7y4cq"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_2x51p"]
+
+[node name="Test" type="Node3D"]
+
+[node name="Projectile" type="Node3D" parent="." node_paths=PackedStringArray("Billboard", "target")]
+transform = Transform3D(0.953818, 0.143409, 0.263943, 0, 0.878679, -0.477413, -0.300387, 0.455365, 0.838099, 0, 0, 0)
+script = ExtResource("1_lm5nb")
+Billboard = NodePath("Sprite3D")
+target = NodePath("../Target")
+
+[node name="Sprite3D" type="Sprite3D" parent="Projectile"]
+transform = Transform3D(-0.0861574, 0.996282, 0, -0.996282, -0.0861574, 0, 0, 0, 1, 0, 0, 0)
+rotation_edit_mode = 1
+texture = ExtResource("2_7y4cq")
+
+[node name="Target" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.63156, 0.585117, -4.55089)
+mesh = SubResource("BoxMesh_2x51p")
+skeleton = NodePath("../Projectile")

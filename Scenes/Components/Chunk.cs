@@ -87,69 +87,88 @@ public partial class Chunk : Node3D
     {
         PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
         PhysicsRayQueryParameters3D query = null;
+        Vector3 EndPosition = Vector3.Zero;
 
-        MeshInstance3D meshInstance3D = new MeshInstance3D();
-        ImmediateMesh immediateMesh = new();
-        OrmMaterial3D material = new();
-        meshInstance3D.Mesh = immediateMesh;
-        meshInstance3D.CastShadow = GeometryInstance3D.ShadowCastingSetting.Off;
-        immediateMesh.SurfaceBegin(Mesh.PrimitiveType.Lines, material);
-        immediateMesh.SurfaceAddVertex(origin);
 
         if (direction == Direction.North)
         {
-            immediateMesh.SurfaceAddVertex(origin + new Vector3(0, 0, -1));
+
+            EndPosition = origin + new Vector3(0, 0, -1);
             query = PhysicsRayQueryParameters3D.Create(origin, origin + new Vector3(0, 0, -1), collisionMask: 8);
         }
         if (direction == Direction.West)
         {
-            immediateMesh.SurfaceAddVertex(origin + new Vector3(-1, 0, 0));
+            EndPosition = origin + new Vector3(-1, 0, 0);
             query = PhysicsRayQueryParameters3D.Create(origin, origin + new Vector3(-1, 0, 0), collisionMask: 8);
         }
         if (direction == Direction.South)
         {
-            immediateMesh.SurfaceAddVertex(origin + new Vector3(0, 0, 1));
+            EndPosition = origin + new Vector3(0, 0, 1);
             query = PhysicsRayQueryParameters3D.Create(origin, origin + new Vector3(0, 0, 1), collisionMask: 8);
         }
         if (direction == Direction.East)
         {
-            immediateMesh.SurfaceAddVertex(origin + new Vector3(1, 0, 0));
+            EndPosition = origin + new Vector3(1, 0, 0);
             query = PhysicsRayQueryParameters3D.Create(origin, origin + new Vector3(1, 0, 0), collisionMask: 8);
         }
         if (direction == Direction.Down)
         {
-            immediateMesh.SurfaceAddVertex(origin + new Vector3(0, -1, 0));
+            EndPosition = origin + new Vector3(0, -1, 0);
             query = PhysicsRayQueryParameters3D.Create(origin, origin + new Vector3(0, -1, 0), collisionMask: 8);
         }
 
-        immediateMesh.SurfaceEnd();
-        material.ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded;
-        
-
-        Timer timer = new Timer();
-        GetTree().Root.AddChild(timer);
-        timer.Start(0.3);
-        timer.Timeout += () =>
-        {
-            meshInstance3D.QueueFree();
-            timer.QueueFree();
-        };
 
         Dictionary result = spaceState.IntersectRay(query);
 
+        if (true)
+        {
+
+            MeshInstance3D meshInstance3D = new MeshInstance3D();
+            ImmediateMesh immediateMesh = new();
+            OrmMaterial3D material = new();
+            meshInstance3D.Mesh = immediateMesh;
+            meshInstance3D.CastShadow = GeometryInstance3D.ShadowCastingSetting.Off;
+            immediateMesh.SurfaceBegin(Mesh.PrimitiveType.Lines, material);
+            immediateMesh.SurfaceAddVertex(origin);
+            immediateMesh.SurfaceAddVertex(EndPosition);
+
+            immediateMesh.SurfaceEnd();
+            material.ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded;
+
+
+            Timer timer = new Timer();
+            GetTree().Root.AddChild(timer);
+            timer.Start(0.3);
+            timer.Timeout += () =>
+            {
+                meshInstance3D.QueueFree();
+                timer.QueueFree();
+            };
+
+            if (result.Count > 1)
+            {
+                material.AlbedoColor = Colors.Red;
+                GetTree().Root.AddChild(meshInstance3D);
+            } else
+            {
+                material.AlbedoColor = Colors.LimeGreen;
+                GetTree().Root.AddChild(meshInstance3D);
+            }
+
+        }
+
+
+
         if (result.Count > 1)
         {
-            material.AlbedoColor = Colors.Red;
-            GetTree().Root.AddChild(meshInstance3D);
-
             return ((StaticBody3D)result["collider"]).GetParent<MeshInstance3D>();
         }
         else
         {
-            material.AlbedoColor = Colors.LimeGreen;
-            GetTree().Root.AddChild(meshInstance3D);
             return null;
         }
+
+
     }
 
     public void UpdateAdjacencyList()

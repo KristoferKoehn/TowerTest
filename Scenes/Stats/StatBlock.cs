@@ -23,7 +23,6 @@ public enum StatType
 	IceDamage,
 	WaterDamage,
 
-
 }
 
 namespace MMOTest.Backend

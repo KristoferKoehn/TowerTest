@@ -2,7 +2,6 @@ using Godot;
 using MMOTest.Backend;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 
 public partial class Ballista : Node3D
@@ -37,6 +36,8 @@ public partial class Ballista : Node3D
 
     List<BaseEnemy> EnemyList = new List<BaseEnemy>();
     bool CanShoot = false;
+
+    public bool Placing = false;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
