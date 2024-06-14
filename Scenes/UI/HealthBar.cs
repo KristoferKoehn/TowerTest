@@ -35,7 +35,6 @@ public partial class HealthBar : Sprite3D
         healthBar.MaxValue = enemy.StatBlock.GetStat(StatType.MaxHealth);
         armorBar.MaxValue = enemy.StatBlock.GetStat(StatType.MaxArmor);
 
-
         healthBar.Value = enemy.StatBlock.GetStat(StatType.Health);
         armorBar.Value = enemy.StatBlock.GetStat(StatType.Armor);
 

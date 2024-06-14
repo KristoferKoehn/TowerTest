@@ -49,5 +49,7 @@ public partial class UI : CanvasLayer
     public void _on_settings_button_pressed()
     {
         //this.FindParent("SceneSwitcher").PushScene(GD.Load<PackedScene>("res://Scenes/menus/SettingsMenu.tscn").Instantiate<Control>());
+        //pause
+        //add child ()
     }
 }
