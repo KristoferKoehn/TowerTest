@@ -11,12 +11,13 @@ public partial class GameLoop : Node3D
 
 	bool turning = false;
 
+	bool DraggingCamera = false;
+
 
 	public override void _EnterTree()
 	{
 		WaveManager.GetInstance();
 		BallistaArrowManager.GetInstance();
-		
 	}
 
 	public override void _Ready()
@@ -25,7 +26,6 @@ public partial class GameLoop : Node3D
 
         Camera = GetNode<Camera3D>("CameraGimbal/Camera3D");
 		CameraGimbal = GetNode<Node3D>("CameraGimbal");
-
 	}
 
 
@@ -76,8 +76,10 @@ public partial class GameLoop : Node3D
 				t.Finished += SetTurning;
 			}
 		}
+    }
 
-	}
+
+
 
 	public override void _Input(InputEvent @event)
 	{
@@ -102,7 +104,48 @@ public partial class GameLoop : Node3D
 				MeshInstance3D temp = ((StaticBody3D)result["collider"]).GetParent<MeshInstance3D>();
 			}
 		}
-	}
+
+        if (@event is InputEventMouseButton mouseEvent)
+        {
+            if (@event.IsActionPressed("zoom_in"))
+			{
+                if (Camera.Position.Length() > 7)
+                {
+					Tween t = GetTree().CreateTween();
+					t.TweenProperty(Camera, "position", Camera.Position - new Vector3(0, 2.5f, 2.5f), 0.06);
+                }
+            }
+            if (@event.IsActionPressed("zoom_out"))
+            {
+                if (Camera.Position.Length() < 50)
+                {
+                    Tween t = GetTree().CreateTween();
+                    t.TweenProperty(Camera, "position", Camera.Position + new Vector3(0, 2.5f, 2.5f), 0.06);
+                }
+            }
+
+			if (@event.IsActionPressed("camera_drag"))
+			{
+				DraggingCamera = true;
+            } 
+			if(@event.IsActionReleased("camera_drag"))
+			{
+                DraggingCamera = false;
+            }
+				
+
+        }
+
+        if (@event is InputEventMouseMotion mouseMotion)
+        {
+
+            if (DraggingCamera)
+            {
+				CameraGimbal.TranslateObjectLocal(new Vector3(mouseMotion.ScreenRelative.X, 0, mouseMotion.ScreenRelative.Y) * -0.05f);
+            }
+        }
+
+    }
 
 	public void _on_begin_wave_button_pressed()
 	{

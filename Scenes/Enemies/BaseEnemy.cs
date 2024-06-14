@@ -12,6 +12,8 @@ public partial class BaseEnemy : PathFollow3D
 	[Signal]
 	public delegate void DiedEventHandler(Node self);
 
+	public AudioStreamPlayer3D StrikeSound { get; set; }
+
 	public StatBlock StatBlock = new();
 	protected string ModelName;
 
@@ -22,33 +24,18 @@ public partial class BaseEnemy : PathFollow3D
 
     //a spawner somewhere (not here)
 
-	public double currentHealth;
-	public double currentArmor;
-
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
 		Loop = false;
 		EnemyManager.GetInstance().RegisterEnemy(this);
-    currentHealth = this.StatBlock.GetStat(StatType.Health);
-		currentArmor = this.StatBlock.GetStat(StatType.Armor);
     }
 
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
 	{
-
-		if(StatBlock.GetStat(StatType.Health) <= 0.00f)
-		{
-			EmitSignal("Died",this);
-			GD.Print("Dead");
-			//change this later
-			EnemyManager.GetInstance().UnregisterEnemy(this);
-			QueueFree();
-
-		}
 
 		if (ProgressRatio == 1)
 		{
@@ -60,7 +47,7 @@ public partial class BaseEnemy : PathFollow3D
 			//reparent to new path, set progress ratio to 0
 		}
 
-		Progress += 1.6f * (float)delta;
+		Progress += StatBlock.GetStat(StatType.Speed) * (float)delta;
 	}
 
 	public MeshInstance3D GetTileAt(Vector3 to, Vector3 from)
@@ -106,21 +93,18 @@ public partial class BaseEnemy : PathFollow3D
 
 	}
 
-	// Rough of what we might do
-	public void TakeDamage(int damage)
+	public void TakeDamage(float damage, Node3D source)
 	{
 		if (damage <= 0) { return; }
-
-		float CurrentHealth = this.StatBlock.GetStat(StatType.Health);
+        float CurrentHealth = this.StatBlock.GetStat(StatType.Health);
 		float NewHealth = CurrentHealth - damage;
-		if (NewHealth > 0)
+        this.StatBlock.SetStat(StatType.Health, NewHealth);
+
+		if (NewHealth <= 0)
 		{
-			this.StatBlock.SetStat(StatType.Health, CurrentHealth - damage);
-		}
-		else
-		{
-			// Die
-		}
+			Die();
+        }
+        EmitSignal("DamageTaken", this, source);
 	}
 
 	public float GetProgress()
@@ -128,9 +112,23 @@ public partial class BaseEnemy : PathFollow3D
 		return ChunkCounter + ProgressRatio;
 	}
 
-	public void PlayAnimation(string AnimationName)
-	{
-		GetNode<Node3D>(this.ModelName).GetNode<AnimationPlayer>("AnimationPlayer").Play(AnimationName);
-	}
+	bool dead = false;
 
+	public void Die()
+	{
+		if (dead) return;
+
+		dead = true;
+		StatBlock.SetStat(StatType.Speed, 0);
+        EnemyManager.GetInstance().UnregisterEnemy(this);
+        EmitSignal("Died", this);
+
+		GetNode<AnimationPlayer>("AnimationPlayer").SpeedScale = 2;
+        GetNode<AnimationPlayer>("AnimationPlayer").Play("Death_A");
+		GetNode<AnimationPlayer>("AnimationPlayer").AnimationFinished += (StringName anim) =>
+		{
+			QueueFree();
+        };
+		
+    }
 }

@@ -17,7 +17,7 @@ public partial class PlayerStatsManager : Node
         if (instance == null)
         {
             instance = new PlayerStatsManager();
-            SceneSwitcher.root.GetNode<GameLoop>("SceneSwitcher/GameLoop").AddChild(instance);
+            SceneSwitcher.root.GetNode<SceneSwitcher>("SceneSwitcher").AddChild(instance);
             instance.Name = "PlayerStatsManager";
         }
         return instance;
@@ -25,12 +25,6 @@ public partial class PlayerStatsManager : Node
 
     public override void _Ready()
     {
-        EnemyManager.GetInstance().Spawned += AttachHealthBar;
+        
     }
-
-    public void AttachHealthBar(BaseEnemy enemy)
-    {
-        GetParent<BaseEnemy>();
-    }
-
 }

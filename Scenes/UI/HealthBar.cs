@@ -13,8 +13,7 @@ public partial class HealthBar : Sprite3D
 
         healthBar = GetNode<ProgressBar>("SubViewport/HealthBar");
         armorBar = GetNode<ProgressBar>("SubViewport/ArmorBar");
-
-
+        
         BaseEnemy be = GetParent<BaseEnemy>();
         healthBar.MaxValue = be.StatBlock.GetStat(StatType.MaxHealth);
         armorBar.MaxValue = be.StatBlock.GetStat(StatType.MaxArmor);
@@ -33,7 +32,11 @@ public partial class HealthBar : Sprite3D
     {
         BaseEnemy enemy = enemy2 as BaseEnemy;
         // Update the health bar's value
+        healthBar.MaxValue = enemy.StatBlock.GetStat(StatType.MaxHealth);
+        armorBar.MaxValue = enemy.StatBlock.GetStat(StatType.MaxArmor);
+
         healthBar.Value = enemy.StatBlock.GetStat(StatType.Health);
         armorBar.Value = enemy.StatBlock.GetStat(StatType.Armor);
+
     }
 }

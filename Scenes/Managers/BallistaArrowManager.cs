@@ -23,11 +23,10 @@ public partial class BallistaArrowManager : Node
         return instance;
     }
 
-
-
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
+
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -68,6 +67,12 @@ public partial class BallistaArrowManager : Node
         //
         MeshInstance3D arrow = ArrowScene.Instantiate<MeshInstance3D>();
         arrow.GetNode<Area3D>("Hitbox").AreaEntered += (Area3D area) => {
+            //overdamage protection, prevents damage being dealt to multiple enemies erroneously 
+            if (!arrow.HasMeta("struck"))
+            {
+                arrow.SetMeta("struck", "");
+                arrow.GetNode<Area3D>("Hitbox").AreaEntered -= ((Ballista)tower).DealDamage;
+            }
             Arrows.Remove(arrow);
             arrow.QueueFree();
         };

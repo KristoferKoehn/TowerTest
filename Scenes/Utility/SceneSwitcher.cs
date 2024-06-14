@@ -14,6 +14,7 @@ public partial class SceneSwitcher : Node
 	{
 		root = GetTree().Root;
 		PushScene(GD.Load<PackedScene>("res://Scenes/menus/MainMenu.tscn").Instantiate<Node>());
+		PlayerStatsManager.GetInstance();
 	}
 
 	public void PushScene(Node node)

@@ -23,7 +23,6 @@ public enum StatType
 	IceDamage,
 	WaterDamage,
 
-
 }
 
 namespace MMOTest.Backend
@@ -65,6 +64,11 @@ namespace MMOTest.Backend
 
 		public void SetStatBlock(Dictionary<StatType, float> sb)
 		{
+			if(sb.ContainsKey(StatType.Health) && !sb.ContainsKey(StatType.MaxHealth)) 
+			{
+				sb[StatType.MaxHealth] = sb[StatType.Health];
+			}
+
 			statblock = sb;
 		}
 	}

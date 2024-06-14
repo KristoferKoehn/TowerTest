@@ -29,19 +29,13 @@ public partial class HealthBarManager : Node
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+
 	}
 
 	public void AttachHealthBar(BaseEnemy enemy)
 	{
-        GD.Print("Attaching health bar");
-
-        // Instantiate the health bar
-
 		HealthBar temp = HealthBarScene.Instantiate<HealthBar>();
-
-
         enemy.AddChild(temp);
-
         enemy.DamageTaken += temp.UpdateHealthBar;
 	}
 
