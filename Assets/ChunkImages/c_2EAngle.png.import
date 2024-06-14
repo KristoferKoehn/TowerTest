@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dplcqs8mgsnja"
-path="res://.godot/imported/Chunk2EAngle.png-c15b1432a2267b4984aa547177fe7913.ctex"
+path="res://.godot/imported/c_2EAngle.png-24f305e14281d29fd71294deb3eb46bd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/ChunkImages/Chunk2EAngle.png"
-dest_files=["res://.godot/imported/Chunk2EAngle.png-c15b1432a2267b4984aa547177fe7913.ctex"]
+source_file="res://Assets/ChunkImages/c_2EAngle.png"
+dest_files=["res://.godot/imported/c_2EAngle.png-24f305e14281d29fd71294deb3eb46bd.ctex"]
 
 [params]
 
