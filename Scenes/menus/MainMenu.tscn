@@ -41,3 +41,4 @@ text = "Quit"
 [node name="MainMenuBackground" parent="." instance=ExtResource("2_k6gl0")]
 
 [connection signal="pressed" from="VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

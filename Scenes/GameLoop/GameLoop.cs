@@ -31,10 +31,6 @@ public partial class GameLoop : Node3D
 
 	public override void _Process(double delta)
 	{
-		void SetTurning()
-		{
-			turning = false;
-		}
 
 		//make this cooler
 
@@ -54,7 +50,8 @@ public partial class GameLoop : Node3D
 		{
 			CameraGimbal.TranslateObjectLocal(new Vector3(0, 0, 0.1f));
 		}
-		/*
+
+
 		if (Input.IsActionPressed("rotate_right"))
 		{
 			if (!turning)
@@ -63,7 +60,7 @@ public partial class GameLoop : Node3D
 				Tween t = GetTree().CreateTween();
 				t.TweenProperty(CameraGimbal, "quaternion", q * CameraGimbal.Quaternion, 0.3f);
 				turning = true;
-				t.Finished += SetTurning;
+				t.Finished += () => turning = false;
 			}
 		}
 		if (Input.IsActionPressed("rotate_left"))
@@ -74,15 +71,10 @@ public partial class GameLoop : Node3D
 				Tween t = GetTree().CreateTween();
 				t.TweenProperty(CameraGimbal, "quaternion", q * CameraGimbal.Quaternion, 0.3f);
 				turning = true;
-				t.Finished += SetTurning;
-			}
+				t.Finished += () => turning = false;
+            }
 		}
-
-		*/
     }
-
-
-
 
 	public override void _Input(InputEvent @event)
 	{

@@ -15,6 +15,10 @@ run/main_scene="res://Scenes/Utility/SceneSwitcher.tscn"
 config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
+[display]
+
+window/stretch/aspect="keep_height"
+
 [dotnet]
 
 project/assembly_name="TowerTest"
@@ -73,3 +77,9 @@ camera_drag={
 "events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":3,"canceled":false,"pressed":false,"double_click":false,"script":null)
 ]
 }
+
+[rendering]
+
+lights_and_shadows/directional_shadow/soft_shadow_filter_quality=5
+camera/depth_of_field/depth_of_field_bokeh_shape=0
+scaling_3d/mode=2
