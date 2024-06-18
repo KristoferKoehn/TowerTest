@@ -30,6 +30,9 @@ public partial class SettingsManager : Node
                 { "MSAA", 0f},
                 { "FSR 2.2", 2f},
 
+                //there's a shitload of anti-aliasing options that we can expose for the user
+                //since this isn't a graphically complex game though idk if this will be of any actual value
+
 
                 //these are not implemented yet
                 { "CameraProjection", 1f}, //1 is projection, 0 is orthographic
