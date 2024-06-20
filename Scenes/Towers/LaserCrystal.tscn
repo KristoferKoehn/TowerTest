@@ -193,12 +193,13 @@ bottom_radius = 0.03
 height = 1.853
 radial_segments = 12
 
-[node name="LaserCrystal" type="Node3D" node_paths=PackedStringArray("Outline", "RangeHitbox", "ShotTimer")]
+[node name="LaserCrystal" type="Node3D" node_paths=PackedStringArray("RangeHitbox", "Outline", "SelectorHitbox", "ShotTimer")]
 script = ExtResource("1_atqql")
+RangeHitbox = NodePath("ActiveRange/CollisionShape3D")
 Outline = NodePath("Outline/Outline")
 MouseOverOutline = ExtResource("1_a7rcm")
 SelectOutline = ExtResource("3_5if72")
-RangeHitbox = NodePath("ActiveRange/CollisionShape3D")
+SelectorHitbox = NodePath("StaticBody3D")
 ShotTimer = NodePath("ShotTimer")
 
 [node name="towerRound_crystals2" type="Node3D" parent="."]
@@ -251,6 +252,7 @@ transform = Transform3D(1, 0, 0, 0, 0.1, 0, 0, 0, 1, 0, 0.01, 0)
 
 [node name="Outline" type="MeshInstance3D" parent="Outline"]
 transform = Transform3D(0.735, 0, 0, 0, 0.735, 0, 0, 0, 0.735, 0, 0, 0)
+cast_shadow = 0
 mesh = SubResource("CylinderMesh_io8p5")
 skeleton = NodePath("../../towerRound_crystals2/tmpParent/towerRound_crystals")
 

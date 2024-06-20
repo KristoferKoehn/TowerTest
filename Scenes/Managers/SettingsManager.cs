@@ -23,12 +23,12 @@ public partial class SettingsManager : Node
             SettingsDictionary = new Dictionary<string, float> {
                 { "Resolution" , 648f },
                 { "AspectRatio" , 16/9f},
-                { "ResolutionScale", 0.5f},
+                { "ResolutionScale", 1f},
                 { "VSync", 0f}, //0 disabled, 1 enabled, 2 adaptive, 3 mailbox
                 { "Borderless", 0f}, //0 disabled, 1 enabled
                 { "Fullscreen", 0f}, //0 disabled, 1 enabled
                 { "MSAA", 0f},
-                { "FSR 2.2", 2f},
+                { "FSR 2.2", 0f},
 
                 //there's a shitload of anti-aliasing options that we can expose for the user
                 //since this isn't a graphically complex game though idk if this will be of any actual value

@@ -51,7 +51,7 @@ public partial class GameLoop : Node3D
 			CameraGimbal.TranslateObjectLocal(new Vector3(0, 0, 0.1f));
 		}
 
-
+		/*
 		if (Input.IsActionPressed("rotate_right"))
 		{
 			if (!turning)
@@ -74,6 +74,7 @@ public partial class GameLoop : Node3D
 				t.Finished += () => turning = false;
             }
 		}
+		*/
     }
 
 	public override void _Input(InputEvent @event)
