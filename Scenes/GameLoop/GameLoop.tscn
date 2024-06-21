@@ -7,14 +7,17 @@
 [ext_resource type="PackedScene" uid="uid://cd384sin5yvji" path="res://Scenes/Chunks/c_2EntranceSnakeA.tscn" id="5_ds0yi"]
 [ext_resource type="Script" path="res://Scenes/GameLoop/UI.cs" id="7_tphpa"]
 [ext_resource type="PackedScene" uid="uid://dr33ompxp8p4g" path="res://Scenes/UI/BaseCard.tscn" id="8_6syds"]
+
 [ext_resource type="PackedScene" uid="uid://cj4e12nbtf7ia" path="res://Scenes/Chunks/c_2EAngleB.tscn" id="8_v3w5p"]
 [ext_resource type="Texture2D" uid="uid://b3p6kmoe4foeh" path="res://Assets/Icons/PauseButton.tres" id="9_fky3n"]
 [ext_resource type="Texture2D" uid="uid://dg85yvsjdkql5" path="res://Assets/Icons/PlayButton.tres" id="10_0fy5r"]
 [ext_resource type="Texture2D" uid="uid://t0i5wqr683y6" path="res://Assets/Icons/SpeedUpButton.tres" id="10_ajo73"]
 [ext_resource type="Texture2D" uid="uid://cd5cs1b3m55qf" path="res://Assets/Icons/SettingsButton.tres" id="11_baj22"]
+
 [ext_resource type="PackedScene" uid="uid://dno07x46t40iw" path="res://Scenes/UI/DraggerButton.tscn" id="13_eiddu"]
 [ext_resource type="PackedScene" uid="uid://ba4apx2hsn1c0" path="res://Scenes/Towers/Ballista.tscn" id="14_8ormx"]
 [ext_resource type="Texture2D" uid="uid://bkfkkkrm4032v" path="res://Assets/ChunkImages/BallistaImage.png" id="14_w2j13"]
+
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_qk85b"]
 
@@ -32,13 +35,11 @@ border_width_right = 4
 border_width_bottom = 4
 border_color = Color(1, 1, 1, 1)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_ftggi"]
-viewport_path = NodePath("UI/Control/CardsPanel/GridContainer/Slot/SubViewport")
-
 [node name="GameLoop" type="Node3D"]
 script = ExtResource("1_l1214")
 
 [node name="Chunk" parent="." instance=ExtResource("3_wuc8u")]
+
 
 [node name="Chunk2" parent="." instance=ExtResource("3_k4tvn")]
 transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 0, 0, -7)
@@ -91,8 +92,8 @@ rotation_edit_mode = 1
 [node name="Camera3D" type="Camera3D" parent="CameraGimbal"]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 20, 20)
 fov = 60.0
-size = 31.462
-near = 5.0
+size = 25.212
+near = 3.0
 
 [node name="UI" type="CanvasLayer" parent="."]
 script = ExtResource("7_tphpa")
@@ -250,16 +251,18 @@ theme_override_constants/h_separation = 10
 theme_override_constants/v_separation = 10
 columns = 7
 
-[node name="Slot" type="TextureRect" parent="UI/Control/CardsPanel/GridContainer"]
-custom_minimum_size = Vector2(125, 175)
-layout_mode = 2
-texture = SubResource("ViewportTexture_ftggi")
-expand_mode = 1
+[node name="Ballista" parent="." node_paths=PackedStringArray("Outline", "SelectorHitbox", "ShotTimer") instance=ExtResource("13_sxpnt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.496, -6)
+Outline = NodePath("Outline/MeshInstance3D")
+SelectorHitbox = NodePath("StaticBody3D")
+ShotTimer = NodePath("ShotTimer")
 
-[node name="SubViewport" type="SubViewport" parent="UI/Control/CardsPanel/GridContainer/Slot"]
-size = Vector2i(250, 350)
-
-[node name="CardBase" parent="UI/Control/CardsPanel/GridContainer/Slot/SubViewport" instance=ExtResource("8_6syds")]
+[node name="LaserCrystal" parent="." node_paths=PackedStringArray("RangeHitbox", "Outline", "SelectorHitbox", "ShotTimer") instance=ExtResource("14_5qcpa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.03023, 0.503633, -6.00473)
+RangeHitbox = NodePath("ActiveRange/CollisionShape3D")
+Outline = NodePath("Outline/Outline")
+SelectorHitbox = NodePath("StaticBody3D")
+ShotTimer = NodePath("ShotTimer")
 
 [node name="TowersPanel" type="ScrollContainer" parent="UI/Control"]
 layout_mode = 1

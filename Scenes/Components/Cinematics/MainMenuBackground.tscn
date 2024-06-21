@@ -8,7 +8,7 @@
 
 [node name="MainMenuBackground" type="Node3D"]
 script = ExtResource("1_qd7mp")
-SpinRate = 0.001
+SpinRate = 0.229
 
 [node name="Chunk" parent="." instance=ExtResource("1_7rlwx")]
 Disabled = true
@@ -57,6 +57,7 @@ transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0.396, 0)
 
 [node name="CameraGimbal" type="Node3D" parent="."]
 transform = Transform3D(0.881842, 0, 0.582406, 0, 1, 0, -0.582406, 0, 0.881842, 0, 0, 0)
+
 
 [node name="Camera3D" type="Camera3D" parent="CameraGimbal"]
 transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 6, 10)
