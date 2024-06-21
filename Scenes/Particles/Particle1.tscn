@@ -31,10 +31,10 @@ point_count = 2
 curve = SubResource("Curve_wyk3a")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_h3jc8"]
+direction = Vector3(0, 0, -1)
 spread = 2.53
 initial_velocity_min = 4.0
 initial_velocity_max = 6.0
-angular_velocity_min = -720.0
 velocity_limit_curve = SubResource("CurveTexture_wpq6p")
 linear_accel_max = 2.0
 linear_accel_curve = SubResource("CurveTexture_ax7ym")
@@ -48,8 +48,10 @@ hue_variation_max = 1.0
 
 [node name="Particle1" type="GPUParticles3D"]
 material_override = SubResource("ShaderMaterial_6emn6")
+emitting = false
 amount = 30
 lifetime = 0.29
+one_shot = true
 explosiveness = 0.2
 randomness = 0.25
 process_material = SubResource("ParticleProcessMaterial_h3jc8")

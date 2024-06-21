@@ -30,7 +30,9 @@ public partial class ParticleWrapper : Node
 	public void emitEffect(Vector3 position, Vector3 rotation)
 	{ 
 		//readyToFire= false;
-		particle.Emitting= true;
+		particle.GlobalPosition= position;
+		particle.GlobalRotation= rotation;
+		particle.Emitting = true;
 	}
 
 /*	private void resetReady()

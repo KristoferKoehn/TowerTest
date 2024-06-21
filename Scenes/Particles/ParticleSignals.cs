@@ -27,6 +27,11 @@ public partial class ParticleSignals : Node
 	{
 	}
 
+	public void dop1(Vector3 p, Vector3 r)
+	{
+		this.EmitSignal("p1", p, r);
+	}
+
 
 	// Create as many of these as we end up having particle effects.
 	[Signal]

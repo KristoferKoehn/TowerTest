@@ -48,19 +48,19 @@ public partial class ParticleManager : Node
         Particles.Remove(p);
     }
 
-    private void fireP1(ParticleWrapper p, Vector3 c, Vector3 d)
+/*    private void fireP1(ParticleWrapper p, Vector3 c, Vector3 d)
     {
-                p.emitEffect(c, d);
-    }
+        p.emitEffect(c, d);
+    }*/
 
     private void makeP1(Vector3 c, Vector3 d)
     {
         var inst = GD.Load<PackedScene>("res://Scenes/Particles/Particle1.tscn");
-        var particleScene = inst.Instantiate();
+        GpuParticles3D particleScene = inst.Instantiate<GpuParticles3D>();
         AddChild(particleScene);
-        GpuParticles3D p = (GpuParticles3D) particleScene.GetChild(0);
-        ParticleWrapper tempWraper = new ParticleWrapper(p);
+        ParticleWrapper tempWraper = new ParticleWrapper(particleScene);
         Particles.Add(tempWraper);
-        fireP1(tempWraper, c, d);
+        //fireP1(tempWraper, c, d);
+        tempWraper.emitEffect(c, d);
     }
 }
