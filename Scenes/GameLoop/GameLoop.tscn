@@ -1,17 +1,30 @@
-[gd_scene load_steps=18 format=3 uid="uid://bqi5yficpytv4"]
+[gd_scene load_steps=21 format=3 uid="uid://bqi5yficpytv4"]
 
 [ext_resource type="Script" path="res://Scenes/GameLoop/GameLoop.cs" id="1_l1214"]
-[ext_resource type="PackedScene" path="res://Scenes/Chunks/c_ForkWithCycle.tscn" id="3_k4tvn"]
-[ext_resource type="PackedScene" path="res://Scenes/Chunks/c_StartingChunk.tscn" id="3_wuc8u"]
-[ext_resource type="PackedScene" path="res://Scenes/Chunks/c_2EntranceForkA.tscn" id="4_8c4ga"]
-[ext_resource type="PackedScene" path="res://Scenes/Chunks/c_2EntranceSnakeA.tscn" id="5_ds0yi"]
+[ext_resource type="PackedScene" uid="uid://476ga4je70pe" path="res://Scenes/Chunks/c_ForkWithCycle.tscn" id="3_k4tvn"]
+[ext_resource type="PackedScene" uid="uid://chp22ot4ypmd3" path="res://Scenes/Chunks/c_StartingChunk.tscn" id="3_wuc8u"]
+[ext_resource type="PackedScene" uid="uid://r87yt6bi4vkt" path="res://Scenes/Chunks/c_2EntranceForkA.tscn" id="4_8c4ga"]
+[ext_resource type="PackedScene" uid="uid://cd384sin5yvji" path="res://Scenes/Chunks/c_2EntranceSnakeA.tscn" id="5_ds0yi"]
 [ext_resource type="Script" path="res://Scenes/GameLoop/UI.cs" id="7_tphpa"]
-[ext_resource type="PackedScene" uid="uid://dr33ompxp8p4g" path="res://Scenes/UI/BaseCard.tscn" id="8_6syds"]
-[ext_resource type="PackedScene" path="res://Scenes/Chunks/c_2EAngleB.tscn" id="8_v3w5p"]
+[ext_resource type="PackedScene" uid="uid://cj4e12nbtf7ia" path="res://Scenes/Chunks/c_2EAngleB.tscn" id="8_v3w5p"]
 [ext_resource type="Texture2D" uid="uid://b3p6kmoe4foeh" path="res://Assets/Icons/PauseButton.tres" id="9_fky3n"]
 [ext_resource type="Texture2D" uid="uid://dg85yvsjdkql5" path="res://Assets/Icons/PlayButton.tres" id="10_0fy5r"]
 [ext_resource type="Texture2D" uid="uid://t0i5wqr683y6" path="res://Assets/Icons/SpeedUpButton.tres" id="10_ajo73"]
 [ext_resource type="Texture2D" uid="uid://cd5cs1b3m55qf" path="res://Assets/Icons/SettingsButton.tres" id="11_baj22"]
+[ext_resource type="PackedScene" uid="uid://ba4apx2hsn1c0" path="res://Scenes/Towers/Ballista.tscn" id="13_sxpnt"]
+[ext_resource type="PackedScene" uid="uid://bd01imkykmoa" path="res://Scenes/Towers/LaserCrystal.tscn" id="14_5qcpa"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bo0b3"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_scv8c"]
+sky_material = SubResource("ProceduralSkyMaterial_bo0b3")
+
+[sub_resource type="Environment" id="Environment_d3pux"]
+background_mode = 2
+sky = SubResource("Sky_scv8c")
+tonemap_mode = 2
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_qk85b"]
 
@@ -29,11 +42,11 @@ border_width_right = 4
 border_width_bottom = 4
 border_color = Color(1, 1, 1, 1)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_ftggi"]
-viewport_path = NodePath("UI/Control/CardsPanel/GridContainer/Slot/SubViewport")
-
 [node name="GameLoop" type="Node3D"]
 script = ExtResource("1_l1214")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_d3pux")
 
 [node name="Chunk" parent="." node_paths=PackedStringArray("NorthTile", "CenterTile") instance=ExtResource("3_wuc8u")]
 NorthTile = NodePath("0, -3")
@@ -99,8 +112,8 @@ rotation_edit_mode = 1
 [node name="Camera3D" type="Camera3D" parent="CameraGimbal"]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 20, 20)
 fov = 60.0
-size = 31.462
-near = 5.0
+size = 25.212
+near = 3.0
 
 [node name="UI" type="CanvasLayer" parent="."]
 script = ExtResource("7_tphpa")
@@ -233,6 +246,7 @@ layout_mode = 2
 text = "Begin Wave"
 
 [node name="CardsPanel" type="ScrollContainer" parent="UI/Control"]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.5
@@ -253,16 +267,18 @@ theme_override_constants/h_separation = 10
 theme_override_constants/v_separation = 10
 columns = 7
 
-[node name="Slot" type="TextureRect" parent="UI/Control/CardsPanel/GridContainer"]
-custom_minimum_size = Vector2(125, 175)
-layout_mode = 2
-texture = SubResource("ViewportTexture_ftggi")
-expand_mode = 1
+[node name="Ballista" parent="." node_paths=PackedStringArray("Outline", "SelectorHitbox", "ShotTimer") instance=ExtResource("13_sxpnt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.496, -6)
+Outline = NodePath("Outline/MeshInstance3D")
+SelectorHitbox = NodePath("StaticBody3D")
+ShotTimer = NodePath("ShotTimer")
 
-[node name="SubViewport" type="SubViewport" parent="UI/Control/CardsPanel/GridContainer/Slot"]
-size = Vector2i(250, 350)
-
-[node name="CardBase" parent="UI/Control/CardsPanel/GridContainer/Slot/SubViewport" instance=ExtResource("8_6syds")]
+[node name="LaserCrystal" parent="." node_paths=PackedStringArray("RangeHitbox", "Outline", "SelectorHitbox", "ShotTimer") instance=ExtResource("14_5qcpa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.03023, 0.503633, -6.00473)
+RangeHitbox = NodePath("ActiveRange/CollisionShape3D")
+Outline = NodePath("Outline/Outline")
+SelectorHitbox = NodePath("StaticBody3D")
+ShotTimer = NodePath("ShotTimer")
 
 [connection signal="pressed" from="UI/Control/VBoxContainer/TopUI/Buttons_HBoxContainer/PausePlayButton" to="UI" method="_on_pause_play_button_pressed"]
 [connection signal="pressed" from="UI/Control/VBoxContainer/TopUI/Buttons_HBoxContainer/SpeedUpButton" to="UI" method="_on_speed_up_button_pressed"]
