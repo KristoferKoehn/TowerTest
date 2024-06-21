@@ -32,6 +32,11 @@ public partial class ParticleSignals : Node
 		this.EmitSignal("p1", p, r);
 	}
 
+	public void initializeParticle(ParticleSignals signals)
+	{ 
+		
+	}
+
 
 	// Create as many of these as we end up having particle effects.
 	[Signal]
