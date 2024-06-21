@@ -1,0 +1,49 @@
+[gd_scene load_steps=3 format=3 uid="uid://xmh8jt0fd3q7"]
+
+[ext_resource type="PackedScene" uid="uid://cbgrcqg2f5sem" path="res://Scenes/Chunks/c_2EAngle.tscn" id="2_rysj0"]
+
+[sub_resource type="CSharpScript" id="CSharpScript_uv472"]
+script/source = "using Godot;
+using System;
+
+public partial class ChunkFloatingCamera : Node3D
+{
+	[Export]
+	private PackedScene ChunkScene;
+    [Export]
+    float SpinRate = Mathf.Pi / 10;
+
+    private Node3D Chunk;
+	private Camera3D Camera;
+	private Node3D CameraGimbal;
+
+	// Called when the node enters the scene tree for the first time.
+	public override void _Ready()
+	{
+		Chunk = ChunkScene.Instantiate<Node3D>();
+        Camera = GetNode<Camera3D>(\"CameraGimbal/Camera3D\");
+		CameraGimbal = GetNode<Node3D>(\"CameraGimbal\");
+        this.AddChild(Chunk);
+	}
+
+	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	public override void _Process(double delta)
+	{
+        CameraGimbal.RotateY(SpinRate);
+    }
+}
+"
+
+[node name="Node3D" type="Node3D"]
+script = SubResource("CSharpScript_uv472")
+ChunkScene = ExtResource("2_rysj0")
+SpinRate = 0.001
+
+[node name="SubViewport" type="SubViewport" parent="."]
+
+[node name="CameraGimbal" type="Node3D" parent="."]
+transform = Transform3D(-0.990775, 0, 0.366769, 0, 1, 0, -0.366769, 0, -0.990775, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="CameraGimbal"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 6, 10)
+near = 2.0

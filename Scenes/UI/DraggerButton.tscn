@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dno07x46t40iw"]
+
+[ext_resource type="Script" path="res://Scenes/UI/DraggerButton.cs" id="1_es3ue"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3pala"]
+
+[node name="Button" type="Button"]
+custom_minimum_size = Vector2(96, 96)
+offset_right = 8.0
+offset_bottom = 8.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_3pala")
+expand_icon = true
+script = ExtResource("1_es3ue")
+
+[connection signal="button_down" from="." to="." method="_on_button_down"]
+[connection signal="button_up" from="." to="." method="_on_button_up"]
