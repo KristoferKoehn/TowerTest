@@ -7,6 +7,7 @@ public partial class UI : CanvasLayer
     private float[] speedLevels = { 1.0f, 2.0f, 3.0f};
     private int currentSpeedIndex = 0;
     private ScrollContainer _cardsPanel;
+    private ScrollContainer _towersPanel;
     private PackedScene _cardScene;
     private GridContainer _gridContainer;
     private GameLoop _gameLoop;
@@ -18,6 +19,7 @@ public partial class UI : CanvasLayer
         //_gameLoop = GetTree().Root.GetNode<Node3D>("GameLoop") as GameLoop;
         _gameLoop = GetParent<GameLoop>();
         SetUpChunkCardPanel();
+        _towersPanel = GetNode<ScrollContainer>("Control/TowersPanel");
 
     }
 
@@ -144,5 +146,14 @@ public partial class UI : CanvasLayer
     {
         // Toggle the visibility of the CardsPanel
         _cardsPanel.Visible = !_cardsPanel.Visible;
+        _towersPanel.Visible = false;
     }
+
+    public void _on_towers_button_pressed()
+    {
+        _cardsPanel.Visible = false;
+        _towersPanel.Visible = !_towersPanel.Visible;
+    }
+
+
 }
