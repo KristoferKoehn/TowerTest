@@ -33,6 +33,10 @@ public abstract partial class AbstractTower : Node3D
 
     public bool CanShoot = false;
 
+    [Export]
+    public bool Placing = false;
+    [Export]
+    public bool Valid = false;
 
     public List<BaseEnemy> EnemyList = new List<BaseEnemy>();
 
@@ -44,8 +48,23 @@ public abstract partial class AbstractTower : Node3D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+        if (Placing)
+        {
+            //CheckValid
+            if (Input.IsActionJustReleased("select"))
+            {
+                if (Valid)
+                {
+                    //place tower
+                }
+            }
+        }
 	}
 
+    public void CheckValid()
+    {
+
+    }
 
     //what do all towers/buildings? need to do?
     //shoot
@@ -74,7 +93,6 @@ public abstract partial class AbstractTower : Node3D
             EnemyList.Remove(be);
         }
     }
-
 
     public void _on_static_body_3d_mouse_entered()
     {
