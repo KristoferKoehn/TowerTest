@@ -1,7 +1,5 @@
 using Godot;
 using Godot.Collections;
-using System;
-using static Godot.HttpRequest;
 
 public partial class DraggerButton : Button
 {
@@ -89,6 +87,7 @@ public partial class DraggerButton : Button
 			}
 		}
 	}
+
     public void ClearChildMeshError(Node node)
     {
         foreach (Node child in node.GetChildren())

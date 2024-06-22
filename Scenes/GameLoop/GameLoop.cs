@@ -128,8 +128,6 @@ public partial class GameLoop : Node3D
 			{
                 DraggingCamera = false;
             }
-				
-
         }
 
         if (@event is InputEventMouseMotion mouseMotion)
@@ -137,7 +135,7 @@ public partial class GameLoop : Node3D
 
             if (DraggingCamera)
             {
-				//CameraGimbal.TranslateObjectLocal(new Vector3(mouseMotion.ScreenRelative.X, 0, mouseMotion.ScreenRelative.Y) * -0.05f);
+				CameraGimbal.TranslateObjectLocal(new Vector3(mouseMotion.ScreenRelative.X, 0, mouseMotion.ScreenRelative.Y) * -0.05f);
             }
         }
 

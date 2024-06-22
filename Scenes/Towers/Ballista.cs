@@ -18,8 +18,6 @@ public partial class Ballista : AbstractTower
 
     CollisionShape3D RangeHitbox;
 
-    public bool Placing = false;
-
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
