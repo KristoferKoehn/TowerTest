@@ -1,7 +1,6 @@
-[gd_scene load_steps=16 format=3 uid="uid://bqi5yficpytv4"]
+[gd_scene load_steps=15 format=3 uid="uid://bqi5yficpytv4"]
 
 [ext_resource type="Script" path="res://Scenes/GameLoop/GameLoop.cs" id="1_l1214"]
-[ext_resource type="PackedScene" uid="uid://476ga4je70pe" path="res://Scenes/Chunks/c_ForkWithCycle.tscn" id="3_k4tvn"]
 [ext_resource type="PackedScene" uid="uid://chp22ot4ypmd3" path="res://Scenes/Chunks/c_StartingChunk.tscn" id="3_wuc8u"]
 [ext_resource type="Script" path="res://Scenes/GameLoop/UI.cs" id="7_tphpa"]
 [ext_resource type="Texture2D" uid="uid://b3p6kmoe4foeh" path="res://Assets/Icons/PauseButton.tres" id="9_fky3n"]
@@ -35,18 +34,10 @@ script = ExtResource("1_l1214")
 NorthTile = NodePath("0, -3")
 CenterTile = NodePath("0, 0")
 
-[node name="Chunk2" parent="." node_paths=PackedStringArray("EastTile", "WestTile", "SouthTile", "CenterTile") instance=ExtResource("3_k4tvn")]
-transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 0, 0, -7)
-ExitDirection = 2
-EastTile = NodePath("0, -3")
-WestTile = NodePath("0, 3")
-SouthTile = NodePath("3, 0")
-CenterTile = NodePath("0, 0")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
+[node name="GroundHitbox" type="StaticBody3D" parent="."]
 collision_mask = 0
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GroundHitbox"]
 shape = SubResource("WorldBoundaryShape3D_qk85b")
 
 [node name="CameraGimbal" type="Node3D" parent="."]
@@ -80,7 +71,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="TopUI" type="Panel" parent="UI/Control/VBoxContainer"]
-custom_minimum_size = Vector2(0, 100)
+custom_minimum_size = Vector2(0, 75)
 layout_mode = 2
 
 [node name="PlayerInfo_HBoxContainer" type="HBoxContainer" parent="UI/Control/VBoxContainer/TopUI"]
@@ -159,7 +150,7 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="BottomUI" type="Panel" parent="UI/Control/VBoxContainer"]
-custom_minimum_size = Vector2(0, 100)
+custom_minimum_size = Vector2(0, 75)
 layout_mode = 2
 
 [node name="Actions_HBoxContainer" type="HBoxContainer" parent="UI/Control/VBoxContainer/BottomUI"]
@@ -216,6 +207,7 @@ theme_override_constants/v_separation = 10
 columns = 7
 
 [node name="TowersPanel" type="ScrollContainer" parent="UI/Control"]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.5
@@ -239,10 +231,11 @@ columns = 7
 [node name="Button" parent="UI/Control/TowersPanel/GridContainer" instance=ExtResource("13_eiddu")]
 layout_mode = 2
 ButtonIcon = ExtResource("14_w2j13")
-SceneDraggable = ExtResource("14_8ormx")
+SpawnScene = ExtResource("14_8ormx")
 
 [connection signal="pressed" from="UI/Control/VBoxContainer/TopUI/Buttons_HBoxContainer/PausePlayButton" to="UI" method="_on_pause_play_button_pressed"]
 [connection signal="pressed" from="UI/Control/VBoxContainer/TopUI/Buttons_HBoxContainer/SpeedUpButton" to="UI" method="_on_speed_up_button_pressed"]
 [connection signal="pressed" from="UI/Control/VBoxContainer/TopUI/Buttons_HBoxContainer/SettingsButton" to="UI" method="_on_settings_button_pressed"]
 [connection signal="pressed" from="UI/Control/VBoxContainer/BottomUI/Actions_HBoxContainer/TowersButton" to="UI" method="_on_towers_button_pressed"]
 [connection signal="pressed" from="UI/Control/VBoxContainer/BottomUI/Actions_HBoxContainer/ChunksButton" to="UI" method="_on_chunks_button_pressed"]
+[connection signal="pressed" from="UI/Control/TowersPanel/GridContainer/Button" to="UI/Control/TowersPanel/GridContainer/Button" method="_on_pressed"]

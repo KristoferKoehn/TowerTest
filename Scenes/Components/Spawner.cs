@@ -9,7 +9,7 @@ public partial class Spawner : Node3D
 
     [Export]
     public bool Enabled = true;
-
+    public int ChunkDistance = 0;
 
     public void CheckValid()
     {
@@ -94,5 +94,7 @@ public partial class Spawner : Node3D
                 GetNode<Path3D>("Path3D").AddChild(b);
             }
         }
+
+        ChunkDistance = GetParent<Chunk>().ChunkDistance;
 	}
 }

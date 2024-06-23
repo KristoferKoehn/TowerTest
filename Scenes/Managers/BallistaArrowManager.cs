@@ -34,19 +34,7 @@ public partial class BallistaArrowManager : Node
 	{
         foreach(MeshInstance3D arrow in Arrows)
         {
-            if(arrow.HasMeta("target"))
-            {
-                if(((Node3D)arrow.GetMeta("target")).IsQueuedForDeletion())
-                {
-                    arrow.RemoveMeta("target");
-                } else
-                {
-                    arrow.LookAt(((Node3D)arrow.GetMeta("target")).GlobalPosition);
-                }
-                
-            }
-
-            arrow.TranslateObjectLocal(new Vector3(0, 0, -0.9f));
+            arrow.TranslateObjectLocal(new Vector3(0, 0, -0.5f));
         }
 	}
 
@@ -76,11 +64,23 @@ public partial class BallistaArrowManager : Node
             Arrows.Remove(arrow);
             arrow.QueueFree();
         };
-        arrow.GetNode<Area3D>("Hitbox").AreaEntered += ((Ballista)tower).DealDamage;
         SceneSwitcher.root.AddChild(arrow);
+        Timer t = new Timer();
+        arrow.AddChild(t);
+        t.Start(4);
+        t.OneShot = true;
+        t.Timeout += () => { 
+            if (arrow != null && !arrow.IsQueuedForDeletion())
+            {
+                Arrows.Remove(arrow);
+                arrow.QueueFree();
+            }
+            t.QueueFree();
+        };
+        arrow.GetNode<Area3D>("Hitbox").AreaEntered += ((Ballista)tower).DealDamage;
         arrow.GlobalPosition = tower.GetNode<MeshInstance3D>("weapon_ballista2/tmpParent/weapon_ballista/bow/arrow").GlobalPosition;
-        arrow.LookAt(target.GlobalPosition);
+        arrow.LookAt(target.GlobalPosition + new Vector3(0, 0.5f, 0));
         Arrows.Add(arrow);
-        arrow.SetMeta("target", target);
+        arrow.SetMeta("target", target.GetPath());
     }
 }
