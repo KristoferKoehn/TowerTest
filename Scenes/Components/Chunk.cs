@@ -363,9 +363,6 @@ public partial class Chunk : Node3D
             CenterTile = null;
         }
 
-
-        GD.Print($"{NorthEntrance}, {EastEntrance}, {SouthEntrance}, {WestEntrance}, {CenterEntrance}");
-
     }
 
 
@@ -472,7 +469,7 @@ public partial class Chunk : Node3D
                 ChunkDistance = connectorTile.GetParent<Chunk>().ChunkDistance + 1;
                 break;
             case Direction.West:
-                connectorTile = GetAdjacentTile(ExitDirection, SouthTile.GlobalPosition, 8);
+                connectorTile = GetAdjacentTile(ExitDirection, WestTile.GlobalPosition, 8);
                 ChunkDistance = connectorTile.GetParent<Chunk>().ChunkDistance + 1;
                 break;
             case Direction.East:
@@ -616,7 +613,6 @@ public partial class Chunk : Node3D
             {
                 ConnectedEntranceCount++;
                 ExitDirection = Direction.North;
-                GD.Print($"{tile.Name} at {tile.GlobalPosition}");
             } else
             {
                 Vector3 EmptyOrigin = GlobalPosition + new Vector3(0, 1, -7);
@@ -642,7 +638,6 @@ public partial class Chunk : Node3D
             {
                 ConnectedEntranceCount++;
                 ExitDirection = Direction.East;
-                GD.Print($"{tile.Name} at {tile.GlobalPosition}");
             }
             else
             {
@@ -669,7 +664,6 @@ public partial class Chunk : Node3D
             {
                 ConnectedEntranceCount++;
                 ExitDirection = Direction.South;
-                GD.Print($"{tile.Name} at {tile.GlobalPosition}");
             }
             else
             {
@@ -696,7 +690,6 @@ public partial class Chunk : Node3D
             {
                 ConnectedEntranceCount++;
                 ExitDirection = Direction.West;
-                GD.Print($"{tile.Name} at {tile.GlobalPosition}");
             }
             else
             {
@@ -841,7 +834,6 @@ public partial class Chunk : Node3D
             return;
         }
 
-        //if (Debug) GD.Print($"Disabled {Disabled}, CurrentlyPlacing {CurrentlyPlacing}, PlacementValid {PlacementValid}, CurrentlyMoving {CurrentlyMoving}");
 
         if (CurrentlyPlacing && !Engine.IsEditorHint())
         {

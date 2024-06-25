@@ -262,18 +262,20 @@ public abstract partial class AbstractTower : Node3D
 
             if (PressWhileMousedOver)
             {
+                if (!Selected)
+                {
+                    TowerPanel tp = TowerPanel.Instantiate<TowerPanel>();
+                    tp.SubjectTower = this;
+                    GetParent<GameLoop>().GetNode<Control>("UI/Control").AddChild(tp);
+                }
+
                 PressWhileMousedOver = false;
                 Outline.Mesh.SurfaceSetMaterial(0, SelectOutline);
                 Selected = true;
                 Tween t = GetTree().CreateTween();
                 t.TweenProperty(Outline, "scale", new Vector3(0.95f, 0.95f, 0.95f), 0.08).SetTrans(Tween.TransitionType.Back);
 
-                TowerPanel tp = TowerPanel.Instantiate<TowerPanel>();
-                tp.SubjectTower = this;
-
-
-
-                GetParent().AddChild(tp);
+                
 
             }
             GetNode<AudioStreamPlayer3D>("SelectSound").Play();
