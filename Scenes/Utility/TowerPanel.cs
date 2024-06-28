@@ -5,14 +5,17 @@ using System;
 public partial class TowerPanel : Control
 {
 
+	[Export]
+	Panel TargetSelectPanel { get; set; }
+
 	public AbstractTower SubjectTower { get; set; }
-	PopupMenu popupMenu { get; set; }
+
+
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		popupMenu = GetNode<OptionButton>("Panel/MarginContainer/VBoxContainer/HBoxContainer2/OptionButton").GetPopup();
-		popupMenu.MousePassthrough = false;
+
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -32,4 +35,9 @@ public partial class TowerPanel : Control
 			QueueFree();
 		}
     }
+
+	public void _on_target_priority_pressed()
+	{
+		TargetSelectPanel.Visible = !TargetSelectPanel.Visible;
+	}
 }
