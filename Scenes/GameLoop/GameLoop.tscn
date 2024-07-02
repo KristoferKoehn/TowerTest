@@ -1,7 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://bqi5yficpytv4"]
+[gd_scene load_steps=19 format=3 uid="uid://bqi5yficpytv4"]
 
 [ext_resource type="Script" path="res://Scenes/GameLoop/GameLoop.cs" id="1_l1214"]
+[ext_resource type="PackedScene" uid="uid://cciwbc2ilhjfv" path="res://Scenes/Chunks/c_TestChunk.tscn" id="3_qhdrc"]
 [ext_resource type="PackedScene" uid="uid://chp22ot4ypmd3" path="res://Scenes/Chunks/c_StartingChunk.tscn" id="3_wuc8u"]
+[ext_resource type="PackedScene" uid="uid://cj4e12nbtf7ia" path="res://Scenes/Chunks/c_2EAngleB.tscn" id="4_raapg"]
+[ext_resource type="PackedScene" uid="uid://cd384sin5yvji" path="res://Scenes/Chunks/c_2EntranceSnakeA.tscn" id="5_1whs8"]
 [ext_resource type="Script" path="res://Scenes/GameLoop/UI.cs" id="7_tphpa"]
 [ext_resource type="Texture2D" uid="uid://b3p6kmoe4foeh" path="res://Assets/Icons/PauseButton.tres" id="9_fky3n"]
 [ext_resource type="Texture2D" uid="uid://dg85yvsjdkql5" path="res://Assets/Icons/PlayButton.tres" id="10_0fy5r"]
@@ -9,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://cd5cs1b3m55qf" path="res://Assets/Icons/SettingsButton.tres" id="11_baj22"]
 [ext_resource type="PackedScene" uid="uid://dno07x46t40iw" path="res://Scenes/UI/DraggerButton.tscn" id="13_eiddu"]
 [ext_resource type="PackedScene" uid="uid://ba4apx2hsn1c0" path="res://Scenes/Towers/Ballista.tscn" id="14_8ormx"]
+[ext_resource type="PackedScene" uid="uid://cdgnrix36h41e" path="res://Scenes/Utility/TestObjects/ChunkSwap.tscn" id="14_ehirn"]
 [ext_resource type="Texture2D" uid="uid://bkfkkkrm4032v" path="res://Assets/ChunkImages/BallistaImage.png" id="14_w2j13"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_qk85b"]
@@ -33,6 +37,26 @@ script = ExtResource("1_l1214")
 [node name="Chunk" parent="." node_paths=PackedStringArray("NorthTile", "CenterTile") instance=ExtResource("3_wuc8u")]
 NorthTile = NodePath("0, -3")
 CenterTile = NodePath("0, 0")
+
+[node name="Chunk2" parent="." node_paths=PackedStringArray("NorthTile", "CenterTile") instance=ExtResource("3_qhdrc")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 0, -7)
+EastEntrance = false
+WestEntrance = false
+ExitDirection = 2
+NorthTile = NodePath("../Chunk/0, -3")
+CenterTile = NodePath("../Chunk/0, 0")
+
+[node name="Chunk3" parent="." instance=ExtResource("4_raapg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -14)
+WestEntrance = false
+SouthEntrance = false
+ExitDirection = 2
+
+[node name="Chunk4" parent="." instance=ExtResource("5_1whs8")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -7, 0, -14)
+NorthEntrance = false
+CenterEntrance = false
+ExitDirection = 1
 
 [node name="GroundHitbox" type="StaticBody3D" parent="."]
 collision_mask = 0
@@ -243,6 +267,11 @@ size_flags_vertical = 3
 theme_override_constants/h_separation = 10
 theme_override_constants/v_separation = 10
 columns = 7
+
+[node name="ChunkSwap" parent="." node_paths=PackedStringArray("swap1", "swap2") instance=ExtResource("14_ehirn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 0)
+swap1 = NodePath("../Chunk2")
+swap2 = NodePath("../Chunk4")
 
 [connection signal="pressed" from="UI/Control/VBoxContainer/TopUI/Buttons_HBoxContainer/PausePlayButton" to="UI" method="_on_pause_play_button_pressed"]
 [connection signal="pressed" from="UI/Control/VBoxContainer/TopUI/Buttons_HBoxContainer/SpeedUpButton" to="UI" method="_on_speed_up_button_pressed"]

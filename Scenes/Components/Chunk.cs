@@ -487,16 +487,26 @@ public partial class Chunk : Node3D
     {
         if(!ChunkRotating)
         {
-            ChunkRotating = true;
-            Quaternion q = new Quaternion(Vector3.Up, -Mathf.Pi / 2);
-            Tween tween = GetTree().CreateTween();
-            tween.TweenProperty(this, "quaternion", q * Quaternion, 0.4f).SetTrans(Tween.TransitionType.Back);
-            tween.Finished += UpdateEntrances;
-            tween.Finished += () => ChunkRotating = false;
             if (CurrentlyPlacing)
             {
-                tween.Finished += CheckValidPlacement;
+                ChunkRotating = true;
+                Quaternion q = new Quaternion(Vector3.Up, -Mathf.Pi / 2);
+                Tween tween = GetTree().CreateTween();
+                tween.TweenProperty(this, "quaternion", q * Quaternion, 0.4f).SetTrans(Tween.TransitionType.Back);
+                tween.Finished += UpdateEntrances;
+                tween.Finished += () => ChunkRotating = false;
+                if (CurrentlyPlacing)
+                {
+                    tween.Finished += CheckValidPlacement;
+                }
+            } else
+            {
+                Quaternion = new Quaternion(Vector3.Up, -Mathf.Pi / 2) * Quaternion;
+                UpdateEntrances();
             }
+
+
+
         }
     }
 
@@ -504,18 +514,24 @@ public partial class Chunk : Node3D
     {
         if (!ChunkRotating)
         {
-            ChunkRotating = true;
-            Quaternion q = new Quaternion(Vector3.Up, Mathf.Pi / 2);
-            Tween tween = GetTree().CreateTween();
-            tween.TweenProperty(this, "quaternion", q * Quaternion, 0.4f).SetTrans(Tween.TransitionType.Back);
-            tween.Finished += UpdateEntrances;
-            tween.Finished += () => ChunkRotating = false;
             if (CurrentlyPlacing)
             {
-                tween.Finished += CheckValidPlacement;
+                ChunkRotating = true;
+                Quaternion q = new Quaternion(Vector3.Up, Mathf.Pi / 2);
+                Tween tween = GetTree().CreateTween();
+                tween.TweenProperty(this, "quaternion", q * Quaternion, 0.4f).SetTrans(Tween.TransitionType.Back);
+                tween.Finished += UpdateEntrances;
+                tween.Finished += () => ChunkRotating = false;
+                if (CurrentlyPlacing)
+                {
+                    tween.Finished += CheckValidPlacement;
+                }
+            } else
+            {
+                Quaternion = new Quaternion(Vector3.Up, Mathf.Pi / 2) * Quaternion;
+                UpdateEntrances();
             }
         }
-        
     }
 
     public void CreatePaths(MeshInstance3D Entrance)
@@ -883,19 +899,13 @@ public partial class Chunk : Node3D
         if (RotateCW)
         {
             RotateCW = false;
-            if (CurrentlyPlacing)
-            {
-                RotateClockwise();
-            }
+            RotateClockwise();
         }
 
         if (RotateCCW)
         {
             RotateCCW = false;
-            if (CurrentlyPlacing)
-            {
-                RotateCounterClockwise();
-            }
+            RotateCounterClockwise();
         }
 
         if (GeneratePath)
