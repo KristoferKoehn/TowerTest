@@ -160,6 +160,8 @@ public abstract partial class AbstractTower : Node3D
                 t.TweenProperty(Outline, "scale", new Vector3(0.95f, 0.95f, 0.95f), 0.08).SetTrans(Tween.TransitionType.Back);
             }
             GetNode<AudioStreamPlayer3D>("SelectSound").Play();
+
+
         }
     }
 
@@ -167,6 +169,7 @@ public abstract partial class AbstractTower : Node3D
     {
         if (@event.IsActionPressed("deselect"))
         {
+
             if (DeselectRejectFlag)
             {
                 DeselectRejectFlag = false;

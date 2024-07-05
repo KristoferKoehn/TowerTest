@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://dehxllaknmoge"]
-
-[ext_resource type="Script" path="res://Scenes/UI/PlayerHand.cs" id="1_pc55c"]
-
-[node name="PlayerHand" type="Node2D"]
-script = ExtResource("1_pc55c")

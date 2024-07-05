@@ -8,7 +8,6 @@ public static partial class CardDatabase
     {
         c_2EAngle,
         c_2EAngleB,
-        c_EntranceForkA,
         c_2EntranceForkA,
         c_2EntranceSnakeA,
         c_4EB,
