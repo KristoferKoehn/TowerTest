@@ -17,7 +17,7 @@ public partial class BaseEnemy : PathFollow3D
 	public StatBlock StatBlock = new();
 	protected string ModelName;
 
-	int ChunkCounter = 0;
+	public int ChunkCounter = 0;
 
     //stats, health whatever
     //speed
@@ -73,10 +73,10 @@ public partial class BaseEnemy : PathFollow3D
 
 	public void AttachNextPath()
 	{
-		ChunkCounter += 1;
 
 		MeshInstance3D temp = GetTileAt(ToGlobal(new Vector3(0,1,0)), ToGlobal(new Vector3(0, -1, 0)));
 		Chunk chunk = GetChunkReferenceFromTile(temp);
+        ChunkCounter = chunk.ChunkDistance;
 		Array<Path3D> paths = chunk.GetPathsFromEntrance(temp);
 
 		if (paths != null)
@@ -109,10 +109,10 @@ public partial class BaseEnemy : PathFollow3D
 
 	public float GetProgress()
 	{
-		return ChunkCounter + ProgressRatio;
+		return ChunkCounter - ProgressRatio;
 	}
 
-	bool dead = false;
+	public bool dead = false;
 
 	public void Die()
 	{
@@ -121,9 +121,10 @@ public partial class BaseEnemy : PathFollow3D
 		dead = true;
 		StatBlock.SetStat(StatType.Speed, 0);
         EnemyManager.GetInstance().UnregisterEnemy(this);
+
         EmitSignal("Died", this);
 
-		GetNode<AnimationPlayer>("AnimationPlayer").SpeedScale = 2;
+        GetNode<AnimationPlayer>("AnimationPlayer").SpeedScale = 2;
         GetNode<AnimationPlayer>("AnimationPlayer").Play("Death_A");
 		GetNode<AnimationPlayer>("AnimationPlayer").AnimationFinished += (StringName anim) =>
 		{

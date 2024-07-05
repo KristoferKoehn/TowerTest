@@ -9,8 +9,6 @@ public partial class Ballista : AbstractTower
 
 
 
-    public StatBlock StatBlock = new();
-
     MeshInstance3D TowerBase;
     MeshInstance3D BallistaMount;
     MeshInstance3D BallistaBow;
@@ -47,7 +45,7 @@ public partial class Ballista : AbstractTower
         {
             int index = EnemyList
             .Select((item, index) => new { Item = item, Index = index, Progress = item.GetProgress() })
-            .OrderByDescending(x => x.Progress)
+            .OrderBy(x => x.Progress)
             .First()
             .Index;
 
@@ -124,7 +122,6 @@ public partial class Ballista : AbstractTower
         BaseEnemy be = area.GetParent<BaseEnemy>();
         be.TakeDamage(StatBlock.GetStat(StatType.Damage), this);
         be.StrikeSound.Play();
-        
     }
 
 }

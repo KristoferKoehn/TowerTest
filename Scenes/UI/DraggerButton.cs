@@ -6,24 +6,13 @@ public partial class DraggerButton : Button
 	[Export]
 	Texture2D ButtonIcon;
 	[Export]
-	PackedScene SceneDraggable;
-
-	bool IsDragging = false;
-	Node3D Draggable;
-	Camera3D Cam;
-	float RAYCAST_LENGTH = 100;
-	private BaseMaterial3D _error_mat = GD.Load<BaseMaterial3D>("res://Assets/Materials/QueryInvalidLane.tres");
-	bool IsValidLocation = false;
-	Vector3 LastValidLocation;
+	PackedScene SpawnScene;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
 		this.Icon = ButtonIcon;
-		Draggable = SceneDraggable.Instantiate<Node3D>();
-        this.AddChild(Draggable);
-		Draggable.Visible = false;
-		Cam = GetViewport().GetCamera3D();
+		
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -124,23 +113,22 @@ public partial class DraggerButton : Button
         }
     }
 
+
     public void _on_button_down()
 	{
-		GD.Print("Dragging");
-		IsDragging = true;
-		Draggable.Visible = true;
+
+    }
+
+    public void _on_button_up()
+	{
+
 	}
 
-	public void _on_button_up()
+    public void _on_pressed()
 	{
-		GD.Print("Stopped Dragging");
-		IsDragging = false;
-		Draggable.Visible = false;
-		if (IsValidLocation)
-		{
-			Node3D Scene = SceneDraggable.Instantiate<Node3D>();
-			GetTree().Root.AddChild(Scene);
-			Scene.GlobalPosition = LastValidLocation;
-		}
-	}
+        AbstractTower tower = SpawnScene.Instantiate<AbstractTower>();
+        tower.Placing = true;
+        SceneSwitcher.root.GetNode<GameLoop>("SceneSwitcher/GameLoop").AddChild(tower);
+    }
+
 }

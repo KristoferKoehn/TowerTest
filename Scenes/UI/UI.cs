@@ -104,7 +104,6 @@ public partial class UI : CanvasLayer
                 newchunk.Debug = true;
                 _gameLoop.AddChild(newchunk);
 
-
                 // Close the panel
                 _cardsPanel.Visible = !card.Visible;
             }

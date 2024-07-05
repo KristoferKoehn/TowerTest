@@ -1,6 +1,4 @@
 using Godot;
-using Managers;
-using System;
 using System.Collections.Generic;
 
 public partial class SceneSwitcher : Node

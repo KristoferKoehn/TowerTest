@@ -11,9 +11,6 @@ public partial class LaserCrystal : AbstractTower
     CollisionShape3D RangeHitbox;
 
 
-    StatBlock StatBlock = new();
-
-
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
