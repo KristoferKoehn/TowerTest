@@ -12,10 +12,41 @@ public partial class BaseCard : Control
     public PackedScene ViewportScene = GD.Load<PackedScene>("res://Scenes/Utility/ViewportVisuals.tscn");
     public ViewportVisuals Viewport;
 
+    private Vector2 originalPosition;
+
+    public void _on_mouse_entered()
+    {
+        this.originalPosition = this.Position;
+        // Shift the card up when hovered over
+        Tween tween = GetTree().CreateTween();
+        tween.SetTrans(Tween.TransitionType.Sine);
+        tween.SetEase(Tween.EaseType.Out);
+        tween.TweenProperty(
+            this,
+            "position",
+            new Vector2(this.Position.X, Position.Y - 10),  // Adjust the amount you want to shift the card
+            0.2f
+        );
+    }
+
+    public void _on_mouse_exited()
+    {
+        // Move the card back to its original position
+        Tween tween = GetTree().CreateTween();
+        tween.SetTrans(Tween.TransitionType.Sine);
+        tween.SetEase(Tween.EaseType.Out);
+        tween.TweenProperty(
+            this,
+            "position",
+            new Vector2(this.Position.X, originalPosition.Y),
+            0.2f
+        );
+    }
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-
+        originalPosition = Position;
     }
 
     public void SetCard(string ChunkName)

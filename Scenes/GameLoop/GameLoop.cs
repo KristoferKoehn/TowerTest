@@ -5,11 +5,15 @@ using System;
 
 public partial class GameLoop : Node3D
 {
-	public Camera3D Camera { get; set; }
+    private StandardMaterial3D _tile_outline_mat = GD.Load<StandardMaterial3D>("res://Assets/Materials/MouseOverOutline.tres");
+    private MeshInstance3D _currently_highlighted_tile; // The currently highlighted tile
+
+    public Camera3D Camera { get; set; }
 	Node3D CameraGimbal { get; set; }
 
+    //private AbstractTower selectedTower; // Reference to the currently selected tower
 
-	bool turning = false;
+    bool turning = false;
 
 	bool DraggingCamera = false;
 
@@ -32,26 +36,9 @@ public partial class GameLoop : Node3D
 	public override void _Process(double delta)
 	{
 
-		//make this cooler
+        //make this cooler
 
-		if (Input.IsActionPressed("ui_left"))
-		{
-			CameraGimbal.TranslateObjectLocal(new Vector3(-0.1f,0,0));
-		}
-		if (Input.IsActionPressed("ui_right"))
-		{
-			CameraGimbal.TranslateObjectLocal(new Vector3(0.1f, 0, 0));
-		}
-		if (Input.IsActionPressed("ui_up"))
-		{
-			CameraGimbal.TranslateObjectLocal(new Vector3(0, 0, -0.1f));
-		}
-		if (Input.IsActionPressed("ui_down"))
-		{
-			CameraGimbal.TranslateObjectLocal(new Vector3(0, 0, 0.1f));
-		}
-
-		/*
+        /*
 		if (Input.IsActionPressed("rotate_right"))
 		{
 			if (!turning)
@@ -75,9 +62,81 @@ public partial class GameLoop : Node3D
             }
 		}
 		*/
+        HandleCameraMovement();
+		CheckMouseHover();
     }
 
-	public override void _Input(InputEvent @event)
+    private void HandleCameraMovement()
+    {
+        if (Input.IsActionPressed("ui_left"))
+        {
+            CameraGimbal.TranslateObjectLocal(new Vector3(-0.1f, 0, 0));
+        }
+        if (Input.IsActionPressed("ui_right"))
+        {
+            CameraGimbal.TranslateObjectLocal(new Vector3(0.1f, 0, 0));
+        }
+        if (Input.IsActionPressed("ui_up"))
+        {
+            CameraGimbal.TranslateObjectLocal(new Vector3(0, 0, -0.1f));
+        }
+        if (Input.IsActionPressed("ui_down"))
+        {
+            CameraGimbal.TranslateObjectLocal(new Vector3(0, 0, 0.1f));
+        }
+    }
+
+    private void CheckMouseHover()
+    {
+        Vector2 mousePosition = GetViewport().GetMousePosition();
+        Vector3 from = Camera.ProjectRayOrigin(mousePosition);
+        Vector3 to = from + Camera.ProjectRayNormal(mousePosition) * 1000;
+
+        PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
+        PhysicsRayQueryParameters3D query = PhysicsRayQueryParameters3D.Create(from, to);
+        Dictionary result = spaceState.IntersectRay(query);
+
+        if (result.Count > 0)
+        {
+            // Doing this: MeshInstance3D tile = ((StaticBody3D)result["collider"]).GetParent<MeshInstance3D>();
+            // But with safety
+
+            StaticBody3D temp = (StaticBody3D)result["collider"];
+            MeshInstance3D tile = temp.GetParentOrNull<MeshInstance3D>();
+            if (tile == null)
+            {
+                return;
+            }
+
+            if (tile != _currently_highlighted_tile)
+            {
+                if (_currently_highlighted_tile != null)
+                {
+                    ResetOutline(_currently_highlighted_tile);
+                }
+
+                ApplyOutline(tile);
+                _currently_highlighted_tile = tile;
+            }
+        }
+        else if (_currently_highlighted_tile != null)
+        {
+            ResetOutline(_currently_highlighted_tile);
+            _currently_highlighted_tile = null;
+        }
+    }
+
+    private void ApplyOutline(MeshInstance3D meshInstance)
+    {
+        meshInstance.MaterialOverride = _tile_outline_mat;
+    }
+
+    private void ResetOutline(MeshInstance3D meshInstance)
+    {
+        meshInstance.MaterialOverride = null;
+    }
+
+    public override void _Input(InputEvent @event)
 	{
 		
 		if (@event.IsActionPressed("select"))
@@ -98,8 +157,8 @@ public partial class GameLoop : Node3D
 			if (result.Count > 0)
 			{
 				MeshInstance3D temp = ((StaticBody3D)result["collider"]).GetParent<MeshInstance3D>();
-			}
-		}
+            }
+        }
 
         if (@event is InputEventMouseButton mouseEvent)
         {
@@ -135,7 +194,7 @@ public partial class GameLoop : Node3D
 
             if (DraggingCamera)
             {
-				CameraGimbal.TranslateObjectLocal(new Vector3(mouseMotion.ScreenRelative.X, 0, mouseMotion.ScreenRelative.Y) * -0.05f);
+				//CameraGimbal.TranslateObjectLocal(new Vector3(mouseMotion.ScreenRelative.X, 0, mouseMotion.ScreenRelative.Y) * -0.05f);
             }
         }
 
@@ -146,5 +205,4 @@ public partial class GameLoop : Node3D
 		WaveManager.GetInstance().StartWave();
 		GD.Print("Button pressed");
 	}
-
 }

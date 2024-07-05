@@ -4,23 +4,32 @@ using System;
 
 public partial class UI : CanvasLayer
 {
+    public static UI Instance { get; private set; }
+
     private float[] speedLevels = { 1.0f, 2.0f, 3.0f};
     private int currentSpeedIndex = 0;
     private ScrollContainer _cardsPanel;
     private ScrollContainer _towersPanel;
     private PackedScene _cardScene;
-    private GridContainer _gridContainer;
-    private GameLoop _gameLoop;
-
+    private GridContainer _gridContainer; // The grid container holding the slots for the chunk cards.
+    private GameLoop _gameLoop; // Used for placing chunks (could probably be refactored)
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
-        //_gameLoop = GetTree().Root.GetNode<Node3D>("GameLoop") as GameLoop;
+        // Instance stuff
+        if (Instance != null && Instance != this)
+        {
+            QueueFree();
+        }
+        else
+        {
+            Instance = this;
+        }
+
         _gameLoop = GetParent<GameLoop>();
         SetUpChunkCardPanel();
         _towersPanel = GetNode<ScrollContainer>("Control/TowersPanel");
-
     }
 
     private void SetUpChunkCardPanel()
@@ -28,7 +37,7 @@ public partial class UI : CanvasLayer
         // Cache the reference to the CardsPanel node
         _cardsPanel = GetNode<ScrollContainer>("Control/CardsPanel");
         _cardsPanel.Visible = false;
-        _cardScene = (PackedScene)ResourceLoader.Load("res://Scenes/UI/BaseCard.tscn");
+        _cardScene = (PackedScene)ResourceLoader.Load("res://Scenes/UI/Cards/BaseCard.tscn");
         _gridContainer = GetNode<GridContainer>("Control/CardsPanel/GridContainer");
 
         string[] ListOfChunks = DirAccess.GetFilesAt("res://Scenes/Chunks");
@@ -154,6 +163,5 @@ public partial class UI : CanvasLayer
         _cardsPanel.Visible = false;
         _towersPanel.Visible = !_towersPanel.Visible;
     }
-
 
 }

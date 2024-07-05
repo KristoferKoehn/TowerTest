@@ -48,7 +48,7 @@ public partial class DraggerButton : Button
 
                 if (objectcollidedwith.GetParent() is MeshInstance3D tile)
 				{
-					if (tile.GetMeta("height").AsInt32() != 0) // if it isn't a path tile
+                    if (tile.GetMeta("height").AsInt32() != 0) // if it isn't a path tile
 					{
 						Draggable.Visible = true;
 						IsValidLocation = true;
@@ -72,6 +72,8 @@ public partial class DraggerButton : Button
         }
     }
 
+	// For recursively setting the material of all children nodes (towers) to red
+	// if it is an invalid placement.
 	public void SetChildMeshError(Node node)
 	{
 		foreach (Node child in node.GetChildren())
@@ -88,6 +90,8 @@ public partial class DraggerButton : Button
 		}
 	}
 
+    // For recursively setting the material of all children nodes (towers) back to
+	// normal when there is a valid placement.
     public void ClearChildMeshError(Node node)
     {
         foreach (Node child in node.GetChildren())

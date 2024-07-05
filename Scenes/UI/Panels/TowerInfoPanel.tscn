@@ -1,0 +1,99 @@
+[gd_scene load_steps=2 format=3 uid="uid://bybtexsnm4y7c"]
+
+[ext_resource type="Script" path="res://Scenes/UI/Panels/TowerInfoPanel.cs" id="1_c6q1n"]
+
+[node name="TowerInfoPanel" type="Panel"]
+custom_minimum_size = Vector2(250, 300)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_c6q1n")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TypeInfo" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="ActualType" type="Label" parent="VBoxContainer/TypeInfo"]
+layout_mode = 2
+text = "Tower Type Here"
+
+[node name="DamageTypeIcon" type="TextureRect" parent="VBoxContainer/TypeInfo"]
+custom_minimum_size = Vector2(25, 0)
+layout_mode = 2
+
+[node name="LevelInfo" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="LevelLabel" type="Label" parent="VBoxContainer/LevelInfo"]
+layout_mode = 2
+text = "Level:"
+
+[node name="ActualLevel" type="Label" parent="VBoxContainer/LevelInfo"]
+layout_mode = 2
+text = "Actual Level Here"
+
+[node name="DamageInfo" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="DPSLabel" type="Label" parent="VBoxContainer/DamageInfo"]
+layout_mode = 2
+text = "DPS: "
+
+[node name="ActualDPS" type="Label" parent="VBoxContainer/DamageInfo"]
+layout_mode = 2
+text = "Actual DPS Here"
+
+[node name="Gap" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LevelUpInfo" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="ActualLevel" type="Label" parent="VBoxContainer/LevelUpInfo"]
+layout_mode = 2
+text = "Current"
+
+[node name="Arrow" type="Label" parent="VBoxContainer/LevelUpInfo"]
+layout_mode = 2
+text = "->"
+
+[node name="NextLevel" type="Label" parent="VBoxContainer/LevelUpInfo"]
+layout_mode = 2
+text = "NextLevel"
+
+[node name="UpgradeButton" type="Button" parent="VBoxContainer/LevelUpInfo"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Upgrade"
+
+[node name="SellingInfo" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="CostLabel" type="Label" parent="VBoxContainer/SellingInfo"]
+layout_mode = 2
+text = "$"
+
+[node name="ActualCost" type="Label" parent="VBoxContainer/SellingInfo"]
+layout_mode = 2
+text = "ActualCostHere"
+
+[node name="SellButton" type="Button" parent="VBoxContainer/SellingInfo"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Sell"
