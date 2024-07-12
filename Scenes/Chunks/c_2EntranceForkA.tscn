@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=3 uid="uid://r87yt6bi4vkt"]
+[gd_scene load_steps=55 format=3 uid="uid://71ueppf1qvnd"]
 
 [ext_resource type="Script" path="res://Scenes/Components/Chunk.cs" id="1_lxp7u"]
 [ext_resource type="PackedScene" uid="uid://c1s4nmec58fg5" path="res://Scenes/Components/Tile.tscn" id="2_y52yv"]
@@ -322,6 +322,7 @@ mesh = SubResource("BoxMesh_0felj")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, -3)
 mesh = SubResource("BoxMesh_0ille")
 metadata/height = 0
+metadata/exit = true
 
 [node name="0, -2" parent="." instance=ExtResource("2_y52yv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, -2)
@@ -442,9 +443,11 @@ mesh = SubResource("BoxMesh_ggt7r")
 
 [node name="SpawnerNorth" parent="." instance=ExtResource("5_tes2o")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -4)
+Enabled = true
 
 [node name="SpawnerSouth" parent="." instance=ExtResource("5_tes2o")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+Enabled = true
 
 [node name="SpawnerEast" parent="." instance=ExtResource("5_tes2o")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 4, 0, 0)

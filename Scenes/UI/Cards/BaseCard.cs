@@ -50,10 +50,18 @@ public partial class BaseCard : Control
     }
 
     // Sets the card to the given scene (ex: a chunk name or a tower name)
-    public void SetCard(string sceneName)
+    public void SetCard(string scenePath)
     {
-        CardName = sceneName.ReplaceN(".tscn","");
-        string ScenePath = string.Empty;
+        //?????
+        ScenePath = scenePath;
+
+
+
+        //split on / 
+        //get last item
+        //remove .tscn
+
+        CardName = scenePath.ReplaceN(".tscn","");
 
         Viewport = ViewportScene.Instantiate<ViewportVisuals>();
         Viewport.OwnWorld3D = true;
@@ -62,18 +70,15 @@ public partial class BaseCard : Control
         Viewport.CameraOrbitSpeed = 0.2f;
         Viewport.Camera.Fov = 55;
 
-        if (CardDatabase.chunkslist.Contains(CardName))
-        {
-            ScenePath = $"res://Scenes/Chunks/{CardName}.tscn";
-        }
-        if (CardDatabase.towerslist.Contains(CardName))
+
+        if (CardDatabase.towerslist.Contains(scenePath))
         {
             this.Viewport.CameraZoom = 2f;
             this.Viewport.CameraTilt = -5f;
-            ScenePath = $"res://Scenes/Towers/{CardName}.tscn";
+            //ScenePath = $"res://Scenes/Towers/{CardName}.tscn";
         }
 
-        Viewport.SubjectPackedScene = GD.Load<PackedScene>(ScenePath);
+        Viewport.SubjectPackedScene = GD.Load<PackedScene>(scenePath);
 
         // Set the sceneName
         Label chunkNameLabel = GetNode<Label>("MarginContainer/Bars/TopBar/Name/CenterContainer/SceneName");
@@ -86,7 +91,7 @@ public partial class BaseCard : Control
         //textureRect.Texture = (Texture2D)texture;
 
         // Set the border based on the rarity
-        List<string> cardinfo = CardDatabase.DATA[CardName];
+        List<string> cardinfo = CardDatabase.DATA[scenePath];
         string rarity = cardinfo[1];
         SetCardRarityColor(rarity);
     }

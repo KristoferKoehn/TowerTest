@@ -42,10 +42,10 @@ public partial class UI : CanvasLayer
 
         //string[] ListOfChunks = DirAccess.GetFilesAt("res://Scenes/Chunks");
 
-        foreach (string chunk in CardDatabase.chunkslist)
+        foreach (string File in CardDatabase.chunkslist)
         {
             //Texture rect slot:
-
+            
             TextureRect slot = new TextureRect();
             slot.CustomMinimumSize = new Vector2(125, 175);
             slot.ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize;
@@ -58,8 +58,10 @@ public partial class UI : CanvasLayer
 
             // Instance the card scene and add it to the viewport
             BaseCard card = _cardScene.Instantiate<BaseCard>();
-            card.SetCard(chunk);
+            card.SetCard(File);
             viewport.AddChild(card);
+
+
 
             // Create a TextureRect to display the viewport texture
             slot.Texture = viewport.GetTexture();
@@ -74,6 +76,13 @@ public partial class UI : CanvasLayer
 
             // Add the TextureRect to the GridContainer
             _gridContainer.AddChild(slot);
+        }
+
+
+        // Create and add cards to the GridContainer
+        for (int i = 0; i < 10; i++)
+        {
+
         }
     }
 

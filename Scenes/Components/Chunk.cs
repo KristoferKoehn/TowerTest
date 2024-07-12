@@ -863,10 +863,9 @@ public partial class Chunk : Node3D
 
             if (!CurrentlyMoving)
             {
-
                 Vector3 from = GetViewport().GetCamera3D().ProjectRayOrigin(GetViewport().GetMousePosition());
                 Vector3 to = from + GetViewport().GetCamera3D().ProjectRayNormal(GetViewport().GetMousePosition()) * 1000;
-
+                GD.Print(to);
                 PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
 
                 PhysicsRayQueryParameters3D query = PhysicsRayQueryParameters3D.Create(from, to, collisionMask: 1);
@@ -879,6 +878,7 @@ public partial class Chunk : Node3D
                 {
                     Vector3 pos = (Vector3)result["position"];
                     pos = new Vector3(Mathf.Round(pos.X / 7f) * 7f, 0, Mathf.Round(pos.Z / 7f) * 7f);
+                    GD.Print(pos);
 
                     if (pos != GlobalPosition)
                     {
@@ -953,8 +953,4 @@ public partial class Chunk : Node3D
             }
         }
     }
-
-
-
-
 }
