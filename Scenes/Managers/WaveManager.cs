@@ -44,6 +44,9 @@ namespace Managers
 
         public override void _Ready()
         {
+
+            //read in structure
+
             necromancer = GD.Load<PackedScene>("res://Scenes/Enemies/Necromancer.tscn");
             SkeletonMinion = GD.Load<PackedScene>("res://Scenes/Enemies/Skeleton.tscn");
         }
@@ -94,6 +97,9 @@ namespace Managers
             .Where(item => item.Enabled)
             .ToList();
 
+
+
+            
             int enemyCount = 4 + WaveNumber + ValidSpawners.Count;
             //GD.Print($"{ValidSpawners.Count} valid spawners, {enemyCount} enemies per spawner");
             foreach (Spawner item in ValidSpawners)
