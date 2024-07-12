@@ -11,7 +11,7 @@ public partial class UI : CanvasLayer
     private ScrollContainer _cardsPanel;
     private ScrollContainer _towersPanel;
     private PackedScene _cardScene;
-    private GridContainer _gridContainer; // The grid container holding the slots for the chunk cards.
+    private GridContainer _gridContainer; // The grid container holding the slots for the tower cards.
     private GameLoop _gameLoop; // Used for placing chunks (could probably be refactored)
 
     // Called when the node enters the scene tree for the first time.
@@ -40,9 +40,9 @@ public partial class UI : CanvasLayer
         _cardScene = (PackedScene)ResourceLoader.Load("res://Scenes/UI/Cards/BaseCard.tscn");
         _gridContainer = GetNode<GridContainer>("Control/CardsPanel/GridContainer");
 
-        string[] ListOfChunks = DirAccess.GetFilesAt("res://Scenes/Chunks");
+        //string[] ListOfChunks = DirAccess.GetFilesAt("res://Scenes/Chunks");
 
-        foreach (string File in ListOfChunks)
+        foreach (string chunk in CardDatabase.chunkslist)
         {
             //Texture rect slot:
 
@@ -58,7 +58,7 @@ public partial class UI : CanvasLayer
 
             // Instance the card scene and add it to the viewport
             BaseCard card = _cardScene.Instantiate<BaseCard>();
-            card.SetCard(File);
+            card.SetCard(chunk);
             viewport.AddChild(card);
 
             // Create a TextureRect to display the viewport texture
@@ -75,20 +75,13 @@ public partial class UI : CanvasLayer
             // Add the TextureRect to the GridContainer
             _gridContainer.AddChild(slot);
         }
-
-
-        // Create and add cards to the GridContainer
-        for (int i = 0; i < 10; i++)
-        {
-            
-        }
     }
 
     public void OnChunkCardClicked(InputEvent @event, TextureRect slot)
     {
         if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed)
         {
-            GD.Print("Clicked on a chunk card.");
+            GD.Print("Clicked on a tower card.");
 
             // Get the Viewport from the slot
             Viewport viewport = slot.GetChild<Viewport>(0);
@@ -98,8 +91,8 @@ public partial class UI : CanvasLayer
 
             if (card != null)
             {
-                // Load and instantiate the chunk
-                Chunk newchunk = GD.Load<PackedScene>(card.ChunkPath).Instantiate<Chunk>();
+                // Load and instantiate the tower
+                Chunk newchunk = GD.Load<PackedScene>(card.ScenePath).Instantiate<Chunk>();
                 newchunk.CurrentlyPlacing = true;
                 newchunk.Debug = true;
                 _gameLoop.AddChild(newchunk);
