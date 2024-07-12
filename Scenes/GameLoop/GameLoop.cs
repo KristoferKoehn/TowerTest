@@ -22,6 +22,8 @@ public partial class GameLoop : Node3D
 	{
 		WaveManager.GetInstance();
 		BallistaArrowManager.GetInstance();
+		ParticleSignals.GetInstance();
+		ParticleManager.GetInstance();
 	}
 
 	public override void _Ready()
