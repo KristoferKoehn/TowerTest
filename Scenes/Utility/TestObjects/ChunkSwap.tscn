@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://cdgnrix36h41e"]
+
+[ext_resource type="Script" path="res://Scenes/Utility/TestObjects/ChunkSwap.cs" id="1_nr24r"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_pvmmx"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_043sv"]
+
+[node name="ChunkSwap" type="StaticBody3D"]
+script = ExtResource("1_nr24r")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_pvmmx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_043sv")
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]

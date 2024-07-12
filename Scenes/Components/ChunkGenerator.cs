@@ -148,12 +148,17 @@ public partial class ChunkGenerator : Node3D
             if (Input.IsKeyPressed(Key.Key1))
             {
                 MeshInstance3D MeshInstance = (MeshInstance3D)EditorInterface.Singleton.GetSelection().GetSelectedNodes()[0];
-
+                CollisionShape3D hitbox = MeshInstance.GetNode<CollisionShape3D>("StaticBody3D/CollisionShape3D");
+                Vector3 BoxSize = new Vector3(1, 0.9f, 1);
 
                 //make shorter
-                ((BoxMesh)MeshInstance.Mesh).Size = new Vector3(1, 0.9f, 1);
-                MeshInstance.Position = new Vector3(MeshInstance.Position.X, (0.9f / 2f) -0.5f, MeshInstance.Position.Z);
-                MeshInstance.SetMeta("height", 0);
+                ((BoxMesh)MeshInstance.Mesh).Size = BoxSize;
+                ((BoxShape3D)hitbox.Shape).Size = BoxSize;
+
+                Vector3 pos = new Vector3(MeshInstance.Position.X, (0.9f / 2f) - 0.5f, MeshInstance.Position.Z);
+                MeshInstance.Position = pos;
+                hitbox.Position = Vector3.Zero;
+                MeshInstance.SetMeta("height", 1);
 
                 MeshInstance.Mesh.SurfaceSetMaterial(0, GD.Load<Material>("res://Assets/Materials/LaneMaterial.tres"));
 
@@ -162,11 +167,16 @@ public partial class ChunkGenerator : Node3D
             if (Input.IsKeyPressed(Key.Key2))
             {
                 MeshInstance3D MeshInstance = (MeshInstance3D)EditorInterface.Singleton.GetSelection().GetSelectedNodes()[0];
-
+                CollisionShape3D hitbox = MeshInstance.GetNode<CollisionShape3D>("StaticBody3D/CollisionShape3D");
+                Vector3 BoxSize = new Vector3(1, 1, 1);
 
                 //make shorter
-                ((BoxMesh)MeshInstance.Mesh).Size = new Vector3(1, 1, 1);
-                MeshInstance.Position = new Vector3(MeshInstance.Position.X, 1f / 2f - 0.5f, MeshInstance.Position.Z);
+                ((BoxMesh)MeshInstance.Mesh).Size = BoxSize;
+                ((BoxShape3D)hitbox.Shape).Size = BoxSize;
+
+                Vector3 pos = new Vector3(MeshInstance.Position.X, (1f / 2f) - 0.5f, MeshInstance.Position.Z);
+                MeshInstance.Position = pos;
+                hitbox.Position = Vector3.Zero;
                 MeshInstance.SetMeta("height", 1);
 
                 MeshInstance.Mesh.SurfaceSetMaterial(0, GD.Load<Material>("res://Assets/Materials/GrassMaterial.tres"));
@@ -175,12 +185,16 @@ public partial class ChunkGenerator : Node3D
             if (Input.IsKeyPressed(Key.Key3))
             {
                 MeshInstance3D MeshInstance = (MeshInstance3D)EditorInterface.Singleton.GetSelection().GetSelectedNodes()[0];
-
+                CollisionShape3D hitbox = MeshInstance.GetNode<CollisionShape3D>("StaticBody3D/CollisionShape3D");
+                Vector3 BoxSize = new Vector3(1, 1.2f, 1);
 
                 //make shorter
-                ((BoxMesh)MeshInstance.Mesh).Size = new Vector3(1, 1.1f, 1);
-                MeshInstance.Position = new Vector3(MeshInstance.Position.X, 1.1f / 2f - 0.5f, MeshInstance.Position.Z);
-                MeshInstance.SetMeta("height", 2);
+                ((BoxMesh)MeshInstance.Mesh).Size = BoxSize;
+                ((BoxShape3D)hitbox.Shape).Size = BoxSize;
+
+                Vector3 pos = new Vector3(MeshInstance.Position.X, (1.2f / 2f) - 0.5f, MeshInstance.Position.Z);
+                MeshInstance.Position = pos;
+                hitbox.Position = Vector3.Zero;
 
                 MeshInstance.Mesh.SurfaceSetMaterial(0, GD.Load<Material>("res://Assets/Materials/GrassMaterial.tres"));
             }
@@ -188,12 +202,33 @@ public partial class ChunkGenerator : Node3D
             if (Input.IsKeyPressed(Key.Key4))
             {
                 MeshInstance3D MeshInstance = (MeshInstance3D)EditorInterface.Singleton.GetSelection().GetSelectedNodes()[0];
-
+                CollisionShape3D hitbox = MeshInstance.GetNode<CollisionShape3D>("StaticBody3D/CollisionShape3D");
+                Vector3 BoxSize = new Vector3(1, 1.4f, 1);
 
                 //make shorter
-                ((BoxMesh)MeshInstance.Mesh).Size = new Vector3(1, 1.2f, 1);
-                MeshInstance.Position = new Vector3(MeshInstance.Position.X, 1.2f / 2f - 0.5f, MeshInstance.Position.Z);
-                MeshInstance.SetMeta("height", 3);
+                ((BoxMesh)MeshInstance.Mesh).Size = BoxSize;
+                ((BoxShape3D)hitbox.Shape).Size = BoxSize;
+
+                Vector3 pos = new Vector3(MeshInstance.Position.X, (1.4f / 2f) - 0.5f, MeshInstance.Position.Z);
+                MeshInstance.Position = pos;
+                hitbox.Position = Vector3.Zero;
+
+                MeshInstance.Mesh.SurfaceSetMaterial(0, GD.Load<Material>("res://Assets/Materials/GrassMaterial.tres"));
+            }
+
+            if (Input.IsKeyPressed(Key.Key5))
+            {
+                MeshInstance3D MeshInstance = (MeshInstance3D)EditorInterface.Singleton.GetSelection().GetSelectedNodes()[0];
+                CollisionShape3D hitbox = MeshInstance.GetNode<CollisionShape3D>("StaticBody3D/CollisionShape3D");
+                Vector3 BoxSize = new Vector3(1, 1.6f, 1);
+
+                //make shorter
+                ((BoxMesh)MeshInstance.Mesh).Size = BoxSize;
+                ((BoxShape3D)hitbox.Shape).Size = BoxSize;
+
+                Vector3 pos = new Vector3(MeshInstance.Position.X, (1.6f / 2f) - 0.5f, MeshInstance.Position.Z);
+                MeshInstance.Position = pos;
+                hitbox.Position = Vector3.Zero;
 
                 MeshInstance.Mesh.SurfaceSetMaterial(0, GD.Load<Material>("res://Assets/Materials/GrassMaterial.tres"));
             }

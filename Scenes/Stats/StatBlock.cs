@@ -4,6 +4,8 @@ using System.Collections.Generic;
 public enum StatType
 {
 	//Enemy Stats
+	MaxHealth,
+	MaxArmor,
 	Health,
 	Speed,
 	Armor,
@@ -20,7 +22,6 @@ public enum StatType
 	FireDamage,
 	IceDamage,
 	WaterDamage,
-
 
 }
 
@@ -63,6 +64,11 @@ namespace MMOTest.Backend
 
 		public void SetStatBlock(Dictionary<StatType, float> sb)
 		{
+			if(sb.ContainsKey(StatType.Health) && !sb.ContainsKey(StatType.MaxHealth)) 
+			{
+				sb[StatType.MaxHealth] = sb[StatType.Health];
+			}
+
 			statblock = sb;
 		}
 	}

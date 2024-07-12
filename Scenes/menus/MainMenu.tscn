@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://b7mmku0wx1bc0"]
+[gd_scene load_steps=3 format=3 uid="uid://b7mmku0wx1bc0"]
 
 [ext_resource type="Script" path="res://Scenes/menus/MainMenu.cs" id="1_0m3l4"]
+[ext_resource type="PackedScene" uid="uid://cethdkq0dxhao" path="res://Scenes/Components/Cinematics/MainMenuBackground.tscn" id="2_k6gl0"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -37,4 +38,7 @@ text = "Settings"
 layout_mode = 2
 text = "Quit"
 
+[node name="MainMenuBackground" parent="." instance=ExtResource("2_k6gl0")]
+
 [connection signal="pressed" from="VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

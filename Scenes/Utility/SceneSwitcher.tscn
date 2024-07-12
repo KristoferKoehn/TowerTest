@@ -1,10 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://b6il3nl2fpj4e"]
 
-[ext_resource type="Script" path="res://Scenes/Utility/SceneSwitcher.cs" id="1_n55ef"]
+[ext_resource type="Script" path="res://Scenes/SceneSwitcher.cs" id="1_n55ef"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_t1by6"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
-ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
 
 [sub_resource type="Sky" id="Sky_kpv73"]
 sky_material = SubResource("ProceduralSkyMaterial_t1by6")

@@ -9,7 +9,7 @@ public partial class Spawner : Node3D
 
     [Export]
     public bool Enabled = true;
-
+    public int ChunkDistance = 0;
 
     public void CheckValid()
     {
@@ -26,6 +26,12 @@ public partial class Spawner : Node3D
         }
 
         if (NextMesh.GetMeta("height").AsInt32() != 0 )
+        {
+            Enabled = false;
+            return;
+        }
+
+        if (GetParent<Chunk>().CurrentlyPlacing)
         {
             Enabled = false;
             return;
@@ -55,14 +61,25 @@ public partial class Spawner : Node3D
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
+        if (GetParent<Chunk>().Disabled)
+        {
+            Enabled = false;
+            return;
+        }
         WaveManager.GetInstance().RegisterSpawner(this);
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+
         CheckValid();
 
+        if (GetParent<Chunk>().Disabled || GetParent<Chunk>().CurrentlyPlacing)
+        {
+            Enabled = false;
+            return;
+        }
 
         if (Engine.IsEditorHint())
         {
@@ -77,5 +94,7 @@ public partial class Spawner : Node3D
                 GetNode<Path3D>("Path3D").AddChild(b);
             }
         }
+
+        ChunkDistance = GetParent<Chunk>().ChunkDistance;
 	}
 }

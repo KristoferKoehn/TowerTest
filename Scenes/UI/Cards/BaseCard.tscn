@@ -1,0 +1,136 @@
+[gd_scene load_steps=8 format=3 uid="uid://dr33ompxp8p4g"]
+
+[ext_resource type="Texture2D" uid="uid://dplcqs8mgsnja" path="res://Assets/ChunkImages/c_2EAngle.png" id="1_kyv8i"]
+[ext_resource type="Script" path="res://Scenes/UI/Cards/BaseCard.cs" id="1_q76f4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g0ef2"]
+bg_color = Color(0.125911, 0.125911, 0.125911, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="Gradient" id="Gradient_mwuip"]
+offsets = PackedFloat32Array(0, 0.311475, 0.696721, 1)
+colors = PackedColorArray(0.344076, 0.344076, 0.344076, 1, 0.529067, 0.529067, 0.529067, 1, 0.678944, 0.678944, 0.678944, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_qx0kl"]
+gradient = SubResource("Gradient_mwuip")
+fill_from = Vector2(1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_no0nb"]
+texture = SubResource("GradientTexture2D_qx0kl")
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dapxs"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(1, 1, 1, 1)
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
+
+[node name="CardBase" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 250.0
+offset_bottom = 350.0
+pivot_offset = Vector2(125, 175)
+size_flags_horizontal = 4
+script = ExtResource("1_q76f4")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(125, 175)
+
+[node name="BorderOfCard" type="Panel" parent="MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_g0ef2")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 7
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 7
+theme_override_constants/margin_bottom = 7
+
+[node name="Background" type="Panel" parent="MarginContainer/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_no0nb")
+
+[node name="Bars" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="TopGap" type="MarginContainer" parent="MarginContainer/Bars"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+
+[node name="TopBar" type="HBoxContainer" parent="MarginContainer/Bars"]
+layout_mode = 2
+
+[node name="LeftGap" type="MarginContainer" parent="MarginContainer/Bars/TopBar"]
+custom_minimum_size = Vector2(25, 0)
+layout_mode = 2
+
+[node name="Name" type="MarginContainer" parent="MarginContainer/Bars/TopBar"]
+layout_mode = 2
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/Bars/TopBar/Name"]
+layout_mode = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/Bars/TopBar/Name"]
+layout_mode = 2
+
+[node name="ChunkName" type="Label" parent="MarginContainer/Bars/TopBar/Name/CenterContainer"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+text = "Chunk Name"
+
+[node name="MidGap" type="MarginContainer" parent="MarginContainer/Bars/TopBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BetweenNameAndImage" type="MarginContainer" parent="MarginContainer/Bars"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="MarginContainer/Bars"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_dapxs")
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Bars/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_kyv8i")
+expand_mode = 1
+
+[node name="SubViewport" type="SubViewport" parent="MarginContainer/Bars/Panel/TextureRect"]
+transparent_bg = true
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Bars"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://budchas7k1t2g"]
+
+[ext_resource type="PackedScene" uid="uid://d2gqo7nqhfc8i" path="res://Assets/TowerModels/towerRound_sampleF.glb" id="1_tdlhq"]
+
+[node name="HomeBase" type="Node3D"]
+
+[node name="towerRound_sampleF2" parent="." instance=ExtResource("1_tdlhq")]

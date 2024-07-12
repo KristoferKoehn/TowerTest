@@ -6,46 +6,36 @@ using System;
 public partial class BaseEnemy : PathFollow3D
 {
 
-	[Signal]
-	public delegate void SpawnedEventHandler(Node self);
-
-	[Signal]
-	public delegate void DamageTakenEventHandler(Node self, Node source);
+    [Signal]
+    public delegate void DamageTakenEventHandler(Node self, Node source);
 
 	[Signal]
 	public delegate void DiedEventHandler(Node self);
 
+	public AudioStreamPlayer3D StrikeSound { get; set; }
+
 	public StatBlock StatBlock = new();
 	protected string ModelName;
 
-	int ChunkCounter = 0;
+	public int ChunkCounter = 0;
 
-	//stats, health whatever
-	//speed
+    //stats, health whatever
+    //speed
 
-	//a spawner somewhere (not here)
+    //a spawner somewhere (not here)
 
 
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
 	{
 		Loop = false;
 		EnemyManager.GetInstance().RegisterEnemy(this);
-	}
+    }
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(double delta)
 	{
-
-		if(StatBlock.GetStat(StatType.Health) <= 0.00f)
-		{
-			EmitSignal("Died",this);
-			GD.Print("Dead");
-			//change this later
-			EnemyManager.GetInstance().UnregisterEnemy(this);
-			QueueFree();
-
-		}
 
 		if (ProgressRatio == 1)
 		{
@@ -57,7 +47,7 @@ public partial class BaseEnemy : PathFollow3D
 			//reparent to new path, set progress ratio to 0
 		}
 
-		Progress += 1.6f * (float)delta;
+		Progress += StatBlock.GetStat(StatType.Speed) * (float)delta;
 	}
 
 	public MeshInstance3D GetTileAt(Vector3 to, Vector3 from)
@@ -83,10 +73,10 @@ public partial class BaseEnemy : PathFollow3D
 
 	public void AttachNextPath()
 	{
-		ChunkCounter += 1;
 
 		MeshInstance3D temp = GetTileAt(ToGlobal(new Vector3(0,1,0)), ToGlobal(new Vector3(0, -1, 0)));
 		Chunk chunk = GetChunkReferenceFromTile(temp);
+        ChunkCounter = chunk.ChunkDistance;
 		Array<Path3D> paths = chunk.GetPathsFromEntrance(temp);
 
 		if (paths != null)
@@ -103,31 +93,43 @@ public partial class BaseEnemy : PathFollow3D
 
 	}
 
-	// Rough of what we might do
-	public void TakeDamage(int damage)
+	public void TakeDamage(float damage, Node3D source)
 	{
 		if (damage <= 0) { return; }
-
-		float CurrentHealth = this.StatBlock.GetStat(StatType.Health);
+        float CurrentHealth = this.StatBlock.GetStat(StatType.Health);
 		float NewHealth = CurrentHealth - damage;
-		if (NewHealth > 0)
+        this.StatBlock.SetStat(StatType.Health, NewHealth);
+
+		if (NewHealth <= 0)
 		{
-			this.StatBlock.SetStat(StatType.Health, CurrentHealth - damage);
-		}
-		else
-		{
-			// Die
-		}
+			Die();
+        }
+        EmitSignal("DamageTaken", this, source);
 	}
 
 	public float GetProgress()
 	{
-		return ChunkCounter + ProgressRatio;
+		return ChunkCounter - ProgressRatio;
 	}
 
-	public void PlayAnimation(string AnimationName)
+	public bool dead = false;
+
+	public void Die()
 	{
-		GetNode<Node3D>(this.ModelName).GetNode<AnimationPlayer>("AnimationPlayer").Play(AnimationName);
-	}
+		if (dead) return;
 
+		dead = true;
+		StatBlock.SetStat(StatType.Speed, 0);
+        EnemyManager.GetInstance().UnregisterEnemy(this);
+
+        EmitSignal("Died", this);
+
+        GetNode<AnimationPlayer>("AnimationPlayer").SpeedScale = 2;
+        GetNode<AnimationPlayer>("AnimationPlayer").Play("Death_A");
+		GetNode<AnimationPlayer>("AnimationPlayer").AnimationFinished += (StringName anim) =>
+		{
+			QueueFree();
+        };
+		
+    }
 }
