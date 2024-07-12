@@ -19,7 +19,7 @@ public partial class SettingsManager : Node
         } else
         {
 
-            GD.Print("MAKING NEW FILE");
+            //GD.Print("MAKING NEW FILE");
             SettingsDictionary = new Dictionary<string, float> {
                 { "Resolution" , 648f },
                 { "AspectRatio" , 16/9f},
@@ -51,11 +51,12 @@ public partial class SettingsManager : Node
 
     public void ApplySettings()
     {
+        /*
         foreach(string key in SettingsDictionary.Keys)
         {
             GD.Print($"{key} = {SettingsDictionary[key]}");
         }
-
+        */
         //camera settings are applied camera-side
 
         if ((int)SettingsDictionary["Borderless"] != 0)

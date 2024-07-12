@@ -46,9 +46,6 @@ namespace Managers
         {
             necromancer = GD.Load<PackedScene>("res://Scenes/Enemies/Necromancer.tscn");
             SkeletonMinion = GD.Load<PackedScene>("res://Scenes/Enemies/Skeleton.tscn");
-
-
-        
         }
 
         public override void _Process(double delta)
@@ -113,6 +110,7 @@ namespace Managers
                     if (WaveBuckets[t].Count > 0)
                     {
                         BaseEnemy be = WaveBuckets[t][0].Instantiate<BaseEnemy>();
+                        be.ChunkCounter = item.ChunkDistance;
                         WaveBuckets[t].Remove(WaveBuckets[t][0]);
                         t.GetParent<Spawner>().GetNode<Path3D>("Path3D").AddChild(be);
                         GD.Print("Spawn Stuff");
