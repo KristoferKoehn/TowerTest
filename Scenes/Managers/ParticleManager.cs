@@ -32,13 +32,18 @@ public partial class ParticleManager : Node
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		//GD.Print("hi");
 		particleSignals.normalParticle += (String n, Vector3 c, Vector3 d) => makeNormalParticle(n, c, d);
 		//loading particles
 		foreach (string item in DirAccess.GetFilesAt("res://Scenes/Particles/"))
 		{
-			PackedScene inst = GD.Load<PackedScene>("res://Scenes/Particles/" + item + ".tscn");
-			//GpuParticles3D particleScene = inst.Instantiate<GpuParticles3D>();
-			loadedParticles[item] = inst;
+			//GD.Print(item.Substring(0, item.Length - 5));
+			if (item.Contains("tscn"))
+			{
+				PackedScene inst = GD.Load<PackedScene>("res://Scenes/Particles/" + item);
+				//GpuParticles3D particleScene = inst.Instantiate<GpuParticles3D>();
+				loadedParticles[item.Substring(0, item.Length-5)] = inst;
+			}
 		}
 	}
 

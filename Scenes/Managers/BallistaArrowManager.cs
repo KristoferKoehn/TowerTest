@@ -75,7 +75,7 @@ public partial class BallistaArrowManager : Node
 			Arrows.Remove(arrow);
 			arrow.QueueFree();
 
-			ParticleSignals.GetInstance().dop1(arrow.GlobalPosition, arrow.GlobalRotation);
+			ParticleSignals.GetInstance().createParticle("Particle1", arrow.GlobalPosition, arrow.GlobalRotation);
 			//p.EmitSignal("p1", arrow.GlobalPosition, arrow.GlobalRotation);
 		};
 		SceneSwitcher.root.AddChild(arrow);
