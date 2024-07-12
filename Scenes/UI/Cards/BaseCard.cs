@@ -7,7 +7,7 @@ public partial class BaseCard : Control
     public string CardName { get; set; }
     public List<string> CardInfo { get; private set; }
     public string CardImgPath { get; private set; }
-    public string ChunkPath { get; private set; }
+    public string ScenePath { get; private set; }
 
     public PackedScene ViewportScene = GD.Load<PackedScene>("res://Scenes/Utility/ViewportVisuals.tscn");
     public ViewportVisuals Viewport;
@@ -49,11 +49,11 @@ public partial class BaseCard : Control
         originalPosition = Position;
     }
 
-    public void SetCard(string ChunkName)
+    // Sets the card to the given scene (ex: a chunk name or a tower name)
+    public void SetCard(string sceneName)
     {
-        CardName = ChunkName.ReplaceN(".tscn","");
-        //CardImgPath = $"res://Assets/ChunkImages/{CardName}.png";
-        ChunkPath = $"res://Scenes/Chunks/{CardName}.tscn";
+        CardName = sceneName.ReplaceN(".tscn","");
+        string ScenePath = string.Empty;
 
         Viewport = ViewportScene.Instantiate<ViewportVisuals>();
         Viewport.OwnWorld3D = true;
@@ -62,10 +62,21 @@ public partial class BaseCard : Control
         Viewport.CameraOrbitSpeed = 0.2f;
         Viewport.Camera.Fov = 55;
 
-        Viewport.SubjectPackedScene = GD.Load<PackedScene>(ChunkPath);
+        if (CardDatabase.chunkslist.Contains(CardName))
+        {
+            ScenePath = $"res://Scenes/Chunks/{CardName}.tscn";
+        }
+        if (CardDatabase.towerslist.Contains(CardName))
+        {
+            this.Viewport.CameraZoom = 2f;
+            this.Viewport.CameraTilt = -5f;
+            ScenePath = $"res://Scenes/Towers/{CardName}.tscn";
+        }
 
-        // Set the ChunkName
-        Label chunkNameLabel = GetNode<Label>("MarginContainer/Bars/TopBar/Name/CenterContainer/ChunkName");
+        Viewport.SubjectPackedScene = GD.Load<PackedScene>(ScenePath);
+
+        // Set the sceneName
+        Label chunkNameLabel = GetNode<Label>("MarginContainer/Bars/TopBar/Name/CenterContainer/SceneName");
         chunkNameLabel.Text = CardName;
 
         // Set the texture
@@ -73,6 +84,42 @@ public partial class BaseCard : Control
         textureRect.Texture = Viewport.GetTexture();
         //var texture = (Texture)ResourceLoader.Load(CardImgPath);
         //textureRect.Texture = (Texture2D)texture;
+
+        // Set the border based on the rarity
+        List<string> cardinfo = CardDatabase.DATA[CardName];
+        string rarity = cardinfo[1];
+        SetCardRarityColor(rarity);
+    }
+
+    private void SetCardRarityColor(string rarity)
+    {
+        Panel CardBackground = GetNode<Panel>("MarginContainer/MarginContainer/Background");
+        StyleBoxTexture newStyleBox;
+
+        switch (rarity.ToLower())
+        {
+            case "common":
+                newStyleBox = GD.Load<StyleBoxTexture>("res://Scenes/UI/Cards/Gradients/CommonRarityStyleBox.tres");
+                break;
+            case "uncommon":
+                newStyleBox = GD.Load<StyleBoxTexture>("res://Scenes/UI/Cards/Gradients/UncommonRarityStyleBox.tres");
+                break;
+            case "rare":
+                newStyleBox = GD.Load<StyleBoxTexture>("res://Scenes/UI/Cards/Gradients/RareRarityStyleBox.tres");
+                break;
+            case "epic":
+                newStyleBox = GD.Load<StyleBoxTexture>("res://Scenes/UI/Cards/Gradients/EpicRarityStyleBox.tres");
+                break;
+            case "legendary":
+                newStyleBox = GD.Load<StyleBoxTexture>("res://Scenes/UI/Cards/Gradients/LegendaryRarityStyleBox.tres");
+                break;
+            default: // default to common:
+                newStyleBox = GD.Load<StyleBoxTexture>("res://Scenes/UI/Cards/Gradients/CommonRarityStyleBox.tres");
+                break;
+        }
+
+        // Apply the StyleBoxTexture to the Panel
+        CardBackground.AddThemeStyleboxOverride("panel", newStyleBox);
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.

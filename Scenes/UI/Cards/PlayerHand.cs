@@ -66,7 +66,7 @@ public partial class PlayerHand : Control
     private void GenerateHandWithAllCards()
     {
         this.CardList.Clear();
-        foreach (CardDatabase.ChunkType chunk in Enum.GetValues(typeof(CardDatabase.ChunkType)))
+        foreach (string chunk in CardDatabase.chunkslist)
         {
             BaseCard chunkCard = BaseCardScene.Instantiate<BaseCard>();
             chunkCard.SetCard(chunk.ToString());
