@@ -8,7 +8,7 @@ public partial class PlayerStatsManager : Node
 {
     private static PlayerStatsManager instance;
 
-    StatBlock statBlock = new();
+    public StatBlock statBlock = new();
 
     private PlayerStatsManager() { }
 
@@ -25,6 +25,7 @@ public partial class PlayerStatsManager : Node
 
     public override void _Ready()
     {
-        
+        // Setting the starting stats:
+        this.statBlock.SetStat(StatType.Health, 100); // Setting the main tower's health to 100.
     }
 }

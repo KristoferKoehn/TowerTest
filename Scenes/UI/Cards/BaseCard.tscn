@@ -25,7 +25,6 @@ expand_margin_bottom = 1.0
 
 [node name="CardBase" type="Control"]
 layout_mode = 3
-anchors_preset = 0
 offset_right = 250.0
 offset_bottom = 350.0
 pivot_offset = Vector2(125, 175)
@@ -80,10 +79,12 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="SceneName" type="Label" parent="MarginContainer/Bars/TopBar/Name/CenterContainer"]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 text = "Scene Name"
+autowrap_mode = 2
 
 [node name="MidGap" type="MarginContainer" parent="MarginContainer/Bars/TopBar"]
 layout_mode = 2
@@ -103,7 +104,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_dapxs")
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/Bars/Panel"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2

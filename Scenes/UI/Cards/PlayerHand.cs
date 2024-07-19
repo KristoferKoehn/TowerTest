@@ -10,15 +10,26 @@ public partial class PlayerHand : Control
     private Curve CardCurveHeight = GD.Load<Curve>("res://Scenes/UI/Cards/CardCurveHeight.tres");
     private Curve CardCurveRotation = GD.Load<Curve>("res://Scenes/UI/Cards/CardCurveRotation.tres");
     private List<BaseCard> CardList = new List<BaseCard>();
+    private MarginContainer CardMarginContainer;
+
+    [Export]
     private float HAND_WIDTH_SCALE = 500f;
+    [Export]
     private float HAND_HEIGHT_SCALE = 20f;
+    [Export]
     private float HAND_ROTATION_SCALE = 5f;
 
+    public override void _Process(double delta)
+    {
+        HAND_WIDTH_SCALE = CardMarginContainer.Size.X;
+        HAND_HEIGHT_SCALE = CardMarginContainer.Size.Y;
+        UpdateCardPositions();
+    }
     public override void _Ready()
     {
         //this.Position = this.GetViewport().GetVisibleRect().Size / 2;
         BaseCardScene = GD.Load<PackedScene>("res://Scenes/UI/Cards/BaseCard.tscn");
-
+        CardMarginContainer = GetNode<MarginContainer>("MarginContainer");
         // Generate a test hand:
         this.GenerateHandWithAllCards();
     }
@@ -69,7 +80,7 @@ public partial class PlayerHand : Control
         foreach (string chunk in CardDatabase.chunkslist)
         {
             BaseCard chunkCard = BaseCardScene.Instantiate<BaseCard>();
-            chunkCard.SetCard(chunk.ToString());
+            chunkCard.SetCard(chunk);
             AddCard(chunkCard);
         }
     }

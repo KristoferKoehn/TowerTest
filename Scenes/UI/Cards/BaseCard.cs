@@ -1,4 +1,5 @@
 using Godot;
+using Godot.NativeInterop;
 using System;
 using System.Collections.Generic;
 
@@ -79,7 +80,6 @@ public partial class BaseCard : Control
         }
 
         Viewport.SubjectPackedScene = GD.Load<PackedScene>(scenePath);
-
         // Set the sceneName
         Label chunkNameLabel = GetNode<Label>("MarginContainer/Bars/TopBar/Name/CenterContainer/SceneName");
         chunkNameLabel.Text = CardName;

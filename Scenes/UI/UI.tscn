@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://cxj4256wgc2jn" path="res://Scenes/UI/Panels/WaveCompletedPanel.tscn" id="7_4tavd"]
 [ext_resource type="PackedScene" uid="uid://dno07x46t40iw" path="res://Scenes/UI/DraggerButton.tscn" id="8_mapmy"]
 [ext_resource type="Texture2D" uid="uid://bkfkkkrm4032v" path="res://Assets/ChunkImages/BallistaImage.png" id="9_r48qg"]
-[ext_resource type="PackedScene" uid="uid://ba4apx2hsn1c0" path="res://Scenes/Towers/Ballista.tscn" id="10_d4dwr"]
+[ext_resource type="PackedScene" uid="uid://dehxllaknmoge" path="res://Scenes/UI/Cards/PlayerHand.tscn" id="10_ac3bf"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kculh"]
 bg_color = Color(0.926002, 0.154522, 0.240135, 1)
@@ -139,6 +139,7 @@ theme_override_constants/margin_right = 300
 theme_override_constants/margin_bottom = 100
 
 [node name="WaveCompletedPanel" parent="Control/VBoxContainer/MainGameGap" instance=ExtResource("7_4tavd")]
+visible = false
 layout_mode = 2
 
 [node name="BottomUI" type="Panel" parent="Control/VBoxContainer"]
@@ -176,28 +177,6 @@ text = "Chunks"
 layout_mode = 2
 text = "Begin Wave"
 
-[node name="CardsPanel" type="ScrollContainer" parent="Control"]
-visible = false
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -6.0
-offset_bottom = -109.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_j8yyb")
-
-[node name="GridContainer" type="GridContainer" parent="Control/CardsPanel"]
-custom_minimum_size = Vector2(1000, 400)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/h_separation = 10
-theme_override_constants/v_separation = 10
-columns = 7
-
 [node name="TowersPanel" type="ScrollContainer" parent="Control"]
 visible = false
 layout_mode = 1
@@ -223,7 +202,9 @@ columns = 7
 [node name="Button" parent="Control/TowersPanel/GridContainer" instance=ExtResource("8_mapmy")]
 layout_mode = 2
 ButtonIcon = ExtResource("9_r48qg")
-SceneDraggable = ExtResource("10_d4dwr")
+
+[node name="PlayerHand" parent="Control" instance=ExtResource("10_ac3bf")]
+layout_mode = 1
 
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/PausePlayButton" to="." method="_on_pause_play_button_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/SpeedUpButton" to="." method="_on_speed_up_button_pressed"]
