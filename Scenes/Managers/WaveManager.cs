@@ -97,8 +97,6 @@ namespace Managers
             .Where(item => item.Enabled)
             .ToList();
 
-
-
             
             int enemyCount = 4 + WaveNumber + ValidSpawners.Count;
             //GD.Print($"{ValidSpawners.Count} valid spawners, {enemyCount} enemies per spawner");

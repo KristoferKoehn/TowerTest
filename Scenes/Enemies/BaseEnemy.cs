@@ -18,6 +18,7 @@ public partial class BaseEnemy : PathFollow3D
 	protected string ModelName;
 
 	public int ChunkCounter = 0;
+	public bool Disabled = false;
 
     //stats, health whatever
     //speed
@@ -29,13 +30,15 @@ public partial class BaseEnemy : PathFollow3D
     public override void _Ready()
 	{
 		Loop = false;
-		EnemyManager.GetInstance().RegisterEnemy(this);
+        if (Disabled) return;
+        EnemyManager.GetInstance().RegisterEnemy(this);
     }
 
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
 	{
+		if (Disabled) return;
 
 		if (ProgressRatio == 1)
 		{

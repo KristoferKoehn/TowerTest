@@ -1,7 +1,7 @@
 [gd_scene load_steps=17 format=3 uid="uid://bqi5yficpytv4"]
 
 [ext_resource type="Script" path="res://Scenes/GameLoop/GameLoop.cs" id="1_l1214"]
-[ext_resource type="PackedScene" path="res://Scenes/Chunks/c_StartingChunk.tscn" id="3_wuc8u"]
+[ext_resource type="PackedScene" uid="uid://chp22ot4ypmd3" path="res://Scenes/Chunks/c_StartingChunk.tscn" id="3_wuc8u"]
 [ext_resource type="Script" path="res://Scenes/UI/UI.cs" id="7_tphpa"]
 [ext_resource type="Texture2D" uid="uid://b3p6kmoe4foeh" path="res://Assets/Icons/PauseButton.tres" id="9_fky3n"]
 [ext_resource type="Texture2D" uid="uid://dg85yvsjdkql5" path="res://Assets/Icons/PlayButton.tres" id="10_0fy5r"]

@@ -61,7 +61,6 @@ public partial class Chunk : Node3D
     [Export]
     public bool Debug = false;
 
-
     //this is so we know how big the chunk is. For later.
     public int ChunkSize = 7;
 
