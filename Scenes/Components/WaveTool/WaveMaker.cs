@@ -235,7 +235,7 @@ public partial class WaveMaker : Node3D
     public void MenuButtonPressed(long index)
     {
 
-        if (index == 1)
+        if (index == 0)
         {
             FileSelector.Visible = true;
         }

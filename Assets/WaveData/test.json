@@ -8,7 +8,9 @@
   ]
  ],
  [
-  [],
+  [
+   "GolemSkeleton.tscn"
+  ],
   [
    "ArmoredSkeleton.tscn",
    "ArmoredSkeleton.tscn",
@@ -26,52 +28,164 @@
   []
  ],
  [
-  [],
+  [
+   "GolemSkeleton.tscn",
+   "GolemSkeleton.tscn"
+  ],
+  [
+   "GolemSkeleton.tscn"
+  ]
+ ],
+ [
+  [
+   "ArmoredSkeleton.tscn",
+   "ArmoredSkeleton.tscn"
+  ],
   []
  ],
  [
-  [],
+  [
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn"
+  ],
+  [
+   "Skeleton.tscn",
+   "Skeleton.tscn"
+  ]
+ ],
+ [
+  [
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn"
+  ],
+  [
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn"
+  ]
+ ],
+ [
+  [
+   "Necromancer.tscn",
+   "Necromancer.tscn",
+   "Necromancer.tscn"
+  ],
+  [
+   "Necromancer.tscn",
+   "Necromancer.tscn",
+   "Necromancer.tscn"
+  ]
+ ],
+ [
+  [
+   "Necromancer.tscn",
+   "Necromancer.tscn",
+   "Necromancer.tscn"
+  ],
   []
  ],
  [
-  [],
+  [
+   "Necromancer.tscn"
+  ],
+  [
+   "Necromancer.tscn",
+   "Necromancer.tscn",
+   "Necromancer.tscn"
+  ]
+ ],
+ [
+  [
+   "Necromancer.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn"
+  ],
+  [
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn"
+  ]
+ ],
+ [
+  [
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn"
+  ],
   []
  ],
  [
-  [],
-  []
+  [
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn"
+  ],
+  [
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn"
+  ]
  ],
  [
-  [],
-  []
+  [
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn"
+  ],
+  [
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn"
+  ]
  ],
  [
-  [],
-  []
- ],
- [
-  [],
-  []
- ],
- [
-  [],
-  []
- ],
- [
-  [],
-  []
- ],
- [
-  [],
-  []
- ],
- [
-  [],
-  []
- ],
- [
-  [],
-  []
+  [
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn"
+  ],
+  [
+   "Skeleton.tscn",
+   "Skeleton.tscn",
+   "Skeleton.tscn"
+  ]
  ],
  [
   [],

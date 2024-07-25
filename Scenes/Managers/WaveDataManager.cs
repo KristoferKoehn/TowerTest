@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using Managers;
 using System;
 
@@ -33,8 +34,12 @@ public partial class WaveDataManager : Node
 	{
 	}
 
-    public void LoadWave(string WaveName)
+    public Array<Array<Array<string>>> LoadWave(string WaveName)
     {
+        string serialized = Load(WaveName);
+
+        Variant v = Json.ParseString(serialized);
+        return v.AsGodotArray<Array<Array<string>>>();
 
     }
 

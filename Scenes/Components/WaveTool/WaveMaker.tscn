@@ -192,11 +192,9 @@ layout_mode = 0
 offset_right = 67.0
 offset_bottom = 31.0
 text = "File"
-item_count = 2
-popup/item_0/text = "New Level"
-popup/item_0/id = 0
-popup/item_1/text = "Load Level"
-popup/item_1/id = 1
+item_count = 1
+popup/item_0/text = "Load Level"
+popup/item_0/id = 1
 
 [node name="LineEdit" type="LineEdit" parent="CanvasLayer/Panel"]
 layout_mode = 1
