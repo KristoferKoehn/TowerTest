@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://cbg4h0fardr6r"]
+[gd_scene load_steps=7 format=3 uid="uid://cbg4h0fardr6r"]
 
 [ext_resource type="Script" path="res://Scenes/Components/WaveTool/WaveMaker.cs" id="1_iextb"]
+[ext_resource type="PackedScene" uid="uid://bvfxokd17td3t" path="res://Scenes/Components/WaveTool/FileSelector.tscn" id="2_2l8xy"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_l1101"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -17,7 +18,7 @@ glow_enabled = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_wpr5j"]
 
-[node name="WaveMaker" type="Node3D" node_paths=PackedStringArray("WaveItemList", "ForkItemList", "OptionButton", "AddFork", "AddWave", "RemoveEnemy")]
+[node name="WaveMaker" type="Node3D" node_paths=PackedStringArray("WaveItemList", "ForkItemList", "OptionButton", "AddFork", "AddWave", "RemoveEnemy", "Menu", "FileSelector", "SaveButton", "LineEdit")]
 script = ExtResource("1_iextb")
 WaveItemList = NodePath("CanvasLayer/Panel/StandardWaveList")
 ForkItemList = NodePath("CanvasLayer/Panel/ForkWaveList")
@@ -25,6 +26,10 @@ OptionButton = NodePath("CanvasLayer/Panel/OptionButton")
 AddFork = NodePath("CanvasLayer/Panel/AddForkButton")
 AddWave = NodePath("CanvasLayer/Panel/AddButton")
 RemoveEnemy = NodePath("CanvasLayer/Panel/RemoveButton")
+Menu = NodePath("CanvasLayer/Panel/MenuButton")
+FileSelector = NodePath("CanvasLayer/FileSelector")
+SaveButton = NodePath("CanvasLayer/Panel/SaveButton")
+LineEdit = NodePath("CanvasLayer/Panel/LineEdit")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.439935, -0.777718, 0.449013, 0, 0.499998, 0.866027, -0.89803, -0.380995, 0.219967, 0, 0, 0)
@@ -35,33 +40,12 @@ environment = SubResource("Environment_idahu")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Control" type="Control" parent="CanvasLayer"]
-layout_mode = 3
+[node name="Panel" type="Panel" parent="CanvasLayer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="Panel" type="Panel" parent="CanvasLayer"]
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="TextEdit" type="TextEdit" parent="CanvasLayer/Panel"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.021
-anchor_top = 0.042
-anchor_right = 0.021
-anchor_bottom = 0.042
-offset_left = -0.192001
-offset_top = -0.216002
-offset_right = 230.808
-offset_bottom = 36.784
-placeholder_text = "Level Name"
 
 [node name="StandardWaveList" type="ItemList" parent="CanvasLayer/Panel"]
 layout_mode = 1
@@ -178,14 +162,14 @@ text = "Remove Enemy
 [node name="SpinBox" type="SpinBox" parent="CanvasLayer/Panel"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.148
-anchor_top = 0.113
-anchor_right = 0.148
-anchor_bottom = 0.113
-offset_left = 0.503998
-offset_top = -0.224007
-offset_right = 83.5665
-offset_bottom = 30.776
+anchor_left = 0.227
+anchor_top = 0.151
+anchor_right = 0.227
+anchor_bottom = 0.151
+offset_left = -0.504028
+offset_top = 0.151993
+offset_right = 82.5585
+offset_bottom = 31.152
 min_value = 1.0
 value = 1.0
 rounded = true
@@ -193,21 +177,59 @@ rounded = true
 [node name="WaveLabel" type="Label" parent="CanvasLayer/Panel"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.144
-anchor_top = 0.119
-anchor_right = 0.144
-anchor_bottom = 0.119
-offset_left = -42.888
-offset_top = -0.112
-offset_right = 0.111984
-offset_bottom = 22.888
+anchor_left = 0.181
+anchor_top = 0.156
+anchor_right = 0.181
+anchor_bottom = 0.156
+offset_left = -0.512009
+offset_top = -0.0880051
+offset_right = 42.488
+offset_bottom = 22.912
 text = "Wave"
+
+[node name="MenuButton" type="MenuButton" parent="CanvasLayer/Panel"]
+layout_mode = 0
+offset_right = 67.0
+offset_bottom = 31.0
+text = "File"
+item_count = 2
+popup/item_0/text = "New Level"
+popup/item_0/id = 0
+popup/item_1/text = "Load Level"
+popup/item_1/id = 1
+
+[node name="LineEdit" type="LineEdit" parent="CanvasLayer/Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.024
+anchor_top = 0.062
+anchor_right = 0.153
+anchor_bottom = 0.11
+offset_left = 0.351999
+offset_top = -0.176003
+offset_right = -0.256012
+offset_bottom = -0.280006
+placeholder_text = "Filename"
+
+[node name="SaveButton" type="Button" parent="CanvasLayer/Panel"]
+layout_mode = 0
+offset_left = 211.0
+offset_top = 41.0
+offset_right = 255.0
+offset_bottom = 72.0
+text = "Save
+"
+
+[node name="FileSelector" parent="CanvasLayer" node_paths=PackedStringArray("files", "LoadButton") instance=ExtResource("2_2l8xy")]
+visible = false
+files = NodePath("Panel/ItemList")
+LoadButton = NodePath("LoadButton")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8.50699)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.909142, 0, 0.416487, -0.172734, 0.90994, 0.377058, -0.378978, -0.414741, 0.827264, -1.22547, 0, 0)
+transform = Transform3D(0.909142, 0, 0.416487, -0.172734, 0.90994, 0.377058, -0.378978, -0.414741, 0.827264, -1.9832, 4.76837e-07, 2.56695)
 mesh = SubResource("BoxMesh_wpr5j")
 
 [connection signal="item_selected" from="CanvasLayer/Panel/StandardWaveList" to="." method="_on_standard_wave_list_item_selected"]
@@ -216,3 +238,5 @@ mesh = SubResource("BoxMesh_wpr5j")
 [connection signal="item_selected" from="CanvasLayer/Panel/ForkWaveList" to="." method="_on_fork_wave_list_item_selected"]
 [connection signal="pressed" from="CanvasLayer/Panel/RemoveButton" to="." method="_on_remove_button_pressed"]
 [connection signal="value_changed" from="CanvasLayer/Panel/SpinBox" to="." method="_on_spin_box_value_changed"]
+[connection signal="pressed" from="CanvasLayer/Panel/SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="LoadFile" from="CanvasLayer/FileSelector" to="." method="_on_file_selector_load_file"]

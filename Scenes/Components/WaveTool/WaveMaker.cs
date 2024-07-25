@@ -19,6 +19,14 @@ public partial class WaveMaker : Node3D
     Button AddWave;
     [Export]
     Button RemoveEnemy;
+    [Export]
+    MenuButton Menu;
+    [Export]
+    FileSelector FileSelector;
+    [Export]
+    Button SaveButton;
+    [Export]
+    LineEdit LineEdit;
 
     List<ViewportVisuals> Viewports = new List<ViewportVisuals>();
 
@@ -35,6 +43,7 @@ public partial class WaveMaker : Node3D
         RemoveEnemy.Disabled = true;
         InitializeLevel();
         _on_spin_box_value_changed(1);
+        Menu.GetPopup().IndexPressed += MenuButtonPressed;
 
         //put enemy scene names into a dropdown or something
         string[] names = DirAccess.GetFilesAt("res://Scenes/Enemies/");
@@ -160,9 +169,9 @@ public partial class WaveMaker : Node3D
                 {
                     //do not select
                 }
-                else if (i > Level[CurrentWave][0].Count - 1)
+                else if (i > Level[CurrentWave][1].Count - 1)
                 {
-                    ForkItemList.Select(Level[CurrentWave][0].Count - 1);
+                    ForkItemList.Select(Level[CurrentWave][1].Count - 1);
                 }
             }
         }
@@ -222,4 +231,45 @@ public partial class WaveMaker : Node3D
         vv.CameraTilt = -23;
         itemList.AddIconItem(t);
     }
+
+    public void MenuButtonPressed(long index)
+    {
+
+        if (index == 1)
+        {
+            FileSelector.Visible = true;
+        }
+
+        GD.Print(index);
+    }
+
+    public void _on_file_selector_load_file(string filename)
+    {
+        string json = Load(filename);
+        filename = filename.ReplaceN(".json", "");
+        LineEdit.Text = filename;
+        Variant v = Json.ParseString(json);
+        Level = v.AsGodotArray<Array<Array<string>>>();
+        _on_spin_box_value_changed(1);
+    }
+
+    public string Load(string fileName)
+    {
+        using var file = FileAccess.Open($"res://Assets/WaveData/{fileName}", FileAccess.ModeFlags.Read);
+        if (file == null)
+        {
+            GD.Print($"NOT FOUND {fileName}");
+            return null;
+        }
+        string content = file.GetAsText();
+        return content;
+    }
+
+    public void _on_save_button_pressed()
+    {
+        
+        string str = Json.Stringify(Level, indent: " ");
+        Save(str, $"{LineEdit.Text}.json");
+    }
+
 }

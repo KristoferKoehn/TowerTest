@@ -1,0 +1,88 @@
+[gd_scene load_steps=2 format=3 uid="uid://bvfxokd17td3t"]
+
+[ext_resource type="Script" path="res://Scenes/Components/WaveTool/FileSelector.cs" id="1_13fn0"]
+
+[node name="FileSelector" type="Control" node_paths=PackedStringArray("files", "LoadButton")]
+layout_mode = 3
+anchor_right = 0.407
+anchor_bottom = 0.448
+offset_right = 0.135986
+offset_bottom = -0.304016
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_13fn0")
+files = NodePath("Panel/ItemList")
+LoadButton = NodePath("LoadButton")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ItemList" type="ItemList" parent="Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.054
+anchor_top = 0.172
+anchor_right = 0.943
+anchor_bottom = 0.887
+offset_left = -5.326
+offset_top = -15.88
+offset_right = -5.03
+offset_bottom = -15.895
+
+[node name="Label" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 4.0
+offset_right = 99.0
+offset_bottom = 27.0
+text = "Select File..."
+
+[node name="CloseButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.928
+anchor_right = 1.0
+anchor_bottom = 0.11
+offset_left = -0.232025
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = 0.0999985
+text = "X"
+
+[node name="CancelButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.612
+anchor_top = 0.859
+anchor_right = 0.746
+anchor_bottom = 0.962
+offset_left = -0.0280151
+offset_top = -1.11
+offset_right = 0.125977
+offset_bottom = 0.019989
+text = "Cancel"
+
+[node name="LoadButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.793
+anchor_top = 0.855
+anchor_right = 0.93
+anchor_bottom = 0.962
+offset_left = 0.0829773
+offset_top = 0.0499878
+offset_right = -0.170044
+offset_bottom = 0.019989
+text = "Load"
+
+[connection signal="mouse_entered" from="Panel" to="." method="_on_panel_mouse_entered"]
+[connection signal="mouse_exited" from="Panel" to="." method="_on_panel_mouse_exited"]
+[connection signal="item_selected" from="Panel/ItemList" to="." method="_on_item_list_item_selected"]
+[connection signal="pressed" from="CloseButton" to="." method="Close"]
+[connection signal="pressed" from="CancelButton" to="." method="Close"]
+[connection signal="pressed" from="LoadButton" to="." method="_on_load_button_pressed"]
