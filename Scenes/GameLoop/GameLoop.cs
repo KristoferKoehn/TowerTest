@@ -19,6 +19,7 @@ public partial class GameLoop : Node3D
 	public override void _EnterTree()
 	{
 		WaveManager.GetInstance();
+        WaveDataManager.GetInstance();
 		BallistaArrowManager.GetInstance();
 	}
 

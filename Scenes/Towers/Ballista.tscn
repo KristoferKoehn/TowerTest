@@ -36,28 +36,18 @@ size = Vector3(1.1, 0.45, 1.1)
 random_pitch = 1.69
 streams_count = 5
 stream_0/stream = ExtResource("5_r0e4s")
-stream_0/weight = 1.0
 stream_1/stream = ExtResource("6_ee16f")
-stream_1/weight = 1.0
 stream_2/stream = ExtResource("7_22vf7")
-stream_2/weight = 1.0
 stream_3/stream = ExtResource("8_a157n")
-stream_3/weight = 1.0
 stream_4/stream = ExtResource("9_xkile")
-stream_4/weight = 1.0
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_wj043"]
 streams_count = 5
 stream_0/stream = ExtResource("10_3nx7n")
-stream_0/weight = 1.0
 stream_1/stream = ExtResource("11_s6svi")
-stream_1/weight = 1.0
 stream_2/stream = ExtResource("12_bhj1r")
-stream_2/weight = 1.0
 stream_3/stream = ExtResource("13_xsonx")
-stream_3/weight = 1.0
 stream_4/stream = ExtResource("14_x7l63")
-stream_4/weight = 1.0
 
 [node name="Ballista" type="Node3D" node_paths=PackedStringArray("Outline", "SelectorHitbox", "ShotTimer")]
 script = ExtResource("1_h510k")

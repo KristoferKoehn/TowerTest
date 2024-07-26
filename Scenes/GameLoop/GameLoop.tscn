@@ -1,7 +1,7 @@
 [gd_scene load_steps=17 format=3 uid="uid://bqi5yficpytv4"]
 
 [ext_resource type="Script" path="res://Scenes/GameLoop/GameLoop.cs" id="1_l1214"]
-[ext_resource type="PackedScene" uid="uid://chp22ot4ypmd3" path="res://Scenes/Chunks/c_StartingChunk.tscn" id="3_wuc8u"]
+[ext_resource type="PackedScene" path="res://Scenes/Chunks/c_StartingChunk.tscn" id="3_wuc8u"]
 [ext_resource type="Script" path="res://Scenes/UI/UI.cs" id="7_tphpa"]
 [ext_resource type="Texture2D" uid="uid://b3p6kmoe4foeh" path="res://Assets/Icons/PauseButton.tres" id="9_fky3n"]
 [ext_resource type="Texture2D" uid="uid://dg85yvsjdkql5" path="res://Assets/Icons/PlayButton.tres" id="10_0fy5r"]
@@ -35,9 +35,7 @@ script = ExtResource("1_l1214")
 [node name="HomeBase" parent="." instance=ExtResource("12_lr5yx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 1)
 
-[node name="Chunk" parent="." node_paths=PackedStringArray("NorthTile", "CenterTile") instance=ExtResource("3_wuc8u")]
-NorthTile = NodePath("0, -3")
-CenterTile = NodePath("0, 0")
+[node name="Chunk" parent="." instance=ExtResource("3_wuc8u")]
 
 [node name="GroundHitbox" type="StaticBody3D" parent="."]
 collision_mask = 0
@@ -169,6 +167,7 @@ theme_override_constants/margin_right = 300
 theme_override_constants/margin_bottom = 100
 
 [node name="WaveCompletedPanel" parent="UI/Control/VBoxContainer/MainGameGap" instance=ExtResource("11_fdl66")]
+visible = false
 layout_mode = 2
 
 [node name="BottomUI" type="Panel" parent="UI/Control/VBoxContainer"]
@@ -271,3 +270,4 @@ columns = 7
 [connection signal="pressed" from="UI/Control/VBoxContainer/BottomUI/Actions_HBoxContainer/HBoxContainer/Button" to="UI/Control/VBoxContainer/BottomUI/Actions_HBoxContainer/HBoxContainer/Button" method="_on_pressed"]
 [connection signal="pressed" from="UI/Control/VBoxContainer/BottomUI/Actions_HBoxContainer/TowersButton" to="UI" method="_on_towers_button_pressed"]
 [connection signal="pressed" from="UI/Control/VBoxContainer/BottomUI/Actions_HBoxContainer/ChunksButton" to="UI" method="_on_chunks_button_pressed"]
+[connection signal="pressed" from="UI/Control/VBoxContainer/BottomUI/Actions_HBoxContainer/BeginWaveButton" to="." method="_on_begin_wave_button_pressed"]

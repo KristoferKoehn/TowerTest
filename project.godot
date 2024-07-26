@@ -33,7 +33,8 @@ movie_writer/movie_file="C:/Users/Kristofer/Documents/GodotMovieSave/test.avi"
 
 folder_colors={
 "res://Scenes/Components/": "orange",
-"res://Scenes/Components/Cinematics/": "green"
+"res://Scenes/Components/Cinematics/": "green",
+"res://Scenes/Components/WaveTool/": "blue"
 }
 
 [input]
