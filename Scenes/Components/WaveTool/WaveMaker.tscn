@@ -1,0 +1,238 @@
+[gd_scene load_steps=7 format=3 uid="uid://cbg4h0fardr6r"]
+
+[ext_resource type="Script" path="res://Scenes/Components/WaveTool/WaveMaker.cs" id="1_iextb"]
+[ext_resource type="PackedScene" uid="uid://bvfxokd17td3t" path="res://Scenes/Components/WaveTool/FileSelector.tscn" id="2_2l8xy"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_l1101"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_ase75"]
+sky_material = SubResource("ProceduralSkyMaterial_l1101")
+
+[sub_resource type="Environment" id="Environment_idahu"]
+background_mode = 2
+sky = SubResource("Sky_ase75")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_wpr5j"]
+
+[node name="WaveMaker" type="Node3D" node_paths=PackedStringArray("WaveItemList", "ForkItemList", "OptionButton", "AddFork", "AddWave", "RemoveEnemy", "Menu", "FileSelector", "SaveButton", "LineEdit")]
+script = ExtResource("1_iextb")
+WaveItemList = NodePath("CanvasLayer/Panel/StandardWaveList")
+ForkItemList = NodePath("CanvasLayer/Panel/ForkWaveList")
+OptionButton = NodePath("CanvasLayer/Panel/OptionButton")
+AddFork = NodePath("CanvasLayer/Panel/AddForkButton")
+AddWave = NodePath("CanvasLayer/Panel/AddButton")
+RemoveEnemy = NodePath("CanvasLayer/Panel/RemoveButton")
+Menu = NodePath("CanvasLayer/Panel/MenuButton")
+FileSelector = NodePath("CanvasLayer/FileSelector")
+SaveButton = NodePath("CanvasLayer/Panel/SaveButton")
+LineEdit = NodePath("CanvasLayer/Panel/LineEdit")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.439935, -0.777718, 0.449013, 0, 0.499998, 0.866027, -0.89803, -0.380995, 0.219967, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_idahu")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Panel" type="Panel" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StandardWaveList" type="ItemList" parent="CanvasLayer/Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.021
+anchor_top = 0.218
+anchor_right = 0.979
+anchor_bottom = 0.636
+offset_left = 4.808
+offset_top = -0.264008
+offset_right = -0.00390625
+offset_bottom = -0.0960388
+max_columns = 18
+same_column_width = true
+fixed_column_width = 96
+fixed_icon_size = Vector2i(96, 96)
+
+[node name="OptionButton" type="OptionButton" parent="CanvasLayer/Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.854
+anchor_top = 0.021
+anchor_right = 0.854
+anchor_bottom = 0.021
+offset_left = -257.604
+offset_top = -0.104001
+offset_right = 0.395935
+offset_bottom = 34.896
+
+[node name="AddButton" type="Button" parent="CanvasLayer/Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.989
+anchor_top = 0.021
+anchor_right = 0.989
+anchor_bottom = 0.021
+offset_left = -142.614
+offset_top = -0.104001
+offset_right = 0.485962
+offset_bottom = 34.984
+text = "Add To Standard"
+
+[node name="AddForkButton" type="Button" parent="CanvasLayer/Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.989
+anchor_top = 0.091
+anchor_right = 0.989
+anchor_bottom = 0.091
+offset_left = -100.614
+offset_top = 0.215996
+offset_right = 0.385986
+offset_bottom = 31.216
+text = "Add To Fork
+"
+
+[node name="StandardWaveLabel" type="Label" parent="CanvasLayer/Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.025
+anchor_top = 0.176
+anchor_right = 0.025
+anchor_bottom = 0.176
+offset_left = 0.199999
+offset_top = -0.0480118
+offset_right = 118.2
+offset_bottom = 22.952
+text = "Standard Wave
+"
+
+[node name="ForkWaveList" type="ItemList" parent="CanvasLayer/Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.021
+anchor_top = 0.69
+anchor_right = 0.98
+anchor_bottom = 0.944
+offset_left = 6.808
+offset_top = -0.120026
+offset_right = 0.0400391
+offset_bottom = 0.287964
+max_columns = 10
+same_column_width = true
+fixed_column_width = 96
+fixed_icon_size = Vector2i(96, 96)
+
+[node name="ForksLabel" type="Label" parent="CanvasLayer/Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.028
+anchor_top = 0.642
+anchor_right = 0.028
+anchor_bottom = 0.642
+offset_left = -0.256001
+offset_top = 2.98398
+offset_right = 42.744
+offset_bottom = 25.984
+text = "Forks"
+
+[node name="RemoveButton" type="Button" parent="CanvasLayer/Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.99
+anchor_top = 0.156
+anchor_right = 0.99
+anchor_bottom = 0.156
+offset_left = -140.48
+offset_top = -0.0880051
+offset_right = -0.480103
+offset_bottom = 30.912
+text = "Remove Enemy
+"
+
+[node name="SpinBox" type="SpinBox" parent="CanvasLayer/Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.227
+anchor_top = 0.151
+anchor_right = 0.227
+anchor_bottom = 0.151
+offset_left = -0.504028
+offset_top = 0.151993
+offset_right = 82.5585
+offset_bottom = 31.152
+min_value = 1.0
+value = 1.0
+rounded = true
+
+[node name="WaveLabel" type="Label" parent="CanvasLayer/Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.181
+anchor_top = 0.156
+anchor_right = 0.181
+anchor_bottom = 0.156
+offset_left = -0.512009
+offset_top = -0.0880051
+offset_right = 42.488
+offset_bottom = 22.912
+text = "Wave"
+
+[node name="MenuButton" type="MenuButton" parent="CanvasLayer/Panel"]
+layout_mode = 0
+offset_right = 67.0
+offset_bottom = 31.0
+text = "File"
+item_count = 1
+popup/item_0/text = "Load Level"
+popup/item_0/id = 1
+
+[node name="LineEdit" type="LineEdit" parent="CanvasLayer/Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.024
+anchor_top = 0.062
+anchor_right = 0.153
+anchor_bottom = 0.11
+offset_left = 0.351999
+offset_top = -0.176003
+offset_right = -0.256012
+offset_bottom = -0.280006
+placeholder_text = "Filename"
+
+[node name="SaveButton" type="Button" parent="CanvasLayer/Panel"]
+layout_mode = 0
+offset_left = 211.0
+offset_top = 41.0
+offset_right = 255.0
+offset_bottom = 72.0
+text = "Save
+"
+
+[node name="FileSelector" parent="CanvasLayer" instance=ExtResource("2_2l8xy")]
+visible = false
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8.50699)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.909142, 0, 0.416487, -0.172734, 0.90994, 0.377058, -0.378978, -0.414741, 0.827264, -1.9832, 4.76837e-07, 2.56695)
+mesh = SubResource("BoxMesh_wpr5j")
+
+[connection signal="item_selected" from="CanvasLayer/Panel/StandardWaveList" to="." method="_on_standard_wave_list_item_selected"]
+[connection signal="pressed" from="CanvasLayer/Panel/AddButton" to="." method="_on_add_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Panel/AddForkButton" to="." method="_on_add_fork_button_pressed"]
+[connection signal="item_selected" from="CanvasLayer/Panel/ForkWaveList" to="." method="_on_fork_wave_list_item_selected"]
+[connection signal="pressed" from="CanvasLayer/Panel/RemoveButton" to="." method="_on_remove_button_pressed"]
+[connection signal="value_changed" from="CanvasLayer/Panel/SpinBox" to="." method="_on_spin_box_value_changed"]
+[connection signal="pressed" from="CanvasLayer/Panel/SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="LoadFile" from="CanvasLayer/FileSelector" to="." method="_on_file_selector_load_file"]

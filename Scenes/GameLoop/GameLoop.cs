@@ -1,7 +1,6 @@
 using Godot;
 using Godot.Collections;
 using Managers;
-using System;
 
 public partial class GameLoop : Node3D
 {
@@ -17,10 +16,10 @@ public partial class GameLoop : Node3D
 
 	bool DraggingCamera = false;
 
-
 	public override void _EnterTree()
 	{
 		WaveManager.GetInstance();
+        WaveDataManager.GetInstance();
 		BallistaArrowManager.GetInstance();
 		ParticleSignals.GetInstance();
 		ParticleManager.GetInstance();
@@ -65,7 +64,7 @@ public partial class GameLoop : Node3D
 		}
 		*/
         HandleCameraMovement();
-		CheckMouseHover();
+		//CheckMouseHover();
     }
 
     private void HandleCameraMovement()
@@ -193,10 +192,9 @@ public partial class GameLoop : Node3D
 
         if (@event is InputEventMouseMotion mouseMotion)
         {
-
             if (DraggingCamera)
             {
-				//CameraGimbal.TranslateObjectLocal(new Vector3(mouseMotion.ScreenRelative.X, 0, mouseMotion.ScreenRelative.Y) * -0.05f);
+				CameraGimbal.TranslateObjectLocal(new Vector3(mouseMotion.ScreenRelative.X, 0, mouseMotion.ScreenRelative.Y) * -0.05f);
             }
         }
 

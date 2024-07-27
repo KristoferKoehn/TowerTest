@@ -87,7 +87,7 @@ public partial class SettingsManager : Node
         int vs = (int)SettingsDictionary["VSync"];
         DisplayServer.WindowSetVsyncMode((DisplayServer.VSyncMode)vs);
 
-
+        /*
         if ((Viewport.Msaa)(int)SettingsDictionary["MSAA"] != Viewport.Msaa.Disabled)
         {
             GetViewport().Msaa3D = (Viewport.Msaa)(int)SettingsDictionary["MSAA"];
@@ -96,6 +96,7 @@ public partial class SettingsManager : Node
             long fsr = (long)SettingsDictionary["FSR 2.2"];
             GetViewport().Scaling3DMode = (Viewport.Scaling3DModeEnum)fsr;
         }
+        */
     }
 
     public static SettingsManager GetInstance()

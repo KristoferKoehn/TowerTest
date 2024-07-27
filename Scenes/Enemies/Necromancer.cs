@@ -10,8 +10,6 @@ public partial class Necromancer : BaseEnemy
 		base._Ready();
         StrikeSound = GetNode<AudioStreamPlayer3D>("StrikeSound");
 
-		ModelName = "Necromancer";
-
         Dictionary<StatType, float> sb = new()
         {
             {StatType.Health, 600 },

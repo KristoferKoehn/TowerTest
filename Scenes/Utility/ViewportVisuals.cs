@@ -34,9 +34,6 @@ public partial class ViewportVisuals : SubViewport
     [Export]
 	public PackedScene SubjectPackedScene { get; set; }
 	public Node3D SubjectScene { get; set; }
-	// Called when the node enters the scene tree for the first time.
-
-
 
 	public override void _Ready()
 	{
@@ -45,6 +42,12 @@ public partial class ViewportVisuals : SubViewport
 		if (c != null)
 		{
 			c.Disabled = true;
+		}
+
+		BaseEnemy be = SubjectScene as BaseEnemy;
+		if (be != null)
+		{
+			be.Disabled = true;
 		}
 
 

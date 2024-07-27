@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,7 +18,8 @@ namespace Managers
         private static WaveManager instance;
 
 
-        Dictionary<Timer,List<PackedScene>> WaveBuckets = new();
+        System.Collections.Generic.Dictionary<Timer,List<PackedScene>> WaveBuckets = new();
+        System.Collections.Generic.Dictionary<string, PackedScene> EnemyScenes = new();
 
         PackedScene necromancer;
         PackedScene SkeletonMinion;
@@ -25,9 +27,12 @@ namespace Managers
         bool WaveActive = false;
 
         int WaveNumber = 0;
+        int ForkValue = 1;
 
         //some way to determine wave content
         List<Spawner> spawners = new List<Spawner>();
+
+        Array<Array<Array<string>>> Level;
 
         private WaveManager() { }
 
@@ -44,6 +49,17 @@ namespace Managers
 
         public override void _Ready()
         {
+            string[] names = DirAccess.GetFilesAt("res://Scenes/Enemies/");
+            foreach (string name in names)
+            {
+                if(name.Contains(".tscn"))
+                {
+                    GD.Print($"Adding scene: {name}");
+                    EnemyScenes[name] = GD.Load<PackedScene>($"res://Scenes/Enemies/{name}");
+                }
+            }
+
+            //read in structure
             necromancer = GD.Load<PackedScene>("res://Scenes/Enemies/Necromancer.tscn");
             SkeletonMinion = GD.Load<PackedScene>("res://Scenes/Enemies/Skeleton.tscn");
         }
@@ -87,23 +103,54 @@ namespace Managers
         public void StartWave()
         {
             WaveActive = true;
-            WaveNumber++;
+            Level = WaveDataManager.GetInstance().LoadWave("test.json");
             EmitSignal("WaveStarted", WaveNumber);
             //get valid spawners
             List<Spawner> ValidSpawners = spawners
             .Where(item => item.Enabled)
             .ToList();
 
+            
             int enemyCount = 4 + WaveNumber + ValidSpawners.Count;
+
+            List<List<PackedScene>> StagingBuckets = new();
+
+            foreach(Spawner s in ValidSpawners)
+            {
+                StagingBuckets.Add(new List<PackedScene>());    
+            }
+
+            List<string> MainDistribution = new();
+            MainDistribution.AddRange(Level[WaveNumber][0]);
+
+            if (ForkValue > 0)
+            {
+                for (int i = 0; i <  ForkValue; i++)
+                {
+                    MainDistribution.AddRange(Level[WaveNumber][0]);
+                }
+            }
+
+            int distribution = 0;
+            foreach (string s in MainDistribution)
+            {
+                StagingBuckets[distribution].Add(EnemyScenes[s]);
+
+                distribution++;
+                distribution = distribution % ValidSpawners.Count;
+            }
+
+            WaveNumber++;
+
+            //distribute enemies from wave to buckets
+            // if the fork value is larger than spawner count, distribute that amount of fork waves to buckets
+
+            // add entire fork wave to each bucket
+
+            int SpawnerIndex = 0;
             //GD.Print($"{ValidSpawners.Count} valid spawners, {enemyCount} enemies per spawner");
             foreach (Spawner item in ValidSpawners)
             {
-                List<PackedScene> enemy = new();
-                GD.Print($"at {item.GlobalPosition}");
-                for (int i = 0;  i < enemyCount; i++)
-                {
-                    enemy.Add(SkeletonMinion);
-                }
 
                 Timer t = new Timer();
                 t.Timeout += () => {
@@ -120,10 +167,11 @@ namespace Managers
                     }
                 };
 
-                WaveBuckets[t] = enemy;
+                WaveBuckets[t] = StagingBuckets[SpawnerIndex];
 
                 item.AddChild(t);
                 t.Start(0.7f);
+                SpawnerIndex++;
             }
         }
     }
