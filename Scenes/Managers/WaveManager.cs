@@ -123,10 +123,9 @@ namespace Managers
             List<string> MainDistribution = new();
             MainDistribution.AddRange(Level[WaveNumber][0]);
 
-            if (ValidSpawners.Count - ForkValue < 0)
+            if (ForkValue > 0)
             {
-                int Overfork = ForkValue - ValidSpawners.Count;
-                for (int i = 0; i <  Overfork; i++)
+                for (int i = 0; i <  ForkValue; i++)
                 {
                     MainDistribution.AddRange(Level[WaveNumber][0]);
                 }

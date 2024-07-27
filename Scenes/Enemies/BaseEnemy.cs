@@ -5,7 +5,10 @@ using System;
 
 public partial class BaseEnemy : PathFollow3D
 {
-
+	[Export]
+	Array<StatType> stat;
+	[Export]
+	Array<float> statv;
     [Signal]
     public delegate void DamageTakenEventHandler(Node self, Node source);
 

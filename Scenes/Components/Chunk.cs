@@ -61,6 +61,10 @@ public partial class Chunk : Node3D
     [Export]
     public bool Debug = false;
 
+
+    [Export]
+    Script FeatureSingleton;
+
     //this is so we know how big the chunk is. For later.
     public int ChunkSize = 7;
 
@@ -479,6 +483,9 @@ public partial class Chunk : Node3D
                 ChunkDistance = 0;
                 break;
         }
+
+        Node n = new Node();
+        n.SetScript(FeatureSingleton);
 
     }
 
@@ -952,8 +959,4 @@ public partial class Chunk : Node3D
             }
         }
     }
-
-
-
-
 }
