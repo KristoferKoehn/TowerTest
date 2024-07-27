@@ -32,10 +32,12 @@ transform = Transform3D(0.439935, -0.777718, 0.449013, 0, 0.499998, 0.866027, -0
 shadow_enabled = true
 
 [node name="CameraRotationPoint" type="Node3D" parent="."]
-transform = Transform3D(-0.433288, 0, -0.902401, 0, 1, 0, 0.902401, 0, -0.433288, 0, 0, 0)
+
+transform = Transform3D(0.251879, 0, -0.968663, 0, 1, 0, 0.968663, 0, 0.251879, 0, 0, 0)
 
 [node name="CameraGimbal" type="Node3D" parent="CameraRotationPoint"]
-transform = Transform3D(0.707107, -0.407706, 0.577734, 0, 0.817039, 0.576584, -0.707107, -0.407706, 0.577734, 3.23316, 3.23316, 3.23316)
+transform = Transform3D(0.707107, -0.407805, 0.577664, 0, 0.81694, 0.576723, -0.707107, -0.407805, 0.577664, 3.23316, 3.23316, 3.23316)
 
 [node name="Camera3D" type="Camera3D" parent="CameraRotationPoint/CameraGimbal"]
-near = 0.5
+near = 0.7
+

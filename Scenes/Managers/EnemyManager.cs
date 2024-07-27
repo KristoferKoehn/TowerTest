@@ -6,25 +6,25 @@ public partial class EnemyManager : Node
     [Signal]
     public delegate void SpawnedEventHandler(BaseEnemy enemy);
 
-    private static EnemyManager instance;
+	private static EnemyManager instance;
 
-    public List<BaseEnemy> Enemies = new();
+	public List<BaseEnemy> Enemies = new();
 
-    private EnemyManager() { }
+	private EnemyManager() { }
 
-    public static EnemyManager GetInstance()
-    {
-        if (instance == null)
-        {
-            instance = new EnemyManager();
-            SceneSwitcher.root.GetNode<GameLoop>("SceneSwitcher/GameLoop").AddChild(instance);
-            instance.Name = "EnemyManager";
-        }
-        return instance;
-    }
+	public static EnemyManager GetInstance()
+	{
+		if (instance == null)
+		{
+			instance = new EnemyManager();
+			SceneSwitcher.root.GetNode<GameLoop>("SceneSwitcher/GameLoop").AddChild(instance);
+			instance.Name = "EnemyManager";
+		}
+		return instance;
+	}
 
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
+	// Called when the node enters the scene tree for the first time.
+	public override void _Ready()
 	{
 
 	}
@@ -35,9 +35,9 @@ public partial class EnemyManager : Node
         EmitSignal("Spawned", enemy);
     }
 
-    public void UnregisterEnemy(BaseEnemy enemy)
-    {
-        Enemies.Remove(enemy);
-    }
+	public void UnregisterEnemy(BaseEnemy enemy)
+	{
+		Enemies.Remove(enemy);
+	}
 
 }

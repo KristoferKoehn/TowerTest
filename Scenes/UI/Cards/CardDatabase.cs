@@ -4,40 +4,38 @@ using System.Collections.Generic;
 
 public static partial class CardDatabase
 {
-    public enum ChunkType
+    public static readonly List<string> chunkslist = new List<string>
     {
-        c_2EAngle,
-        c_2EAngleB,
-        c_2EntranceForkA,
-        c_2EntranceSnakeA,
-        c_4EB,
-        c_ForkWithCycle,
-        c_StartingChunk,
-        c_TestChunk
-    }
-
-    // Type, Resources,
-    public static readonly Dictionary<ChunkType, List<string>> DATA = new Dictionary<ChunkType, List<string>>
-    {
-        { ChunkType.c_2EAngle, new List<string> { "Chunks" } },
-        { ChunkType.c_2EAngleB, new List<string> { "Chunks" } },
-        { ChunkType.c_2EntranceForkA, new List<string> { "Chunks" } },
-        { ChunkType.c_2EntranceSnakeA, new List<string> { "Chunks" } },
-        { ChunkType.c_4EB, new List<string> { "Chunks" } },
-        { ChunkType.c_ForkWithCycle, new List<string> { "Chunks" } },
-        { ChunkType.c_StartingChunk, new List<string> { "Chunks" } },
-        { ChunkType.c_TestChunk, new List<string> { "Chunks" } }
+        "res://Scenes/Chunks/c_2EAngle.tscn",
+        "res://Scenes/Chunks/c_2EAngleB.tscn",
+        "res://Scenes/Chunks/c_2EntranceForkA.tscn",
+        "res://Scenes/Chunks/c_2EntranceSnakeA.tscn",
+        "res://Scenes/Chunks/c_4EB.tscn",
+        "res://Scenes/Chunks/c_ForkWithCycle.tscn",
+        "res://Scenes/Chunks/c_StartingChunk.tscn",
+        "res://Scenes/Chunks/c_TestChunk.tscn",
+        "res://Scenes/Chunks/Laneless.tscn",
     };
 
-    public static ChunkType Get(string cardName)
+    public static readonly List<string> towerslist = new List<string>
     {
-        if (Enum.TryParse(cardName, true, out ChunkType chunkType))
-        {
-            return chunkType;
-        }
-        else
-        {
-            throw new ArgumentException($"Invalid card name: {cardName}");
-        }
-    }
+        "res://Scenes/Towers/Ballista.tscn",
+        //"LaserCrystal",
+    };
+
+    // Type, Resources,
+    public static readonly Dictionary<string, List<string>> DATA = new Dictionary<string, List<string>>
+    {
+        { "res://Scenes/Chunks/c_2EAngle.tscn", new List<string> { "Chunks", "Common" } },
+        { "res://Scenes/Chunks/c_2EAngleB.tscn", new List<string> { "Chunks", "Common" } },
+        { "res://Scenes/Chunks/c_2EntranceForkA.tscn", new List<string> { "Chunks", "Uncommon" } },
+        { "res://Scenes/Chunks/c_2EntranceSnakeA.tscn", new List<string> { "Chunks", "Uncommon" } },
+        { "res://Scenes/Chunks/c_4EB.tscn", new List<string> { "Chunks", "Common" } },
+        { "res://Scenes/Chunks/c_ForkWithCycle.tscn", new List<string> { "Chunks", "Common" } },
+        { "res://Scenes/Chunks/c_StartingChunk.tscn", new List<string> { "Chunks", "Common" } },
+        { "res://Scenes/Chunks/c_TestChunk.tscn", new List<string> { "Chunks", "Common" } },
+        { "res://Scenes/Chunks/Laneless.tscn", new List<string> { "Chunks", "Rare" } },
+        { "Ballista", new List<string> { "Towers", "Common"} },
+        { "LaserCrystal", new List<string> {"Towers", "Epic"} },
+    };
 }

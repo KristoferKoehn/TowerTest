@@ -1,0 +1,14 @@
+[gd_resource type="StyleBoxTexture" load_steps=3 format=3 uid="uid://da3x6txhxmdtx"]
+
+[ext_resource type="Gradient" uid="uid://dauyf1op7jy4d" path="res://Scenes/UI/Cards/Gradients/UncommonGradient.tres" id="1_ys5vi"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ueriv"]
+gradient = ExtResource("1_ys5vi")
+fill_to = Vector2(1, 1)
+
+[resource]
+texture = SubResource("GradientTexture2D_ueriv")
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
