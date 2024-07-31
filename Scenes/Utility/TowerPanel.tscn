@@ -53,6 +53,10 @@ text = "label"
 [node name="HBoxContainer2" type="HBoxContainer" parent="MainPanel/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
+[node name="MarginContainer" type="MarginContainer" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(0, 52.005)
+layout_mode = 2
+
 [node name="HBoxContainer3" type="HBoxContainer" parent="MainPanel/MarginContainer/VBoxContainer"]
 layout_mode = 2
 alignment = 2
@@ -72,6 +76,14 @@ theme_override_constants/margin_left = 118
 [node name="TargetPriority" type="Button" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
 text = "Priority ->"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="MainPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="DeleteButton" type="Button" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+text = "Delete"
 
 [node name="TowerName" type="Label" parent="MainPanel"]
 layout_mode = 0
@@ -108,3 +120,4 @@ item_6/text = "Random"
 metadata/_edit_use_anchors_ = true
 
 [connection signal="pressed" from="MainPanel/MarginContainer/VBoxContainer/HBoxContainer3/TargetPriority" to="." method="_on_target_priority_pressed"]
+[connection signal="pressed" from="MainPanel/MarginContainer/VBoxContainer/HBoxContainer4/DeleteButton" to="." method="_on_delete_button_pressed"]

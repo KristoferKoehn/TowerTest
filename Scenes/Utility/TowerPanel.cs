@@ -40,4 +40,10 @@ public partial class TowerPanel : Control
 	{
 		TargetSelectPanel.Visible = !TargetSelectPanel.Visible;
 	}
+
+	public void _on_delete_button_pressed()
+	{
+		SubjectTower.QueueFree();
+		this.QueueFree();
+	}
 }
