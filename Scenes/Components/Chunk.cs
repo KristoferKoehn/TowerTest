@@ -148,7 +148,6 @@ public partial class Chunk : Node3D
             };
 
 
-
             if (result.Count > 1)
             {
                 material.AlbedoColor = Colors.Red;
@@ -507,8 +506,10 @@ public partial class Chunk : Node3D
                 }
             } else
             {
-                Quaternion = new Quaternion(Vector3.Up, -Mathf.Pi / 2) * Quaternion;
-                UpdateEntrances();
+                //do  nothing
+                RotateCW = false;
+                //Quaternion = new Quaternion(Vector3.Up, -Mathf.Pi / 2) * Quaternion;
+                //UpdateEntrances();
             }
 
 
@@ -534,8 +535,11 @@ public partial class Chunk : Node3D
                 }
             } else
             {
-                Quaternion = new Quaternion(Vector3.Up, Mathf.Pi / 2) * Quaternion;
-                UpdateEntrances();
+                RotateCCW = false;
+                //do nothing
+                //Quaternion = new Quaternion(Vector3.Up, Mathf.Pi / 2) * Quaternion;
+                //UpdateEntrances();
+                
             }
         }
     }
@@ -781,6 +785,7 @@ public partial class Chunk : Node3D
 
         if (!Engine.IsEditorHint() && !CurrentlyPlacing)
         {
+            GD.Print("f");
             PlaceChunk(ExitDirection);
         }
     }
