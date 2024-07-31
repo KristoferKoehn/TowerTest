@@ -14,6 +14,7 @@ public partial class Necromancer : BaseEnemy
         {
             {StatType.Health, 600 },
             {StatType.Speed, 2 },
+            {StatType.Gold, 4 },
         };
         StatBlock.SetStatBlock(sb);
     }

@@ -13,9 +13,10 @@ public partial class RogueSkeleton : BaseEnemy
 			{StatType.Health, 100 },
 			{StatType.Speed, 300 },
 			{StatType.Armor, 0 },
-			{ StatType.FireResist, 0},
-			{StatType.Damage,  100}
-		};
+			{StatType.FireResist, 0},
+			{StatType.Damage,  100},
+            {StatType.Gold, 4 },
+        };
 
 		StatBlock.SetStatBlock(sb);
 	}

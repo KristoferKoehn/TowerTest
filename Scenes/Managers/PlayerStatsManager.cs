@@ -16,7 +16,9 @@ public partial class PlayerStatsManager : Node
 
     static StatBlock StatBlock = new();
 
-    private PlayerStatsManager() { }
+    private PlayerStatsManager() {
+        GD.Print("what the hell");
+    }
 
     public static PlayerStatsManager GetInstance()
     {
@@ -25,13 +27,10 @@ public partial class PlayerStatsManager : Node
             instance = new PlayerStatsManager();
             SceneSwitcher.root.GetNode<SceneSwitcher>("SceneSwitcher").AddChild(instance);
             instance.Name = "PlayerStatsManager";
+            Dictionary<StatType, float> sb = new();
+            StatBlock.SetStatBlock(sb);
         }
-        Dictionary<StatType, float> sb = new()
-        {
-            { StatType.Gold, 0},
-        };
-
-        StatBlock.SetStatBlock(sb);
+        
 
 
         return instance;
@@ -42,15 +41,28 @@ public partial class PlayerStatsManager : Node
         
     }
 
+    /// <summary>
+    /// behaves as a += operator on the given stat. Negative values subtract.
+    /// </summary>
+    /// <param name="st"></param>
+    /// <param name="value"></param>
     public void ChangeStat(StatType st, float value)
     {
-
+        GD.Print($" value passed: {StatBlock.GetStat(st) + value}");
+        StatBlock.SetStat(st, StatBlock.GetStat(st) + value);
+        EmitSignal("StatChanged", (int)st, StatBlock.GetStat(st));
+        GD.Print($"stat changed at stat block: {st} {StatBlock.GetStat(st)}");
     }
 
     public void SetStat(StatType stat, float value)
     {
         StatBlock.SetStat(stat, value);
-        EmitSignal("StatChanged", (int)stat, value);
+        EmitSignal("StatChanged", (int)stat, StatBlock.GetStat(stat));
+    }
+
+    public float GetStat(StatType stat)
+    {
+        return StatBlock.GetStat(stat);
     }
 
 }

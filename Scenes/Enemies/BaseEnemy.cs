@@ -5,10 +5,7 @@ using System;
 
 public partial class BaseEnemy : PathFollow3D
 {
-	[Export]
-	Array<StatType> stat;
-	[Export]
-	Array<float> statv;
+
     [Signal]
     public delegate void DamageTakenEventHandler(Node self, Node source);
 
@@ -22,11 +19,6 @@ public partial class BaseEnemy : PathFollow3D
 
 	public int ChunkCounter = 0;
 	public bool Disabled = false;
-
-    //stats, health whatever
-    //speed
-
-    //a spawner somewhere (not here)
 
 
     // Called when the node enters the scene tree for the first time.
@@ -129,6 +121,10 @@ public partial class BaseEnemy : PathFollow3D
         EnemyManager.GetInstance().UnregisterEnemy(this);
 		
         EmitSignal("Died", this);
+
+		GD.Print($"gold from enemy: {StatBlock.GetStat(StatType.Gold)}");
+		PlayerStatsManager.GetInstance().ChangeStat(StatType.Gold, StatBlock.GetStat(StatType.Gold));
+
 
         GetNode<AnimationPlayer>("AnimationPlayer").SpeedScale = 2;
         GetNode<AnimationPlayer>("AnimationPlayer").Play("Death_A");
