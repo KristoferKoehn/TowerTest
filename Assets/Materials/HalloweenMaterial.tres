@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://yxusomb8sghr"]
+
+[ext_resource type="Texture2D" uid="uid://balirh5jilsvl" path="res://Assets/Textures/halloweenbits_texture.png" id="1_gqhwj"]
+
+[resource]
+albedo_texture = ExtResource("1_gqhwj")

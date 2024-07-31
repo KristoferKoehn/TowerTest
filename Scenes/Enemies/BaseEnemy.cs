@@ -19,6 +19,7 @@ public partial class BaseEnemy : PathFollow3D
 
 	public int ChunkCounter = 0;
 	public bool Disabled = false;
+    public bool dead = false;
 
 
     // Called when the node enters the scene tree for the first time.
@@ -110,8 +111,6 @@ public partial class BaseEnemy : PathFollow3D
 		return ChunkCounter - ProgressRatio;
 	}
 
-	public bool dead = false;
-
 	public void Die()
 	{
 		if (dead) return;
@@ -122,7 +121,6 @@ public partial class BaseEnemy : PathFollow3D
 		
         EmitSignal("Died", this);
 
-		GD.Print($"gold from enemy: {StatBlock.GetStat(StatType.Gold)}");
 		PlayerStatsManager.GetInstance().ChangeStat(StatType.Gold, StatBlock.GetStat(StatType.Gold));
 
 

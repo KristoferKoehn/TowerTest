@@ -39,5 +39,4 @@ public partial class HealthBarManager : Node
         enemy.DamageTaken += temp.UpdateHealthBar;
 	}
 
-
 }
