@@ -15,11 +15,15 @@ public partial class BaseCard : Control
 
     private Vector2 originalPosition;
     private Color originalModulate;
+    private Color selectedModulate = new Color(1, 1, 0.4f, 1);
+    private Vector2 originalScale = new Vector2(0.5f,0.5f);
+    private Vector2 selectedScale = new Vector2(0.6f, 0.6f);
 
     public void _on_mouse_entered()
     {
         this.originalPosition = this.Position;
         // Shift the card up when hovered over
+        /*
         Tween tween = GetTree().CreateTween();
         tween.SetTrans(Tween.TransitionType.Sine);
         tween.SetEase(Tween.EaseType.Out);
@@ -29,6 +33,14 @@ public partial class BaseCard : Control
             new Vector2(this.Position.X, Position.Y - 10),  // Adjust the amount you want to shift the card
             0.2f
         );
+        */
+        this.ZIndex +=1;
+        // Optionally, add a slight scale up effect
+        Tween tweenscale = GetTree().CreateTween();
+        tweenscale.SetTrans(Tween.TransitionType.Sine);
+        tweenscale.SetEase(Tween.EaseType.Out);
+        tweenscale.TweenProperty(this, "scale", this.selectedScale, 0.1);
+        this.Modulate = selectedModulate;
     }
 
     public void _on_gui_input(InputEvent @event)
@@ -38,18 +50,6 @@ public partial class BaseCard : Control
             // Check if the left mouse button is pressed
             if (mouseEvent.ButtonIndex == MouseButton.Left && mouseEvent.Pressed)
             {
-                // Bring this card to the front
-                GetParent().MoveChild(this, GetParent().GetChildCount() - 1);
-
-                // Apply highlight effect (e.g., change color or modulate)
-                originalModulate = Modulate;
-                Modulate = new Color(1, 1, 1, 1); // Set to full white to highlight
-
-                // Optionally, add a slight scale up effect
-                Tween tween = GetTree().CreateTween();
-                tween.SetTrans(Tween.TransitionType.Sine);
-                tween.SetEase(Tween.EaseType.Out);
-                tween.TweenProperty(this, "scale", new Vector2(1.05f, 1.05f), 0.2f);
             }
         }
     }
@@ -57,6 +57,7 @@ public partial class BaseCard : Control
     public void _on_mouse_exited()
     {
         // Move the card back to its original position
+        /*
         Tween tween = GetTree().CreateTween();
         tween.SetTrans(Tween.TransitionType.Sine);
         tween.SetEase(Tween.EaseType.Out);
@@ -66,6 +67,13 @@ public partial class BaseCard : Control
             new Vector2(this.Position.X, originalPosition.Y),
             0.2f
         );
+        */
+        Tween tweenscale = GetTree().CreateTween();
+        tweenscale.SetTrans(Tween.TransitionType.Sine);
+        tweenscale.SetEase(Tween.EaseType.Out);
+        tweenscale.TweenProperty(this, "scale", this.originalScale, 0.1);
+        this.ZIndex -= 1;
+        this.Modulate = originalModulate;
     }
 
     // Called when the node enters the scene tree for the first time.
