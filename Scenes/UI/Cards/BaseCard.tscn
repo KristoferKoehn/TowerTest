@@ -25,6 +25,7 @@ expand_margin_bottom = 1.0
 
 [node name="CardBase" type="Control"]
 layout_mode = 3
+anchors_preset = 0
 offset_right = 250.0
 offset_bottom = 350.0
 pivot_offset = Vector2(125, 175)
@@ -119,5 +120,6 @@ transparent_bg = true
 layout_mode = 2
 size_flags_vertical = 3
 
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

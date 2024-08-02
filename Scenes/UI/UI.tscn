@@ -37,6 +37,11 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 
+[node name="PlayerHand" parent="Control" instance=ExtResource("10_ac3bf")]
+layout_mode = 1
+offset_top = -93.5
+offset_bottom = 93.5
+
 [node name="VBoxContainer" type="VBoxContainer" parent="Control"]
 layout_mode = 1
 anchors_preset = 15
@@ -202,9 +207,6 @@ columns = 7
 [node name="Button" parent="Control/TowersPanel/GridContainer" instance=ExtResource("8_mapmy")]
 layout_mode = 2
 ButtonIcon = ExtResource("9_r48qg")
-
-[node name="PlayerHand" parent="Control" instance=ExtResource("10_ac3bf")]
-layout_mode = 1
 
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/PausePlayButton" to="." method="_on_pause_play_button_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/SpeedUpButton" to="." method="_on_speed_up_button_pressed"]

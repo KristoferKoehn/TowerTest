@@ -14,6 +14,7 @@ public partial class BaseCard : Control
     public ViewportVisuals Viewport;
 
     private Vector2 originalPosition;
+    private Color originalModulate;
 
     public void _on_mouse_entered()
     {
@@ -28,6 +29,29 @@ public partial class BaseCard : Control
             new Vector2(this.Position.X, Position.Y - 10),  // Adjust the amount you want to shift the card
             0.2f
         );
+    }
+
+    public void _on_gui_input(InputEvent @event)
+    {
+        if (@event is InputEventMouseButton mouseEvent)
+        {
+            // Check if the left mouse button is pressed
+            if (mouseEvent.ButtonIndex == MouseButton.Left && mouseEvent.Pressed)
+            {
+                // Bring this card to the front
+                GetParent().MoveChild(this, GetParent().GetChildCount() - 1);
+
+                // Apply highlight effect (e.g., change color or modulate)
+                originalModulate = Modulate;
+                Modulate = new Color(1, 1, 1, 1); // Set to full white to highlight
+
+                // Optionally, add a slight scale up effect
+                Tween tween = GetTree().CreateTween();
+                tween.SetTrans(Tween.TransitionType.Sine);
+                tween.SetEase(Tween.EaseType.Out);
+                tween.TweenProperty(this, "scale", new Vector2(1.05f, 1.05f), 0.2f);
+            }
+        }
     }
 
     public void _on_mouse_exited()
@@ -48,6 +72,7 @@ public partial class BaseCard : Control
     public override void _Ready()
     {
         originalPosition = Position;
+        originalModulate = Modulate;
     }
 
     // Sets the card to the given scene (ex: a chunk name or a tower name)

@@ -4,13 +4,13 @@ using System.Collections.Generic;
 
 public partial class PlayerHand : Control
 {
-    private static readonly Vector2 CardSize = new Vector2(125, 175);
+    //private static readonly Vector2 CardSize = new Vector2(125, 175);
     private static PackedScene BaseCardScene;
     private Curve CardCurveWidth = GD.Load<Curve>("res://Scenes/UI/Cards/CardCurveWidth.tres");
     private Curve CardCurveHeight = GD.Load<Curve>("res://Scenes/UI/Cards/CardCurveHeight.tres");
     private Curve CardCurveRotation = GD.Load<Curve>("res://Scenes/UI/Cards/CardCurveRotation.tres");
     private List<BaseCard> CardList = new List<BaseCard>();
-    private MarginContainer CardMarginContainer;
+    private TextureRect PlaceholderTextureRect;
 
     [Export]
     private float HAND_WIDTH_SCALE = 500f;
@@ -21,15 +21,16 @@ public partial class PlayerHand : Control
 
     public override void _Process(double delta)
     {
-        HAND_WIDTH_SCALE = CardMarginContainer.Size.X;
-        HAND_HEIGHT_SCALE = CardMarginContainer.Size.Y;
+        HAND_WIDTH_SCALE = this.Size.X;
+        HAND_HEIGHT_SCALE = this.Size.Y;
         UpdateCardPositions();
     }
     public override void _Ready()
     {
         //this.Position = this.GetViewport().GetVisibleRect().Size / 2;
         BaseCardScene = GD.Load<PackedScene>("res://Scenes/UI/Cards/BaseCard.tscn");
-        CardMarginContainer = GetNode<MarginContainer>("MarginContainer");
+        PlaceholderTextureRect = GetNode<TextureRect>("TextureRect");
+        PlaceholderTextureRect.Visible = false;
         // Generate a test hand:
         this.GenerateHandWithAllCards();
     }
@@ -40,6 +41,16 @@ public partial class PlayerHand : Control
         //card.AnchorsPreset = (int)Control.LayoutPreset.Center;
         //card.SetAnchorsPreset(LayoutPreset.Center);
         this.CardList.Add(card);
+
+        //Subscribe the card to clicked event:
+        card.GuiInput += (InputEvent @event) => {
+            if (@event.IsAction("select"))
+            {
+                OnChunkCardClicked(@event, card);
+            }
+
+        };
+
         UpdateCardPositions();
     }
 
@@ -66,10 +77,29 @@ public partial class PlayerHand : Control
             //GD.Print($"Card {i}: widthOffset = {widthOffset}, heightOffset = {heightOffset}, rotationOffset = {rotationOffset}");
 
             // Update position relative to parent (PlayerHand)
-            card.Position = new Vector2(widthOffset - 125, -heightOffset - 175);
+            card.Position = new Vector2(widthOffset, -heightOffset);
 
             // Update rotation
             card.RotationDegrees = rotationOffset;
+        }
+    }
+
+    // When a chunk card is clicked:
+    public void OnChunkCardClicked(InputEvent @event, BaseCard card)
+    {
+        if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed)
+        {
+            GD.Print("Clicked on a card.");
+
+            if (card != null)
+            {
+                // Load and instantiate the card:
+                Chunk newchunk = GD.Load<PackedScene>(card.ScenePath).Instantiate<Chunk>();
+                newchunk.CurrentlyPlacing = true;
+                newchunk.Debug = true;
+                this.Visible = false;
+                this.AddChild(newchunk); // adding chunk to player hand? could change what we add the node to.
+            }
         }
     }
 
