@@ -203,6 +203,5 @@ public partial class GameLoop : Node3D
 	public void _on_begin_wave_button_pressed()
 	{
 		WaveManager.GetInstance().StartWave();
-		GD.Print("Button pressed");
 	}
 }

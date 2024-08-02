@@ -34,7 +34,7 @@ public partial class BallistaArrowManager : Node
 	{
         foreach(MeshInstance3D arrow in Arrows)
         {
-            arrow.TranslateObjectLocal(new Vector3(0, 0, -0.5f));
+            arrow.TranslateObjectLocal(new Vector3(0, 0, -0.2f));
         }
 	}
 

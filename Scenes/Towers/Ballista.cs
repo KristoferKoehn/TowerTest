@@ -34,7 +34,7 @@ public partial class Ballista : AbstractTower
         BallistaMount = GetNode<MeshInstance3D>("weapon_ballista2/tmpParent/weapon_ballista");
         BallistaBow = GetNode<MeshInstance3D>("weapon_ballista2/tmpParent/weapon_ballista/bow");
         Arrow = GetNode<MeshInstance3D>("weapon_ballista2/tmpParent/weapon_ballista/bow/arrow");
-        RangeHitbox = GetNode<CollisionShape3D>("ActiveRange/CollisionShape3D");
+        RangeHitbox = ActiveRange.GetNode<CollisionShape3D>("CollisionShape3D");
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.

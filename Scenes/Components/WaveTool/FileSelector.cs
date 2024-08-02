@@ -56,8 +56,6 @@ public partial class FileSelector : Control
 		{
             dragging = true;
 			DragOffset = GlobalPosition - GetGlobalMousePosition();
-
-			GD.Print(GlobalPosition - GetGlobalMousePosition(), MouseInside);
 		}
     }
 

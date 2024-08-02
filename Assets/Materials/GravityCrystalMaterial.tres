@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://uwt8q8fx6b4c"]
+
+[ext_resource type="Shader" path="res://Assets/Shaders/GlassDistortion.gdshader" id="1_t0j37"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_t0j37")
+shader_parameter/albedo = Color(0, 0.72, 3.244, 0.205)
+shader_parameter/specular = 2.745
+shader_parameter/offset = 0.015
+shader_parameter/opacity = 0.9

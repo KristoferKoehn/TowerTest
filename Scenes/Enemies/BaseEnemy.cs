@@ -87,7 +87,9 @@ public partial class BaseEnemy : PathFollow3D
 		} else
 		{
 			EnemyManager.GetInstance().UnregisterEnemy(this);
-			QueueFree();
+			DamagePlayer();
+
+            QueueFree();
 		}
 
 	}
@@ -130,6 +132,10 @@ public partial class BaseEnemy : PathFollow3D
 		{
 			QueueFree();
         };
-		
     }
+
+	public void DamagePlayer()
+	{
+		PlayerStatsManager.GetInstance().ChangeStat(StatType.Health, -StatBlock.GetStat(StatType.Damage));
+	}
 }

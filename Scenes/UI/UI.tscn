@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://cxj4256wgc2jn" path="res://Scenes/UI/Panels/WaveCompletedPanel.tscn" id="7_4tavd"]
 [ext_resource type="PackedScene" uid="uid://dno07x46t40iw" path="res://Scenes/UI/DraggerButton.tscn" id="8_mapmy"]
 [ext_resource type="Texture2D" uid="uid://bkfkkkrm4032v" path="res://Assets/ChunkImages/BallistaImage.png" id="9_r48qg"]
-[ext_resource type="PackedScene" uid="uid://ba4apx2hsn1c0" path="res://Scenes/Towers/Ballista.tscn" id="10_d4dwr"]
+[ext_resource type="PackedScene" uid="uid://c7pjc1l8k4lfj" path="res://Scenes/Towers/GravityCrystal.tscn" id="10_upohk"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kculh"]
 bg_color = Color(0.926002, 0.154522, 0.240135, 1)
@@ -225,7 +225,7 @@ columns = 7
 [node name="Button" parent="Control/TowersPanel/GridContainer" instance=ExtResource("8_mapmy")]
 layout_mode = 2
 ButtonIcon = ExtResource("9_r48qg")
-SpawnScene = ExtResource("10_d4dwr")
+SpawnScene = ExtResource("10_upohk")
 
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/PausePlayButton" to="." method="_on_pause_play_button_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/SpeedUpButton" to="." method="_on_speed_up_button_pressed"]

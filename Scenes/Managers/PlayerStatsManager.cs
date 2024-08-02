@@ -16,9 +16,7 @@ public partial class PlayerStatsManager : Node
 
     static StatBlock StatBlock = new();
 
-    private PlayerStatsManager() {
-        GD.Print("what the hell");
-    }
+    private PlayerStatsManager() {}
 
     public static PlayerStatsManager GetInstance()
     {
@@ -30,9 +28,6 @@ public partial class PlayerStatsManager : Node
             Dictionary<StatType, float> sb = new();
             StatBlock.SetStatBlock(sb);
         }
-        
-
-
         return instance;
     }
 
@@ -48,10 +43,8 @@ public partial class PlayerStatsManager : Node
     /// <param name="value"></param>
     public void ChangeStat(StatType st, float value)
     {
-        GD.Print($" value passed: {StatBlock.GetStat(st) + value}");
         StatBlock.SetStat(st, StatBlock.GetStat(st) + value);
         EmitSignal("StatChanged", (int)st, StatBlock.GetStat(st));
-        GD.Print($"stat changed at stat block: {st} {StatBlock.GetStat(st)}");
     }
 
     public void SetStat(StatType stat, float value)

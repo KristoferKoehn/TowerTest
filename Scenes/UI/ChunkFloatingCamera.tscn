@@ -1,49 +1,25 @@
-[gd_scene load_steps=3 format=3 uid="uid://xmh8jt0fd3q7"]
+[gd_scene load_steps=2 format=3 uid="uid://xmh8jt0fd3q7"]
 
-[ext_resource type="PackedScene" uid="uid://cbgrcqg2f5sem" path="res://Scenes/Chunks/c_2EAngle.tscn" id="2_rysj0"]
+[ext_resource type="Script" path="res://Scenes/UI/ChunkFloatingCamera.cs" id="1_f64xd"]
 
-[sub_resource type="CSharpScript" id="CSharpScript_uv472"]
-script/source = "using Godot;
-using System;
-
-public partial class ChunkFloatingCamera : Node3D
-{
-	[Export]
-	private PackedScene ChunkScene;
-    [Export]
-    float SpinRate = Mathf.Pi / 10;
-
-    private Node3D Chunk;
-	private Camera3D Camera;
-	private Node3D CameraGimbal;
-
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-		Chunk = ChunkScene.Instantiate<Node3D>();
-        Camera = GetNode<Camera3D>(\"CameraGimbal/Camera3D\");
-		CameraGimbal = GetNode<Node3D>(\"CameraGimbal\");
-        this.AddChild(Chunk);
-	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-        CameraGimbal.RotateY(SpinRate);
-    }
-}
-"
-
-[node name="Node3D" type="Node3D"]
-script = SubResource("CSharpScript_uv472")
-ChunkScene = ExtResource("2_rysj0")
-SpinRate = 0.001
+[node name="Node3D" type="Node3D" node_paths=PackedStringArray("CameraGimbal", "CameraRotationPoint", "Camera", "viewport")]
+script = ExtResource("1_f64xd")
+CameraGimbal = NodePath("SubViewport/RotationPoint/CameraGimbal")
+CameraRotationPoint = NodePath("SubViewport/RotationPoint")
+Camera = NodePath("SubViewport/RotationPoint/CameraGimbal/Camera3D")
+viewport = NodePath("SubViewport")
+CameraOrbitSpeed = 0.5
+CameraTilt = -2.119
 
 [node name="SubViewport" type="SubViewport" parent="."]
+size = Vector2i(64, 64)
 
-[node name="CameraGimbal" type="Node3D" parent="."]
-transform = Transform3D(-0.990775, 0, 0.366769, 0, 1, 0, -0.366769, 0, -0.990775, 0, 0, 0)
+[node name="RotationPoint" type="Node3D" parent="SubViewport"]
 
-[node name="Camera3D" type="Camera3D" parent="CameraGimbal"]
-transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 6, 10)
+[node name="CameraGimbal" type="Node3D" parent="SubViewport/RotationPoint"]
+transform = Transform3D(-1.05648, 0, 9.23606e-08, 0, 1, 0, -9.23606e-08, 0, -1.05648, 0, 3, -5)
+
+[node name="Camera3D" type="Camera3D" parent="SubViewport/RotationPoint/CameraGimbal"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0)
+fov = 15.0
 near = 2.0

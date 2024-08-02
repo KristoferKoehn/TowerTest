@@ -1,8 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://1w1umbiov4do"]
+[gd_scene load_steps=3 format=3 uid="uid://1w1umbiov4do"]
 
 [ext_resource type="Script" path="res://Scenes/Utility/TowerPanel.cs" id="1_q8wpc"]
+[ext_resource type="PackedScene" uid="uid://xmh8jt0fd3q7" path="res://Scenes/UI/ChunkFloatingCamera.tscn" id="2_ysl6s"]
 
-[node name="TowerPanel" type="Control" node_paths=PackedStringArray("TargetSelectPanel")]
+[node name="TowerPanel" type="Control" node_paths=PackedStringArray("TargetSelectPanel", "ViewportTexture")]
 layout_mode = 3
 anchor_right = 0.303
 anchor_bottom = 0.31
@@ -15,6 +16,8 @@ size_flags_vertical = 4
 mouse_force_pass_scroll_events = false
 script = ExtResource("1_q8wpc")
 TargetSelectPanel = NodePath("TargetPriorityPanel")
+Camera = ExtResource("2_ysl6s")
+ViewportTexture = NodePath("MainPanel/MarginContainer/VBoxContainer/HBoxContainer/TextureRect")
 
 [node name="MainPanel" type="Panel" parent="."]
 layout_mode = 0
@@ -45,6 +48,7 @@ alignment = 1
 [node name="TextureRect" type="TextureRect" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
+stretch_mode = 2
 
 [node name="Label" type="Label" parent="MainPanel/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2

@@ -7,6 +7,12 @@ public partial class TowerPanel : Control
 
 	[Export]
 	Panel TargetSelectPanel { get; set; }
+	[Export]
+	PackedScene Camera;
+	[Export]
+	TextureRect ViewportTexture;
+
+	ChunkFloatingCamera ChunkFloatingCamera { get; set; }
 
 	public AbstractTower SubjectTower { get; set; }
 
@@ -15,7 +21,14 @@ public partial class TowerPanel : Control
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		if (SubjectTower != null)
+		{
+			ChunkFloatingCamera = Camera.Instantiate<ChunkFloatingCamera>();
+            AddChild(ChunkFloatingCamera);
+			ChunkFloatingCamera.GlobalPosition = SubjectTower.GlobalPosition;
 
+			ViewportTexture.Texture = ChunkFloatingCamera.viewport.GetTexture();
+		}
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

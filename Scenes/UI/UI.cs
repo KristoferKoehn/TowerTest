@@ -97,7 +97,6 @@ public partial class UI : CanvasLayer
     {
         if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed)
         {
-            GD.Print("Clicked on a tower card.");
 
             // Get the Viewport from the slot
             Viewport viewport = slot.GetChild<Viewport>(0);

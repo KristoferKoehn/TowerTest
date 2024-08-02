@@ -41,7 +41,6 @@ public partial class DraggerButton : Button
         AbstractTower tower = SpawnScene.Instantiate<AbstractTower>();
         tower.Placing = true;
         SceneSwitcher.root.GetNode<GameLoop>("SceneSwitcher/GameLoop").AddChild(tower);
-        GD.Print("fafasdf");
     }
 
 }
