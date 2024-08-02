@@ -26,8 +26,8 @@ public partial class GravityCrystal : AbstractTower
         base._Ready();
         Dictionary<StatType, float> sb = new()
         {
-            {StatType.AttackSpeed, 1f},
-            {StatType.Damage, 40.0f},
+            {StatType.AttackSpeed, 1.3f},
+            {StatType.Damage, 50.0f},
             {StatType.Range, 4.0f},
         };
         StatBlock.SetStatBlock(sb);
@@ -100,7 +100,7 @@ public partial class GravityCrystal : AbstractTower
             {
                 CanShoot = false;
                 AttackParticles.Emitting = true;
-                GetTree().CreateTimer(0.09).Timeout += DamageEnemies;
+                GetTree().CreateTimer(0.14).Timeout += DamageEnemies;
             }
 
         } else

@@ -19,7 +19,8 @@ void vertex() {
 void fragment() {
 	vec3 normx = NORMAL;
 	NORMAL = norm;
-
+	METALLIC = 1.0;
+	ROUGHNESS = 0.0;
 	vec2 displacement = vec2(offset);
 	displacement.x *= -normx.x*2.0;
 	displacement.y *= -normx.y*2.0;
