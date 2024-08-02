@@ -16,6 +16,7 @@ public partial class ArmoredSkeleton : BaseEnemy
 			{StatType.Health, 100 },
 			{StatType.Speed, 2 },
 			{StatType.Armor, 500 },
+			{StatType.Gold, 4 },
 		};
 
 		StatBlock.SetStatBlock(sb);

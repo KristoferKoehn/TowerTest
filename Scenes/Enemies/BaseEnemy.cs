@@ -5,10 +5,7 @@ using System;
 
 public partial class BaseEnemy : PathFollow3D
 {
-	[Export]
-	Array<StatType> stat;
-	[Export]
-	Array<float> statv;
+
     [Signal]
     public delegate void DamageTakenEventHandler(Node self, Node source);
 
@@ -22,11 +19,7 @@ public partial class BaseEnemy : PathFollow3D
 
 	public int ChunkCounter = 0;
 	public bool Disabled = false;
-
-    //stats, health whatever
-    //speed
-
-    //a spawner somewhere (not here)
+    public bool dead = false;
 
 
     // Called when the node enters the scene tree for the first time.
@@ -94,7 +87,9 @@ public partial class BaseEnemy : PathFollow3D
 		} else
 		{
 			EnemyManager.GetInstance().UnregisterEnemy(this);
-			QueueFree();
+			DamagePlayer();
+
+            QueueFree();
 		}
 
 	}
@@ -118,8 +113,6 @@ public partial class BaseEnemy : PathFollow3D
 		return ChunkCounter - ProgressRatio;
 	}
 
-	public bool dead = false;
-
 	public void Die()
 	{
 		if (dead) return;
@@ -127,8 +120,11 @@ public partial class BaseEnemy : PathFollow3D
 		dead = true;
 		StatBlock.SetStat(StatType.Speed, 0);
         EnemyManager.GetInstance().UnregisterEnemy(this);
-
+		
         EmitSignal("Died", this);
+
+		PlayerStatsManager.GetInstance().ChangeStat(StatType.Gold, StatBlock.GetStat(StatType.Gold));
+
 
         GetNode<AnimationPlayer>("AnimationPlayer").SpeedScale = 2;
         GetNode<AnimationPlayer>("AnimationPlayer").Play("Death_A");
@@ -136,6 +132,10 @@ public partial class BaseEnemy : PathFollow3D
 		{
 			QueueFree();
         };
-		
     }
+
+	public void DamagePlayer()
+	{
+		PlayerStatsManager.GetInstance().ChangeStat(StatType.Health, -StatBlock.GetStat(StatType.Damage));
+	}
 }

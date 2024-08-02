@@ -34,7 +34,7 @@ public partial class BallistaArrowManager : Node
 	{
         foreach(MeshInstance3D arrow in Arrows)
         {
-            arrow.TranslateObjectLocal(new Vector3(0, 0, -0.1f));
+            arrow.TranslateObjectLocal(new Vector3(0, 0, -0.2f));
         }
 	}
 
@@ -60,7 +60,7 @@ public partial class BallistaArrowManager : Node
             {
                 arrow.SetMeta("struck", "");
                 arrow.GetNode<Area3D>("Hitbox").AreaEntered -= ((Ballista)tower).DealDamage;
-                ParticleSignals.GetInstance().createParticle("Particle1", arrow.GlobalPosition, arrow.GlobalRotation);
+                ParticleSignals.GetInstance().createParticle("CandyParticle", arrow.GlobalPosition, arrow.GlobalRotation);
             }
             Arrows.Remove(arrow);
             arrow.QueueFree();

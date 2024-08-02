@@ -16,8 +16,10 @@ public partial class GolemSkeleton : BaseEnemy
 			{StatType.Speed, 2 },
 			{StatType.Armor, 100 },
 			{StatType.FireResist, 0},
-			{StatType.Damage,  500}
-		};
+			{StatType.Damage,  500},
+
+            {StatType.Gold, 4 },
+        };
 
 		StatBlock = new StatBlock();
 		StatBlock.SetStatBlock(sb);

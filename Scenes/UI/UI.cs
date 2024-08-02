@@ -4,6 +4,10 @@ using System;
 
 public partial class UI : CanvasLayer
 {
+    [Export]
+    Label CurrencyLabel;
+
+
     public static UI Instance { get; private set; }
 
     private float[] speedLevels = { 1.0f, 2.0f, 3.0f};
@@ -30,7 +34,10 @@ public partial class UI : CanvasLayer
         _gameLoop = GetParent<GameLoop>();
         SetUpChunkCardPanel();
         _towersPanel = GetNode<ScrollContainer>("Control/TowersPanel");
+        PlayerStatsManager.GetInstance().StatChanged += GoldUpdate;
+        GoldUpdate(StatType.Gold, PlayerStatsManager.GetInstance().GetStat(StatType.Gold));
     }
+
 
     private void SetUpChunkCardPanel()
     {
@@ -90,7 +97,6 @@ public partial class UI : CanvasLayer
     {
         if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed)
         {
-            GD.Print("Clicked on a tower card.");
 
             // Get the Viewport from the slot
             Viewport viewport = slot.GetChild<Viewport>(0);
@@ -163,6 +169,17 @@ public partial class UI : CanvasLayer
     {
         _cardsPanel.Visible = false;
         _towersPanel.Visible = !_towersPanel.Visible;
+    }
+
+    public void GoldUpdate(StatType type, float value)
+    {
+        
+        if (type == StatType.Gold)
+        {
+
+            GD.Print($"Currency: {PlayerStatsManager.GetInstance().GetStat(type)}");
+            CurrencyLabel.Text = $"Currency: {PlayerStatsManager.GetInstance().GetStat(type)}";
+        }
     }
 
 }

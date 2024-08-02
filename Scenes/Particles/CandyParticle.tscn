@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://cmhyuhdiix1wu"]
+
+[ext_resource type="ArrayMesh" uid="uid://babs17687s8mg" path="res://Assets/HalloweenModelsObj/candy_green_B.obj" id="1_resql"]
+[ext_resource type="Material" uid="uid://yxusomb8sghr" path="res://Assets/Materials/HalloweenMaterial.tres" id="1_s6n1l"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8uyiq"]
+particle_flag_align_y = true
+angle_min = -5.49999
+angle_max = 10.8
+inherit_velocity_ratio = 0.2
+direction = Vector3(0, 1, 0)
+initial_velocity_max = 15.0
+
+[node name="CandyParticle" type="GPUParticles3D"]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
+material_override = ExtResource("1_s6n1l")
+emitting = false
+one_shot = true
+preprocess = 0.1
+explosiveness = 1.0
+randomness = 0.14
+process_material = SubResource("ParticleProcessMaterial_8uyiq")
+draw_pass_1 = ExtResource("1_resql")

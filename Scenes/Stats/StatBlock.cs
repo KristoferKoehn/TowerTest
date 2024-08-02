@@ -11,7 +11,7 @@ public enum StatType
 	Armor,
 	FireResist,
 
-
+	Gold,
 	Damage,
 
 

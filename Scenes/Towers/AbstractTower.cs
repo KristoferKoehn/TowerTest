@@ -28,6 +28,8 @@ public abstract partial class AbstractTower : Node3D
     [Export]
     public StaticBody3D SelectorHitbox;
     [Export]
+    public Area3D ActiveRange;
+    [Export]
     public Timer ShotTimer;
 
 
@@ -55,13 +57,20 @@ public abstract partial class AbstractTower : Node3D
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
-        indicator = new MeshInstance3D();
-        QuadMesh q = new QuadMesh();
-        q.Orientation = PlaneMesh.OrientationEnum.Y;
-        indicator.Mesh = q;
-        SelectorHitbox.GetNode<CollisionShape3D>("CollisionShape3D").Disabled = true;
-        AddChild(indicator);
-	}
+        if(Placing)
+        {
+            indicator = new MeshInstance3D();
+            QuadMesh q = new QuadMesh();
+            q.Orientation = PlaneMesh.OrientationEnum.Y;
+            indicator.Mesh = q;
+            SelectorHitbox.GetNode<CollisionShape3D>("CollisionShape3D").Disabled = true;
+            AddChild(indicator);
+        }
+
+        ActiveRange.AreaEntered += _on_active_range_area_entered;
+        ActiveRange.AreaExited += _on_active_range_area_exited;
+
+    }
 
     Vector3 PlaceSpot = Vector3.Zero;
     MeshInstance3D currentTile = null;
@@ -140,7 +149,6 @@ public abstract partial class AbstractTower : Node3D
                     ShotTimer.Start(StatBlock.GetStat(StatType.AttackSpeed));
                 }
 
-                
             }
 
             if (Input.IsActionJustPressed("cancel"))

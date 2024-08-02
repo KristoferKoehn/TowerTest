@@ -52,6 +52,7 @@ emitting = false
 amount = 30
 lifetime = 0.29
 one_shot = true
+preprocess = 0.2
 explosiveness = 0.2
 randomness = 0.25
 process_material = SubResource("ParticleProcessMaterial_h3jc8")

@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://bqi5yficpytv4"]
 
 [ext_resource type="Script" path="res://Scenes/GameLoop/GameLoop.cs" id="1_l1214"]
-[ext_resource type="PackedScene" path="res://Scenes/Chunks/c_StartingChunk.tscn" id="3_wuc8u"]
-[ext_resource type="PackedScene" path="res://Scenes/UI/UI.tscn" id="5_woyu5"]
+[ext_resource type="PackedScene" uid="uid://chp22ot4ypmd3" path="res://Scenes/Chunks/c_StartingChunk.tscn" id="3_wuc8u"]
+[ext_resource type="PackedScene" uid="uid://c8k323ym7lt8k" path="res://Scenes/UI/UI.tscn" id="5_woyu5"]
 [ext_resource type="PackedScene" uid="uid://budchas7k1t2g" path="res://Assets/ConstructedModels/HomeBase.tscn" id="12_lr5yx"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_qk85b"]
