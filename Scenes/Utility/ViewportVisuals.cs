@@ -38,7 +38,8 @@ public partial class ViewportVisuals : SubViewport
 	public override void _Ready()
 	{
 		SubjectScene = SubjectPackedScene.Instantiate<Node3D>();
-		Chunk c = SubjectScene as Chunk;
+
+        Chunk c = SubjectScene as Chunk;
 		if (c != null)
 		{
 			c.Disabled = true;
@@ -48,6 +49,12 @@ public partial class ViewportVisuals : SubViewport
 		if (be != null)
 		{
 			be.Disabled = true;
+		}
+		
+		AbstractTower t = SubjectScene as AbstractTower;
+		if (t != null)
+		{
+			t.Disabled = true;
 		}
 
 

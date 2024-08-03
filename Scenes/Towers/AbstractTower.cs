@@ -32,7 +32,7 @@ public abstract partial class AbstractTower : Node3D
     [Export]
     public Timer ShotTimer;
 
-
+    public bool Disabled = false;
     public bool Selected = false;
     public bool MouseOver = false;
     public bool PressWhileMousedOver = false;
@@ -78,6 +78,7 @@ public abstract partial class AbstractTower : Node3D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+        if (Disabled) return;
         if (Placing)
         {
             CanShoot = false;

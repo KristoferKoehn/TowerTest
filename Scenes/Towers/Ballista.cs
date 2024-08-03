@@ -6,9 +6,6 @@ using System.Linq;
 
 public partial class Ballista : AbstractTower
 {
-
-
-
     MeshInstance3D TowerBase;
     MeshInstance3D BallistaMount;
     MeshInstance3D BallistaBow;
@@ -20,6 +17,7 @@ public partial class Ballista : AbstractTower
     public override void _Ready()
     {
         base._Ready();
+        if (Disabled) return;
         BallistaArrowManager.GetInstance().RegisterBallista(this);
 
         Dictionary<StatType, float> sb = new()
@@ -41,6 +39,8 @@ public partial class Ballista : AbstractTower
     public override void _Process(double delta)
     {
         base._Process(delta);
+        if (Disabled) return;
+
         if (EnemyList.Count > 0)
         {
             int index = EnemyList

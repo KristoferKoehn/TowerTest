@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://c8k323ym7lt8k"]
+[gd_scene load_steps=15 format=3 uid="uid://c8k323ym7lt8k"]
 
 [ext_resource type="Script" path="res://Scenes/UI/UI.cs" id="1_vo24d"]
 [ext_resource type="Texture2D" path="res://Assets/Icons/CoinIcon.tres" id="2_5xsv3"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://dno07x46t40iw" path="res://Scenes/UI/DraggerButton.tscn" id="8_mapmy"]
 [ext_resource type="Texture2D" uid="uid://bkfkkkrm4032v" path="res://Assets/ChunkImages/BallistaImage.png" id="9_r48qg"]
 [ext_resource type="PackedScene" uid="uid://c7pjc1l8k4lfj" path="res://Scenes/Towers/GravityCrystal.tscn" id="10_upohk"]
+[ext_resource type="PackedScene" uid="uid://dehxllaknmoge" path="res://Scenes/UI/Cards/PlayerHand.tscn" id="10_s5qps"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kculh"]
 bg_color = Color(0.926002, 0.154522, 0.240135, 1)
@@ -25,7 +26,9 @@ border_width_right = 4
 border_width_bottom = 4
 border_color = Color(1, 1, 1, 1)
 
-[node name="UI" type="CanvasLayer" node_paths=PackedStringArray("CurrencyLabel")]
+[sub_resource type="CanvasTexture" id="CanvasTexture_a8m4p"]
+
+[node name="UI" type="CanvasLayer"]
 script = ExtResource("1_vo24d")
 CurrencyLabel = NodePath("Control/VBoxContainer/TopUI/PlayerInfo_HBoxContainer/Currency/Currency")
 
@@ -178,28 +181,6 @@ text = "Chunks"
 layout_mode = 2
 text = "Begin Wave"
 
-[node name="CardsPanel" type="ScrollContainer" parent="Control"]
-visible = false
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -6.0
-offset_bottom = -109.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_j8yyb")
-
-[node name="GridContainer" type="GridContainer" parent="Control/CardsPanel"]
-custom_minimum_size = Vector2(1000, 400)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/h_separation = 10
-theme_override_constants/v_separation = 10
-columns = 7
-
 [node name="TowersPanel" type="ScrollContainer" parent="Control"]
 visible = false
 layout_mode = 1
@@ -225,7 +206,42 @@ columns = 7
 [node name="Button" parent="Control/TowersPanel/GridContainer" instance=ExtResource("8_mapmy")]
 layout_mode = 2
 ButtonIcon = ExtResource("9_r48qg")
-SpawnScene = ExtResource("10_upohk")
+
+[node name="PlayerHand" parent="Control" node_paths=PackedStringArray("CardPlacingPosition") instance=ExtResource("10_s5qps")]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.283
+anchor_top = 0.617
+anchor_right = 0.717
+anchor_bottom = 0.772
+offset_left = -0.0160217
+offset_top = 0.18396
+offset_right = 0.0159912
+offset_bottom = -0.256012
+mouse_filter = 1
+CardPlacingPosition = NodePath("../PlacingPosition")
+
+[node name="PlacingPosition" type="Control" parent="Control"]
+layout_mode = 1
+anchor_left = 0.886
+anchor_top = 0.582
+anchor_right = 0.973
+anchor_bottom = 0.813
+offset_left = 0.327881
+offset_top = -0.136017
+offset_right = 0.103882
+offset_bottom = 0.175964
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Control/PlacingPosition"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("CanvasTexture_a8m4p")
 
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/PausePlayButton" to="." method="_on_pause_play_button_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/SpeedUpButton" to="." method="_on_speed_up_button_pressed"]
