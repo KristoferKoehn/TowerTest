@@ -7,6 +7,8 @@ public partial class UI : CanvasLayer
 {
     [Export]
     Label CurrencyLabel;
+    [Export]
+    private ProgressBar _mainTowerHealthBar;
 
 
     public static UI Instance { get; private set; }
@@ -17,7 +19,7 @@ public partial class UI : CanvasLayer
     private PackedScene _cardScene;
     private GridContainer _gridContainer; // The grid container holding the slots for the tower cards.
     private GameLoop _gameLoop; // Used for placing chunks (could probably be refactored)
-    private ProgressBar _mainTowerHealthBar;
+ 
     private StatBlock _playerStatBlock;
     private PlayerHand _playerHand;
 
@@ -34,6 +36,7 @@ public partial class UI : CanvasLayer
             Instance = this;
         }
 
+        _playerHand = GetNode<PlayerHand>("Control/PlayerHand");
         _gameLoop = GetParent<GameLoop>();
         _towersPanel = GetNode<ScrollContainer>("Control/TowersPanel");
         PlayerStatsManager.GetInstance().StatChanged += GoldUpdate;
@@ -45,7 +48,7 @@ public partial class UI : CanvasLayer
     {
         // Cache the reference to the ChunksPanel node
         //_chunksPanel = GetNode<ScrollContainer>("Control/ChunksPanel");
-        _chunksPanel.Visible = false;
+       // _chunksPanel.Visible = false;
         _cardScene = (PackedScene)ResourceLoader.Load("res://Scenes/UI/Cards/BaseCard.tscn");
         _gridContainer = GetNode<GridContainer>("Control/ChunksPanel/GridContainer");
 
@@ -94,9 +97,9 @@ public partial class UI : CanvasLayer
 
         }
     }
-    */
+    
 
-    /*
+    
     public void OnChunkCardClicked(InputEvent @event, TextureRect slot)
     {
         if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed)
@@ -121,12 +124,12 @@ public partial class UI : CanvasLayer
             }
         }
     }
-    */
+    
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
 	{
-        _mainTowerHealthBar.Value = _playerStatBlock.GetStat(StatType.Health);
+        //_mainTowerHealthBar.Value = _playerStatBlock.GetStat(StatType.Health);
 	}
 
     public void _on_pause_play_button_pressed()
@@ -183,7 +186,7 @@ public partial class UI : CanvasLayer
 
     public void _on_chunks_button_pressed()
     {
-        _towersPanel.Visible = false;
+        //_towersPanel.Visible = false;
         _playerHand.Visible = !_playerHand.Visible;
     }
 }

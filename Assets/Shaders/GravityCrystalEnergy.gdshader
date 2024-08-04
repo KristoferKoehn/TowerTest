@@ -12,12 +12,12 @@ void vertex() {
 void fragment() {
 	float alpha = 0.0;
 	if (UV.y < 0.1) {
-		alpha = texture(noise, vec2(UV.x , UV.y+TIME/2.0)).r * UV.y * 10.0;
+		alpha = texture(noise, vec2(UV.x , UV.y-TIME/2.0)).r * UV.y * 10.0;
 		//feather from nothing (UV.y == 0) to full (UV.y == 0.1)
 	} else if (UV.y > 0.4) {
-		alpha = texture(noise, vec2(UV.x , UV.y+TIME/2.0)).r * (0.5 - UV.y) * 10.0;
+		alpha = texture(noise, vec2(UV.x , UV.y-TIME/2.0)).r * (0.5 - UV.y) * 10.0;
 	} else {
-		alpha = texture(noise, vec2(UV.x , UV.y+TIME/2.0)).r;
+		alpha = texture(noise, vec2(UV.x , UV.y-TIME/2.0)).r;
 	}
 	
 	ALPHA = Alpha * alpha;

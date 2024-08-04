@@ -1,7 +1,7 @@
-[gd_scene load_steps=15 format=3 uid="uid://c8k323ym7lt8k"]
+[gd_scene load_steps=16 format=3 uid="uid://c8k323ym7lt8k"]
 
 [ext_resource type="Script" path="res://Scenes/UI/UI.cs" id="1_vo24d"]
-[ext_resource type="Texture2D" path="res://Assets/Icons/CoinIcon.tres" id="2_5xsv3"]
+[ext_resource type="Texture2D" uid="uid://me51xnsi1idj" path="res://Assets/Icons/CoinIcon.tres" id="2_5xsv3"]
 [ext_resource type="Texture2D" uid="uid://b3p6kmoe4foeh" path="res://Assets/Icons/PauseButton.tres" id="3_2iek2"]
 [ext_resource type="Texture2D" uid="uid://dg85yvsjdkql5" path="res://Assets/Icons/PlayButton.tres" id="4_m4o0u"]
 [ext_resource type="Texture2D" uid="uid://t0i5wqr683y6" path="res://Assets/Icons/SpeedUpButton.tres" id="5_646jk"]
@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://cxj4256wgc2jn" path="res://Scenes/UI/Panels/WaveCompletedPanel.tscn" id="7_4tavd"]
 [ext_resource type="PackedScene" uid="uid://dno07x46t40iw" path="res://Scenes/UI/DraggerButton.tscn" id="8_mapmy"]
 [ext_resource type="Texture2D" uid="uid://bkfkkkrm4032v" path="res://Assets/ChunkImages/BallistaImage.png" id="9_r48qg"]
-[ext_resource type="PackedScene" uid="uid://c7pjc1l8k4lfj" path="res://Scenes/Towers/GravityCrystal.tscn" id="10_upohk"]
+[ext_resource type="PackedScene" uid="uid://c7pjc1l8k4lfj" path="res://Scenes/Towers/GravityCrystal.tscn" id="10_mhtj3"]
 [ext_resource type="PackedScene" uid="uid://dehxllaknmoge" path="res://Scenes/UI/Cards/PlayerHand.tscn" id="10_s5qps"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kculh"]
@@ -28,9 +28,10 @@ border_color = Color(1, 1, 1, 1)
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_a8m4p"]
 
-[node name="UI" type="CanvasLayer"]
+[node name="UI" type="CanvasLayer" node_paths=PackedStringArray("CurrencyLabel", "_mainTowerHealthBar")]
 script = ExtResource("1_vo24d")
 CurrencyLabel = NodePath("Control/VBoxContainer/TopUI/PlayerInfo_HBoxContainer/Currency/Currency")
+_mainTowerHealthBar = NodePath("Control/VBoxContainer/TopUI/PlayerInfo_HBoxContainer/VBoxContainer/PlayerTowerHealth")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -206,6 +207,7 @@ columns = 7
 [node name="Button" parent="Control/TowersPanel/GridContainer" instance=ExtResource("8_mapmy")]
 layout_mode = 2
 ButtonIcon = ExtResource("9_r48qg")
+SpawnScene = ExtResource("10_mhtj3")
 
 [node name="PlayerHand" parent="Control" node_paths=PackedStringArray("CardPlacingPosition") instance=ExtResource("10_s5qps")]
 layout_mode = 1

@@ -15,7 +15,7 @@ public partial class PlayerStatsManager : Node
     private static PlayerStatsManager instance;
 
 
-    public StatBlock statBlock = new();
+    public StatBlock StatBlock = new();
 
     private PlayerStatsManager() {}
 
@@ -27,7 +27,7 @@ public partial class PlayerStatsManager : Node
             SceneSwitcher.root.GetNode<SceneSwitcher>("SceneSwitcher").AddChild(instance);
             instance.Name = "PlayerStatsManager";
             Dictionary<StatType, float> sb = new();
-            StatBlock.SetStatBlock(sb);
+            instance.StatBlock.SetStatBlock(sb);
         }
         return instance;
     }
@@ -35,7 +35,7 @@ public partial class PlayerStatsManager : Node
     public override void _Ready()
     {
         // Setting the starting stats:
-        this.statBlock.SetStat(StatType.Health, 100); // Setting the main tower's health to 100.
+        this.StatBlock.SetStat(StatType.Health, 100); // Setting the main tower's health to 100.
     }
 
     /// <summary>
