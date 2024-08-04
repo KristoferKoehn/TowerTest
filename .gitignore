@@ -11,6 +11,11 @@ android/
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+#custom stuff that wasn't included for some reason
+*.old
+*.old.1
+*.old.2
+
 # User-specific files
 *.rsuser
 *.suo
@@ -406,6 +411,7 @@ FodyWeavers.xsd
 ### Godot ###
 # Godot 4+ specific ignores
 .godot/
+.godot
 
 # Godot-specific ignores
 .import/
