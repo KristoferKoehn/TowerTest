@@ -124,9 +124,6 @@ public partial class PlayerHand : Control
     {
         this.CardList.Clear();
 
-
-
-
         foreach (CardData card in CardLoadingManager.GetInstance().GetAllCardData())
         {
             BaseCard chunkCard = BaseCardScene.Instantiate<BaseCard>();

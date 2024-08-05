@@ -23,7 +23,7 @@ public partial class CardLoadingManager : Node
             instance = new CardLoadingManager();
             if (SceneSwitcher.root != null)
             {
-                SceneSwitcher.root.GetNode<GameLoop>("SceneSwitcher/GameLoop").AddChild(instance);
+                SceneSwitcher.root.GetNode<SceneSwitcher>("SceneSwitcher").AddChild(instance);
                 instance.Name = "CardLoadingManager";
             }
         }
@@ -67,6 +67,7 @@ public partial class CardLoadingManager : Node
         RarityStyles["Legendary"] = GD.Load<StyleBoxTexture>("res://Scenes/UI/Cards/Gradients/LegendaryRarityStyleBox.tres");
 
         string[] CardNames = DirAccess.GetFilesAt("res://Scenes/CardData/");
+        GD.Print(CardNames);
         foreach (string name in CardNames)
         {
             if (name.Contains(".tres"))
@@ -87,8 +88,6 @@ public partial class CardLoadingManager : Node
         }
         else if (Chunks.ContainsKey(name))
         {
-
-
             ps = Chunks[name];
         }
         else if (Effects.ContainsKey(name))
@@ -105,6 +104,13 @@ public partial class CardLoadingManager : Node
 
     public List<CardData> GetAllCardData()
     {
-        return CardData.Values.ToList();
+        List<CardData> list = new();
+        foreach(string name in CardData.Keys)
+        {
+            GD.Print(name);
+            list.Add(CardData[name]);
+        }
+        
+        return list;
     }
 }

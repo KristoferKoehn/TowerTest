@@ -99,48 +99,6 @@ public partial class BaseCard : Control
         selectedScale = Scale * 1.15f;
     }
 
-    // Sets the card to the given scene (ex: a chunk name or a tower name)
-    public void SetCard(string scenePath)
-    {
-        //?????
-        ScenePath = scenePath;
-
-        //split on / 
-        //get last item
-        //remove .tscn
-
-        CardName = scenePath.ReplaceN(".tscn","");
-
-        Viewport = ViewportScene.Instantiate<ViewportVisuals>();
-        Viewport.OwnWorld3D = true;
-        this.AddChild(Viewport);
-        Viewport.CameraZoom = 12;
-        Viewport.CameraOrbitSpeed = 0.2f;
-        Viewport.Camera.Fov = 55;
-
-
-        if (CardDatabase.towerslist.Contains(scenePath))
-        {
-            this.Viewport.CameraZoom = 2f;
-            this.Viewport.CameraTilt = -5f;
-            //ScenePath = $"res://Scenes/Towers/{CardName}.tscn";
-        }
-
-        Viewport.SetSubjectScene(GD.Load<PackedScene>(scenePath));
-        CardNameLabel.Text = CardName;
-
-        // Set the texture
-        CardViewportFrame.Texture = Viewport.GetTexture();
-        //var texture = (Texture)ResourceLoader.Load(CardImgPath);
-        //textureRect.Texture = (Texture2D)texture;
-
-        // Set the border based on the rarity
-        List<string> cardinfo = CardDatabase.DATA[scenePath];
-        string rarity = cardinfo[1];
-        SetCardRarityColor(rarity);
-    }
-
-
     public void SetCardData(CardData data)
     {
         CardNameLabel.Text = data.Name;
