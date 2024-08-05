@@ -18,11 +18,13 @@ public partial class GameLoop : Node3D
 
 	public override void _EnterTree()
 	{
+        //for which to not break instantly
 		WaveManager.GetInstance();
         WaveDataManager.GetInstance();
 		BallistaArrowManager.GetInstance();
 		ParticleSignals.GetInstance();
 		ParticleManager.GetInstance();
+        CardLoadingManager.GetInstance();
 	}
 
 	public override void _Ready()

@@ -26,8 +26,19 @@ public partial class PlayerStatsManager : Node
             instance = new PlayerStatsManager();
             SceneSwitcher.root.GetNode<SceneSwitcher>("SceneSwitcher").AddChild(instance);
             instance.Name = "PlayerStatsManager";
-            Dictionary<StatType, float> sb = new();
+            Dictionary<StatType, float> sb = new()
+            {
+                {StatType.Health, 20 },
+                {StatType.Gold, 200 },
+            };
+
             instance.StatBlock.SetStatBlock(sb);
+
+
+
+
+
+
         }
         return instance;
     }

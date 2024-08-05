@@ -1,6 +1,5 @@
 [gd_scene load_steps=6 format=3 uid="uid://dr33ompxp8p4g"]
 
-[ext_resource type="Texture2D" uid="uid://dplcqs8mgsnja" path="res://Assets/ChunkImages/c_2EAngle.png" id="1_kyv8i"]
 [ext_resource type="Script" path="res://Scenes/UI/Cards/BaseCard.cs" id="1_q76f4"]
 [ext_resource type="StyleBox" uid="uid://dgbw28sg4ifhi" path="res://Scenes/UI/Cards/Gradients/CommonCardGradient.tres" id="2_a4xgv"]
 
@@ -23,7 +22,9 @@ expand_margin_top = 1.0
 expand_margin_right = 1.0
 expand_margin_bottom = 1.0
 
-[node name="CardBase" type="Control"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_81vvd"]
+
+[node name="CardBase" type="Control" node_paths=PackedStringArray("CardNameLabel", "CardViewportFrame", "CardBackground")]
 layout_mode = 3
 anchors_preset = 0
 offset_left = -125.0
@@ -34,6 +35,9 @@ scale = Vector2(0.5, 0.5)
 pivot_offset = Vector2(125, 175)
 size_flags_horizontal = 4
 script = ExtResource("1_q76f4")
+CardNameLabel = NodePath("MarginContainer/Bars/TopBar/Name/CenterContainer/SceneName")
+CardViewportFrame = NodePath("MarginContainer/Bars/Panel/TextureRect")
+CardBackground = NodePath("MarginContainer/MarginContainer/Background")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -107,17 +111,21 @@ mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_dapxs")
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/Bars/Panel"]
+custom_minimum_size = Vector2(194, 194)
 layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -97.0
+offset_top = -97.0
+offset_right = 97.0
+offset_bottom = 97.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_kyv8i")
+texture = SubResource("ViewportTexture_81vvd")
 expand_mode = 1
-
-[node name="SubViewport" type="SubViewport" parent="MarginContainer/Bars/Panel/TextureRect"]
-transparent_bg = true
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Bars"]
 layout_mode = 2

@@ -5,19 +5,32 @@ using System.Collections.Generic;
 
 public partial class BaseCard : Control
 {
+
     public string CardName { get; set; }
-    public List<string> CardInfo { get; private set; }
+    public string CardInfo { get; private set; }
     public string CardImgPath { get; private set; }
     public string ScenePath { get; private set; }
 
+    [Export] public Label CardNameLabel { get; set; }
+    [Export] TextureRect CardViewportFrame { get; set; }
+    [Export] Panel CardBackground {  get; set; }
+
     public PackedScene ViewportScene = GD.Load<PackedScene>("res://Scenes/Utility/ViewportVisuals.tscn");
-    public ViewportVisuals Viewport;
+    public ViewportVisuals Viewport = null;
 
     private Vector2 originalPosition;
     private Color originalModulate;
     private Color selectedModulate = new Color(1, 1, 0.4f, 1);
-    private Vector2 originalScale = new Vector2(0.5f,0.5f);
-    private Vector2 selectedScale = new Vector2(0.6f, 0.6f);
+    private Vector2 originalScale;
+    private Vector2 selectedScale;
+
+    /// <summary>
+    /// primarily, the card needs to detect a press, and "activates" the subject scene for placing.
+    /// abstract out the subject scene, we shouldn't need the database, or we'd be using something my dynamic.
+    ///     -avoid passing dir and making decisions on that string
+    /// investigate a better node structure. Need a way to scale it up and down gracefully. 
+    /// </summary>
+
 
     public void _on_mouse_entered()
     {
@@ -40,7 +53,7 @@ public partial class BaseCard : Control
         tweenscale.SetTrans(Tween.TransitionType.Sine);
         tweenscale.SetEase(Tween.EaseType.Out);
         tweenscale.TweenProperty(this, "scale", this.selectedScale, 0.1);
-        this.Modulate = selectedModulate;
+        //this.Modulate = selectedModulate;
     }
 
     public void _on_gui_input(InputEvent @event)
@@ -81,6 +94,9 @@ public partial class BaseCard : Control
     {
         originalPosition = Position;
         originalModulate = Modulate;
+
+        originalScale = Scale;
+        selectedScale = Scale * 1.15f;
     }
 
     // Sets the card to the given scene (ex: a chunk name or a tower name)
@@ -88,8 +104,6 @@ public partial class BaseCard : Control
     {
         //?????
         ScenePath = scenePath;
-
-
 
         //split on / 
         //get last item
@@ -112,14 +126,11 @@ public partial class BaseCard : Control
             //ScenePath = $"res://Scenes/Towers/{CardName}.tscn";
         }
 
-        Viewport.SubjectPackedScene = GD.Load<PackedScene>(scenePath);
-        // Set the sceneName
-        Label chunkNameLabel = GetNode<Label>("MarginContainer/Bars/TopBar/Name/CenterContainer/SceneName");
-        chunkNameLabel.Text = CardName;
+        Viewport.SetSubjectScene(GD.Load<PackedScene>(scenePath));
+        CardNameLabel.Text = CardName;
 
         // Set the texture
-        TextureRect textureRect = GetNode<TextureRect>("MarginContainer/Bars/Panel/TextureRect");
-        textureRect.Texture = Viewport.GetTexture();
+        CardViewportFrame.Texture = Viewport.GetTexture();
         //var texture = (Texture)ResourceLoader.Load(CardImgPath);
         //textureRect.Texture = (Texture2D)texture;
 
@@ -129,35 +140,35 @@ public partial class BaseCard : Control
         SetCardRarityColor(rarity);
     }
 
+
+    public void SetCardData(CardData data)
+    {
+        CardNameLabel.Text = data.Name;
+        CardName = data.Name;
+        if (Viewport != null)
+        {
+            Viewport.QueueFree();
+        }
+        Viewport = ViewportScene.Instantiate<ViewportVisuals>();
+        Viewport.OwnWorld3D = true;
+        this.AddChild(Viewport);
+        Viewport.CameraZoom = data.CameraZoom;
+        Viewport.CameraOrbitSpeed = data.CameraOrbitSpeed;
+        Viewport.CameraTilt = data.CameraTilt;
+        Viewport.Camera.Fov = data.FOV;
+        if (data.SubjectScene != null)
+        {
+            Viewport.SetSubjectScene(CardLoadingManager.GetInstance().GetPackedScene(data.SubjectScene));
+        }
+        
+        CardViewportFrame.Texture = Viewport.GetTexture();
+        CardBackground.AddThemeStyleboxOverride("panel", CardLoadingManager.GetInstance().GetRarityTexture(data.Rarity));
+    }
+
     private void SetCardRarityColor(string rarity)
     {
-        Panel CardBackground = GetNode<Panel>("MarginContainer/MarginContainer/Background");
-        StyleBoxTexture newStyleBox;
-
-        switch (rarity.ToLower())
-        {
-            case "common":
-                newStyleBox = GD.Load<StyleBoxTexture>("res://Scenes/UI/Cards/Gradients/CommonRarityStyleBox.tres");
-                break;
-            case "uncommon":
-                newStyleBox = GD.Load<StyleBoxTexture>("res://Scenes/UI/Cards/Gradients/UncommonRarityStyleBox.tres");
-                break;
-            case "rare":
-                newStyleBox = GD.Load<StyleBoxTexture>("res://Scenes/UI/Cards/Gradients/RareRarityStyleBox.tres");
-                break;
-            case "epic":
-                newStyleBox = GD.Load<StyleBoxTexture>("res://Scenes/UI/Cards/Gradients/EpicRarityStyleBox.tres");
-                break;
-            case "legendary":
-                newStyleBox = GD.Load<StyleBoxTexture>("res://Scenes/UI/Cards/Gradients/LegendaryRarityStyleBox.tres");
-                break;
-            default: // default to common:
-                newStyleBox = GD.Load<StyleBoxTexture>("res://Scenes/UI/Cards/Gradients/CommonRarityStyleBox.tres");
-                break;
-        }
-
         // Apply the StyleBoxTexture to the Panel
-        CardBackground.AddThemeStyleboxOverride("panel", newStyleBox);
+        CardBackground.AddThemeStyleboxOverride("panel", CardLoadingManager.GetInstance().GetRarityTexture(rarity));
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -23,6 +23,7 @@ public partial class PlayerHand : Control
 
     public override void _Process(double delta)
     {
+
     }
     public override void _Ready()
     {
@@ -122,10 +123,14 @@ public partial class PlayerHand : Control
     private void GenerateHandWithAllCards()
     {
         this.CardList.Clear();
-        foreach (string chunk in CardDatabase.chunkslist)
+
+
+
+
+        foreach (CardData card in CardLoadingManager.GetInstance().GetAllCardData())
         {
             BaseCard chunkCard = BaseCardScene.Instantiate<BaseCard>();
-            chunkCard.SetCard(chunk);
+            chunkCard.SetCardData(card);
             AddCard(chunkCard);
         }
     }

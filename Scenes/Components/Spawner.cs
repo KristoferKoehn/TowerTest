@@ -3,7 +3,6 @@ using Godot.Collections;
 using Managers;
 using System;
 
-[Tool]
 public partial class Spawner : Node3D
 {
 

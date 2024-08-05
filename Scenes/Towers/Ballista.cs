@@ -17,8 +17,10 @@ public partial class Ballista : AbstractTower
     public override void _Ready()
     {
         base._Ready();
-        if (Disabled) return;
-        BallistaArrowManager.GetInstance().RegisterBallista(this);
+        if (!Disabled)
+        {
+            BallistaArrowManager.GetInstance().RegisterBallista(this);
+        }
 
         Dictionary<StatType, float> sb = new()
         {
@@ -124,4 +126,14 @@ public partial class Ballista : AbstractTower
         be.StrikeSound.Play();
     }
 
+    public override void DisplayMode()
+    {
+        Disabled = true;
+    }
+
+    public override void Activate()
+    {
+        Disabled = false;
+        BallistaArrowManager.GetInstance().RegisterBallista(this);
+    }
 }

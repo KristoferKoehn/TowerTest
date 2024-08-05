@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using TowerTest.Scenes.Components;
 
 [Tool]
 public partial class ViewportVisuals : SubViewport
@@ -33,32 +34,10 @@ public partial class ViewportVisuals : SubViewport
     [ExportGroup("")]
     [Export]
 	public PackedScene SubjectPackedScene { get; set; }
-	public Node3D SubjectScene { get; set; }
+	public AbstractPlaceable SubjectScene { get; set; }
 
 	public override void _Ready()
 	{
-		SubjectScene = SubjectPackedScene.Instantiate<Node3D>();
-
-        Chunk c = SubjectScene as Chunk;
-		if (c != null)
-		{
-			c.Disabled = true;
-		}
-
-		BaseEnemy be = SubjectScene as BaseEnemy;
-		if (be != null)
-		{
-			be.Disabled = true;
-		}
-		
-		AbstractTower t = SubjectScene as AbstractTower;
-		if (t != null)
-		{
-			t.Disabled = true;
-		}
-
-
-		AddChild(SubjectScene);
 		CameraGimbal.Position = InitialCameraPosition.Normalized() * CameraZoom;
         CameraGimbal.LookAt(CameraRotationPoint.GlobalPosition);
 	}
@@ -74,4 +53,18 @@ public partial class ViewportVisuals : SubViewport
 
 		CameraGimbal.Position = InitialCameraPosition.Normalized() * CameraZoom;
 	}
+
+	public void SetSubjectScene(PackedScene packed)
+	{
+		if (SubjectScene != null)
+		{
+			SubjectScene.QueueFree();
+		}
+
+		SubjectPackedScene = packed;
+		SubjectScene = SubjectPackedScene.Instantiate<AbstractPlaceable>();
+        SubjectScene.DisplayMode();
+        AddChild(SubjectScene);
+    }
+
 }

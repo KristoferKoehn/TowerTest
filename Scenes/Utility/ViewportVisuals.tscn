@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://ccqbuccfc7tuk"]
+[gd_scene load_steps=5 format=3 uid="uid://ccqbuccfc7tuk"]
 
 [ext_resource type="Script" path="res://Scenes/Utility/ViewportVisuals.cs" id="1_guxft"]
-[ext_resource type="PackedScene" uid="uid://c8tmfqeiyrpqy" path="res://Assets/EnemyModels/Skeleton_Minion.glb" id="2_pr8af"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_x4h48"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -22,7 +21,6 @@ script = ExtResource("1_guxft")
 CameraGimbal = NodePath("CameraRotationPoint/CameraGimbal")
 CameraRotationPoint = NodePath("CameraRotationPoint")
 Camera = NodePath("CameraRotationPoint/CameraGimbal/Camera3D")
-SubjectPackedScene = ExtResource("2_pr8af")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_v3j4g")
@@ -32,11 +30,10 @@ transform = Transform3D(0.439935, -0.777718, 0.449013, 0, 0.499998, 0.866027, -0
 shadow_enabled = true
 
 [node name="CameraRotationPoint" type="Node3D" parent="."]
-transform = Transform3D(0.993274, 0, 0.123121, 0, 1, 0, -0.123121, 0, 0.993274, 0, 0, 0)
+transform = Transform3D(0.963245, 0, -0.272483, 0, 1, 0, 0.272483, 0, 0.963245, 0, 0, 0)
 
 [node name="CameraGimbal" type="Node3D" parent="CameraRotationPoint"]
-transform = Transform3D(0.707107, -0.407772, 0.577687, 0, 0.816973, 0.576677, -0.707107, -0.407772, 0.577687, 3.23316, 3.23316, 3.23316)
+transform = Transform3D(0.707107, -0.40769, 0.577745, 0, 0.817055, 0.57656, -0.707107, -0.40769, 0.577745, 3.23316, 3.23316, 3.23316)
 
 [node name="Camera3D" type="Camera3D" parent="CameraRotationPoint/CameraGimbal"]
 near = 0.7
-

@@ -8,7 +8,7 @@ public partial class UI : CanvasLayer
     [Export]
     Label CurrencyLabel;
     [Export]
-    private ProgressBar _mainTowerHealthBar;
+    private ProgressBar TowerHealthBar;
 
 
     public static UI Instance { get; private set; }
@@ -40,10 +40,14 @@ public partial class UI : CanvasLayer
         _gameLoop = GetParent<GameLoop>();
         _towersPanel = GetNode<ScrollContainer>("Control/TowersPanel");
         PlayerStatsManager.GetInstance().StatChanged += GoldUpdate;
+        PlayerStatsManager.GetInstance().StatChanged += HealthBarUpdate;
         GoldUpdate(StatType.Gold, PlayerStatsManager.GetInstance().GetStat(StatType.Gold));
+        TowerHealthBar.MaxValue = PlayerStatsManager.GetInstance().GetStat(StatType.MaxHealth);
+        TowerHealthBar.Value = PlayerStatsManager.GetInstance().GetStat(StatType.Health);
+
     }
 
-
+    /*
     private void SetUpChunkCardPanel()
     {
         // Cache the reference to the ChunksPanel node
@@ -97,7 +101,7 @@ public partial class UI : CanvasLayer
 
         }
     }
-    
+    */
 
     
     public void OnChunkCardClicked(InputEvent @event, TextureRect slot)
@@ -137,12 +141,10 @@ public partial class UI : CanvasLayer
         if (GetTree().Paused)
         {
             GetTree().Paused = false;
-            GD.Print("Resuming");
         }
         else
         {
             GetTree().Paused = true;
-            GD.Print("Pausing");
         }
     }
 
@@ -175,12 +177,17 @@ public partial class UI : CanvasLayer
 
     public void GoldUpdate(StatType type, float value)
     {
-        
         if (type == StatType.Gold)
         {
-
-            GD.Print($"Currency: {PlayerStatsManager.GetInstance().GetStat(type)}");
             CurrencyLabel.Text = $"Currency: {PlayerStatsManager.GetInstance().GetStat(type)}";
+        }
+    }
+
+    public void HealthBarUpdate(StatType type, float value)
+    {
+        if (type == StatType.Health)
+        {
+            TowerHealthBar.Value = PlayerStatsManager.GetInstance().GetStat(type);
         }
     }
 

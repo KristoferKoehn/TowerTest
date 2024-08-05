@@ -145,4 +145,13 @@ public partial class GravityCrystal : AbstractTower
         return points;
     }
 
+    public override void DisplayMode()
+    {
+        Disabled = true;
+    }
+
+    public override void Activate()
+    {
+        Disabled = false;
+    }
 }

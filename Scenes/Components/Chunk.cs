@@ -1,6 +1,8 @@
 using Godot;
 using Godot.Collections;
 using System;
+using TowerTest.Scenes.Components;
+
 
 public enum Direction
 {
@@ -12,7 +14,7 @@ public enum Direction
 }
 
 [Tool]
-public partial class Chunk : Node3D
+public partial class Chunk : AbstractPlaceable
 {
 
     [Export]
@@ -123,7 +125,7 @@ public partial class Chunk : Node3D
         
         Dictionary result = spaceState.IntersectRay(query);
 
-        if (true)
+        if (false)
         {
 
             MeshInstance3D meshInstance3D = new MeshInstance3D();
@@ -763,6 +765,7 @@ public partial class Chunk : Node3D
 
     public override void _Ready()
     {
+        base._Ready();
         if (Disabled) return;
 
         UpdateEntrances();
@@ -854,6 +857,7 @@ public partial class Chunk : Node3D
 
     public override void _Process(double delta)
     {
+        base._Process(delta);
 
         if (Disabled)
         {
@@ -961,4 +965,34 @@ public partial class Chunk : Node3D
             }
         }
     }
+
+    public override void DisplayMode()
+    {
+        Disabled = true;
+    }
+
+    public override void Activate()
+    {
+        UpdateEntrances();
+        UpdateAdjacencyList();
+
+        if (CurrentlyPlacing)
+        {
+            foreach (Node mesh in GetChildren())
+            {
+                MeshInstance3D tile = mesh as MeshInstance3D;
+                if (tile != null && tile.HasMeta("height"))
+                {
+                    tile.GetNodeOrNull<StaticBody3D>("StaticBody3D").CollisionLayer = 2048;
+                }
+            }
+        }
+
+        if (!Engine.IsEditorHint() && !CurrentlyPlacing)
+        {
+            PlaceChunk(ExitDirection);
+        }
+        Disabled = false;
+    }
+
 }

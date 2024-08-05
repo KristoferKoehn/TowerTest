@@ -28,6 +28,7 @@ public partial class WaveMaker : Node3D
     [Export]
     LineEdit LineEdit;
 
+
     List<ViewportVisuals> Viewports = new List<ViewportVisuals>();
 
 
@@ -56,7 +57,6 @@ public partial class WaveMaker : Node3D
             }
         }
         foreach (string name in scenes) {
-            GD.Print(name);
             OptionButton.AddItem(name);
         }
     }
@@ -75,26 +75,19 @@ public partial class WaveMaker : Node3D
 
     public void _on_add_button_pressed()
     {
-        //get option button selection scene name
         string scene = OptionButton.GetPopup().GetItemText(OptionButton.Selected);
         AddToItemList(WaveItemList, scene);
         Level[CurrentWave][0].Add(scene);
-        //go get the packed scene
-        //get a viewport 
-        //give scene to viewport
-        //connect viewport stream to icon
+
     }
 
     public void _on_add_fork_button_pressed()
     {
-        //get option button selection scene name
+
         string scene = OptionButton.GetPopup().GetItemText(OptionButton.Selected);
         AddToItemList(ForkItemList, scene);
         Level[CurrentWave][1].Add(scene);
-        //go get the packed scene
-        //get a viewport 
-        //give scene to viewport
-        //connect viewport stream to icon
+
     }
 
 
@@ -234,13 +227,10 @@ public partial class WaveMaker : Node3D
 
     public void MenuButtonPressed(long index)
     {
-
         if (index == 0)
         {
             FileSelector.Visible = true;
         }
-
-        GD.Print(index);
     }
 
     public void _on_file_selector_load_file(string filename)
@@ -258,7 +248,6 @@ public partial class WaveMaker : Node3D
         using var file = FileAccess.Open($"res://Assets/WaveData/{fileName}", FileAccess.ModeFlags.Read);
         if (file == null)
         {
-            GD.Print($"NOT FOUND {fileName}");
             return null;
         }
         string content = file.GetAsText();
@@ -271,5 +260,7 @@ public partial class WaveMaker : Node3D
         string str = Json.Stringify(Level, indent: " ");
         Save(str, $"{LineEdit.Text}.json");
     }
+
+
 
 }

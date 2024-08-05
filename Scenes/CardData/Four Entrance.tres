@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scenes/UI/Cards/CardData.cs" id="1_ukvfj"]
+
+[resource]
+script = ExtResource("1_ukvfj")
+Name = "Four Entrance"
+CardInfo = "Some would say there's almost too many lanes"
+Rarity = "Uncommon"
+ShopCost = 0
+SubjectScene = "c_4EB.tscn"
+FOV = 26.0
+CameraOrbitSpeed = 0.3
+CameraTilt = 0.3
+CameraZoom = 26.9
+ResourceCostType = 6
+ResourceCostValue = 30.0

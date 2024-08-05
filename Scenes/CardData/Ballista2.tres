@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scenes/UI/Cards/CardData.cs" id="1_wvr11"]
+
+[resource]
+script = ExtResource("1_wvr11")
+Name = "Ballista"
+CardInfo = "Ballista test the third"
+Rarity = "Legendary"
+ShopCost = 0
+SubjectScene = "Ballista.tscn"
+FOV = 11.0
+CameraOrbitSpeed = 1.0
+CameraTilt = -1.0
+CameraZoom = 9.8
+ResourceCostType = 0
+ResourceCostValue = 0.0

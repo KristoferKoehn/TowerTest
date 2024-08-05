@@ -3,16 +3,14 @@ using Godot.Collections;
 using MMOTest.Backend;
 using System;
 using System.Collections.Generic;
+using TowerTest.Scenes.Components;
 
 [Tool]
-public abstract partial class AbstractTower : Node3D
+public abstract partial class AbstractTower : AbstractPlaceable
 {
-
 
     [Signal]
     public delegate void TowerFiredEventHandler(Node3D tower, Node3D target = null);
-    [Signal]
-    public delegate void TowerPlacedEventHandler(Node3D tower, Vector3 pos, Node3D tile);
     [Signal]
     public delegate void TowerSoldEventHandler(Node3D tower);
     [Export]
@@ -136,7 +134,9 @@ public abstract partial class AbstractTower : Node3D
                     Placing = false;
                     SelectorHitbox.GetNode<CollisionShape3D>("CollisionShape3D").Disabled = false;
                     currentTile.SetMeta("tile_invalid", true);
+                    EmitSignal("Placed", this, PlaceSpot);
 
+                    //get rid of this one, gameplay necessitates this is not a feature
                     //shift multiplacement
                     if (Input.IsActionPressed("shift"))
                     {
@@ -154,6 +154,7 @@ public abstract partial class AbstractTower : Node3D
 
             if (Input.IsActionJustPressed("cancel"))
             {
+                EmitSignal("Cancel");
                 this.QueueFree();
             }
         }
@@ -327,6 +328,5 @@ public abstract partial class AbstractTower : Node3D
     {
         CanShoot = true;
     }
-
 
 }

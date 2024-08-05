@@ -26,11 +26,12 @@ border_width_right = 4
 border_width_bottom = 4
 border_color = Color(1, 1, 1, 1)
 
-[sub_resource type="CanvasTexture" id="CanvasTexture_a8m4p"]
+[sub_resource type="CanvasTexture" id="CanvasTexture_tfdum"]
 
-[node name="UI" type="CanvasLayer" node_paths=PackedStringArray("CurrencyLabel")]
+[node name="UI" type="CanvasLayer" node_paths=PackedStringArray("CurrencyLabel", "TowerHealthBar")]
 script = ExtResource("1_vo24d")
 CurrencyLabel = NodePath("Control/VBoxContainer/TopUI/PlayerInfo_HBoxContainer/Currency/Currency")
+TowerHealthBar = NodePath("Control/VBoxContainer/TopUI/PlayerInfo_HBoxContainer/VBoxContainer/PlayerTowerHealth")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -78,6 +79,7 @@ text = "Tower Health:"
 [node name="PlayerTowerHealth" type="ProgressBar" parent="Control/VBoxContainer/TopUI/PlayerInfo_HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_styles/background = SubResource("StyleBoxFlat_kculh")
 theme_override_styles/fill = SubResource("StyleBoxFlat_2xmo1")
 value = 85.0
@@ -242,7 +244,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = SubResource("CanvasTexture_a8m4p")
+texture = SubResource("CanvasTexture_tfdum")
 
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/PausePlayButton" to="." method="_on_pause_play_button_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/SpeedUpButton" to="." method="_on_speed_up_button_pressed"]

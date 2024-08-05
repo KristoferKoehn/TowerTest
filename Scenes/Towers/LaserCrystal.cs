@@ -26,6 +26,7 @@ public partial class LaserCrystal : AbstractTower
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
 	{
+        if (Disabled) return;
 
         if (EnemyList.Count > 0)
         {
@@ -111,5 +112,15 @@ public partial class LaserCrystal : AbstractTower
         }
 
         return points;
+    }
+
+    public override void DisplayMode()
+    {
+        Disabled = true;
+    }
+
+    public override void Activate()
+    {
+        Disabled = false;
     }
 }
