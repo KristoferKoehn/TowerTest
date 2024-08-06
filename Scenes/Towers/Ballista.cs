@@ -131,9 +131,10 @@ public partial class Ballista : AbstractTower
         Disabled = true;
     }
 
-    public override void Activate()
+    public override void ActivatePlacing()
     {
         Disabled = false;
+        Placing = true;
         BallistaArrowManager.GetInstance().RegisterBallista(this);
     }
 }

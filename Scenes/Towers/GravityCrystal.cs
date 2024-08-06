@@ -150,8 +150,9 @@ public partial class GravityCrystal : AbstractTower
         Disabled = true;
     }
 
-    public override void Activate()
+    public override void ActivatePlacing()
     {
+        Placing = true;
         Disabled = false;
     }
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://ba4apx2hsn1c0"]
+[gd_scene load_steps=24 format=3 uid="uid://ba4apx2hsn1c0"]
 
 [ext_resource type="PackedScene" uid="uid://bla62bopkwx4a" path="res://Assets/TowerModels/towerSquare_bottomA.glb" id="1_3l0de"]
 [ext_resource type="Script" path="res://Scenes/Towers/Ballista.cs" id="1_h510k"]
@@ -8,6 +8,7 @@
 [ext_resource type="Material" uid="uid://bpfrh7v7vj33w" path="res://Assets/Materials/QueryInvalid.tres" id="4_x07qf"]
 [ext_resource type="Material" uid="uid://dp23b2u2d2c2f" path="res://Assets/Materials/QueryValid.tres" id="5_ee6a0"]
 [ext_resource type="AudioStream" uid="uid://dj6ffplmep13m" path="res://Assets/Audio/sfx/impact/footstep_carpet_000.ogg" id="5_r0e4s"]
+[ext_resource type="PackedScene" uid="uid://1w1umbiov4do" path="res://Scenes/Utility/TowerPanel.tscn" id="6_cuopx"]
 [ext_resource type="AudioStream" uid="uid://ds43miak20xlp" path="res://Assets/Audio/sfx/impact/footstep_carpet_001.ogg" id="6_ee16f"]
 [ext_resource type="AudioStream" uid="uid://cxgal3mj7el74" path="res://Assets/Audio/sfx/impact/footstep_carpet_002.ogg" id="7_22vf7"]
 [ext_resource type="AudioStream" uid="uid://d1eo1rolf4d72" path="res://Assets/Audio/sfx/impact/footstep_carpet_003.ogg" id="8_a157n"]
@@ -58,6 +59,7 @@ ValidMaterial = ExtResource("5_ee6a0")
 SelectorHitbox = NodePath("StaticBody3D")
 ActiveRange = NodePath("ActiveRange")
 ShotTimer = NodePath("ShotTimer")
+TowerPanel = ExtResource("6_cuopx")
 
 [node name="towerSquare_bottomA2" parent="." instance=ExtResource("1_3l0de")]
 transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 0, 0, 0)

@@ -62,9 +62,18 @@ public partial class ViewportVisuals : SubViewport
 		}
 
 		SubjectPackedScene = packed;
-		SubjectScene = SubjectPackedScene.Instantiate<AbstractPlaceable>();
-        SubjectScene.DisplayMode();
-        AddChild(SubjectScene);
+		SubjectScene = SubjectPackedScene.Instantiate() as AbstractPlaceable;
+		if (SubjectScene != null)
+		{
+            SubjectScene.DisplayMode();
+            AddChild(SubjectScene);
+        } else
+		{
+			BaseEnemy enemy = SubjectPackedScene.Instantiate<BaseEnemy>();
+			enemy.Disabled = true;
+			AddChild(enemy);
+        }
+        
     }
 
 }

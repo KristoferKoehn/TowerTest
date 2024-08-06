@@ -67,16 +67,28 @@ public abstract partial class AbstractTower : AbstractPlaceable
 
         ActiveRange.AreaEntered += _on_active_range_area_entered;
         ActiveRange.AreaExited += _on_active_range_area_exited;
-
+        PrevPlacing = Placing;
     }
 
     Vector3 PlaceSpot = Vector3.Zero;
     MeshInstance3D currentTile = null;
-
+    bool PrevPlacing = false;
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+
         if (Disabled) return;
+
+        if (!PrevPlacing && Placing)
+        {
+            indicator = new MeshInstance3D();
+            QuadMesh q = new QuadMesh();
+            q.Orientation = PlaneMesh.OrientationEnum.Y;
+            indicator.Mesh = q;
+            SelectorHitbox.GetNode<CollisionShape3D>("CollisionShape3D").Disabled = true;
+            AddChild(indicator);
+        }
+
         if (Placing)
         {
             CanShoot = false;
@@ -159,6 +171,7 @@ public abstract partial class AbstractTower : AbstractPlaceable
             }
         }
 
+        PrevPlacing = Placing;
         EnemyList.RemoveAll(item => item.dead);
     }
 

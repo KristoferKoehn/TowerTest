@@ -8,6 +8,8 @@ public partial class SceneSwitcher : Node
 
 	public static Node root;
 
+	public static GameLoop CurrentGameLoop = null;
+
 	public override void _Ready()
 	{
 		root = GetTree().Root;

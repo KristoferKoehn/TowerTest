@@ -29,7 +29,7 @@ public partial class GameLoop : Node3D
 	public override void _Ready()
 	{
         HealthBarManager.GetInstance();
-
+        SceneSwitcher.CurrentGameLoop = this;
         Camera = GetNode<Camera3D>("CameraGimbal/Camera3D");
 		CameraGimbal = GetNode<Node3D>("CameraGimbal");
 	}
@@ -37,35 +37,7 @@ public partial class GameLoop : Node3D
 
 	public override void _Process(double delta)
 	{
-
-        //make this cooler
-
-        /*
-		if (Input.IsActionPressed("rotate_right"))
-		{
-			if (!turning)
-			{
-				Quaternion q = new Quaternion(Vector3.Up, Mathf.Pi / 2);
-				Tween t = GetTree().CreateTween();
-				t.TweenProperty(CameraGimbal, "quaternion", q * CameraGimbal.Quaternion, 0.3f);
-				turning = true;
-				t.Finished += () => turning = false;
-			}
-		}
-		if (Input.IsActionPressed("rotate_left"))
-		{
-			if (!turning)
-			{
-				Quaternion q = new Quaternion(Vector3.Up, -Mathf.Pi / 2);
-				Tween t = GetTree().CreateTween();
-				t.TweenProperty(CameraGimbal, "quaternion", q * CameraGimbal.Quaternion, 0.3f);
-				turning = true;
-				t.Finished += () => turning = false;
-            }
-		}
-		*/
         HandleCameraMovement();
-		//CheckMouseHover();
     }
 
     private void HandleCameraMovement()

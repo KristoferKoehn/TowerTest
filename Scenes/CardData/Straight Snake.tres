@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scenes/UI/Cards/CardData.cs" id="1_68c6e"]
+
+[resource]
+script = ExtResource("1_68c6e")
+Name = "Straight Snake"
+CardInfo = "I will discuss this with the landscaper."
+Rarity = "Common"
+ShopCost = 0
+SubjectScene = "c_2EntranceSnakeA.tscn"
+FOV = 87.0
+CameraOrbitSpeed = 1.3
+CameraTilt = 13.1
+CameraZoom = 7.7
+ResourceCostType = 0
+ResourceCostValue = 0.0

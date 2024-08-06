@@ -102,32 +102,6 @@ public partial class UI : CanvasLayer
         }
     }
     */
-
-    
-    public void OnChunkCardClicked(InputEvent @event, TextureRect slot)
-    {
-        if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed)
-        {
-
-            // Get the Viewport from the slot
-            Viewport viewport = slot.GetChild<Viewport>(0);
-
-            // Get the card instance from the Viewport
-            BaseCard card = viewport.GetChild<Control>(0) as BaseCard;
-
-            if (card != null)
-            {
-                // Load and instantiate the tower
-                Chunk newchunk = GD.Load<PackedScene>(card.ScenePath).Instantiate<Chunk>();
-                newchunk.CurrentlyPlacing = true;
-                newchunk.Debug = true;
-                _gameLoop.AddChild(newchunk);
-
-                // Close the panel
-                _playerHand.Visible = !card.Visible;
-            }
-        }
-    }
     
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -62,10 +62,8 @@ public partial class Chunk : AbstractPlaceable
     public bool Disabled = false;
     [Export]
     public bool Debug = false;
-
-
     [Export]
-    Script FeatureSingleton;
+    public bool StaticPlacement = false;
 
     //this is so we know how big the chunk is. For later.
     public int ChunkSize = 7;
@@ -84,7 +82,6 @@ public partial class Chunk : AbstractPlaceable
 
     public int ChunkDistance = 0;
 
-    Array<Rid> SelfRidList = new();
 
     /// <summary>
     /// Raycasts 1m out from origin in direction. if Direction.Down is supplied, it will raycast downward.
@@ -125,7 +122,7 @@ public partial class Chunk : AbstractPlaceable
         
         Dictionary result = spaceState.IntersectRay(query);
 
-        if (false)
+        if (true)
         {
 
             MeshInstance3D meshInstance3D = new MeshInstance3D();
@@ -485,8 +482,7 @@ public partial class Chunk : AbstractPlaceable
                 break;
         }
 
-        Node n = new Node();
-        n.SetScript(FeatureSingleton);
+        EmitSignal("Placed", this, this.GlobalPosition);
 
     }
 
@@ -766,28 +762,12 @@ public partial class Chunk : AbstractPlaceable
     public override void _Ready()
     {
         base._Ready();
-        if (Disabled) return;
+        //if (Disabled) return;
 
-        UpdateEntrances();
-        UpdateAdjacencyList();
-
-        if(CurrentlyPlacing)
+        if (StaticPlacement)
         {
-            foreach (Node mesh in GetChildren())
-            {
-                MeshInstance3D tile = mesh as MeshInstance3D;
-                if (tile != null && tile.HasMeta("height"))
-                {
-                    tile.GetNodeOrNull<StaticBody3D>("StaticBody3D").CollisionLayer = 2048;
-                }
-            }
-        }
-
-
-        
-
-        if (!Engine.IsEditorHint() && !CurrentlyPlacing)
-        {
+            UpdateEntrances();
+            UpdateAdjacencyList();
             PlaceChunk(ExitDirection);
         }
     }
@@ -961,6 +941,7 @@ public partial class Chunk : AbstractPlaceable
         {
             if(CurrentlyPlacing)
             {
+                EmitSignal("Cancel");
                 QueueFree();
             }
         }
@@ -971,8 +952,10 @@ public partial class Chunk : AbstractPlaceable
         Disabled = true;
     }
 
-    public override void Activate()
+    public override void ActivatePlacing()
     {
+        Disabled = false;
+        CurrentlyPlacing = true;
         UpdateEntrances();
         UpdateAdjacencyList();
 
@@ -988,11 +971,11 @@ public partial class Chunk : AbstractPlaceable
             }
         }
 
-        if (!Engine.IsEditorHint() && !CurrentlyPlacing)
+        if (StaticPlacement)
         {
             PlaceChunk(ExitDirection);
         }
-        Disabled = false;
+        
     }
 
 }

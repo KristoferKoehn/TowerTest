@@ -26,11 +26,8 @@ expand_margin_bottom = 1.0
 
 [node name="CardBase" type="Control" node_paths=PackedStringArray("CardNameLabel", "CardViewportFrame", "CardBackground")]
 layout_mode = 3
-anchors_preset = 0
-offset_left = -125.0
-offset_top = -175.0
-offset_right = 125.0
-offset_bottom = 175.0
+offset_right = 250.0
+offset_bottom = 350.0
 scale = Vector2(0.5, 0.5)
 pivot_offset = Vector2(125, 175)
 size_flags_horizontal = 4
@@ -41,7 +38,7 @@ CardBackground = NodePath("MarginContainer/MarginContainer/Background")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2

@@ -214,9 +214,10 @@ public partial class WaveMaker : Node3D
 
     public void AddToItemList(ItemList itemList, string scene)
     {
+        GD.Print(scene);
         PackedScene enemy = GD.Load<PackedScene>($"res://Scenes/Enemies/{scene}");
         ViewportVisuals vv = GD.Load<PackedScene>("res://Scenes/Utility/ViewportVisuals.tscn").Instantiate<ViewportVisuals>();
-        vv.SubjectPackedScene = enemy;
+        vv.SetSubjectScene(enemy);
         Viewports.Add(vv);
         AddChild(vv);
         Texture2D t = vv.GetTexture();

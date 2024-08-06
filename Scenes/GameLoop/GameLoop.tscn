@@ -1,9 +1,23 @@
-[gd_scene load_steps=6 format=3 uid="uid://bqi5yficpytv4"]
+[gd_scene load_steps=8 format=3 uid="uid://bqi5yficpytv4"]
 
 [ext_resource type="Script" path="res://Scenes/GameLoop/GameLoop.cs" id="1_l1214"]
 [ext_resource type="PackedScene" uid="uid://chp22ot4ypmd3" path="res://Scenes/Chunks/c_StartingChunk.tscn" id="3_wuc8u"]
 [ext_resource type="PackedScene" uid="uid://c8k323ym7lt8k" path="res://Scenes/UI/UI.tscn" id="5_woyu5"]
 [ext_resource type="PackedScene" uid="uid://budchas7k1t2g" path="res://Assets/ConstructedModels/HomeBase.tscn" id="12_lr5yx"]
+
+[sub_resource type="Curve3D" id="Curve3D_lnhfk"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0.45, -3, 0, 0, 0, 0, 0, 0, 0, 0.45, -2, 0, 0, 0, 0, 0, 0, 0, 0.45, -1, 0, 0, 0, 0, 0, 0, 0, 0.45, 0, 0, 0, 0, 0, 0, 0, 0, 0.45, 0),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0)
+}
+point_count = 5
+
+[sub_resource type="Curve3D" id="Curve3D_dyv8k"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0.45, -3, 0, 0, 0, 0, 0, 0, 0, 0.45, -2, 0, 0, 0, 0, 0, 0, 0, 0.45, -1, 0, 0, 0, 0, 0, 0, 0, 0.45, 0, 0, 0, 0, 0, 0, 0, 0, 0.45, 0),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0)
+}
+point_count = 5
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_qk85b"]
 
@@ -14,6 +28,13 @@ script = ExtResource("1_l1214")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 1)
 
 [node name="Chunk" parent="." instance=ExtResource("3_wuc8u")]
+StaticPlacement = true
+
+[node name="@Path3D@316380" type="Path3D" parent="Chunk"]
+curve = SubResource("Curve3D_lnhfk")
+
+[node name="@Path3D@333362" type="Path3D" parent="Chunk"]
+curve = SubResource("Curve3D_dyv8k")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 collision_mask = 0
