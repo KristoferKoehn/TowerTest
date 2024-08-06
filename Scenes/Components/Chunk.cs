@@ -119,10 +119,10 @@ public partial class Chunk : AbstractPlaceable
 
 
         query = PhysicsRayQueryParameters3D.Create(origin, EndPosition, collisionMask: mask);
-        
+
         Dictionary result = spaceState.IntersectRay(query);
 
-        if (true)
+        if (Debug)
         {
 
             MeshInstance3D meshInstance3D = new MeshInstance3D();
@@ -182,12 +182,12 @@ public partial class Chunk : AbstractPlaceable
         {
             for (int j = 0; j < ChunkSize; j++)
             {
-                
+
                 MeshInstance3D tile = GetAdjacentTile(Direction.Down, new Vector3(GlobalPosition.X - i + ChunkSize / 2, GlobalPosition.Y + 1, GlobalPosition.Z - j + ChunkSize / 2));
                 if (tile.GetMeta("height").AsInt32() == 0)
                 {
                     AllLaneTiles.Add(tile);
-                    
+
                     if (!AdjacencyList.ContainsKey(tile))
                     {
                         AdjacencyList.Add(tile, new Array<MeshInstance3D>());
@@ -297,7 +297,7 @@ public partial class Chunk : AbstractPlaceable
                 WestTile = null;
                 WestEntrance = false;
             }
-            
+
         }
         else
         {
@@ -406,7 +406,7 @@ public partial class Chunk : AbstractPlaceable
         visited[current] = false;
     }
 
-   
+
 
     public void PlaceChunk(Direction ConnectedDirection)
     {
@@ -424,7 +424,7 @@ public partial class Chunk : AbstractPlaceable
         ClearOverrides = true;
         ExitDirection = ConnectedDirection;
 
-        
+
         UpdateEntrances();
 
         foreach (Path3D p in AllLanePaths)
@@ -477,7 +477,7 @@ public partial class Chunk : AbstractPlaceable
                 connectorTile = GetAdjacentTile(ExitDirection, EastTile.GlobalPosition, 8);
                 ChunkDistance = connectorTile.GetParent<Chunk>().ChunkDistance + 1;
                 break;
-            default: 
+            default:
                 ChunkDistance = 0;
                 break;
         }
@@ -488,7 +488,7 @@ public partial class Chunk : AbstractPlaceable
 
     public void RotateClockwise()
     {
-        if(!ChunkRotating)
+        if (!ChunkRotating)
         {
             if (CurrentlyPlacing)
             {
@@ -537,7 +537,7 @@ public partial class Chunk : AbstractPlaceable
                 //do nothing
                 //Quaternion = new Quaternion(Vector3.Up, Mathf.Pi / 2) * Quaternion;
                 //UpdateEntrances();
-                
+
             }
         }
     }
@@ -590,7 +590,7 @@ public partial class Chunk : AbstractPlaceable
 
             //for each entrance, EntrancePathList[entrance] = array of paths
 
-            
+
 
             if (Engine.IsEditorHint())
             {
@@ -640,7 +640,7 @@ public partial class Chunk : AbstractPlaceable
             } else
             {
                 Vector3 EmptyOrigin = GlobalPosition + new Vector3(0, 1, -7);
-                if (GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(0, 0, -4), mask: 8) != null && GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(0,0,-4), mask: 8).GetMeta("height").AsInt32() == 0) 
+                if (GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(0, 0, -4), mask: 8) != null && GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(0, 0, -4), mask: 8).GetMeta("height").AsInt32() == 0)
                 {
                     valid = false;
                 }
@@ -700,7 +700,7 @@ public partial class Chunk : AbstractPlaceable
                 {
                     valid = false;
                 }
-                if (GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(0, 0, 4), mask: 8) != null && GetAdjacentTile(Direction.Down,EmptyOrigin + new Vector3(0, 0, 4), mask: 8).GetMeta("height").AsInt32() == 0)
+                if (GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(0, 0, 4), mask: 8) != null && GetAdjacentTile(Direction.Down, EmptyOrigin + new Vector3(0, 0, 4), mask: 8).GetMeta("height").AsInt32() == 0)
                 {
                     valid = false;
                 }
@@ -733,18 +733,68 @@ public partial class Chunk : AbstractPlaceable
             }
         }
 
-
-        /*
-         * FOR NO LANE CHUNKS --- TO DO
-         * 
-         * allow placement of exclusively no lane connection as a separate case.
-         * 
-         * 
-         */
-
-        if (ConnectedEntranceCount > 1 || ConnectedEntranceCount == 0)
+        if (!(NorthEntrance || EastEntrance || SouthEntrance || WestEntrance || CenterEntrance))
         {
-            valid = false;
+            //no lane chunk boogaloo
+
+            MeshInstance3D tile = GetAdjacentTile(Direction.North, this.GlobalPosition + new Vector3(0, 0, -3), mask: 8);
+            if (tile != null && tile.GetMeta("height").AsInt32() == 0)
+            {
+                valid = false;
+            } 
+            else
+            {
+                if (tile != null)
+                {
+                    GD.Print($"{tile.GetMeta("height").AsInt32()}, {tile.HasMeta("exit")}");
+                }
+            }
+
+            tile = GetAdjacentTile(Direction.East, this.GlobalPosition + new Vector3(3, 0, 0), mask: 8);
+            if (tile != null && tile.GetMeta("height").AsInt32() == 0)
+            {
+                valid = false;
+            }
+            else
+            {
+                if (tile != null)
+                {
+                    GD.Print($"{tile.GetMeta("height").AsInt32()}, {tile.HasMeta("exit")}");
+                }
+            }
+
+            tile = GetAdjacentTile(Direction.South, this.GlobalPosition + new Vector3(0, 0, 3), mask: 8);
+            if (tile != null && tile.GetMeta("height").AsInt32() == 0)
+            {
+                valid = false;
+            }
+            else
+            {
+                if (tile != null)
+                {
+                    GD.Print($"{tile.GetMeta("height").AsInt32()}, {tile.HasMeta("exit")}");
+                }
+            }
+
+            tile = GetAdjacentTile(Direction.West, this.GlobalPosition + new Vector3(-3, 0, 0), mask: 8);
+            if (tile != null && tile.GetMeta("height").AsInt32() == 0)
+            {
+                valid = false;
+            }
+            else
+            {
+                if (tile != null)
+                {
+                    GD.Print($"{tile.GetMeta("height").AsInt32()}, {tile.HasMeta("exit")}");
+                }
+            }
+
+        } else
+        {
+            if (ConnectedEntranceCount > 1 || ConnectedEntranceCount == 0)
+            {
+                valid = false;
+            }
         }
 
         if(valid)
@@ -941,7 +991,7 @@ public partial class Chunk : AbstractPlaceable
         {
             if(CurrentlyPlacing)
             {
-                EmitSignal("Cancel");
+                EmitSignal("Cancelled");
                 QueueFree();
             }
         }

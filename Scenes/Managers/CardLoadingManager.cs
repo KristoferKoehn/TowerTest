@@ -67,7 +67,6 @@ public partial class CardLoadingManager : Node
         RarityStyles["Legendary"] = GD.Load<StyleBoxTexture>("res://Scenes/UI/Cards/Gradients/LegendaryRarityStyleBox.tres");
 
         string[] CardNames = DirAccess.GetFilesAt("res://Scenes/CardData/");
-        GD.Print(CardNames);
         foreach (string name in CardNames)
         {
             if (name.Contains(".tres"))
@@ -107,7 +106,6 @@ public partial class CardLoadingManager : Node
         List<CardData> list = new();
         foreach(string name in CardData.Keys)
         {
-            GD.Print(name);
             list.Add(CardData[name]);
         }
         

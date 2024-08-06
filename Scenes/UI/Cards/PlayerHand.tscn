@@ -5,21 +5,25 @@
 
 [sub_resource type="Curve2D" id="Curve2D_2sk6h"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, -98, 52, -380.137, -148.221, 380.137, 148.221, 596, 52)
+"points": PackedVector2Array(0, 0, 250, -70, -400, 0, -250, -70, 350.529, 85.2251, 400, 0)
 }
 point_count = 2
 
-[node name="PlayerHand" type="Control" node_paths=PackedStringArray("CardPlacingPath", "PathFollow")]
+[node name="PlayerHand" type="Control" node_paths=PackedStringArray("CardPlacingPosition", "CardPlacingPath", "PathFollow")]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_pc55c")
+CardPlacingPosition = NodePath("ActiveCardPlacement")
 CardPlacingPath = NodePath("Path2D")
 PathFollow = NodePath("Path2D/PathFollow2D")
 BaseCardScene = ExtResource("2_dtlm7")
 
 [node name="Path2D" type="Path2D" parent="."]
-position = Vector2(-249, 15)
 curve = SubResource("Curve2D_2sk6h")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
-position = Vector2(-98, 52)
+position = Vector2(-400, 0)
+rotation = -0.273009
+
+[node name="ActiveCardPlacement" type="Node2D" parent="."]
+position = Vector2(400, -200)

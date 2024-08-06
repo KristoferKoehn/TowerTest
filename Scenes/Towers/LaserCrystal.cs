@@ -62,7 +62,7 @@ public partial class LaserCrystal : AbstractTower
         float radius = StatBlock.GetStat(StatType.Range);
         ((CylinderShape3D)RangeHitbox.Shape).Radius = radius;
 
-        if (MouseOver || Selected)
+        if (MouseOver || Selected || Placing)
         {
             List<Vector3> points = GeneratePoints(32, GlobalPosition, StatBlock.GetStat(StatType.Range));
 

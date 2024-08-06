@@ -66,7 +66,7 @@ public partial class Ballista : AbstractTower
 
         ((CylinderShape3D)RangeHitbox.Shape).Radius = StatBlock.GetStat(StatType.Range);
 
-        if (MouseOver || Selected)
+        if (MouseOver || Selected || Placing)
         {
             List<Vector3> points = GeneratePoints(32, GlobalPosition, StatBlock.GetStat(StatType.Range));
 

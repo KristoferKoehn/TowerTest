@@ -56,7 +56,7 @@ public partial class GravityCrystal : AbstractTower
             ((ParticleProcessMaterial)AmbientParticles.ProcessMaterial).EmissionRingRadius = range;
         }
 
-        if (MouseOver || Selected)
+        if (MouseOver || Selected || Placing)
         {
             List<Vector3> points = GeneratePoints(32, GlobalPosition, StatBlock.GetStat(StatType.Range));
 

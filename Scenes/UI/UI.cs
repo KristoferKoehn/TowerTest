@@ -38,7 +38,6 @@ public partial class UI : CanvasLayer
 
         _playerHand = GetNode<PlayerHand>("Control/PlayerHand");
         _gameLoop = GetParent<GameLoop>();
-        _towersPanel = GetNode<ScrollContainer>("Control/TowersPanel");
         PlayerStatsManager.GetInstance().StatChanged += GoldUpdate;
         PlayerStatsManager.GetInstance().StatChanged += HealthBarUpdate;
         GoldUpdate(StatType.Gold, PlayerStatsManager.GetInstance().GetStat(StatType.Gold));
@@ -46,64 +45,7 @@ public partial class UI : CanvasLayer
         TowerHealthBar.Value = PlayerStatsManager.GetInstance().GetStat(StatType.Health);
 
     }
-
-    /*
-    private void SetUpChunkCardPanel()
-    {
-        // Cache the reference to the ChunksPanel node
-        //_chunksPanel = GetNode<ScrollContainer>("Control/ChunksPanel");
-       // _chunksPanel.Visible = false;
-        _cardScene = (PackedScene)ResourceLoader.Load("res://Scenes/UI/Cards/BaseCard.tscn");
-        _gridContainer = GetNode<GridContainer>("Control/ChunksPanel/GridContainer");
-
-        //string[] ListOfChunks = DirAccess.GetFilesAt("res://Scenes/Chunks");
-
-        foreach (string File in CardDatabase.chunkslist)
-        {
-            //Texture rect slot:
-            
-            TextureRect slot = new TextureRect();
-            slot.CustomMinimumSize = new Vector2(125, 175);
-            slot.ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize;
-
-            // Create a Viewport:
-            Viewport viewport = new SubViewport();
-            viewport.Set("size", new Vector2(250, 350));
-            viewport.TransparentBg = true;
-            slot.AddChild(viewport);
-
-            // Instance the card scene and add it to the viewport
-            BaseCard card = _cardScene.Instantiate<BaseCard>();
-            card.SetCard(File);
-            viewport.AddChild(card);
-
-
-
-            // Create a TextureRect to display the viewport texture
-            slot.Texture = viewport.GetTexture();
-
-            slot.GuiInput += (InputEvent @event) => {
-                if (@event.IsAction("select"))
-                {
-                    OnChunkCardClicked(@event, slot);
-                }
-
-            };
-
-            // Add the TextureRect to the GridContainer
-            _gridContainer.AddChild(slot);
-        }
-
-
-        // Create and add cards to the GridContainer
-        for (int i = 0; i < 10; i++)
-        {
-
-        }
-    }
-    */
     
-
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
 	{
@@ -143,12 +85,6 @@ public partial class UI : CanvasLayer
         //add child ()
     }
 
-    public void _on_towers_button_pressed()
-    {
-        _playerHand.Visible = false;
-        _towersPanel.Visible = !_towersPanel.Visible;
-    }
-
     public void GoldUpdate(StatType type, float value)
     {
         if (type == StatType.Gold)
@@ -167,7 +103,6 @@ public partial class UI : CanvasLayer
 
     public void _on_chunks_button_pressed()
     {
-        //_towersPanel.Visible = false;
-        _playerHand.Visible = !_playerHand.Visible;
+        _playerHand.ToggleHide();
     }
 }

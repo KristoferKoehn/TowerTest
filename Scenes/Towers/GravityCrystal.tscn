@@ -375,6 +375,7 @@ autostart = true
 
 [node name="ActiveRange" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+collision_layer = 0
 input_ray_pickable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ActiveRange"]

@@ -28,7 +28,6 @@ public partial class BaseCard : Control
     private Vector2 originalScale;
     private Vector2 selectedScale;
 
-
     //dragging detection
     bool Highlighted = false;
     Vector2 MotionAccumulation = Vector2.Zero;
@@ -36,7 +35,6 @@ public partial class BaseCard : Control
     bool dragging = false;
     bool pressed = false;
     public bool Active = true;
-
 
     AbstractPlaceable QueriedPlaceable { get; set; } = null;
 
@@ -61,23 +59,21 @@ public partial class BaseCard : Control
     {
         this.ZIndex +=1;
         Highlighted = true;
-        // Optionally, add a slight scale up effect
         Tween tweenscale = GetTree().CreateTween();
         tweenscale.SetTrans(Tween.TransitionType.Sine);
         tweenscale.SetEase(Tween.EaseType.Out);
-        tweenscale.TweenProperty(this, "scale", this.selectedScale, 0.1);
+        tweenscale.TweenProperty(this, "scale", this.selectedScale, 0.2);
     }
 
     public void _on_mouse_exited()
     {
+        this.ZIndex -= 1;
+        Highlighted = false;
         Tween tweenscale = GetTree().CreateTween();
         tweenscale.SetTrans(Tween.TransitionType.Sine);
         tweenscale.SetEase(Tween.EaseType.Out);
-        tweenscale.TweenProperty(this, "scale", this.originalScale, 0.1);
-        this.ZIndex -= 1;
-        Highlighted = false;
+        tweenscale.TweenProperty(this, "scale", this.originalScale, 0.2);
     }
-
 
     public void _on_gui_input(InputEvent @event)
     {
@@ -88,12 +84,11 @@ public partial class BaseCard : Control
                 pressed = false;
                 DragOffset = Vector2.Zero;
                 MotionAccumulation = Vector2.Zero;
-                // Check if the left mouse button is pressed
                 if (!dragging)
                 {
                     if (Active)
                     {
-                        EmitSignal("Selected");
+                        EmitSignal("Selected", this);
                     }
                 }
                 Active = true;
@@ -182,20 +177,8 @@ public partial class BaseCard : Control
         QueriedPlaceable = Placeable;
         QueriedPlaceable.Cancelled += CancelPlacement;
         QueriedPlaceable.Placed += SuccessfullyPlaced;
-        SceneSwitcher.root.AddChild(Placeable);
+        SceneSwitcher.CurrentGameLoop.AddChild(Placeable);
         Placeable.ActivatePlacing();
-    }
-
-    public void CancelPlacement(Node3D item)
-    {
-        QueriedPlaceable.Cancelled -= CancelPlacement;
-        QueriedPlaceable.Placed -= SuccessfullyPlaced;
-        if(!QueriedPlaceable.IsQueuedForDeletion())
-        {
-            QueriedPlaceable.QueueFree();
-        }
-        QueriedPlaceable = null;
-        EmitSignal("Cancelled", this);
     }
 
     public void SuccessfullyPlaced(Node3D item, Vector3 pos)
@@ -204,6 +187,15 @@ public partial class BaseCard : Control
         QueriedPlaceable.Placed -= SuccessfullyPlaced;
         QueriedPlaceable = null;
         EmitSignal("Placed", this);
+    }
+
+    public void CancelPlacement()
+    {
+        if (QueriedPlaceable != null)
+        {
+            QueriedPlaceable = null;
+        }
+        EmitSignal("Cancelled", this);
     }
 
 }

@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="DeckData" load_steps=2 format=3 uid="uid://yuqox702la4v"]
+
+[ext_resource type="Script" path="res://Scenes/Utility/DeckData.cs" id="1_myq8o"]
+
+[resource]
+script = ExtResource("1_myq8o")
+data = [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]

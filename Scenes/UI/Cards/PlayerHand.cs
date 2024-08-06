@@ -5,10 +5,9 @@ using System.Collections.Generic;
 public partial class PlayerHand : Control
 {
 
-    private List<BaseCard> CardList = new List<BaseCard>();
 
     [Export]
-    Control CardPlacingPosition;
+    Node2D CardPlacingPosition;
     [Export]
     Path2D CardPlacingPath;
     [Export]
@@ -16,13 +15,17 @@ public partial class PlayerHand : Control
     [Export]
     PackedScene BaseCardScene;
 
+    List<BaseCard> CardList = new List<BaseCard>();
     List<float> CardPositions = new List<float>();
+
+    BaseCard ActiveCard = null;
+    bool CardActive = false;
+
+    float SwapThreshold = 0;
 
     public override void _Ready()
     {
-
-        this.GenerateHandWithAllCards();
-        UpdatePositions();
+        GenerateHandWithAllCards();
     }
 
     public override void _Process(double delta)
@@ -32,41 +35,93 @@ public partial class PlayerHand : Control
 
     public void AddCard(BaseCard card)
     {
-
+        card.Selected += CardSelected;
+        card.Cancelled += CardCancelled;
+        card.Placed += CardPlaced;
         this.AddChild(card);
-        //card.AnchorsPreset = (int)Control.LayoutPreset.Center;
-        //card.SetAnchorsPreset(LayoutPreset.Center);
         this.CardList.Add(card);
+    }
 
-        //Subscribe the card to clicked event:
-        card.GuiInput += (InputEvent @event) => {
-            if (@event.IsAction("select"))
-            {
-                OnChunkCardClicked(@event, card);
-            }
+    public void CardSelected(BaseCard card)
+    {
+        if (CardActive)
+        {
+            ActiveCard.CancelPlacement();
+            CardList.Add(ActiveCard);
+        }
 
+        Tween handTween = GetTree().CreateTween();
+        handTween.TweenProperty(CardPlacingPath, "position", new Vector2(0, 1200), 0.2f);
+
+        CardList.Remove(card);
+        ActiveCard = card;
+        CardActive = true;
+        Tween t = GetTree().CreateTween();
+        t.TweenProperty(card, "global_position", CardPlacingPosition.GlobalPosition, 0.2f);
+        t.Finished += SpawnPlaceableFromActiveCard;
+    }
+
+    public void CardPlaced(BaseCard card)
+    {
+        Tween handTween = GetTree().CreateTween();
+        handTween.TweenProperty(CardPlacingPath, "position", Vector2.Zero, 0.2f);
+        handTween.Finished += () =>
+        {
+            ActiveCard = null;
+            CardActive = false;
+            card.QueueFree();
         };
-        //UpdateCardPositions();
+    }
+
+    public void CardCancelled(BaseCard card)
+    {
+        Tween handTween = GetTree().CreateTween();
+        handTween.TweenProperty(CardPlacingPath, "position", Vector2.Zero, 0.2f);
+        handTween.Finished += () =>
+        {
+            CardList.Add(card);
+            ActiveCard = null;
+            CardActive = false;
+        };
+    }
+
+    public void SpawnPlaceableFromActiveCard()
+    {
+        if (CardActive)
+        {
+            ActiveCard.SpawnPlaceable();
+        }
     }
 
     public void UpdatePositions()
     {
+
         CardPositions.Clear();
         float PathLength = CardPlacingPath.Curve.GetBakedLength();
        
-        if (CardList.Count > 1)
+        if (CardList.Count > 3)
         {
             for (int i = 0; i < CardList.Count; i++)
             {
-                CardPositions.Add(i / (CardList.Count - 1.0f) * PathLength);
+                CardPositions.Add((i+1) / (CardList.Count + 1.0f) * PathLength);
             }
+            SwapThreshold = CardPlacingPath.Curve.GetBakedLength() / CardList.Count + 20;
 
         } else if (CardList.Count == 1)
         {
+
             CardPositions.Add(PathLength / 2f);
-        } else
+        } else if (CardList.Count == 2)
         {
-            //do nothing?
+            CardPositions.Add(PathLength / 3f);
+            CardPositions.Add( 2 * PathLength / 3f);
+            SwapThreshold = CardPlacingPath.Curve.GetBakedLength() / 3 + 10;
+        } else if (CardList.Count == 3)
+        {
+            CardPositions.Add(    PathLength / 4);
+            CardPositions.Add(2 * PathLength / 4);
+            CardPositions.Add(3 * PathLength / 4);
+            SwapThreshold = CardPlacingPath.Curve.GetBakedLength() / 4 + 10;
         }
 
 
@@ -74,49 +129,71 @@ public partial class PlayerHand : Control
 
     public void UpdateCardPositions()
     {
-        if (CardList.Count <= 2)
+        UpdatePositions();
+
+        if (CardList.Count > 1)
         {
-            //come up with some way to do 1 and 2 card hands
-            return;
+            for (int i = 0; i < CardList.Count; i++)
+            {
+
+                if (CardList[i].Active) continue;
+
+                //position swapping the cards, even if dragging
+                Vector2 CurvePoint = CardPlacingPath.Curve.GetClosestPoint(CardPlacingPath.ToLocal(CardList[i].GlobalPosition + (CardList[i].Size / 2 * CardList[i].Scale)));
+                float RealProgress = CardPlacingPath.Curve.GetClosestOffset(CurvePoint);
+
+
+                if (RealProgress - CardPositions[i] > Mathf.Abs(SwapThreshold) && CardList.Count == 2)
+                {
+                    BaseCard temp = CardList[1];
+                    CardList[1] = CardList[0];
+                    CardList[0] = temp;
+
+                }
+                else if (RealProgress - CardPositions[i] > SwapThreshold && i != CardList.Count)
+                {
+                    BaseCard temp = CardList[i + 1];
+                    CardList[i + 1] = CardList[i];
+                    CardList[i] = temp;
+                    GD.Print($"swapped up {CardList[i].CardName} with {CardList[i + 1].CardName}");
+                }
+                else if (RealProgress - CardPositions[i] < -SwapThreshold && i != 0)
+                {
+                    BaseCard temp = CardList[i - 1];
+                    CardList[i - 1] = CardList[i];
+                    CardList[i] = temp;
+                }
+            }
         }
 
-        float threshold = 1.0f / (CardList.Count) * CardPlacingPath.Curve.GetBakedLength();
-
-        for (int i = 0; i < CardList.Count; i++)
+        foreach (BaseCard card in CardList)
         {
-            //position swapping the cards, even if dragging
-            Vector2 CurvePoint = CardPlacingPath.Curve.GetClosestPoint(CardPlacingPath.ToLocal(CardList[i].GlobalPosition));
-            float RealProgress = CardPlacingPath.Curve.GetClosestOffset(CurvePoint);
-
-            if (RealProgress - (i / (CardList.Count - 1.0f) * CardPlacingPath.Curve.GetBakedLength()) > threshold && i != CardList.Count-1)
+            if (card.Active)
             {
-                BaseCard temp = CardList[i + 1];
-                CardList[i + 1] = CardList[i];
-                CardList[i] = temp;
-            } else if (RealProgress - (i / (CardList.Count - 1.0f) * CardPlacingPath.Curve.GetBakedLength()) < -threshold && i != 0)
-            {
-                BaseCard temp = CardList[i - 1];
-                CardList[i - 1] = CardList[i];
-                CardList[i] = temp;
-            }
-
-            if (CardList[i].Active)
-            {
-                PathFollow.Progress = CardPositions[i];
-                Vector2 Placement = new Vector2(PathFollow.GlobalPosition.X, PathFollow.GlobalPosition.Y);
+                int idx = CardList.IndexOf(card);
+                PathFollow.Progress = CardPositions[idx];
+                Vector2 Placement = new Vector2(PathFollow.GlobalPosition.X, PathFollow.GlobalPosition.Y ) - (card.Size / 2f * card.Scale);
                 Tween t = GetTree().CreateTween();
-                
-                t.TweenProperty(CardList[i], "global_position", Placement, 0.1f);
+                t.TweenProperty(card, "global_position", Placement, 0.1f);
             }
         }
     }
 
-    // When a chunk card is clicked:
-    public void OnChunkCardClicked(InputEvent @event, BaseCard card)
+
+    bool hidden = false;
+    public void ToggleHide()
     {
-        if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed)
+        if (hidden)
         {
-           
+            hidden = false;
+            Tween handTween = GetTree().CreateTween();
+            handTween.TweenProperty(CardPlacingPath, "position", Vector2.Zero, 0.2f);
+
+        } else
+        {
+            hidden = true;
+            Tween handTween = GetTree().CreateTween();
+            handTween.TweenProperty(CardPlacingPath, "position", new Vector2(0, 1200), 0.2f);
         }
     }
 

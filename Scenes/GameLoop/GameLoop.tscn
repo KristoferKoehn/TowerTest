@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bqi5yficpytv4"]
+[gd_scene load_steps=9 format=3 uid="uid://bqi5yficpytv4"]
 
 [ext_resource type="Script" path="res://Scenes/GameLoop/GameLoop.cs" id="1_l1214"]
 [ext_resource type="PackedScene" uid="uid://chp22ot4ypmd3" path="res://Scenes/Chunks/c_StartingChunk.tscn" id="3_wuc8u"]
@@ -13,6 +13,13 @@ _data = {
 point_count = 5
 
 [sub_resource type="Curve3D" id="Curve3D_dyv8k"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0.45, -3, 0, 0, 0, 0, 0, 0, 0, 0.45, -2, 0, 0, 0, 0, 0, 0, 0, 0.45, -1, 0, 0, 0, 0, 0, 0, 0, 0.45, 0, 0, 0, 0, 0, 0, 0, 0, 0.45, 0),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0)
+}
+point_count = 5
+
+[sub_resource type="Curve3D" id="Curve3D_e0h02"]
 _data = {
 "points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0.45, -3, 0, 0, 0, 0, 0, 0, 0, 0.45, -2, 0, 0, 0, 0, 0, 0, 0, 0.45, -1, 0, 0, 0, 0, 0, 0, 0, 0.45, 0, 0, 0, 0, 0, 0, 0, 0, 0.45, 0),
 "tilts": PackedFloat32Array(0, 0, 0, 0, 0)
@@ -35,6 +42,9 @@ curve = SubResource("Curve3D_lnhfk")
 
 [node name="@Path3D@333362" type="Path3D" parent="Chunk"]
 curve = SubResource("Curve3D_dyv8k")
+
+[node name="@Path3D@351194" type="Path3D" parent="Chunk"]
+curve = SubResource("Curve3D_e0h02")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 collision_mask = 0

@@ -60,56 +60,6 @@ public partial class GameLoop : Node3D
         }
     }
 
-    private void CheckMouseHover()
-    {
-        Vector2 mousePosition = GetViewport().GetMousePosition();
-        Vector3 from = Camera.ProjectRayOrigin(mousePosition);
-        Vector3 to = from + Camera.ProjectRayNormal(mousePosition) * 1000;
-
-        PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
-        PhysicsRayQueryParameters3D query = PhysicsRayQueryParameters3D.Create(from, to);
-        Dictionary result = spaceState.IntersectRay(query);
-
-        if (result.Count > 0)
-        {
-            // Doing this: MeshInstance3D tile = ((StaticBody3D)result["collider"]).GetParent<MeshInstance3D>();
-            // But with safety
-
-            StaticBody3D temp = (StaticBody3D)result["collider"];
-            MeshInstance3D tile = temp.GetParentOrNull<MeshInstance3D>();
-            if (tile == null)
-            {
-                return;
-            }
-
-            if (tile != _currently_highlighted_tile)
-            {
-                if (_currently_highlighted_tile != null)
-                {
-                    ResetOutline(_currently_highlighted_tile);
-                }
-
-                ApplyOutline(tile);
-                _currently_highlighted_tile = tile;
-            }
-        }
-        else if (_currently_highlighted_tile != null)
-        {
-            ResetOutline(_currently_highlighted_tile);
-            _currently_highlighted_tile = null;
-        }
-    }
-
-    private void ApplyOutline(MeshInstance3D meshInstance)
-    {
-        meshInstance.MaterialOverride = _tile_outline_mat;
-    }
-
-    private void ResetOutline(MeshInstance3D meshInstance)
-    {
-        meshInstance.MaterialOverride = null;
-    }
-
     public override void _Input(InputEvent @event)
 	{
 		

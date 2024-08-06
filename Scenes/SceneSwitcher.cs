@@ -17,6 +17,7 @@ public partial class SceneSwitcher : Node
 		SettingsManager.GetInstance();
 		PlayerStatsManager.GetInstance();
         CardLoadingManager.GetInstance();
+		DeckManager.GetInstance();
     }
 
 	public void PushScene(Node node)

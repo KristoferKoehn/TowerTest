@@ -148,8 +148,10 @@ public abstract partial class AbstractTower : AbstractPlaceable
                     currentTile.SetMeta("tile_invalid", true);
                     EmitSignal("Placed", this, PlaceSpot);
 
+
                     //get rid of this one, gameplay necessitates this is not a feature
                     //shift multiplacement
+                    /*
                     if (Input.IsActionPressed("shift"))
                     {
                         PackedScene ps = GD.Load<PackedScene>(SceneFilePath);
@@ -158,16 +160,16 @@ public abstract partial class AbstractTower : AbstractPlaceable
                         GetParent().AddChild(at);
                         at.GlobalPosition = GlobalPosition;
                     }
+                    */
 
                     ShotTimer.Start(StatBlock.GetStat(StatType.AttackSpeed));
                 }
-
             }
 
             if (Input.IsActionJustPressed("cancel"))
             {
-                EmitSignal("Cancel");
                 this.QueueFree();
+                EmitSignal("Cancelled");
             }
         }
 

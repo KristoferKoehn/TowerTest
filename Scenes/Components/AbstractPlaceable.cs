@@ -14,7 +14,7 @@ namespace TowerTest.Scenes.Components
         public delegate void PlacedEventHandler(Node3D item, Vector3 position);
 
         [Signal]
-        public delegate void CancelledEventHandler(Node3D item = null);
+        public delegate void CancelledEventHandler();
         public abstract void DisplayMode();
         public abstract void ActivatePlacing();
 
