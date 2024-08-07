@@ -41,10 +41,10 @@ public partial class BaseCard : Control
     //turns of selectability. Used for shops and query focus
     public bool ActiveInHand = true;
 
+    public bool Generated = true;
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-
         originalScale = Scale;
         selectedScale = Scale * 1.15f;
     }
@@ -57,21 +57,15 @@ public partial class BaseCard : Control
 
     public void _on_mouse_entered()
     {
-        this.ZIndex +=1;
         Highlighted = true;
         Tween tweenscale = GetTree().CreateTween();
-        tweenscale.SetTrans(Tween.TransitionType.Sine);
-        tweenscale.SetEase(Tween.EaseType.Out);
         tweenscale.TweenProperty(this, "scale", this.selectedScale, 0.2);
     }
 
     public void _on_mouse_exited()
     {
-        this.ZIndex -= 1;
         Highlighted = false;
         Tween tweenscale = GetTree().CreateTween();
-        tweenscale.SetTrans(Tween.TransitionType.Sine);
-        tweenscale.SetEase(Tween.EaseType.Out);
         tweenscale.TweenProperty(this, "scale", this.originalScale, 0.2);
     }
 
@@ -79,7 +73,7 @@ public partial class BaseCard : Control
     {
         if (@event is InputEventMouseButton mouseEvent)
         {
-            if (mouseEvent.ButtonIndex == MouseButton.Left && mouseEvent.IsReleased())
+            if (mouseEvent.ButtonIndex == MouseButton.Left && mouseEvent.IsReleased() && pressed)
             {
                 pressed = false;
                 DragOffset = Vector2.Zero;
@@ -91,8 +85,11 @@ public partial class BaseCard : Control
                         EmitSignal("Selected", this);
                     }
                 }
+
                 Active = true;
                 dragging = false;
+                Tween tweenscale = GetTree().CreateTween();
+                tweenscale.TweenProperty(this, "scale", this.originalScale, 0.2);
             }
 
             if (mouseEvent.ButtonIndex == MouseButton.Left && mouseEvent.IsPressed())
@@ -118,7 +115,7 @@ public partial class BaseCard : Control
         }
 
         //mouse motion click/drag detection threshold
-        if (MotionAccumulation.Length() > 10)
+        if (MotionAccumulation.Length() > 4)
         {
             dragging = true;
             Active = false;
@@ -147,7 +144,9 @@ public partial class BaseCard : Control
 
     public void SetCardData(CardData data)
     {
+
         this.data = data;
+        GD.Print(data.Name);
         CardNameLabel.Text = data.Name;
         CardName = data.Name;
         if (Viewport != null)
@@ -155,6 +154,7 @@ public partial class BaseCard : Control
             Viewport.QueueFree();
         }
         Viewport = ViewportScene.Instantiate<ViewportVisuals>();
+        Viewport.Size = (Vector2I)CardViewportFrame.Size;
         Viewport.OwnWorld3D = true;
         this.AddChild(Viewport);
         Viewport.CameraZoom = data.CameraZoom;

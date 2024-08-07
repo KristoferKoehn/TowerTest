@@ -32,6 +32,8 @@ public partial class GameLoop : Node3D
         SceneSwitcher.CurrentGameLoop = this;
         Camera = GetNode<Camera3D>("CameraGimbal/Camera3D");
 		CameraGimbal = GetNode<Node3D>("CameraGimbal");
+
+        DeckManager.GetInstance().SetDeck((DeckData)ResourceLoader.Load("res://Scenes/Decks/PlainsDeck.tres"));
 	}
 
 

@@ -33,6 +33,7 @@ shader_parameter/shine_size = 0.01
 
 [node name="CardBase" type="Control" node_paths=PackedStringArray("CardNameLabel", "CardViewportFrame", "CardBackground")]
 layout_mode = 3
+anchors_preset = 0
 offset_right = 250.0
 offset_bottom = 350.0
 grow_horizontal = 2

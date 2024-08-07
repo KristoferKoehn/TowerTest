@@ -287,26 +287,29 @@ layout_mode = 2
 text = "Load"
 
 [node name="CardBase" parent="Control" instance=ExtResource("1_0prre")]
-anchors_preset = 0
 offset_left = 38.0
 offset_top = 4.0
 offset_right = 288.0
 offset_bottom = 354.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="CardBase2" parent="Control" instance=ExtResource("1_0prre")]
-anchors_preset = 0
 offset_left = 333.0
 offset_top = 139.0
 offset_right = 583.0
 offset_bottom = 489.0
+grow_horizontal = 1
+grow_vertical = 1
 scale = Vector2(1, 1)
 
 [node name="CardBase3" parent="Control" instance=ExtResource("1_0prre")]
-anchors_preset = 0
 offset_left = 32.0
 offset_top = 260.0
 offset_right = 282.0
 offset_bottom = 610.0
+grow_horizontal = 1
+grow_vertical = 1
 rotation = 0.131955
 
 [node name="FileSelector" parent="." instance=ExtResource("3_pshew")]

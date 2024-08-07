@@ -17,6 +17,21 @@ public enum Direction
 public partial class Chunk : AbstractPlaceable
 {
 
+    Dictionary<Direction, Vector3> LocalEntrances = new Dictionary<Direction, Vector3>() {
+                { Direction.North, new Vector3(0,0,-3)},
+                { Direction.East, new Vector3(3,0,0)},
+                { Direction.South, new Vector3(0,0,3)},
+                { Direction.West, new Vector3(-3,0,0)}, 
+    };
+
+    Dictionary<Direction, Vector3> ExternalEntrances = new Dictionary<Direction, Vector3>() {
+                { Direction.North, new Vector3(0,0,-4)},
+                { Direction.East, new Vector3(4,0,0)},
+                { Direction.South, new Vector3(0,0,4)},
+                { Direction.West, new Vector3(-4,0,0)},
+    };
+
+
     [Export]
     bool NorthEntrance = false;
     [Export]
@@ -61,7 +76,7 @@ public partial class Chunk : AbstractPlaceable
     [Export]
     public bool Disabled = false;
     [Export]
-    public bool Debug = false;
+    public bool Debug = true;
     [Export]
     public bool StaticPlacement = false;
 
@@ -126,6 +141,7 @@ public partial class Chunk : AbstractPlaceable
         {
 
             MeshInstance3D meshInstance3D = new MeshInstance3D();
+            meshInstance3D.TopLevel = true;
             ImmediateMesh immediateMesh = new();
             OrmMaterial3D material = new();
             meshInstance3D.Mesh = immediateMesh;
@@ -136,30 +152,28 @@ public partial class Chunk : AbstractPlaceable
 
             immediateMesh.SurfaceEnd();
             material.ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded;
-
-            Timer timer = new Timer();
-            GetTree().Root.AddChild(timer);
-            timer.Start(0.3);
-            timer.Timeout += () =>
-            {
-                meshInstance3D.QueueFree();
-                timer.QueueFree();
-            };
-
+            
 
             if (result.Count > 1)
             {
                 material.AlbedoColor = Colors.Red;
-                GetTree().Root.AddChild(meshInstance3D);
+                AddChild(meshInstance3D);
             } else
             {
                 material.AlbedoColor = Colors.LimeGreen;
-                GetTree().Root.AddChild(meshInstance3D);
+                AddChild(meshInstance3D);
             }
 
+            Timer t = new Timer();
+            meshInstance3D.AddChild(t);
+            t.Start(0.3);
+            t.Timeout += () =>
+            {
+                meshInstance3D.QueueFree();
+                t.QueueFree();
+            };
+
         }
-
-
 
         if (result.Count > 1)
         {
@@ -169,7 +183,6 @@ public partial class Chunk : AbstractPlaceable
         {
             return null;
         }
-
 
     }
 
@@ -211,24 +224,23 @@ public partial class Chunk : AbstractPlaceable
 
     public void UpdateEntrances()
     {
-        PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
-        PhysicsRayQueryParameters3D query = PhysicsRayQueryParameters3D.Create(GlobalPosition + new Vector3(0, 2, -3), GlobalPosition + new Vector3(0, 0, -3), collisionMask: CurrentlyPlacing ? 2048u : 8u);
-        Dictionary result = spaceState.IntersectRay(query);
+        
+        MeshInstance3D tile = GetAdjacentTile(Direction.Down, GlobalPosition + new Vector3(0, 1, -3), CurrentlyPlacing ? 2048u : 8u);
 
-        if (result.Count > 1)
+        if (tile != null)
         {
-            MeshInstance3D temp = ((StaticBody3D)result["collider"]).GetParent<MeshInstance3D>();
-            if (temp.GetMeta("height").AsInt32() == 0)
+            
+            if (tile.GetMeta("height").AsInt32() == 0)
             {
                 if (ExitDirection == Direction.North)
                 {
-                    temp.SetMeta("exit", true);
+                    tile.SetMeta("exit", true);
                 }
                 else
                 {
-                    temp.RemoveMeta("exit");
+                    tile.RemoveMeta("exit");
                 }
-                NorthTile = temp;
+                NorthTile = tile;
                 NorthEntrance = true;
             }
             else
@@ -241,26 +253,26 @@ public partial class Chunk : AbstractPlaceable
         else
         {
             NorthTile = null;
+            NorthEntrance = false;
         }
 
 
-        query = PhysicsRayQueryParameters3D.Create(GlobalPosition + new Vector3(3, 2, 0), GlobalPosition + new Vector3(3, 0, 0), collisionMask: CurrentlyPlacing ? 2048u : 8u);
-        result = spaceState.IntersectRay(query);
+        tile = GetAdjacentTile(Direction.Down, GlobalPosition + new Vector3(3, 1, 0), CurrentlyPlacing ? 2048u : 8u);
 
-        if (result.Count > 1)
+        if (tile != null)
         {
-            MeshInstance3D temp = ((StaticBody3D)result["collider"]).GetParent<MeshInstance3D>();
-            if (temp.GetMeta("height").AsInt32() == 0)
+            
+            if (tile.GetMeta("height").AsInt32() == 0)
             {
                 if (ExitDirection == Direction.East)
                 {
-                    temp.SetMeta("exit", true);
+                    tile.SetMeta("exit", true);
                 }
                 else
                 {
-                    temp.RemoveMeta("exit");
+                    tile.RemoveMeta("exit");
                 }
-                EastTile = temp;
+                EastTile = tile;
                 EastEntrance = true;
             }
             else
@@ -272,25 +284,25 @@ public partial class Chunk : AbstractPlaceable
         else
         {
             EastTile = null;
+            EastEntrance = false;
         }
 
-        query = PhysicsRayQueryParameters3D.Create(GlobalPosition + new Vector3(-3, 2, 0), GlobalPosition + new Vector3(-3, 0, 0), collisionMask: CurrentlyPlacing ? 2048u : 8u);
-        result = spaceState.IntersectRay(query);
+        tile = GetAdjacentTile(Direction.Down, GlobalPosition + new Vector3(-3, 1, 0), CurrentlyPlacing ? 2048u : 8u);
 
-        if (result.Count > 1)
+        if (tile != null)
         {
-            MeshInstance3D temp = ((StaticBody3D)result["collider"]).GetParent<MeshInstance3D>();
-            if (temp.GetMeta("height").AsInt32() == 0)
+            
+            if (tile.GetMeta("height").AsInt32() == 0)
             {
                 if (ExitDirection == Direction.West)
                 {
-                    temp.SetMeta("exit", true);
+                    tile.SetMeta("exit", true);
                 }
                 else
                 {
-                    temp.RemoveMeta("exit");
+                    tile.RemoveMeta("exit");
                 }
-                WestTile = temp;
+                WestTile = tile;
                 WestEntrance = true;
             } else
             {
@@ -302,25 +314,25 @@ public partial class Chunk : AbstractPlaceable
         else
         {
             WestTile = null;
+            WestEntrance = false;
         }
 
-        query = PhysicsRayQueryParameters3D.Create(GlobalPosition + new Vector3(0, 2, 3), GlobalPosition + new Vector3(0, 0, 3), CurrentlyPlacing ? 2048u : 8u);
-        result = spaceState.IntersectRay(query);
 
-        if (result.Count > 1)
+        tile = GetAdjacentTile(Direction.Down, GlobalPosition + new Vector3(0, 1, 3), CurrentlyPlacing ? 2048u : 8u);
+        if (tile != null)
         {
-            MeshInstance3D temp = ((StaticBody3D)result["collider"]).GetParent<MeshInstance3D>();
-            if (temp.GetMeta("height").AsInt32() == 0)
+            
+            if (tile.GetMeta("height").AsInt32() == 0)
             {
                 if (ExitDirection == Direction.South)
                 {
-                    temp.SetMeta("exit", true);
+                    tile.SetMeta("exit", true);
                 }
                 else
                 {
-                    temp.RemoveMeta("exit");
+                    tile.RemoveMeta("exit");
                 }
-                SouthTile = temp;
+                SouthTile = tile;
                 SouthEntrance = true;
             }
             else
@@ -332,25 +344,24 @@ public partial class Chunk : AbstractPlaceable
         else
         {
             SouthTile = null;
+            SouthEntrance = false;
         }
 
-        query = PhysicsRayQueryParameters3D.Create(GlobalPosition + new Vector3(0, 2, 0), GlobalPosition + new Vector3(0, 0, 0), collisionMask: CurrentlyPlacing ? 2048u : 8u);
-        result = spaceState.IntersectRay(query);
-
-        if (result.Count > 1)
+        tile = GetAdjacentTile(Direction.Down, GlobalPosition + new Vector3(0 , 1, 0), CurrentlyPlacing ? 2048u : 8u);
+        if (tile != null)
         {
-            MeshInstance3D temp = ((StaticBody3D)result["collider"]).GetParent<MeshInstance3D>();
-            if (temp.GetMeta("height").AsInt32() == 0)
+
+            if (tile.GetMeta("height").AsInt32() == 0)
             {
                 if (ExitDirection == Direction.Down)
                 {
-                    temp.SetMeta("exit", true);
+                    tile.SetMeta("exit", true);
                 }
                 else
                 {
-                    temp.RemoveMeta("exit");
+                    tile.RemoveMeta("exit");
                 }
-                CenterTile = temp;
+                CenterTile = tile;
                 CenterEntrance = true;
             }
             else
@@ -362,8 +373,11 @@ public partial class Chunk : AbstractPlaceable
         else
         {
             CenterTile = null;
+            CenterEntrance = false;
         }
 
+
+        GD.Print($"NORTH: {NorthEntrance} {NorthTile} SOUTH: {SouthEntrance} {SouthTile} EAST: {EastEntrance} {EastTile} WEST: {WestEntrance} {WestTile} CENTER: {CenterEntrance} {CenterTile}");
     }
 
 
@@ -406,8 +420,6 @@ public partial class Chunk : AbstractPlaceable
         visited[current] = false;
     }
 
-
-
     public void PlaceChunk(Direction ConnectedDirection)
     {
         foreach (Node mesh in GetChildren())
@@ -418,7 +430,6 @@ public partial class Chunk : AbstractPlaceable
                 tile.GetNodeOrNull<StaticBody3D>("StaticBody3D").CollisionLayer = 8;
             }
         }
-
 
         CurrentlyPlacing = false;
         ClearOverrides = true;
@@ -483,7 +494,6 @@ public partial class Chunk : AbstractPlaceable
         }
 
         EmitSignal("Placed", this, this.GlobalPosition);
-
     }
 
     public void RotateClockwise()
@@ -509,9 +519,6 @@ public partial class Chunk : AbstractPlaceable
                 //Quaternion = new Quaternion(Vector3.Up, -Mathf.Pi / 2) * Quaternion;
                 //UpdateEntrances();
             }
-
-
-
         }
     }
 
@@ -619,8 +626,7 @@ public partial class Chunk : AbstractPlaceable
     public void CheckValidPlacement()
     {
 
-        //UpdateEntrances();
-
+        UpdateEntrances();
 
         //check adjacent chunks for compatible entrances
         //cannot connect to more than 1 external entrance
@@ -631,12 +637,19 @@ public partial class Chunk : AbstractPlaceable
 
         int ConnectedEntranceCount = 0;
         if (NorthEntrance)
-        {
+        {   
             MeshInstance3D tile = GetAdjacentTile(Direction.North, NorthTile.GlobalPosition, mask: 8);
-            if (tile != null && tile.GetMeta("height").AsInt32() == 0 && !tile.HasMeta("exit"))
+            if (tile != null)
             {
-                ConnectedEntranceCount++;
-                ExitDirection = Direction.North;
+                if (tile.GetMeta("height").AsInt32() > 0 || tile.HasMeta("exit"))
+                {
+                    valid = false;
+                } else
+                {
+                    ConnectedEntranceCount++;
+                    ExitDirection = Direction.North;
+                }
+
             } else
             {
                 Vector3 EmptyOrigin = GlobalPosition + new Vector3(0, 1, -7);
@@ -658,10 +671,18 @@ public partial class Chunk : AbstractPlaceable
         if (EastEntrance)
         {
             MeshInstance3D tile = GetAdjacentTile(Direction.East, EastTile.GlobalPosition, mask: 8);
-            if (tile != null && tile.GetMeta("height").AsInt32() == 0 && !tile.HasMeta("exit"))
+            if (tile != null)
             {
-                ConnectedEntranceCount++;
-                ExitDirection = Direction.East;
+                if (tile.GetMeta("height").AsInt32() > 0 || tile.HasMeta("exit"))
+                {
+                    valid = false;
+                } 
+                else
+                {
+                    ConnectedEntranceCount++;
+                    ExitDirection = Direction.East;
+                }
+                
             }
             else
             {
@@ -684,10 +705,17 @@ public partial class Chunk : AbstractPlaceable
         if (SouthEntrance)
         {
             MeshInstance3D tile = GetAdjacentTile(Direction.South, SouthTile.GlobalPosition, mask: 8);
-            if (tile != null && tile.GetMeta("height").AsInt32() == 0 && !tile.HasMeta("exit"))
+            if (tile != null)
             {
-                ConnectedEntranceCount++;
-                ExitDirection = Direction.South;
+                if (tile.GetMeta("height").AsInt32() > 0 || tile.HasMeta("exit"))
+                {
+                    valid = false;
+                }
+                else
+                {
+                    ConnectedEntranceCount++;
+                    ExitDirection = Direction.South;
+                }
             }
             else
             {
@@ -710,10 +738,17 @@ public partial class Chunk : AbstractPlaceable
         if (WestEntrance)
         {
             MeshInstance3D tile = GetAdjacentTile(Direction.West, WestTile.GlobalPosition, mask: 8);
-            if (tile != null && tile.GetMeta("height").AsInt32() == 0 && !tile.HasMeta("exit"))
+            if (tile != null)
             {
-                ConnectedEntranceCount++;
-                ExitDirection = Direction.West;
+                if (tile.GetMeta("height").AsInt32() > 0 || tile.HasMeta("exit"))
+                {
+                    valid = false;
+                }
+                else
+                {
+                    ConnectedEntranceCount++;
+                    ExitDirection = Direction.West;
+                }
             }
             else
             {
@@ -741,13 +776,6 @@ public partial class Chunk : AbstractPlaceable
             if (tile != null && tile.GetMeta("height").AsInt32() == 0)
             {
                 valid = false;
-            } 
-            else
-            {
-                if (tile != null)
-                {
-                    GD.Print($"{tile.GetMeta("height").AsInt32()}, {tile.HasMeta("exit")}");
-                }
             }
 
             tile = GetAdjacentTile(Direction.East, this.GlobalPosition + new Vector3(3, 0, 0), mask: 8);
@@ -755,25 +783,11 @@ public partial class Chunk : AbstractPlaceable
             {
                 valid = false;
             }
-            else
-            {
-                if (tile != null)
-                {
-                    GD.Print($"{tile.GetMeta("height").AsInt32()}, {tile.HasMeta("exit")}");
-                }
-            }
 
             tile = GetAdjacentTile(Direction.South, this.GlobalPosition + new Vector3(0, 0, 3), mask: 8);
             if (tile != null && tile.GetMeta("height").AsInt32() == 0)
             {
                 valid = false;
-            }
-            else
-            {
-                if (tile != null)
-                {
-                    GD.Print($"{tile.GetMeta("height").AsInt32()}, {tile.HasMeta("exit")}");
-                }
             }
 
             tile = GetAdjacentTile(Direction.West, this.GlobalPosition + new Vector3(-3, 0, 0), mask: 8);
@@ -781,14 +795,6 @@ public partial class Chunk : AbstractPlaceable
             {
                 valid = false;
             }
-            else
-            {
-                if (tile != null)
-                {
-                    GD.Print($"{tile.GetMeta("height").AsInt32()}, {tile.HasMeta("exit")}");
-                }
-            }
-
         } else
         {
             if (ConnectedEntranceCount > 1 || ConnectedEntranceCount == 0)
@@ -812,9 +818,8 @@ public partial class Chunk : AbstractPlaceable
     public override void _Ready()
     {
         base._Ready();
-        //if (Disabled) return;
 
-        if (StaticPlacement)
+        if (StaticPlacement && !Engine.IsEditorHint() && !Disabled)
         {
             UpdateEntrances();
             UpdateAdjacencyList();
@@ -824,12 +829,12 @@ public partial class Chunk : AbstractPlaceable
 
     public void SetOverridesInvalid()
     {
-        StandardMaterial3D InvalidMaterial = GD.Load<StandardMaterial3D>("res://Assets/Materials/QueryInvalid.tres");
-        StandardMaterial3D InvalidLaneMaterial = GD.Load<StandardMaterial3D>("res://Assets/Materials/QueryInvalidLane.tres");
+        StandardMaterial3D InvalidMaterial = ChunkManager.GetInstance().InvalidMaterial;
+        StandardMaterial3D InvalidLaneMaterial = ChunkManager.GetInstance().InvalidLaneMaterial;
         foreach (Node3D node in GetChildren())
         {
             MeshInstance3D mi = node as MeshInstance3D;
-            if (mi != null)
+            if (mi != null && mi.HasMeta("height"))
             {
                 if (mi.GetMeta("height").AsInt32() == 0)
                 {
@@ -845,12 +850,12 @@ public partial class Chunk : AbstractPlaceable
 
     public void SetOverridesValid()
     {
-        StandardMaterial3D ValidMaterial = GD.Load<StandardMaterial3D>("res://Assets/Materials/QueryValid.tres");
-        StandardMaterial3D ValidLaneMaterial = GD.Load<StandardMaterial3D>("res://Assets/Materials/QueryValidLane.tres");
+        StandardMaterial3D ValidMaterial = ChunkManager.GetInstance().ValidMaterial;
+        StandardMaterial3D ValidLaneMaterial = ChunkManager.GetInstance().ValidLaneMaterial;
         foreach (Node3D node in GetChildren())
         {
             MeshInstance3D mi = node as MeshInstance3D;
-            if (mi != null)
+            if (mi != null && mi.HasMeta("height"))
             {
                 if (mi.GetMeta("height").AsInt32() == 0)
                 {
@@ -869,7 +874,7 @@ public partial class Chunk : AbstractPlaceable
         foreach (Node3D node in GetChildren())
         {
             MeshInstance3D mi = node as MeshInstance3D;
-            if (mi != null)
+            if (mi != null && mi.HasMeta("height"))
             {
                 if (mi.GetMeta("height").AsInt32() == 0)
                 {
@@ -881,6 +886,8 @@ public partial class Chunk : AbstractPlaceable
                 }
             }
         }
+
+        ClearOverrides = false;
     }
 
     bool CurrentlyMoving = false;
@@ -897,10 +904,8 @@ public partial class Chunk : AbstractPlaceable
 
         if (CurrentlyPlacing && !Engine.IsEditorHint())
         {
-
-            //add rotation stuff
-
-            if(Input.IsActionJustPressed("select") && PlacementValid && !CurrentlyMoving)
+            CheckValidPlacement();
+            if (Input.IsActionJustPressed("select") && PlacementValid && !CurrentlyMoving)
             {
                 PlaceChunk(ExitDirection);
             }
@@ -924,13 +929,11 @@ public partial class Chunk : AbstractPlaceable
 
                     if (pos != GlobalPosition)
                     {
-                        UpdateEntrances();
                         CurrentlyMoving = true;
                         Tween t = GetTree().CreateTween();
                         t.TweenProperty(this, "global_position", pos, 0.1);
-                        t.Finished += () => CheckValidPlacement();
                         t.Finished += () => {
-                            GetTree().CreateTimer(0.05).Timeout += () => CurrentlyMoving = false;
+                            CurrentlyMoving = false;
                         };
                     }
                 }
@@ -970,7 +973,6 @@ public partial class Chunk : AbstractPlaceable
 
         if (ClearOverrides)
         {
-            ClearOverrides = false;
             ClearOverrideVisuals();
         }
     }
@@ -1006,26 +1008,16 @@ public partial class Chunk : AbstractPlaceable
     {
         Disabled = false;
         CurrentlyPlacing = true;
-        UpdateEntrances();
         UpdateAdjacencyList();
+        UpdateEntrances();
 
-        if (CurrentlyPlacing)
+        foreach (Node mesh in GetChildren())
         {
-            foreach (Node mesh in GetChildren())
+            MeshInstance3D tile = mesh as MeshInstance3D;
+            if (tile != null && tile.HasMeta("height"))
             {
-                MeshInstance3D tile = mesh as MeshInstance3D;
-                if (tile != null && tile.HasMeta("height"))
-                {
-                    tile.GetNodeOrNull<StaticBody3D>("StaticBody3D").CollisionLayer = 2048;
-                }
+                tile.GetNodeOrNull<StaticBody3D>("StaticBody3D").CollisionLayer = 2048;
             }
         }
-
-        if (StaticPlacement)
-        {
-            PlaceChunk(ExitDirection);
-        }
-        
     }
-
 }

@@ -25,11 +25,24 @@ public partial class PlayerHand : Control
 
     public override void _Ready()
     {
-        GenerateHandWithAllCards();
+        
     }
 
     public override void _Process(double delta)
     {
+
+        if (CardList.Count == 0)
+        {
+            List<CardData> DrawnCards = DeckManager.GetInstance().DrawCards((int)PlayerStatsManager.GetInstance().GetStat(StatType.HandSize));
+            GD.Print(DrawnCards.ToString());
+            foreach (CardData card in DrawnCards)
+            {
+                BaseCard chunkCard = BaseCardScene.Instantiate<BaseCard>();
+                chunkCard.SetCardData(card);
+                AddCard(chunkCard);
+            }
+        }
+
         UpdateCardPositions();
     }
 
@@ -39,6 +52,7 @@ public partial class PlayerHand : Control
         card.Cancelled += CardCancelled;
         card.Placed += CardPlaced;
         this.AddChild(card);
+        card.GlobalPosition = CardPlacingPosition.GlobalPosition;
         this.CardList.Add(card);
     }
 
@@ -155,7 +169,6 @@ public partial class PlayerHand : Control
                     BaseCard temp = CardList[i + 1];
                     CardList[i + 1] = CardList[i];
                     CardList[i] = temp;
-                    GD.Print($"swapped up {CardList[i].CardName} with {CardList[i + 1].CardName}");
                 }
                 else if (RealProgress - CardPositions[i] < -SwapThreshold && i != 0)
                 {
@@ -170,11 +183,15 @@ public partial class PlayerHand : Control
         {
             if (card.Active)
             {
+                
                 int idx = CardList.IndexOf(card);
+                //hack bullshit solution
+                card.MoveToFront();
                 PathFollow.Progress = CardPositions[idx];
                 Vector2 Placement = new Vector2(PathFollow.GlobalPosition.X, PathFollow.GlobalPosition.Y ) - (card.Size / 2f * card.Scale);
                 Tween t = GetTree().CreateTween();
                 t.TweenProperty(card, "global_position", Placement, 0.1f);
+
             }
         }
     }
@@ -196,6 +213,9 @@ public partial class PlayerHand : Control
             handTween.TweenProperty(CardPlacingPath, "position", new Vector2(0, 1200), 0.2f);
         }
     }
+
+
+
 
     // Fills the player hand with one of every chunk card possible.
     private void GenerateHandWithAllCards()

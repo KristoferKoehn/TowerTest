@@ -30,6 +30,7 @@ public partial class PlayerStatsManager : Node
             {
                 {StatType.Health, 20 },
                 {StatType.Gold, 200 },
+                {StatType.HandSize, 7 }
             };
 
             instance.StatBlock.SetStatBlock(sb);
