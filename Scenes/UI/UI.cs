@@ -9,6 +9,8 @@ public partial class UI : CanvasLayer
     Label CurrencyLabel;
     [Export]
     private ProgressBar TowerHealthBar;
+    [Export]
+    Control GameOverControl;
 
 
     public static UI Instance { get; private set; }
@@ -20,7 +22,6 @@ public partial class UI : CanvasLayer
     private GridContainer _gridContainer; // The grid container holding the slots for the tower cards.
     private GameLoop _gameLoop; // Used for placing chunks (could probably be refactored)
  
-    private StatBlock _playerStatBlock;
     private PlayerHand _playerHand;
 
     // Called when the node enters the scene tree for the first time.
@@ -49,7 +50,12 @@ public partial class UI : CanvasLayer
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
 	{
-        //_mainTowerHealthBar.Value = _playerStatBlock.GetStat(StatType.Health);
+        if (PlayerStatsManager.GetInstance().GetStat(StatType.Health) < 1)
+        {
+            GameOverControl.Visible = true;
+            Tween t = GetTree().CreateTween();
+            t.TweenProperty(GameOverControl.GetNode<ColorRect>("ColorRect"), "color", new Color(0, 0, 0, 0.4f), 1.2f);
+        }
 	}
 
     public void _on_pause_play_button_pressed()
@@ -104,5 +110,10 @@ public partial class UI : CanvasLayer
     public void _on_chunks_button_pressed()
     {
         _playerHand.ToggleHide();
+    }
+
+    public void _on_main_menu_button_pressed()
+    {
+        SceneSwitcher.Instance.PopScene();
     }
 }

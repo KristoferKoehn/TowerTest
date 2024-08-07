@@ -21,7 +21,7 @@ public partial class Chunk : AbstractPlaceable
                 { Direction.North, new Vector3(0,0,-3)},
                 { Direction.East, new Vector3(3,0,0)},
                 { Direction.South, new Vector3(0,0,3)},
-                { Direction.West, new Vector3(-3,0,0)}, 
+                { Direction.West, new Vector3(-3,0,0)},
     };
 
     Dictionary<Direction, Vector3> ExternalEntrances = new Dictionary<Direction, Vector3>() {
@@ -30,6 +30,34 @@ public partial class Chunk : AbstractPlaceable
                 { Direction.South, new Vector3(0,0,4)},
                 { Direction.West, new Vector3(-4,0,0)},
     };
+
+    Dictionary<Direction, Vector3> NorthAdjacentOffsets = new Dictionary<Direction, Vector3>() {
+        {Direction.North, new Vector3(0, 0, -11)},
+        {Direction.East, new Vector3(4, 0, -7) },
+        {Direction.West, new Vector3(-4,0, -7) },
+    };
+
+    Dictionary<Direction, Vector3> EastAdjacentOffsets = new Dictionary<Direction, Vector3>() {
+        {Direction.North, new Vector3(7, 0, -4) },
+        {Direction.East, new Vector3(11, 0, 0) },
+        {Direction.South, new Vector3(7, 0, 4) },
+    };
+
+    Dictionary<Direction, Vector3> SouthAdjacentOffsets = new Dictionary<Direction, Vector3>() {
+        {Direction.West, new Vector3(-4, 0, 7) },
+        {Direction.East, new Vector3(4, 0, 7) },
+        {Direction.South, new Vector3(11, 0, 0) },
+    };
+
+    Dictionary<Direction, Vector3> WestAdjacentOffsets = new Dictionary<Direction, Vector3>() {
+        {Direction.North, new Vector3(-7, 0, -4) },
+        {Direction.West, new Vector3(-11, 0, 0) },
+        {Direction.South, new Vector3(-7, 0, 4) },
+    };
+
+
+    //this is set in _Ready()
+    Dictionary<Direction, Dictionary<Direction, Vector3>> AdjacentPositionOffsets = new();
 
 
     [Export]
@@ -76,7 +104,7 @@ public partial class Chunk : AbstractPlaceable
     [Export]
     public bool Disabled = false;
     [Export]
-    public bool Debug = true;
+    public bool Debug = false;
     [Export]
     public bool StaticPlacement = false;
 
@@ -377,7 +405,7 @@ public partial class Chunk : AbstractPlaceable
         }
 
 
-        GD.Print($"NORTH: {NorthEntrance} {NorthTile} SOUTH: {SouthEntrance} {SouthTile} EAST: {EastEntrance} {EastTile} WEST: {WestEntrance} {WestTile} CENTER: {CenterEntrance} {CenterTile}");
+        //GD.Print($"NORTH: {NorthEntrance} {NorthTile} SOUTH: {SouthEntrance} {SouthTile} EAST: {EastEntrance} {EastTile} WEST: {WestEntrance} {WestTile} CENTER: {CenterEntrance} {CenterTile}");
     }
 
 
@@ -505,7 +533,7 @@ public partial class Chunk : AbstractPlaceable
                 ChunkRotating = true;
                 Quaternion q = new Quaternion(Vector3.Up, -Mathf.Pi / 2);
                 Tween tween = GetTree().CreateTween();
-                tween.TweenProperty(this, "quaternion", q * Quaternion, 0.4f).SetTrans(Tween.TransitionType.Back);
+                tween.TweenProperty(this, "quaternion", q * Quaternion, 0.3f).SetTrans(Tween.TransitionType.Back);
                 tween.Finished += UpdateEntrances;
                 tween.Finished += () => ChunkRotating = false;
                 if (CurrentlyPlacing)
@@ -514,10 +542,7 @@ public partial class Chunk : AbstractPlaceable
                 }
             } else
             {
-                //do  nothing
                 RotateCW = false;
-                //Quaternion = new Quaternion(Vector3.Up, -Mathf.Pi / 2) * Quaternion;
-                //UpdateEntrances();
             }
         }
     }
@@ -531,7 +556,7 @@ public partial class Chunk : AbstractPlaceable
                 ChunkRotating = true;
                 Quaternion q = new Quaternion(Vector3.Up, Mathf.Pi / 2);
                 Tween tween = GetTree().CreateTween();
-                tween.TweenProperty(this, "quaternion", q * Quaternion, 0.4f).SetTrans(Tween.TransitionType.Back);
+                tween.TweenProperty(this, "quaternion", q * Quaternion, 0.3f).SetTrans(Tween.TransitionType.Back);
                 tween.Finished += UpdateEntrances;
                 tween.Finished += () => ChunkRotating = false;
                 if (CurrentlyPlacing)
@@ -541,10 +566,6 @@ public partial class Chunk : AbstractPlaceable
             } else
             {
                 RotateCCW = false;
-                //do nothing
-                //Quaternion = new Quaternion(Vector3.Up, Mathf.Pi / 2) * Quaternion;
-                //UpdateEntrances();
-
             }
         }
     }
@@ -596,8 +617,6 @@ public partial class Chunk : AbstractPlaceable
             temp.Curve.AddPoint(new Vector3(ExitTile.Position.Normalized().X * 4, 0.45f, ExitTile.Position.Normalized().Z * 4));
 
             //for each entrance, EntrancePathList[entrance] = array of paths
-
-
 
             if (Engine.IsEditorHint())
             {
@@ -819,6 +838,14 @@ public partial class Chunk : AbstractPlaceable
     {
         base._Ready();
 
+        AdjacentPositionOffsets = new Dictionary<Direction, Dictionary<Direction, Vector3>>()
+        {
+            {Direction.North, NorthAdjacentOffsets },
+            {Direction.West, WestAdjacentOffsets },
+            {Direction.South, SouthAdjacentOffsets },
+            {Direction.East, EastAdjacentOffsets },
+        };
+
         if (StaticPlacement && !Engine.IsEditorHint() && !Disabled)
         {
             UpdateEntrances();
@@ -931,7 +958,7 @@ public partial class Chunk : AbstractPlaceable
                     {
                         CurrentlyMoving = true;
                         Tween t = GetTree().CreateTween();
-                        t.TweenProperty(this, "global_position", pos, 0.1);
+                        t.TweenProperty(this, "global_position", pos, 0.08);
                         t.Finished += () => {
                             CurrentlyMoving = false;
                         };

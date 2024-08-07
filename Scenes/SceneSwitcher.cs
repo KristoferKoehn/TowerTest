@@ -10,6 +10,8 @@ public partial class SceneSwitcher : Node
 
 	public static GameLoop CurrentGameLoop = null;
 
+	public static SceneSwitcher Instance = null;
+
 	public override void _Ready()
 	{
 		root = GetTree().Root;
@@ -18,14 +20,18 @@ public partial class SceneSwitcher : Node
 		PlayerStatsManager.GetInstance();
         CardLoadingManager.GetInstance();
 		DeckManager.GetInstance();
+		Instance = this;
     }
 
 	public void PushScene(Node node)
 	{
+
+		
 		if (sceneStack.Count > 0)
 		{
 			this.RemoveChild(sceneStack.Peek());
 		}
+		
 		this.sceneStack.Push(node);
 		this.AddChild(node);
 	}

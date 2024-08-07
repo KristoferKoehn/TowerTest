@@ -15,10 +15,11 @@ bg_color = Color(0.926002, 0.154522, 0.240135, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2xmo1"]
 bg_color = Color(0, 0.752861, 0.134393, 1)
 
-[node name="UI" type="CanvasLayer" node_paths=PackedStringArray("CurrencyLabel", "TowerHealthBar")]
+[node name="UI" type="CanvasLayer" node_paths=PackedStringArray("CurrencyLabel", "TowerHealthBar", "GameOverControl")]
 script = ExtResource("1_vo24d")
 CurrencyLabel = NodePath("Control/VBoxContainer/TopUI/PlayerInfo_HBoxContainer/Currency/Currency")
 TowerHealthBar = NodePath("Control/VBoxContainer/TopUI/PlayerInfo_HBoxContainer/VBoxContainer/PlayerTowerHealth")
+GameOverControl = NodePath("Control/GameOver")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -176,7 +177,65 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 
+[node name="GameOver" type="Control" parent="Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="Control/GameOver"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
+
+[node name="Panel" type="Panel" parent="Control/GameOver"]
+custom_minimum_size = Vector2(400, 200)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -100.0
+offset_right = 200.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/GameOver/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/GameOver/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/margin_top = 35
+theme_override_constants/margin_bottom = 50
+
+[node name="Label" type="Label" parent="Control/GameOver/Panel/VBoxContainer/MarginContainer"]
+layout_mode = 2
+text = "GAME OVER"
+
+[node name="MainMenuButton" type="Button" parent="Control/GameOver/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Main Menu"
+
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/PausePlayButton" to="." method="_on_pause_play_button_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/SpeedUpButton" to="." method="_on_speed_up_button_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/BottomUI/Actions_HBoxContainer/ChunksButton" to="." method="_on_chunks_button_pressed"]
+[connection signal="pressed" from="Control/GameOver/Panel/VBoxContainer/MainMenuButton" to="." method="_on_main_menu_button_pressed"]
