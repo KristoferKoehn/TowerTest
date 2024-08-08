@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scenes/UI/Cards/CardData.cs" id="1_otumg"]
+
+[resource]
+script = ExtResource("1_otumg")
+Name = "Expensive Ballista"
+CardInfo = ""
+Rarity = "Common"
+ShopCost = 0
+SubjectScene = "Ballista.tscn"
+FOV = 1.0
+CameraOrbitSpeed = -0.1
+CameraTilt = -0.1
+CameraZoom = 91.4
+ResourceCostType = 6
+ResourceCostValue = 200.0

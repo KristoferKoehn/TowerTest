@@ -152,6 +152,8 @@ text = "Resource Cost:"
 
 [node name="ResourceCostSpinbox" type="SpinBox" parent="Control/Panel/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
+max_value = 1000.0
+allow_greater = true
 
 [node name="MarginContainer2" type="MarginContainer" parent="Control/Panel/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(30, 0)
@@ -287,10 +289,10 @@ layout_mode = 2
 text = "Load"
 
 [node name="CardBase" parent="Control" instance=ExtResource("1_0prre")]
-offset_left = 38.0
-offset_top = 4.0
-offset_right = 288.0
-offset_bottom = 354.0
+offset_left = 93.0
+offset_top = 88.0
+offset_right = 343.0
+offset_bottom = 438.0
 grow_horizontal = 1
 grow_vertical = 1
 
@@ -304,10 +306,10 @@ grow_vertical = 1
 scale = Vector2(1, 1)
 
 [node name="CardBase3" parent="Control" instance=ExtResource("1_0prre")]
-offset_left = 32.0
-offset_top = 260.0
-offset_right = 282.0
-offset_bottom = 610.0
+offset_left = 119.0
+offset_top = 329.0
+offset_right = 369.0
+offset_bottom = 679.0
 grow_horizontal = 1
 grow_vertical = 1
 rotation = 0.131955

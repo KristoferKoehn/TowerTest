@@ -82,7 +82,15 @@ public partial class BaseCard : Control
                 {
                     if (Active)
                     {
-                        EmitSignal("Selected", this);
+                        if (PlayerStatsManager.GetInstance().GetStat(data.ResourceCostType) >= data.ResourceCostValue)
+                        {
+                            EmitSignal("Selected", this);
+                        } else
+                        {
+                            //not enough resources, doesn't work
+                            Tween t = GetTree().CreateTween();
+                            t.TweenProperty(this, "global_position", GlobalPosition - new Vector2(0, -100), 0.1f);
+                        }
                     }
                 }
 
@@ -186,6 +194,7 @@ public partial class BaseCard : Control
         QueriedPlaceable.Cancelled -= CancelPlacement;
         QueriedPlaceable.Placed -= SuccessfullyPlaced;
         QueriedPlaceable = null;
+        PlayerStatsManager.GetInstance().ChangeStat(data.ResourceCostType, -data.ResourceCostValue);
         EmitSignal("Placed", this);
     }
 

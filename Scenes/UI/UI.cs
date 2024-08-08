@@ -22,7 +22,7 @@ public partial class UI : CanvasLayer
     private GridContainer _gridContainer; // The grid container holding the slots for the tower cards.
     private GameLoop _gameLoop; // Used for placing chunks (could probably be refactored)
  
-    private PlayerHand _playerHand;
+    private PlayerHand2 _playerHand;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -37,7 +37,7 @@ public partial class UI : CanvasLayer
             Instance = this;
         }
 
-        _playerHand = GetNode<PlayerHand>("Control/PlayerHand");
+        _playerHand = GetNode<PlayerHand2>("Control/PlayerHand2");
         _gameLoop = GetParent<GameLoop>();
         PlayerStatsManager.GetInstance().StatChanged += GoldUpdate;
         PlayerStatsManager.GetInstance().StatChanged += HealthBarUpdate;

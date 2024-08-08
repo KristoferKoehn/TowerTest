@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class PlayerHand : Control
+public partial class PlayerHand2 : Control
 {
 
 
@@ -194,7 +194,6 @@ public partial class PlayerHand : Control
         }
     }
 
-
     bool hidden = false;
     public void ToggleHide()
     {
@@ -209,26 +208,6 @@ public partial class PlayerHand : Control
             hidden = true;
             Tween handTween = GetTree().CreateTween();
             handTween.TweenProperty(CardPlacingPath, "position", new Vector2(0, 1200), 0.2f);
-        }
-    }
-
-
-
-
-    // Fills the player hand with one of every chunk card possible.
-    private void GenerateHandWithAllCards()
-    {
-        foreach(BaseCard bc in CardList)
-        {
-            bc.QueueFree();
-        }
-        this.CardList.Clear();
-
-        foreach (CardData card in CardLoadingManager.GetInstance().GetAllCardData())
-        {
-            BaseCard chunkCard = BaseCardScene.Instantiate<BaseCard>();
-            chunkCard.SetCardData(card);
-            AddCard(chunkCard);
         }
     }
 }

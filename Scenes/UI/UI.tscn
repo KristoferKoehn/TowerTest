@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://t0i5wqr683y6" path="res://Assets/Icons/SpeedUpButton.tres" id="5_646jk"]
 [ext_resource type="Texture2D" uid="uid://cd5cs1b3m55qf" path="res://Assets/Icons/SettingsButton.tres" id="6_ms3c1"]
 [ext_resource type="PackedScene" uid="uid://cxj4256wgc2jn" path="res://Scenes/UI/Panels/WaveCompletedPanel.tscn" id="7_4tavd"]
-[ext_resource type="PackedScene" uid="uid://dehxllaknmoge" path="res://Scenes/UI/Cards/PlayerHand.tscn" id="10_s5qps"]
+[ext_resource type="PackedScene" uid="uid://bbpphuq3csaxf" path="res://Scenes/UI/Cards/PlayerHand2.tscn" id="8_kayuc"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kculh"]
 bg_color = Color(0.926002, 0.154522, 0.240135, 1)
@@ -164,19 +164,6 @@ text = "Hand
 layout_mode = 2
 text = "Begin Wave"
 
-[node name="PlayerHand" parent="Control" instance=ExtResource("10_s5qps")]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_top = -156.0
-offset_bottom = -156.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 1
-
 [node name="GameOver" type="Control" parent="Control"]
 visible = false
 layout_mode = 1
@@ -233,6 +220,18 @@ text = "GAME OVER"
 [node name="MainMenuButton" type="Button" parent="Control/GameOver/Panel/VBoxContainer"]
 layout_mode = 2
 text = "Main Menu"
+
+[node name="PlayerHand2" parent="Control" instance=ExtResource("8_kayuc")]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_top = -148.0
+offset_bottom = -148.0
+grow_horizontal = 2
+grow_vertical = 0
 
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/PausePlayButton" to="." method="_on_pause_play_button_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/SpeedUpButton" to="." method="_on_speed_up_button_pressed"]

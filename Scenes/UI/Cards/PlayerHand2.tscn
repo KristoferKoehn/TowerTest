@@ -1,7 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://dehxllaknmoge"]
+[gd_scene load_steps=5 format=3 uid="uid://bbpphuq3csaxf"]
 
-[ext_resource type="Script" path="res://Scenes/UI/Cards/PlayerHand.cs" id="1_pc55c"]
-[ext_resource type="PackedScene" uid="uid://dr33ompxp8p4g" path="res://Scenes/UI/Cards/BaseCard.tscn" id="2_dtlm7"]
+[ext_resource type="Script" path="res://Scenes/UI/Cards/PlayerHand2.cs" id="1_mbkwo"]
+[ext_resource type="PackedScene" uid="uid://dr33ompxp8p4g" path="res://Scenes/UI/Cards/BaseCard.tscn" id="2_c3nx8"]
 
 [sub_resource type="Curve2D" id="Curve2D_2sk6h"]
 _data = {
@@ -9,14 +9,17 @@ _data = {
 }
 point_count = 2
 
-[node name="PlayerHand" type="Control" node_paths=PackedStringArray("CardPlacingPosition", "CardPlacingPath", "PathFollow")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l6hrl"]
+size = Vector2(800, 250)
+
+[node name="PlayerHand2" type="Control" node_paths=PackedStringArray("CardPlacingPosition", "CardPlacingPath", "PathFollow")]
 layout_mode = 3
 anchors_preset = 0
-script = ExtResource("1_pc55c")
+script = ExtResource("1_mbkwo")
 CardPlacingPosition = NodePath("ActiveCardPlacement")
 CardPlacingPath = NodePath("Path2D")
 PathFollow = NodePath("Path2D/PathFollow2D")
-BaseCardScene = ExtResource("2_dtlm7")
+BaseCardScene = ExtResource("2_c3nx8")
 
 [node name="Path2D" type="Path2D" parent="."]
 curve = SubResource("Curve2D_2sk6h")
@@ -50,6 +53,7 @@ layout_mode = 2
 text = "DISCARD"
 
 [node name="DiscardPanel2" type="Panel" parent="."]
+layout_mode = 0
 offset_left = 48.0
 offset_top = 165.0
 offset_right = 194.0
@@ -68,3 +72,9 @@ grow_horizontal = 2
 [node name="Label" type="Label" parent="DiscardPanel2/MarginContainer"]
 layout_mode = 2
 text = "PLAY"
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(0, -260)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_l6hrl")
