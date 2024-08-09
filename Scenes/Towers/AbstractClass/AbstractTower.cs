@@ -3,16 +3,14 @@ using Godot.Collections;
 using MMOTest.Backend;
 using System;
 using System.Collections.Generic;
+using TowerTest.Scenes.Components;
 
 [Tool]
-public abstract partial class AbstractTower : Node3D
+public abstract partial class AbstractTower : AbstractPlaceable
 {
-
 
     [Signal]
     public delegate void TowerFiredEventHandler(Node3D tower, Node3D target = null);
-    [Signal]
-    public delegate void TowerPlacedEventHandler(Node3D tower, Vector3 pos, Node3D tile);
     [Signal]
     public delegate void TowerSoldEventHandler(Node3D tower);
     [Export]
@@ -69,16 +67,28 @@ public abstract partial class AbstractTower : Node3D
 
         ActiveRange.AreaEntered += _on_active_range_area_entered;
         ActiveRange.AreaExited += _on_active_range_area_exited;
-
+        PrevPlacing = Placing;
     }
 
     Vector3 PlaceSpot = Vector3.Zero;
     MeshInstance3D currentTile = null;
-
+    bool PrevPlacing = false;
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+
         if (Disabled) return;
+
+        if (!PrevPlacing && Placing)
+        {
+            indicator = new MeshInstance3D();
+            QuadMesh q = new QuadMesh();
+            q.Orientation = PlaneMesh.OrientationEnum.Y;
+            indicator.Mesh = q;
+            SelectorHitbox.GetNode<CollisionShape3D>("CollisionShape3D").Disabled = true;
+            AddChild(indicator);
+        }
+
         if (Placing)
         {
             CanShoot = false;
@@ -136,8 +146,12 @@ public abstract partial class AbstractTower : Node3D
                     Placing = false;
                     SelectorHitbox.GetNode<CollisionShape3D>("CollisionShape3D").Disabled = false;
                     currentTile.SetMeta("tile_invalid", true);
+                    EmitSignal("Placed", this, PlaceSpot);
 
+
+                    //get rid of this one, gameplay necessitates this is not a feature
                     //shift multiplacement
+                    /*
                     if (Input.IsActionPressed("shift"))
                     {
                         PackedScene ps = GD.Load<PackedScene>(SceneFilePath);
@@ -146,18 +160,20 @@ public abstract partial class AbstractTower : Node3D
                         GetParent().AddChild(at);
                         at.GlobalPosition = GlobalPosition;
                     }
+                    */
 
                     ShotTimer.Start(StatBlock.GetStat(StatType.AttackSpeed));
                 }
-
             }
 
             if (Input.IsActionJustPressed("cancel"))
             {
                 this.QueueFree();
+                EmitSignal("Cancelled");
             }
         }
 
+        PrevPlacing = Placing;
         EnemyList.RemoveAll(item => item.dead);
     }
 
@@ -327,6 +343,5 @@ public abstract partial class AbstractTower : Node3D
     {
         CanShoot = true;
     }
-
 
 }

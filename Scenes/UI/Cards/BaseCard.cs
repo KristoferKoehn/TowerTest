@@ -1,168 +1,232 @@
 using Godot;
-using Godot.NativeInterop;
-using System;
-using System.Collections.Generic;
+using TowerTest.Scenes.Components;
 
 public partial class BaseCard : Control
 {
+    [Signal]
+    public delegate void SelectedEventHandler(BaseCard sender);
+    [Signal]
+    public delegate void CancelledEventHandler(BaseCard sender);
+    [Signal]
+    public delegate void PlacedEventHandler(BaseCard sender);
+    [Signal]
+    public delegate void DragStartedEventHandler(BaseCard sender);
+    [Signal]
+    public delegate void DragEndedEventHandler(BaseCard sender);
+
     public string CardName { get; set; }
-    public List<string> CardInfo { get; private set; }
-    public string CardImgPath { get; private set; }
-    public string ScenePath { get; private set; }
+    public string CardInfo { get; private set; }
+
+    [Export] public Label CardNameLabel { get; set; }
+    [Export] TextureRect CardViewportFrame { get; set; }
+    [Export] Panel CardBackground {  get; set; }
+
+    public CardData data { get; set; }
 
     public PackedScene ViewportScene = GD.Load<PackedScene>("res://Scenes/Utility/ViewportVisuals.tscn");
-    public ViewportVisuals Viewport;
+    public ViewportVisuals Viewport = null;
 
-    private Vector2 originalPosition;
-    private Color originalModulate;
-    private Color selectedModulate = new Color(1, 1, 0.4f, 1);
-    private Vector2 originalScale = new Vector2(0.5f,0.5f);
-    private Vector2 selectedScale = new Vector2(0.6f, 0.6f);
+    private Vector2 originalScale;
+    private Vector2 selectedScale;
+
+    //dragging detection
+    bool Highlighted = false;
+    Vector2 MotionAccumulation = Vector2.Zero;
+    Vector2 DragOffset = Vector2.Zero;
+    bool dragging = false;
+    bool pressed = false;
+    public bool Active = true;
+
+    AbstractPlaceable QueriedPlaceable { get; set; } = null;
+
+    //turns of selectability. Used for shops and query focus
+    public bool ActiveInHand = true;
+
+    public bool Generated = true;
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
+    {
+        originalScale = Scale;
+        selectedScale = Scale * 1.15f;
+    }
+
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(double delta)
+    {
+
+    }
 
     public void _on_mouse_entered()
     {
-        this.originalPosition = this.Position;
-        // Shift the card up when hovered over
-        /*
-        Tween tween = GetTree().CreateTween();
-        tween.SetTrans(Tween.TransitionType.Sine);
-        tween.SetEase(Tween.EaseType.Out);
-        tween.TweenProperty(
-            this,
-            "position",
-            new Vector2(this.Position.X, Position.Y - 10),  // Adjust the amount you want to shift the card
-            0.2f
-        );
-        */
-        this.ZIndex +=1;
-        // Optionally, add a slight scale up effect
+        Highlighted = true;
         Tween tweenscale = GetTree().CreateTween();
-        tweenscale.SetTrans(Tween.TransitionType.Sine);
-        tweenscale.SetEase(Tween.EaseType.Out);
-        tweenscale.TweenProperty(this, "scale", this.selectedScale, 0.1);
-        this.Modulate = selectedModulate;
+        tweenscale.TweenProperty(this, "scale", this.selectedScale, 0.2);
+    }
+
+    public void _on_mouse_exited()
+    {
+        Highlighted = false;
+        Tween tweenscale = GetTree().CreateTween();
+        tweenscale.TweenProperty(this, "scale", this.originalScale, 0.2);
     }
 
     public void _on_gui_input(InputEvent @event)
     {
         if (@event is InputEventMouseButton mouseEvent)
         {
-            // Check if the left mouse button is pressed
-            if (mouseEvent.ButtonIndex == MouseButton.Left && mouseEvent.Pressed)
+
+            if (mouseEvent.ButtonIndex == MouseButton.Left && mouseEvent.IsReleased() && pressed)
             {
+                pressed = false;
+                DragOffset = Vector2.Zero;
+                MotionAccumulation = Vector2.Zero;
+                Active = true;
+                dragging = false;
+                EmitSignal("DragEnded", this);
+                Tween tweenscale = GetTree().CreateTween();
+                tweenscale.TweenProperty(this, "scale", originalScale, 0.2);
+            }
+
+            /*
+            if (mouseEvent.ButtonIndex == MouseButton.Left && mouseEvent.IsReleased() && pressed)
+            {
+                pressed = false;
+                DragOffset = Vector2.Zero;
+                MotionAccumulation = Vector2.Zero;
+                if (!dragging)
+                {
+                    if (Active)
+                    {
+                        if (PlayerStatsManager.GetInstance().GetStat(data.ResourceCostType) >= data.ResourceCostValue)
+                        {
+                            EmitSignal("Selected", this);
+                        } else
+                        {
+                            //not enough resources, doesn't work
+                            Tween t = GetTree().CreateTween();
+                            t.TweenProperty(this, "global_position", GlobalPosition - new Vector2(0, -100), 0.1f);
+                        }
+                    }
+                }
+
+                Active = true;
+                dragging = false;
+                Tween tweenscale = GetTree().CreateTween();
+                tweenscale.TweenProperty(this, "scale", this.originalScale, 0.2);
+            }
+            */
+
+
+            if (mouseEvent.ButtonIndex == MouseButton.Left && mouseEvent.IsPressed())
+            {
+                pressed = true;
+                DragOffset = GlobalPosition - GetGlobalMousePosition();
+            }
+
+        }
+
+        if (@event is InputEventMouseMotion mouseMotion)
+        {
+            if (pressed)
+            {
+                MotionAccumulation += mouseMotion.Relative;
+            }
+
+            if (dragging)
+            {
+                Tween t = GetTree().CreateTween();
+                t.TweenProperty(this, "global_position", GetGlobalMousePosition() + DragOffset, 0.1f);
+            }
+        }
+
+        //mouse motion click/drag detection threshold
+        if (MotionAccumulation.Length() > 4)
+        {
+            dragging = true;
+            Active = false;
+            EmitSignal("DragStarted", this);
+        }
+
+    }
+
+    public override void _Input(InputEvent @event)
+    {
+
+        if (@event is InputEventMouseButton mouseEvent)
+        {
+            if (mouseEvent.ButtonIndex == MouseButton.Left && mouseEvent.IsReleased())
+            {
+                if (dragging && !Highlighted)
+                {
+                    pressed = false;
+                    DragOffset = Vector2.Zero;
+                    MotionAccumulation = Vector2.Zero;
+                    dragging = false;
+                    Active = true;
+                }
             }
         }
     }
 
-    public void _on_mouse_exited()
+    public void SetCardData(CardData data)
     {
-        // Move the card back to its original position
-        /*
-        Tween tween = GetTree().CreateTween();
-        tween.SetTrans(Tween.TransitionType.Sine);
-        tween.SetEase(Tween.EaseType.Out);
-        tween.TweenProperty(
-            this,
-            "position",
-            new Vector2(this.Position.X, originalPosition.Y),
-            0.2f
-        );
-        */
-        Tween tweenscale = GetTree().CreateTween();
-        tweenscale.SetTrans(Tween.TransitionType.Sine);
-        tweenscale.SetEase(Tween.EaseType.Out);
-        tweenscale.TweenProperty(this, "scale", this.originalScale, 0.1);
-        this.ZIndex -= 1;
-        this.Modulate = originalModulate;
-    }
 
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
-    {
-        originalPosition = Position;
-        originalModulate = Modulate;
-    }
-
-    // Sets the card to the given scene (ex: a chunk name or a tower name)
-    public void SetCard(string scenePath)
-    {
-        //?????
-        ScenePath = scenePath;
-
-
-
-        //split on / 
-        //get last item
-        //remove .tscn
-
-        CardName = scenePath.ReplaceN(".tscn","");
-
+        this.data = data;
+        GD.Print(data.Name);
+        CardNameLabel.Text = data.Name;
+        CardName = data.Name;
+        if (Viewport != null)
+        {
+            Viewport.QueueFree();
+        }
         Viewport = ViewportScene.Instantiate<ViewportVisuals>();
+        Viewport.Size = (Vector2I)CardViewportFrame.Size;
         Viewport.OwnWorld3D = true;
         this.AddChild(Viewport);
-        Viewport.CameraZoom = 12;
-        Viewport.CameraOrbitSpeed = 0.2f;
-        Viewport.Camera.Fov = 55;
-
-
-        if (CardDatabase.towerslist.Contains(scenePath))
+        Viewport.CameraZoom = data.CameraZoom;
+        Viewport.CameraOrbitSpeed = data.CameraOrbitSpeed;
+        Viewport.CameraTilt = data.CameraTilt;
+        Viewport.Camera.Fov = data.FOV;
+        if (data.SubjectScene != null)
         {
-            this.Viewport.CameraZoom = 2f;
-            this.Viewport.CameraTilt = -5f;
-            //ScenePath = $"res://Scenes/Towers/{CardName}.tscn";
+            Viewport.SetSubjectScene(CardLoadingManager.GetInstance().GetPackedScene(data.SubjectScene));
         }
-
-        Viewport.SubjectPackedScene = GD.Load<PackedScene>(scenePath);
-        // Set the sceneName
-        Label chunkNameLabel = GetNode<Label>("MarginContainer/Bars/TopBar/Name/CenterContainer/SceneName");
-        chunkNameLabel.Text = CardName;
-
-        // Set the texture
-        TextureRect textureRect = GetNode<TextureRect>("MarginContainer/Bars/Panel/TextureRect");
-        textureRect.Texture = Viewport.GetTexture();
-        //var texture = (Texture)ResourceLoader.Load(CardImgPath);
-        //textureRect.Texture = (Texture2D)texture;
-
-        // Set the border based on the rarity
-        List<string> cardinfo = CardDatabase.DATA[scenePath];
-        string rarity = cardinfo[1];
-        SetCardRarityColor(rarity);
+        
+        CardViewportFrame.Texture = Viewport.GetTexture();
+        CardBackground.AddThemeStyleboxOverride("panel", CardLoadingManager.GetInstance().GetRarityTexture(data.Rarity));
     }
 
-    private void SetCardRarityColor(string rarity)
+    public void SpawnPlaceable()
     {
-        Panel CardBackground = GetNode<Panel>("MarginContainer/MarginContainer/Background");
-        StyleBoxTexture newStyleBox;
+        
+        // Load and instantiate the card:
+        AbstractPlaceable Placeable = CardLoadingManager.GetInstance().GetPackedScene(this.data.SubjectScene).Instantiate<AbstractPlaceable>();
+        QueriedPlaceable = Placeable;
+        QueriedPlaceable.Cancelled += CancelPlacement;
+        QueriedPlaceable.Placed += SuccessfullyPlaced;
 
-        switch (rarity.ToLower())
-        {
-            case "common":
-                newStyleBox = GD.Load<StyleBoxTexture>("res://Scenes/UI/Cards/Gradients/CommonRarityStyleBox.tres");
-                break;
-            case "uncommon":
-                newStyleBox = GD.Load<StyleBoxTexture>("res://Scenes/UI/Cards/Gradients/UncommonRarityStyleBox.tres");
-                break;
-            case "rare":
-                newStyleBox = GD.Load<StyleBoxTexture>("res://Scenes/UI/Cards/Gradients/RareRarityStyleBox.tres");
-                break;
-            case "epic":
-                newStyleBox = GD.Load<StyleBoxTexture>("res://Scenes/UI/Cards/Gradients/EpicRarityStyleBox.tres");
-                break;
-            case "legendary":
-                newStyleBox = GD.Load<StyleBoxTexture>("res://Scenes/UI/Cards/Gradients/LegendaryRarityStyleBox.tres");
-                break;
-            default: // default to common:
-                newStyleBox = GD.Load<StyleBoxTexture>("res://Scenes/UI/Cards/Gradients/CommonRarityStyleBox.tres");
-                break;
-        }
+        SceneSwitcher.CurrentGameLoop.AddChild(Placeable);
+        
 
-        // Apply the StyleBoxTexture to the Panel
-        CardBackground.AddThemeStyleboxOverride("panel", newStyleBox);
+        Placeable.ActivatePlacing();
     }
 
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
-	{
+    public void SuccessfullyPlaced(Node3D item, Vector3 pos)
+    {
+        QueriedPlaceable.Cancelled -= CancelPlacement;
+        QueriedPlaceable.Placed -= SuccessfullyPlaced;
+        QueriedPlaceable = null;
+        PlayerStatsManager.GetInstance().ChangeStat(data.ResourceCostType, -data.ResourceCostValue);
+        EmitSignal("Placed", this);
+    }
 
-	}
+    public void CancelPlacement()
+    {
+        if (QueriedPlaceable != null)
+        {
+            QueriedPlaceable = null;
+        }
+        EmitSignal("Cancelled", this);
+    }
+
 }

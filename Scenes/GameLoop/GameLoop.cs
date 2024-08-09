@@ -4,8 +4,6 @@ using Managers;
 
 public partial class GameLoop : Node3D
 {
-    private StandardMaterial3D _tile_outline_mat = GD.Load<StandardMaterial3D>("res://Assets/Materials/MouseOverOutline.tres");
-    private MeshInstance3D _currently_highlighted_tile; // The currently highlighted tile
 
     public Camera3D Camera { get; set; }
 	Node3D CameraGimbal { get; set; }
@@ -16,8 +14,11 @@ public partial class GameLoop : Node3D
 
 	bool DraggingCamera = false;
 
+    public Vector3 MousePosition3D = Vector3.Zero; 
+
 	public override void _EnterTree()
 	{
+        //for which to not break instantly
 		WaveManager.GetInstance();
         WaveDataManager.GetInstance();
 		BallistaArrowManager.GetInstance();
@@ -28,43 +29,17 @@ public partial class GameLoop : Node3D
 	public override void _Ready()
 	{
         HealthBarManager.GetInstance();
-
+        SceneSwitcher.CurrentGameLoop = this;
         Camera = GetNode<Camera3D>("CameraGimbal/Camera3D");
 		CameraGimbal = GetNode<Node3D>("CameraGimbal");
+
+        DeckManager.GetInstance().SetDeck((DeckData)ResourceLoader.Load("res://Scenes/Decks/PlainsDeck.tres"));
 	}
 
 
 	public override void _Process(double delta)
 	{
-
-        //make this cooler
-
-        /*
-		if (Input.IsActionPressed("rotate_right"))
-		{
-			if (!turning)
-			{
-				Quaternion q = new Quaternion(Vector3.Up, Mathf.Pi / 2);
-				Tween t = GetTree().CreateTween();
-				t.TweenProperty(CameraGimbal, "quaternion", q * CameraGimbal.Quaternion, 0.3f);
-				turning = true;
-				t.Finished += () => turning = false;
-			}
-		}
-		if (Input.IsActionPressed("rotate_left"))
-		{
-			if (!turning)
-			{
-				Quaternion q = new Quaternion(Vector3.Up, -Mathf.Pi / 2);
-				Tween t = GetTree().CreateTween();
-				t.TweenProperty(CameraGimbal, "quaternion", q * CameraGimbal.Quaternion, 0.3f);
-				turning = true;
-				t.Finished += () => turning = false;
-            }
-		}
-		*/
         HandleCameraMovement();
-		//CheckMouseHover();
     }
 
     private void HandleCameraMovement()
@@ -87,78 +62,25 @@ public partial class GameLoop : Node3D
         }
     }
 
-    private void CheckMouseHover()
-    {
-        Vector2 mousePosition = GetViewport().GetMousePosition();
-        Vector3 from = Camera.ProjectRayOrigin(mousePosition);
-        Vector3 to = from + Camera.ProjectRayNormal(mousePosition) * 1000;
+    public override void _Input(InputEvent @event)
+	{
+
+        Vector3 from = Camera.ProjectRayOrigin(GetViewport().GetMousePosition());
+        Vector3 to = from + Camera.ProjectRayNormal(GetViewport().GetMousePosition()) * 1000;
 
         PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
-        PhysicsRayQueryParameters3D query = PhysicsRayQueryParameters3D.Create(from, to);
+
+
+        PhysicsRayQueryParameters3D query = PhysicsRayQueryParameters3D.Create(from, to, collisionMask: 1);
         Dictionary result = spaceState.IntersectRay(query);
+
+
+        query = PhysicsRayQueryParameters3D.Create(from, to, collisionMask: 8);
+        result = spaceState.IntersectRay(query);
 
         if (result.Count > 0)
         {
-            // Doing this: MeshInstance3D tile = ((StaticBody3D)result["collider"]).GetParent<MeshInstance3D>();
-            // But with safety
-
-            StaticBody3D temp = (StaticBody3D)result["collider"];
-            MeshInstance3D tile = temp.GetParentOrNull<MeshInstance3D>();
-            if (tile == null)
-            {
-                return;
-            }
-
-            if (tile != _currently_highlighted_tile)
-            {
-                if (_currently_highlighted_tile != null)
-                {
-                    ResetOutline(_currently_highlighted_tile);
-                }
-
-                ApplyOutline(tile);
-                _currently_highlighted_tile = tile;
-            }
-        }
-        else if (_currently_highlighted_tile != null)
-        {
-            ResetOutline(_currently_highlighted_tile);
-            _currently_highlighted_tile = null;
-        }
-    }
-
-    private void ApplyOutline(MeshInstance3D meshInstance)
-    {
-        meshInstance.MaterialOverride = _tile_outline_mat;
-    }
-
-    private void ResetOutline(MeshInstance3D meshInstance)
-    {
-        meshInstance.MaterialOverride = null;
-    }
-
-    public override void _Input(InputEvent @event)
-	{
-		
-		if (@event.IsActionPressed("select"))
-		{
-			Vector3 from = Camera.ProjectRayOrigin(GetViewport().GetMousePosition());
-			Vector3 to = from + Camera.ProjectRayNormal(GetViewport().GetMousePosition()) * 1000;
-
-			PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
-
-
-			PhysicsRayQueryParameters3D query = PhysicsRayQueryParameters3D.Create(from, to, collisionMask: 1);
-			Dictionary result = spaceState.IntersectRay(query);
-
-
-			query = PhysicsRayQueryParameters3D.Create(from, to, collisionMask: 8);
-			result = spaceState.IntersectRay(query);
-
-			if (result.Count > 0)
-			{
-				MeshInstance3D temp = ((StaticBody3D)result["collider"]).GetParent<MeshInstance3D>();
-            }
+            MousePosition3D = (Vector3)result["position"];
         }
 
         if (@event is InputEventMouseButton mouseEvent)

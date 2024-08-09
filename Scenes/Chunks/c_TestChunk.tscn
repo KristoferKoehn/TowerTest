@@ -468,11 +468,9 @@ metadata/height = 0
 
 [node name="SpawnerNorth" parent="." instance=ExtResource("5_7coxd")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -4)
-Enabled = true
 
 [node name="SpawnerSouth" parent="." instance=ExtResource("5_7coxd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
-Enabled = true
 
 [node name="SpawnerEast" parent="." instance=ExtResource("5_7coxd")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 4, 0, 0)
@@ -480,3 +478,4 @@ Enabled = true
 
 [node name="SpawnerWest" parent="." instance=ExtResource("5_7coxd")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -4, 0, 0)
+Enabled = true

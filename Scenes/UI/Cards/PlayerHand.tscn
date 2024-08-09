@@ -1,30 +1,70 @@
-[gd_scene load_steps=3 format=3 uid="uid://dehxllaknmoge"]
+[gd_scene load_steps=4 format=3 uid="uid://dehxllaknmoge"]
 
 [ext_resource type="Script" path="res://Scenes/UI/Cards/PlayerHand.cs" id="1_pc55c"]
+[ext_resource type="PackedScene" uid="uid://dr33ompxp8p4g" path="res://Scenes/UI/Cards/BaseCard.tscn" id="2_dtlm7"]
 
-[sub_resource type="CanvasTexture" id="CanvasTexture_qo32n"]
+[sub_resource type="Curve2D" id="Curve2D_2sk6h"]
+_data = {
+"points": PackedVector2Array(0, 0, 250, -50, -400, 0, -250, -50, 350.529, 85.2251, 400, 0)
+}
+point_count = 2
 
-[node name="PlayerHand" type="Control"]
+[node name="PlayerHand" type="Control" node_paths=PackedStringArray("CardPlacingPosition", "CardPlacingPath", "PathFollow")]
 layout_mode = 3
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -250.0
-offset_top = -50.0
-offset_right = 250.0
-offset_bottom = 50.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 0
 script = ExtResource("1_pc55c")
+CardPlacingPosition = NodePath("ActiveCardPlacement")
+CardPlacingPath = NodePath("Path2D")
+PathFollow = NodePath("Path2D/PathFollow2D")
+BaseCardScene = ExtResource("2_dtlm7")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource("Curve2D_2sk6h")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+position = Vector2(-400, 0)
+rotation = -0.197396
+
+[node name="ActiveCardPlacement" type="Node2D" parent="."]
+position = Vector2(400, -200)
+
+[node name="DiscardPanel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = -214.0
+offset_top = 165.0
+offset_right = -68.0
+offset_bottom = 394.0
+
+[node name="MarginContainer" type="MarginContainer" parent="DiscardPanel"]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -34.5
+offset_right = 34.5
+offset_bottom = 40.0
 grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = SubResource("CanvasTexture_qo32n")
+
+[node name="Label" type="Label" parent="DiscardPanel/MarginContainer"]
+layout_mode = 2
+text = "DISCARD"
+
+[node name="DiscardPanel2" type="Panel" parent="."]
+offset_left = 48.0
+offset_top = 165.0
+offset_right = 194.0
+offset_bottom = 394.0
+
+[node name="MarginContainer" type="MarginContainer" parent="DiscardPanel2"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="Label" type="Label" parent="DiscardPanel2/MarginContainer"]
+layout_mode = 2
+text = "PLAY"

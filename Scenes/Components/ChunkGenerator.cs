@@ -158,7 +158,7 @@ public partial class ChunkGenerator : Node3D
                 Vector3 pos = new Vector3(MeshInstance.Position.X, (0.9f / 2f) - 0.5f, MeshInstance.Position.Z);
                 MeshInstance.Position = pos;
                 hitbox.Position = Vector3.Zero;
-                MeshInstance.SetMeta("height", 1);
+                MeshInstance.SetMeta("height", 0);
 
                 MeshInstance.Mesh.SurfaceSetMaterial(0, GD.Load<Material>("res://Assets/Materials/LaneMaterial.tres"));
 
@@ -195,6 +195,7 @@ public partial class ChunkGenerator : Node3D
                 Vector3 pos = new Vector3(MeshInstance.Position.X, (1.2f / 2f) - 0.5f, MeshInstance.Position.Z);
                 MeshInstance.Position = pos;
                 hitbox.Position = Vector3.Zero;
+                MeshInstance.SetMeta("height", 2);
 
                 MeshInstance.Mesh.SurfaceSetMaterial(0, GD.Load<Material>("res://Assets/Materials/GrassMaterial.tres"));
             }
@@ -212,6 +213,8 @@ public partial class ChunkGenerator : Node3D
                 Vector3 pos = new Vector3(MeshInstance.Position.X, (1.4f / 2f) - 0.5f, MeshInstance.Position.Z);
                 MeshInstance.Position = pos;
                 hitbox.Position = Vector3.Zero;
+                MeshInstance.SetMeta("height", 3);
+
 
                 MeshInstance.Mesh.SurfaceSetMaterial(0, GD.Load<Material>("res://Assets/Materials/GrassMaterial.tres"));
             }
@@ -229,6 +232,8 @@ public partial class ChunkGenerator : Node3D
                 Vector3 pos = new Vector3(MeshInstance.Position.X, (1.6f / 2f) - 0.5f, MeshInstance.Position.Z);
                 MeshInstance.Position = pos;
                 hitbox.Position = Vector3.Zero;
+                MeshInstance.SetMeta("height", 5);
+
 
                 MeshInstance.Mesh.SurfaceSetMaterial(0, GD.Load<Material>("res://Assets/Materials/GrassMaterial.tres"));
             }

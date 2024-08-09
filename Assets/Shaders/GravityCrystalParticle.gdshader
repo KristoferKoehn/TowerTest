@@ -5,6 +5,6 @@ void start() {
 }
 
 void process() {
-	
+
 	// Called every frame on existing particles (according to the Fixed FPS property).
 }

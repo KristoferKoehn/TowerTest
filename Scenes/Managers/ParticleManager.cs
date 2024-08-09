@@ -32,7 +32,7 @@ public partial class ParticleManager : Node
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		//GD.Print("hi");
+
 		particleSignals.normalParticle += (String n, Vector3 c, Vector3 d) => makeNormalParticle(n, c, d);
 		//loading particles
 		foreach (string item in DirAccess.GetFilesAt("res://Scenes/Particles/"))

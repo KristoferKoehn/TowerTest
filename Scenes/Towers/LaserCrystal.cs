@@ -26,6 +26,7 @@ public partial class LaserCrystal : AbstractTower
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
 	{
+        if (Disabled) return;
 
         if (EnemyList.Count > 0)
         {
@@ -61,7 +62,7 @@ public partial class LaserCrystal : AbstractTower
         float radius = StatBlock.GetStat(StatType.Range);
         ((CylinderShape3D)RangeHitbox.Shape).Radius = radius;
 
-        if (MouseOver || Selected)
+        if (MouseOver || Selected || Placing)
         {
             List<Vector3> points = GeneratePoints(32, GlobalPosition, StatBlock.GetStat(StatType.Range));
 
@@ -111,5 +112,17 @@ public partial class LaserCrystal : AbstractTower
         }
 
         return points;
+    }
+
+    public override void DisplayMode()
+    {
+        Disabled = true;
+    }
+
+    public override void ActivatePlacing()
+    {
+        GlobalPosition = SceneSwitcher.CurrentGameLoop.MousePosition3D;
+        Placing = true;
+        Disabled = false;
     }
 }

@@ -17,8 +17,10 @@ public partial class Ballista : AbstractTower
     public override void _Ready()
     {
         base._Ready();
-        if (Disabled) return;
-        BallistaArrowManager.GetInstance().RegisterBallista(this);
+        if (!Disabled)
+        {
+            BallistaArrowManager.GetInstance().RegisterBallista(this);
+        }
 
         Dictionary<StatType, float> sb = new()
         {
@@ -64,7 +66,7 @@ public partial class Ballista : AbstractTower
 
         ((CylinderShape3D)RangeHitbox.Shape).Radius = StatBlock.GetStat(StatType.Range);
 
-        if (MouseOver || Selected)
+        if (MouseOver || Selected || Placing)
         {
             List<Vector3> points = GeneratePoints(32, GlobalPosition, StatBlock.GetStat(StatType.Range));
 
@@ -124,4 +126,16 @@ public partial class Ballista : AbstractTower
         be.StrikeSound.Play();
     }
 
+    public override void DisplayMode()
+    {
+        Disabled = true;
+    }
+
+    public override void ActivatePlacing()
+    {
+        GlobalPosition = SceneSwitcher.CurrentGameLoop.MousePosition3D;
+        Disabled = false;
+        Placing = true;
+        BallistaArrowManager.GetInstance().RegisterBallista(this);
+    }
 }

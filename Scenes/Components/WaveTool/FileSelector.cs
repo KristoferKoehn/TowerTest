@@ -8,13 +8,17 @@ public partial class FileSelector : Control
 	ItemList files;
 	[Export]
 	Button LoadButton;
+    [Export]
+    string SearchDirectory = "res://Assets/WaveData/";
 
     [Signal]
     public delegate void LoadFileEventHandler(string file);
 
+	
 
 
-	bool MouseInside = false;
+
+    bool MouseInside = false;
 	bool dragging = false;
 	Vector2 DragOffset = Vector2.Zero;
 
@@ -29,7 +33,7 @@ public partial class FileSelector : Control
 		if (prev != Visible) {
 			LoadButton.Disabled = true;
 			files.Clear();
-            string[] names = DirAccess.GetFilesAt("res://Assets/WaveData/");
+            string[] names = DirAccess.GetFilesAt(SearchDirectory);
 			foreach(string name in names)
 			{
 				files.AddItem(name);

@@ -66,7 +66,12 @@ public partial class Spawner : Node3D
             Enabled = false;
             return;
         }
-        WaveManager.GetInstance().RegisterSpawner(this);
+
+        if (!Engine.IsEditorHint())
+        {
+            WaveManager.GetInstance().RegisterSpawner(this);
+        }
+        
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

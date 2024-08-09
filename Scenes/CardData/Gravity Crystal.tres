@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scenes/UI/Cards/CardData.cs" id="1_c64w5"]
+
+[resource]
+script = ExtResource("1_c64w5")
+Name = "Gravity Crystal"
+CardInfo = "Wahoo!!"
+Rarity = "Rare"
+ShopCost = 0
+SubjectScene = "GravityCrystal.tscn"
+FOV = 87.0
+CameraOrbitSpeed = 0.3
+CameraTilt = -9.0
+CameraZoom = 2.4
+ResourceCostType = 6
+ResourceCostValue = 100.0
