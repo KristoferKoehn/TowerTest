@@ -12,6 +12,7 @@ public partial class ParticleManager : Node
 	//After messing around, doing an enumerable feels odd. New plan is to preload all our particles into a hashtable, then we can use that to nab the correct particle.
 	//From there, just instantiate it and youre good to go.
 	public List<ParticleWrapper> Particles = new();
+	public ParticleWrapper lastMade;
 	private ParticleSignals particleSignals = ParticleSignals.GetInstance();
 	//private List<GpuParticles3D> loadedParticles = new();
 	private Hashtable loadedParticles = new Hashtable();
@@ -34,8 +35,9 @@ public partial class ParticleManager : Node
 	{
 		//GD.Print("hi");
 		particleSignals.normalParticle += (String n, Vector3 c, Vector3 d) => makeNormalParticle(n, c, d);
-		//loading particles
-		foreach (string item in DirAccess.GetFilesAt("res://Scenes/Particles/"))
+		particleSignals.continuousParticle += (String n, Vector3 c, Vector3 d) => makeContinuousParticle(n, c, d);
+        //loading particles
+        foreach (string item in DirAccess.GetFilesAt("res://Scenes/Particles/"))
 		{
 			//GD.Print(item.Substring(0, item.Length - 5));
 			if (item.Contains("tscn"))
@@ -89,6 +91,22 @@ public partial class ParticleManager : Node
 			ParticleWrapper tempWraper = new ParticleWrapper(particleScene);
 			Particles.Add(tempWraper);
 			tempWraper.emitEffect(c, d);
+			lastMade = tempWraper;
 		}
 	}
+
+    private void makeContinuousParticle(string name, Vector3 c, Vector3 d)
+    {
+        PackedScene inst = (PackedScene)loadedParticles[name];
+        if (inst != null)
+        {
+            GpuParticles3D particleScene = inst.Instantiate<GpuParticles3D>();
+            AddChild(particleScene);
+            ParticleWrapper tempWraper = new ParticleWrapper(particleScene);
+			tempWraper.setDispose(false);
+            Particles.Add(tempWraper);
+            tempWraper.emitEffect(c, d);
+            lastMade = tempWraper;
+        }
+    }
 }
