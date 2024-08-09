@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bbpphuq3csaxf"]
+[gd_scene load_steps=4 format=3 uid="uid://bbpphuq3csaxf"]
 
 [ext_resource type="Script" path="res://Scenes/UI/Cards/PlayerHand2.cs" id="1_mbkwo"]
 [ext_resource type="PackedScene" uid="uid://dr33ompxp8p4g" path="res://Scenes/UI/Cards/BaseCard.tscn" id="2_c3nx8"]
@@ -8,9 +8,6 @@ _data = {
 "points": PackedVector2Array(0, 0, 250, -50, -400, 0, -250, -50, 350.529, 85.2251, 400, 0)
 }
 point_count = 2
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_l6hrl"]
-size = Vector2(800, 250)
 
 [node name="PlayerHand2" type="Control" node_paths=PackedStringArray("CardPlacingPosition", "CardPlacingPath", "PathFollow")]
 layout_mode = 3
@@ -30,51 +27,3 @@ rotation = -0.197396
 
 [node name="ActiveCardPlacement" type="Node2D" parent="."]
 position = Vector2(400, -200)
-
-[node name="DiscardPanel" type="Panel" parent="."]
-layout_mode = 0
-offset_left = -214.0
-offset_top = 165.0
-offset_right = -68.0
-offset_bottom = 394.0
-
-[node name="MarginContainer" type="MarginContainer" parent="DiscardPanel"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -34.5
-offset_right = 34.5
-offset_bottom = 40.0
-grow_horizontal = 2
-
-[node name="Label" type="Label" parent="DiscardPanel/MarginContainer"]
-layout_mode = 2
-text = "DISCARD"
-
-[node name="DiscardPanel2" type="Panel" parent="."]
-layout_mode = 0
-offset_left = 48.0
-offset_top = 165.0
-offset_right = 194.0
-offset_bottom = 394.0
-
-[node name="MarginContainer" type="MarginContainer" parent="DiscardPanel2"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -20.0
-offset_right = 20.0
-offset_bottom = 40.0
-grow_horizontal = 2
-
-[node name="Label" type="Label" parent="DiscardPanel2/MarginContainer"]
-layout_mode = 2
-text = "PLAY"
-
-[node name="Area2D" type="Area2D" parent="."]
-position = Vector2(0, -260)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("RectangleShape2D_l6hrl")

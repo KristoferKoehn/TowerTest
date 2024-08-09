@@ -15,8 +15,14 @@ public partial class PlayerHand2 : Control
     [Export]
     PackedScene BaseCardScene;
 
+    [Export] Panel PlayPanel;
+    [Export] Panel DiscardPanel;
+    [Export] Panel FreezePanel;
+
     List<BaseCard> CardList = new List<BaseCard>();
     List<float> CardPositions = new List<float>();
+
+    BaseCard DraggingCard = null;
 
     BaseCard ActiveCard = null;
     bool CardActive = false;
@@ -43,6 +49,20 @@ public partial class PlayerHand2 : Control
             }
         }
 
+        Vector2 mousePos = GetViewport().GetMousePosition();
+        Vector2 screenSize = GetViewportRect().Size;
+
+        if (mousePos.Y > (screenSize.Y - 230) && !Input.IsActionPressed("camera_drag")) 
+        {
+            Tween t = GetTree().CreateTween();
+            t.TweenProperty(CardPlacingPath, "global_position", new Vector2(screenSize.X / 2f, screenSize.Y - 90), 0.3);
+        } 
+        else
+        {
+            Tween t = GetTree().CreateTween();
+            t.TweenProperty(CardPlacingPath, "global_position", new Vector2(screenSize.X/2f, screenSize.Y + 60), 0.3);
+        }
+        
         UpdateCardPositions();
     }
 
@@ -51,9 +71,9 @@ public partial class PlayerHand2 : Control
         card.Selected += CardSelected;
         card.Cancelled += CardCancelled;
         card.Placed += CardPlaced;
-        this.AddChild(card);
+        AddChild(card);
         card.GlobalPosition = CardPlacingPosition.GlobalPosition;
-        this.CardList.Add(card);
+        CardList.Add(card);
     }
 
     public void CardSelected(BaseCard card)

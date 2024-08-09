@@ -1,7 +1,4 @@
 using Godot;
-using Godot.NativeInterop;
-using System;
-using System.Collections.Generic;
 using TowerTest.Scenes.Components;
 
 public partial class BaseCard : Control
@@ -12,6 +9,8 @@ public partial class BaseCard : Control
     public delegate void CancelledEventHandler(BaseCard sender);
     [Signal]
     public delegate void PlacedEventHandler(BaseCard sender);
+    [Signal]
+    public delegate void DraggedEventHandler(BaseCard sender);
 
     public string CardName { get; set; }
     public string CardInfo { get; private set; }
@@ -73,6 +72,19 @@ public partial class BaseCard : Control
     {
         if (@event is InputEventMouseButton mouseEvent)
         {
+
+            if (mouseEvent.ButtonIndex == MouseButton.Left && mouseEvent.IsReleased() && pressed)
+            {
+                pressed = false;
+                DragOffset = Vector2.Zero;
+                MotionAccumulation = Vector2.Zero;
+                Active = true;
+                dragging = false;
+                Tween tweenscale = GetTree().CreateTween();
+                tweenscale.TweenProperty(this, "scale", originalScale, 0.2);
+            }
+
+            /*
             if (mouseEvent.ButtonIndex == MouseButton.Left && mouseEvent.IsReleased() && pressed)
             {
                 pressed = false;
@@ -99,6 +111,8 @@ public partial class BaseCard : Control
                 Tween tweenscale = GetTree().CreateTween();
                 tweenscale.TweenProperty(this, "scale", this.originalScale, 0.2);
             }
+            */
+
 
             if (mouseEvent.ButtonIndex == MouseButton.Left && mouseEvent.IsPressed())
             {
