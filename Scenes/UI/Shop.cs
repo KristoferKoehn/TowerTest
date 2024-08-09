@@ -52,7 +52,7 @@ public partial class Shop : Control
 
             // Instance the card scene and add it to the viewport
             BaseCard card = _cardScene.Instantiate<BaseCard>();
-            card.SetCard(File);
+            //card.SetCard(File);
             viewport.AddChild(card);
 
             // Create a TextureRect to display the viewport texture

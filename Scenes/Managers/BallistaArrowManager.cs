@@ -34,19 +34,26 @@ public partial class BallistaArrowManager : Node
 	{
         foreach(MeshInstance3D arrow in Arrows)
         {
-            arrow.TranslateObjectLocal(new Vector3(0, 0, -0.2f));
+            arrow.TranslateObjectLocal(new Vector3(0, 0, -80.2f * (float)delta));
         }
 	}
 
 	public void RegisterBallista(Ballista ballista)
 	{
+        if (ballistas.Contains(ballista))
+        {
+            return;
+        }
 		ballistas.Add(ballista);
 		ballista.TowerFired += (Node3D tower, Node3D target) => ShootArrow(tower, target);
 	}
 
 	public void UnregisterBallista(Ballista ballista)
 	{
-		ballistas.Remove(ballista);
+        if (ballistas.Contains(ballista))
+        {
+            ballistas.Remove(ballista);
+        }
 	}
 
     public void ShootArrow(Node3D tower, Node3D target)

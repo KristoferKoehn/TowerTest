@@ -54,7 +54,6 @@ namespace Managers
             {
                 if(name.Contains(".tscn"))
                 {
-                    GD.Print($"Adding scene: {name}");
                     EnemyScenes[name] = GD.Load<PackedScene>($"res://Scenes/Enemies/{name}");
                 }
             }

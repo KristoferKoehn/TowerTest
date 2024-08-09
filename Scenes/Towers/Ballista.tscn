@@ -1,11 +1,14 @@
-[gd_scene load_steps=21 format=3 uid="uid://ba4apx2hsn1c0"]
+[gd_scene load_steps=24 format=3 uid="uid://ba4apx2hsn1c0"]
 
 [ext_resource type="PackedScene" uid="uid://bla62bopkwx4a" path="res://Assets/TowerModels/towerSquare_bottomA.glb" id="1_3l0de"]
 [ext_resource type="Script" path="res://Scenes/Towers/Ballista.cs" id="1_h510k"]
 [ext_resource type="PackedScene" uid="uid://bo3cu0x6w7ad3" path="res://Assets/TowerModels/weapon_ballista.glb" id="2_4st7a"]
 [ext_resource type="Material" uid="uid://bg8x6nw25lr5f" path="res://Assets/Materials/SelectOutline.tres" id="3_mlqgl"]
 [ext_resource type="Material" uid="uid://ts4g382dqw50" path="res://Assets/Materials/MouseOverOutline.tres" id="3_utnsr"]
+[ext_resource type="Material" uid="uid://bpfrh7v7vj33w" path="res://Assets/Materials/QueryInvalid.tres" id="4_x07qf"]
+[ext_resource type="Material" uid="uid://dp23b2u2d2c2f" path="res://Assets/Materials/QueryValid.tres" id="5_ee6a0"]
 [ext_resource type="AudioStream" uid="uid://dj6ffplmep13m" path="res://Assets/Audio/sfx/impact/footstep_carpet_000.ogg" id="5_r0e4s"]
+[ext_resource type="PackedScene" uid="uid://1w1umbiov4do" path="res://Scenes/Utility/TowerPanel.tscn" id="6_cuopx"]
 [ext_resource type="AudioStream" uid="uid://ds43miak20xlp" path="res://Assets/Audio/sfx/impact/footstep_carpet_001.ogg" id="6_ee16f"]
 [ext_resource type="AudioStream" uid="uid://cxgal3mj7el74" path="res://Assets/Audio/sfx/impact/footstep_carpet_002.ogg" id="7_22vf7"]
 [ext_resource type="AudioStream" uid="uid://d1eo1rolf4d72" path="res://Assets/Audio/sfx/impact/footstep_carpet_003.ogg" id="8_a157n"]
@@ -56,13 +59,17 @@ stream_3/weight = 0.0
 stream_4/stream = ExtResource("14_x7l63")
 stream_4/weight = 0.0
 
-[node name="Ballista" type="Node3D" node_paths=PackedStringArray("Outline", "SelectorHitbox", "ShotTimer")]
+[node name="Ballista" type="Node3D" node_paths=PackedStringArray("Outline", "SelectorHitbox", "ActiveRange", "ShotTimer")]
 script = ExtResource("1_h510k")
 Outline = NodePath("Outline/MeshInstance3D")
 MouseOverOutline = ExtResource("3_utnsr")
 SelectOutline = ExtResource("3_mlqgl")
+InvalidMaterial = ExtResource("4_x07qf")
+ValidMaterial = ExtResource("5_ee6a0")
 SelectorHitbox = NodePath("StaticBody3D")
+ActiveRange = NodePath("ActiveRange")
 ShotTimer = NodePath("ShotTimer")
+TowerPanel = ExtResource("6_cuopx")
 
 [node name="towerSquare_bottomA2" parent="." instance=ExtResource("1_3l0de")]
 transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 0, 0, 0)

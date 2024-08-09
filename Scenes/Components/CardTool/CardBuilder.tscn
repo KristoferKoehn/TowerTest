@@ -1,0 +1,336 @@
+[gd_scene load_steps=8 format=3 uid="uid://ct5pu2kl2cmk0"]
+
+[ext_resource type="PackedScene" uid="uid://dr33ompxp8p4g" path="res://Scenes/UI/Cards/BaseCard.tscn" id="1_0prre"]
+[ext_resource type="Script" path="res://Scenes/Components/CardTool/CardBuilder.cs" id="1_7haud"]
+[ext_resource type="PackedScene" uid="uid://bvfxokd17td3t" path="res://Scenes/Components/WaveTool/FileSelector.tscn" id="3_pshew"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_mm4tt"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_eqkh4"]
+sky_material = SubResource("ProceduralSkyMaterial_mm4tt")
+
+[sub_resource type="Environment" id="Environment_sadcp"]
+background_mode = 2
+sky = SubResource("Sky_eqkh4")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_lpf1i"]
+
+[node name="CardBuilder" type="Node3D" node_paths=PackedStringArray("NameEdit", "SmallCard", "TiltedCard", "BigCard", "ItemList", "SubjectTypeSelector", "TextEdit", "RarityOptionButton", "ResourceTypeOptionButton", "ResourceCostSpinbox", "FileSelector", "ShopCostSpinBox", "OrbitSlider", "TiltSlider", "ZoomSlider", "FOVSlider", "CardInfoTextEdit")]
+script = ExtResource("1_7haud")
+NameEdit = NodePath("Control/Panel/VBoxContainer/HBoxContainer/VBoxContainer/LineEdit")
+SmallCard = NodePath("Control/CardBase")
+TiltedCard = NodePath("Control/CardBase3")
+BigCard = NodePath("Control/CardBase2")
+ItemList = NodePath("Control/Panel/VBoxContainer/HBoxContainer/ScrollContainer/ItemList")
+SubjectTypeSelector = NodePath("Control/Panel/VBoxContainer/HBoxContainer/VBoxContainer/OptionButton")
+TextEdit = NodePath("Control/Panel/VBoxContainer/TextEdit")
+RarityOptionButton = NodePath("Control/Panel/VBoxContainer/HBoxContainer2/RarityOptionButton")
+ResourceTypeOptionButton = NodePath("Control/Panel/VBoxContainer/HBoxContainer/VBoxContainer/ResourceTypeOptionBox")
+ResourceCostSpinbox = NodePath("Control/Panel/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ResourceCostSpinbox")
+FileSelector = NodePath("FileSelector")
+ShopCostSpinBox = NodePath("Control/Panel/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/CostBox")
+OrbitSlider = NodePath("Control/Panel/VBoxContainer/HBoxContainer2/VBoxContainer/OrbitSlider")
+TiltSlider = NodePath("Control/Panel/VBoxContainer/HBoxContainer2/VBoxContainer/TiltSlider")
+ZoomSlider = NodePath("Control/Panel/VBoxContainer/HBoxContainer2/VBoxContainer/ZoomSlider")
+FOVSlider = NodePath("Control/Panel/VBoxContainer/HBoxContainer2/VBoxContainer/FOVSlider")
+CardInfoTextEdit = NodePath("Control/Panel/VBoxContainer/TextEdit")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_sadcp")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.439935, -0.777718, 0.449013, 0, 0.499998, 0.866027, -0.89803, -0.380995, 0.219967, 0, 0, 0)
+shadow_enabled = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.775092, -0.560908, -0.290886, 0.586259, 0.810124, 0, 0.235654, -0.170535, 0.956758, 0.806888, 0, 2.45092)
+mesh = SubResource("CapsuleMesh_lpf1i")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7.02853)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.563
+anchor_top = 0.068
+anchor_right = 0.987
+anchor_bottom = 0.934
+offset_left = 0.42395
+offset_top = -33.064
+offset_right = -0.0240479
+offset_bottom = -0.231995
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Control/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Subject Scene"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/Panel/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(9.64, 0)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/Panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="Control/Panel/VBoxContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 3.57)
+layout_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="Control/Panel/VBoxContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+placeholder_text = "Card Name"
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/Panel/VBoxContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 7.385)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/Panel/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Type"
+
+[node name="OptionButton" type="OptionButton" parent="Control/Panel/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+selected = 0
+item_count = 3
+popup/item_0/text = "Chunks"
+popup/item_1/text = "Towers"
+popup/item_1/id = 1
+popup/item_2/text = "Effects"
+popup/item_2/id = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/Panel/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/Panel/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "ShopCost"
+
+[node name="CostBox" type="SpinBox" parent="Control/Panel/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+max_value = 20000.0
+suffix = "G"
+
+[node name="Label2" type="Label" parent="Control/Panel/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Resource Type:"
+
+[node name="ResourceTypeOptionBox" type="OptionButton" parent="Control/Panel/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Control/Panel/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/Panel/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Resource Cost:"
+
+[node name="ResourceCostSpinbox" type="SpinBox" parent="Control/Panel/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+max_value = 1000.0
+allow_greater = true
+
+[node name="MarginContainer2" type="MarginContainer" parent="Control/Panel/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Control/Panel/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(240, 250)
+layout_mode = 2
+
+[node name="ItemList" type="ItemList" parent="Control/Panel/VBoxContainer/HBoxContainer/ScrollContainer"]
+custom_minimum_size = Vector2(240, 250)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Control/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Rarity
+"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Control/Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/Panel/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(28.605, 0)
+layout_mode = 2
+
+[node name="RarityOptionButton" type="OptionButton" parent="Control/Panel/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+selected = 0
+item_count = 5
+popup/item_0/text = "Common"
+popup/item_1/text = "Uncommon"
+popup/item_1/id = 1
+popup/item_2/text = "Rare"
+popup/item_2/id = 2
+popup/item_3/text = "Epic"
+popup/item_3/id = 3
+popup/item_4/text = "Legendary"
+popup/item_4/id = 4
+
+[node name="MarginContainer2" type="MarginContainer" parent="Control/Panel/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(56.55, 0)
+layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Control/Panel/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Label" type="Label" parent="Control/Panel/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Orbit"
+
+[node name="Label3" type="Label" parent="Control/Panel/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Tilt"
+
+[node name="Label2" type="Label" parent="Control/Panel/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Zoom"
+
+[node name="Label4" type="Label" parent="Control/Panel/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "FOV"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/Panel/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(135, 0)
+layout_mode = 2
+
+[node name="OrbitSlider" type="HSlider" parent="Control/Panel/VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+min_value = -4.0
+max_value = 4.0
+step = 0.1
+value = 1.0
+
+[node name="TiltSlider" type="HSlider" parent="Control/Panel/VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+min_value = -40.0
+max_value = 40.0
+step = 0.1
+
+[node name="ZoomSlider" type="HSlider" parent="Control/Panel/VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+min_value = 1.0
+max_value = 600.0
+step = 0.1
+value = 5.6
+exp_edit = true
+
+[node name="FOVSlider" type="HSlider" parent="Control/Panel/VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+min_value = 1.0
+max_value = 179.0
+value = 75.0
+
+[node name="Label3" type="Label" parent="Control/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Card Info"
+
+[node name="TextEdit" type="TextEdit" parent="Control/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+placeholder_text = "Card description here"
+
+[node name="MarginContainer2" type="MarginContainer" parent="Control/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 7.77)
+layout_mode = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="Control/Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="Control/Panel/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+
+[node name="RefreshButton" type="Button" parent="Control/Panel/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "Refresh"
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/Panel/VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+
+[node name="SaveButton" type="Button" parent="Control/Panel/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "Save"
+
+[node name="LoadButton" type="Button" parent="Control/Panel/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "Load"
+
+[node name="CardBase" parent="Control" instance=ExtResource("1_0prre")]
+offset_left = 93.0
+offset_top = 88.0
+offset_right = 343.0
+offset_bottom = 438.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="CardBase2" parent="Control" instance=ExtResource("1_0prre")]
+offset_left = 333.0
+offset_top = 139.0
+offset_right = 583.0
+offset_bottom = 489.0
+grow_horizontal = 1
+grow_vertical = 1
+scale = Vector2(1, 1)
+
+[node name="CardBase3" parent="Control" instance=ExtResource("1_0prre")]
+offset_left = 119.0
+offset_top = 329.0
+offset_right = 369.0
+offset_bottom = 679.0
+grow_horizontal = 1
+grow_vertical = 1
+rotation = 0.131955
+
+[node name="FileSelector" parent="." instance=ExtResource("3_pshew")]
+visible = false
+SearchDirectory = "res://Scenes/CardData/"
+
+[connection signal="ValuesUpdated" from="." to="." method="_on_values_updated"]
+[connection signal="text_changed" from="Control/Panel/VBoxContainer/HBoxContainer/VBoxContainer/LineEdit" to="." method="_on_line_edit_text_changed"]
+[connection signal="item_selected" from="Control/Panel/VBoxContainer/HBoxContainer/VBoxContainer/OptionButton" to="." method="_on_option_button_item_selected"]
+[connection signal="item_selected" from="Control/Panel/VBoxContainer/HBoxContainer/VBoxContainer/ResourceTypeOptionBox" to="." method="_on_resource_type_option_box_item_selected"]
+[connection signal="value_changed" from="Control/Panel/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ResourceCostSpinbox" to="." method="_on_resource_cost_spinbox_value_changed"]
+[connection signal="item_clicked" from="Control/Panel/VBoxContainer/HBoxContainer/ScrollContainer/ItemList" to="." method="_on_item_list_item_clicked"]
+[connection signal="item_selected" from="Control/Panel/VBoxContainer/HBoxContainer2/RarityOptionButton" to="." method="_on_rarity_option_button_item_selected"]
+[connection signal="value_changed" from="Control/Panel/VBoxContainer/HBoxContainer2/VBoxContainer/OrbitSlider" to="." method="_on_orbit_slider_value_changed"]
+[connection signal="value_changed" from="Control/Panel/VBoxContainer/HBoxContainer2/VBoxContainer/TiltSlider" to="." method="_on_tilt_slider_value_changed"]
+[connection signal="value_changed" from="Control/Panel/VBoxContainer/HBoxContainer2/VBoxContainer/ZoomSlider" to="." method="_on_zoom_slider_value_changed"]
+[connection signal="value_changed" from="Control/Panel/VBoxContainer/HBoxContainer2/VBoxContainer/FOVSlider" to="." method="_on_fov_slider_value_changed"]
+[connection signal="text_changed" from="Control/Panel/VBoxContainer/TextEdit" to="." method="_on_text_edit_text_changed"]
+[connection signal="pressed" from="Control/Panel/VBoxContainer/HBoxContainer3/RefreshButton" to="." method="_on_refresh_button_pressed"]
+[connection signal="pressed" from="Control/Panel/VBoxContainer/HBoxContainer3/SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="Control/Panel/VBoxContainer/HBoxContainer3/LoadButton" to="." method="_on_load_button_pressed"]
+[connection signal="LoadFile" from="FileSelector" to="." method="_on_file_selector_load_file"]

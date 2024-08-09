@@ -22,7 +22,7 @@ public enum StatType
 	FireDamage,
 	IceDamage,
 	WaterDamage,
-
+	HandSize,
 }
 
 namespace MMOTest.Backend

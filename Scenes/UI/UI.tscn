@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://c8k323ym7lt8k"]
+[gd_scene load_steps=18 format=3 uid="uid://c8k323ym7lt8k"]
 
 [ext_resource type="Script" path="res://Scenes/UI/UI.cs" id="1_vo24d"]
 [ext_resource type="Texture2D" path="res://Assets/Icons/CoinIcon.tres" id="2_5xsv3"]
@@ -7,10 +7,64 @@
 [ext_resource type="Texture2D" uid="uid://t0i5wqr683y6" path="res://Assets/Icons/SpeedUpButton.tres" id="5_646jk"]
 [ext_resource type="Texture2D" uid="uid://cd5cs1b3m55qf" path="res://Assets/Icons/SettingsButton.tres" id="6_ms3c1"]
 [ext_resource type="PackedScene" uid="uid://cxj4256wgc2jn" path="res://Scenes/UI/Panels/WaveCompletedPanel.tscn" id="7_4tavd"]
-[ext_resource type="PackedScene" uid="uid://dno07x46t40iw" path="res://Scenes/UI/DraggerButton.tscn" id="8_mapmy"]
-[ext_resource type="Texture2D" uid="uid://bkfkkkrm4032v" path="res://Assets/ChunkImages/BallistaImage.png" id="9_r48qg"]
-[ext_resource type="PackedScene" uid="uid://c7pjc1l8k4lfj" path="res://Scenes/Towers/GravityCrystal.tscn" id="10_mhtj3"]
-[ext_resource type="PackedScene" uid="uid://dehxllaknmoge" path="res://Scenes/UI/Cards/PlayerHand.tscn" id="10_s5qps"]
+[ext_resource type="PackedScene" uid="uid://bbpphuq3csaxf" path="res://Scenes/UI/Cards/PlayerHand2.tscn" id="8_kayuc"]
+[ext_resource type="Shader" path="res://Assets/Shaders/PlayAreaEffect.gdshader" id="9_pq3hn"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ffxy5"]
+resource_local_to_scene = true
+shader = ExtResource("9_pq3hn")
+shader_parameter/AlphaScalar = 1.0
+shader_parameter/AlphaCieling = 0.085
+shader_parameter/Amplitude = 0.07
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i38pl"]
+bg_color = Color(1, 0, 0, 0.557)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(1, 0, 0, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wts0t"]
+shader = ExtResource("9_pq3hn")
+shader_parameter/AlphaScalar = 1.0
+shader_parameter/AlphaCieling = 0.2
+shader_parameter/Amplitude = 0.07
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yq0ju"]
+resource_local_to_scene = true
+bg_color = Color(0, 1, 0, 0.556863)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0, 1, 0, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jyflw"]
+shader = ExtResource("9_pq3hn")
+shader_parameter/AlphaScalar = 1.0
+shader_parameter/AlphaCieling = 0.085
+shader_parameter/Amplitude = 0.07
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_neh8d"]
+bg_color = Color(0, 1, 1, 0.556863)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0, 1, 1, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kculh"]
 bg_color = Color(0.926002, 0.154522, 0.240135, 1)
@@ -18,19 +72,11 @@ bg_color = Color(0.926002, 0.154522, 0.240135, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2xmo1"]
 bg_color = Color(0, 0.752861, 0.134393, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j8yyb"]
-bg_color = Color(0, 0, 0, 0.133333)
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(1, 1, 1, 1)
-
-[sub_resource type="CanvasTexture" id="CanvasTexture_a8m4p"]
-
-[node name="UI" type="CanvasLayer" node_paths=PackedStringArray("CurrencyLabel")]
+[node name="UI" type="CanvasLayer" node_paths=PackedStringArray("CurrencyLabel", "TowerHealthBar", "GameOverControl")]
 script = ExtResource("1_vo24d")
 CurrencyLabel = NodePath("Control/VBoxContainer/TopUI/PlayerInfo_HBoxContainer/Currency/Currency")
+TowerHealthBar = NodePath("Control/VBoxContainer/TopUI/PlayerInfo_HBoxContainer/VBoxContainer/PlayerTowerHealth")
+GameOverControl = NodePath("Control/GameOver")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -41,6 +87,54 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 
+[node name="DiscardPanel" type="Panel" parent="Control"]
+material = SubResource("ShaderMaterial_ffxy5")
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 191.0
+offset_top = 36.0
+offset_right = 441.0
+offset_bottom = 286.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_i38pl")
+
+[node name="PlayAreaPanel" type="Panel" parent="Control"]
+material = SubResource("ShaderMaterial_wts0t")
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.153
+anchor_top = 0.125
+anchor_right = 0.847
+anchor_bottom = 0.588
+offset_left = -0.256012
+offset_top = -597.0
+offset_right = 0.25592
+offset_bottom = -447.024
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_yq0ju")
+
+[node name="FreezePanel" type="Panel" parent="Control"]
+material = SubResource("ShaderMaterial_jyflw")
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -445.0
+offset_top = 36.0
+offset_right = -195.0
+offset_bottom = 286.0
+grow_vertical = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_neh8d")
+
 [node name="VBoxContainer" type="VBoxContainer" parent="Control"]
 layout_mode = 1
 anchors_preset = 15
@@ -48,9 +142,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="TopUI" type="Panel" parent="Control/VBoxContainer"]
-custom_minimum_size = Vector2(0, 100)
+custom_minimum_size = Vector2(0, 64.11)
 layout_mode = 2
 
 [node name="PlayerInfo_HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer/TopUI"]
@@ -78,6 +173,7 @@ text = "Tower Health:"
 [node name="PlayerTowerHealth" type="ProgressBar" parent="Control/VBoxContainer/TopUI/PlayerInfo_HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_styles/background = SubResource("StyleBoxFlat_kculh")
 theme_override_styles/fill = SubResource("StyleBoxFlat_2xmo1")
 value = 85.0
@@ -117,6 +213,10 @@ offset_bottom = 12.5
 grow_horizontal = 0
 grow_vertical = 2
 
+[node name="BeginWaveButton" type="Button" parent="Control/VBoxContainer/TopUI/Buttons_HBoxContainer"]
+layout_mode = 2
+text = "Begin Wave"
+
 [node name="PausePlayButton" type="TextureButton" parent="Control/VBoxContainer/TopUI/Buttons_HBoxContainer"]
 process_mode = 3
 layout_mode = 2
@@ -134,11 +234,16 @@ icon = ExtResource("5_646jk")
 layout_mode = 2
 icon = ExtResource("6_ms3c1")
 
+[node name="MarginContainer" type="MarginContainer" parent="Control/VBoxContainer/TopUI/Buttons_HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_right = 15
+
 [node name="MainGameGap" type="MarginContainer" parent="Control/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 2
 theme_override_constants/margin_left = 300
-theme_override_constants/margin_top = 100
+theme_override_constants/margin_top = 370
 theme_override_constants/margin_right = 300
 theme_override_constants/margin_bottom = 100
 
@@ -147,6 +252,7 @@ visible = false
 layout_mode = 2
 
 [node name="BottomUI" type="Panel" parent="Control/VBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 
@@ -165,88 +271,85 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 20
 
-[node name="SkillTreeButton" type="Button" parent="Control/VBoxContainer/BottomUI/Actions_HBoxContainer"]
-layout_mode = 2
-text = "Skill Tree"
-
-[node name="TowersButton" type="Button" parent="Control/VBoxContainer/BottomUI/Actions_HBoxContainer"]
-layout_mode = 2
-text = "Towers"
-
 [node name="ChunksButton" type="Button" parent="Control/VBoxContainer/BottomUI/Actions_HBoxContainer"]
 layout_mode = 2
-text = "Chunks"
+text = "Hand
+"
 
-[node name="BeginWaveButton" type="Button" parent="Control/VBoxContainer/BottomUI/Actions_HBoxContainer"]
-layout_mode = 2
-text = "Begin Wave"
-
-[node name="TowersPanel" type="ScrollContainer" parent="Control"]
+[node name="GameOver" type="Control" parent="Control"]
 visible = false
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -6.0
-offset_bottom = -109.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_j8yyb")
-
-[node name="GridContainer" type="GridContainer" parent="Control/TowersPanel"]
-custom_minimum_size = Vector2(1000, 400)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/h_separation = 10
-theme_override_constants/v_separation = 10
-columns = 7
-
-[node name="Button" parent="Control/TowersPanel/GridContainer" instance=ExtResource("8_mapmy")]
-layout_mode = 2
-ButtonIcon = ExtResource("9_r48qg")
-SpawnScene = ExtResource("10_mhtj3")
-
-[node name="PlayerHand" parent="Control" node_paths=PackedStringArray("CardPlacingPosition") instance=ExtResource("10_s5qps")]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.283
-anchor_top = 0.617
-anchor_right = 0.717
-anchor_bottom = 0.772
-offset_left = -0.0160217
-offset_top = 0.18396
-offset_right = 0.0159912
-offset_bottom = -0.256012
-mouse_filter = 1
-CardPlacingPosition = NodePath("../PlacingPosition")
-
-[node name="PlacingPosition" type="Control" parent="Control"]
-layout_mode = 1
-anchor_left = 0.886
-anchor_top = 0.582
-anchor_right = 0.973
-anchor_bottom = 0.813
-offset_left = 0.327881
-offset_top = -0.136017
-offset_right = 0.103882
-offset_bottom = 0.175964
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="TextureRect" type="TextureRect" parent="Control/PlacingPosition"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = SubResource("CanvasTexture_a8m4p")
+
+[node name="ColorRect" type="ColorRect" parent="Control/GameOver"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
+
+[node name="Panel" type="Panel" parent="Control/GameOver"]
+custom_minimum_size = Vector2(400, 200)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -100.0
+offset_right = 200.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/GameOver/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/GameOver/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/margin_top = 35
+theme_override_constants/margin_bottom = 50
+
+[node name="Label" type="Label" parent="Control/GameOver/Panel/VBoxContainer/MarginContainer"]
+layout_mode = 2
+text = "GAME OVER"
+
+[node name="MainMenuButton" type="Button" parent="Control/GameOver/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Main Menu"
+
+[node name="PlayerHand2" parent="Control" node_paths=PackedStringArray("PlayPanel", "DiscardPanel", "FreezePanel") instance=ExtResource("8_kayuc")]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_top = -148.0
+offset_bottom = -148.0
+grow_horizontal = 2
+grow_vertical = 0
+PlayPanel = NodePath("../PlayAreaPanel")
+DiscardPanel = NodePath("../DiscardPanel")
+FreezePanel = NodePath("../FreezePanel")
 
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/PausePlayButton" to="." method="_on_pause_play_button_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/SpeedUpButton" to="." method="_on_speed_up_button_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
-[connection signal="pressed" from="Control/VBoxContainer/BottomUI/Actions_HBoxContainer/TowersButton" to="." method="_on_towers_button_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/BottomUI/Actions_HBoxContainer/ChunksButton" to="." method="_on_chunks_button_pressed"]
-[connection signal="pressed" from="Control/TowersPanel/GridContainer/Button" to="Control/TowersPanel/GridContainer/Button" method="_on_pressed"]
+[connection signal="pressed" from="Control/GameOver/Panel/VBoxContainer/MainMenuButton" to="." method="_on_main_menu_button_pressed"]

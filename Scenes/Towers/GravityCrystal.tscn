@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=4 uid="uid://c7pjc1l8k4lfj"]
+[gd_scene load_steps=43 format=4 uid="uid://c7pjc1l8k4lfj"]
 
 [ext_resource type="Material" uid="uid://uwt8q8fx6b4c" path="res://Assets/Materials/GravityCrystalMaterial.tres" id="1_esx3k"]
 [ext_resource type="Script" path="res://Scenes/Towers/GravityCrystal.cs" id="1_mycn0"]
@@ -12,6 +12,7 @@
 [ext_resource type="AudioStream" uid="uid://cn0do7xxewta5" path="res://Assets/Audio/sfx/impact/impactWood_light_000.ogg" id="14_yjpu8"]
 [ext_resource type="AudioStream" uid="uid://wyh4ahwpivb" path="res://Assets/Audio/sfx/impact/impactWood_light_001.ogg" id="15_r64mw"]
 [ext_resource type="AudioStream" uid="uid://dhbfnohuy118t" path="res://Assets/Audio/sfx/impact/impactWood_light_002.ogg" id="16_kj6vs"]
+[ext_resource type="AudioStream" uid="uid://d2pgfec46ads5" path="res://Assets/Audio/OtherSounds/GravityCrystal3.wav" id="17_0d2cj"]
 [ext_resource type="AudioStream" uid="uid://d21rgi8jxfldc" path="res://Assets/Audio/sfx/impact/impactWood_light_003.ogg" id="17_jhyf5"]
 [ext_resource type="AudioStream" uid="uid://b7ka1k0al7wo7" path="res://Assets/Audio/sfx/impact/impactWood_light_004.ogg" id="18_av7mp"]
 [ext_resource type="AudioStream" uid="uid://bko5hbpm3xtvq" path="res://Assets/Audio/OtherSounds/GravityCrystal1.wav" id="20_asddy"]
@@ -281,9 +282,10 @@ height = 0.001
 radius = 4.0
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_0aknu"]
-streams_count = 2
+streams_count = 3
 stream_0/stream = ExtResource("20_asddy")
 stream_1/stream = ExtResource("21_o8vf0")
+stream_2/stream = ExtResource("17_0d2cj")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4eqhd"]
 emission_shape_offset = Vector3(0, 4, 0)
@@ -367,12 +369,13 @@ transform = Transform3D(0.735, 0, 0, 0, 0.735, 0, 0, 0, 0.735, 0, 0.01, 0)
 mesh = SubResource("CylinderMesh_j1flv")
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 0.4
+wait_time = 0.5
 one_shot = true
 autostart = true
 
 [node name="ActiveRange" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+collision_layer = 0
 input_ray_pickable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ActiveRange"]
