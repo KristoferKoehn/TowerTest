@@ -133,6 +133,7 @@ public partial class Ballista : AbstractTower
 
     public override void ActivatePlacing()
     {
+        GlobalPosition = SceneSwitcher.CurrentGameLoop.MousePosition3D;
         Disabled = false;
         Placing = true;
         BallistaArrowManager.GetInstance().RegisterBallista(this);

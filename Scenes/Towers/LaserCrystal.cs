@@ -121,6 +121,7 @@ public partial class LaserCrystal : AbstractTower
 
     public override void ActivatePlacing()
     {
+        GlobalPosition = SceneSwitcher.CurrentGameLoop.MousePosition3D;
         Placing = true;
         Disabled = false;
     }

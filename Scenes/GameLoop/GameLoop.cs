@@ -4,8 +4,6 @@ using Managers;
 
 public partial class GameLoop : Node3D
 {
-    private StandardMaterial3D _tile_outline_mat = GD.Load<StandardMaterial3D>("res://Assets/Materials/MouseOverOutline.tres");
-    private MeshInstance3D _currently_highlighted_tile; // The currently highlighted tile
 
     public Camera3D Camera { get; set; }
 	Node3D CameraGimbal { get; set; }
@@ -15,6 +13,8 @@ public partial class GameLoop : Node3D
     bool turning = false;
 
 	bool DraggingCamera = false;
+
+    public Vector3 MousePosition3D = Vector3.Zero; 
 
 	public override void _EnterTree()
 	{
@@ -64,26 +64,23 @@ public partial class GameLoop : Node3D
 
     public override void _Input(InputEvent @event)
 	{
-		
-		if (@event.IsActionPressed("select"))
-		{
-			Vector3 from = Camera.ProjectRayOrigin(GetViewport().GetMousePosition());
-			Vector3 to = from + Camera.ProjectRayNormal(GetViewport().GetMousePosition()) * 1000;
 
-			PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
+        Vector3 from = Camera.ProjectRayOrigin(GetViewport().GetMousePosition());
+        Vector3 to = from + Camera.ProjectRayNormal(GetViewport().GetMousePosition()) * 1000;
+
+        PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
 
 
-			PhysicsRayQueryParameters3D query = PhysicsRayQueryParameters3D.Create(from, to, collisionMask: 1);
-			Dictionary result = spaceState.IntersectRay(query);
+        PhysicsRayQueryParameters3D query = PhysicsRayQueryParameters3D.Create(from, to, collisionMask: 1);
+        Dictionary result = spaceState.IntersectRay(query);
 
 
-			query = PhysicsRayQueryParameters3D.Create(from, to, collisionMask: 8);
-			result = spaceState.IntersectRay(query);
+        query = PhysicsRayQueryParameters3D.Create(from, to, collisionMask: 8);
+        result = spaceState.IntersectRay(query);
 
-			if (result.Count > 0)
-			{
-				MeshInstance3D temp = ((StaticBody3D)result["collider"]).GetParent<MeshInstance3D>();
-            }
+        if (result.Count > 0)
+        {
+            MousePosition3D = (Vector3)result["position"];
         }
 
         if (@event is InputEventMouseButton mouseEvent)

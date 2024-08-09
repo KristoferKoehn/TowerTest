@@ -10,7 +10,9 @@ public partial class BaseCard : Control
     [Signal]
     public delegate void PlacedEventHandler(BaseCard sender);
     [Signal]
-    public delegate void DraggedEventHandler(BaseCard sender);
+    public delegate void DragStartedEventHandler(BaseCard sender);
+    [Signal]
+    public delegate void DragEndedEventHandler(BaseCard sender);
 
     public string CardName { get; set; }
     public string CardInfo { get; private set; }
@@ -80,6 +82,7 @@ public partial class BaseCard : Control
                 MotionAccumulation = Vector2.Zero;
                 Active = true;
                 dragging = false;
+                EmitSignal("DragEnded", this);
                 Tween tweenscale = GetTree().CreateTween();
                 tweenscale.TweenProperty(this, "scale", originalScale, 0.2);
             }
@@ -141,6 +144,7 @@ public partial class BaseCard : Control
         {
             dragging = true;
             Active = false;
+            EmitSignal("DragStarted", this);
         }
 
     }
@@ -194,12 +198,16 @@ public partial class BaseCard : Control
 
     public void SpawnPlaceable()
     {
+        
         // Load and instantiate the card:
         AbstractPlaceable Placeable = CardLoadingManager.GetInstance().GetPackedScene(this.data.SubjectScene).Instantiate<AbstractPlaceable>();
         QueriedPlaceable = Placeable;
         QueriedPlaceable.Cancelled += CancelPlacement;
         QueriedPlaceable.Placed += SuccessfullyPlaced;
+
         SceneSwitcher.CurrentGameLoop.AddChild(Placeable);
+        
+
         Placeable.ActivatePlacing();
     }
 

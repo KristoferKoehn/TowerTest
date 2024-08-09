@@ -961,6 +961,7 @@ public partial class Chunk : AbstractPlaceable
                         t.TweenProperty(this, "global_position", pos, 0.08);
                         t.Finished += () => {
                             CurrentlyMoving = false;
+                            Visible = true;
                         };
                     }
                 }
@@ -1033,11 +1034,9 @@ public partial class Chunk : AbstractPlaceable
 
     public override void ActivatePlacing()
     {
+        Visible = false;
         Disabled = false;
         CurrentlyPlacing = true;
-        UpdateAdjacencyList();
-        UpdateEntrances();
-
         foreach (Node mesh in GetChildren())
         {
             MeshInstance3D tile = mesh as MeshInstance3D;
@@ -1046,5 +1045,10 @@ public partial class Chunk : AbstractPlaceable
                 tile.GetNodeOrNull<StaticBody3D>("StaticBody3D").CollisionLayer = 2048;
             }
         }
+
+        UpdateAdjacencyList();
+        UpdateEntrances();
+
+        
     }
 }

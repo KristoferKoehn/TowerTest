@@ -152,6 +152,8 @@ public partial class GravityCrystal : AbstractTower
 
     public override void ActivatePlacing()
     {
+        GlobalPosition = SceneSwitcher.CurrentGameLoop.MousePosition3D;
+
         Placing = true;
         Disabled = false;
     }

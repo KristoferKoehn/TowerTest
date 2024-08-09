@@ -10,16 +10,10 @@
 [ext_resource type="PackedScene" uid="uid://bbpphuq3csaxf" path="res://Scenes/UI/Cards/PlayerHand2.tscn" id="8_kayuc"]
 [ext_resource type="Shader" path="res://Assets/Shaders/PlayAreaEffect.gdshader" id="9_pq3hn"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kculh"]
-bg_color = Color(0.926002, 0.154522, 0.240135, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2xmo1"]
-bg_color = Color(0, 0.752861, 0.134393, 1)
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ffxy5"]
 resource_local_to_scene = true
 shader = ExtResource("9_pq3hn")
-shader_parameter/AlphaScalar = 0.0
+shader_parameter/AlphaScalar = 1.0
 shader_parameter/AlphaCieling = 0.085
 shader_parameter/Amplitude = 0.07
 
@@ -37,7 +31,7 @@ corner_radius_bottom_left = 20
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wts0t"]
 shader = ExtResource("9_pq3hn")
-shader_parameter/AlphaScalar = 0.0
+shader_parameter/AlphaScalar = 1.0
 shader_parameter/AlphaCieling = 0.2
 shader_parameter/Amplitude = 0.07
 
@@ -56,7 +50,7 @@ corner_radius_bottom_left = 20
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jyflw"]
 shader = ExtResource("9_pq3hn")
-shader_parameter/AlphaScalar = 0.0
+shader_parameter/AlphaScalar = 1.0
 shader_parameter/AlphaCieling = 0.085
 shader_parameter/Amplitude = 0.07
 
@@ -71,6 +65,12 @@ corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kculh"]
+bg_color = Color(0.926002, 0.154522, 0.240135, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2xmo1"]
+bg_color = Color(0, 0.752861, 0.134393, 1)
 
 [node name="UI" type="CanvasLayer" node_paths=PackedStringArray("CurrencyLabel", "TowerHealthBar", "GameOverControl")]
 script = ExtResource("1_vo24d")
@@ -87,6 +87,54 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 
+[node name="DiscardPanel" type="Panel" parent="Control"]
+material = SubResource("ShaderMaterial_ffxy5")
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 191.0
+offset_top = 36.0
+offset_right = 441.0
+offset_bottom = 286.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_i38pl")
+
+[node name="PlayAreaPanel" type="Panel" parent="Control"]
+material = SubResource("ShaderMaterial_wts0t")
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.153
+anchor_top = 0.125
+anchor_right = 0.847
+anchor_bottom = 0.588
+offset_left = -0.256012
+offset_top = -597.0
+offset_right = 0.25592
+offset_bottom = -447.024
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_yq0ju")
+
+[node name="FreezePanel" type="Panel" parent="Control"]
+material = SubResource("ShaderMaterial_jyflw")
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -445.0
+offset_top = 36.0
+offset_right = -195.0
+offset_bottom = 286.0
+grow_vertical = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_neh8d")
+
 [node name="VBoxContainer" type="VBoxContainer" parent="Control"]
 layout_mode = 1
 anchors_preset = 15
@@ -94,6 +142,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="TopUI" type="Panel" parent="Control/VBoxContainer"]
 custom_minimum_size = Vector2(0, 64.11)
@@ -192,6 +241,7 @@ theme_override_constants/margin_right = 15
 [node name="MainGameGap" type="MarginContainer" parent="Control/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 2
 theme_override_constants/margin_left = 300
 theme_override_constants/margin_top = 370
 theme_override_constants/margin_right = 300
@@ -297,53 +347,6 @@ grow_vertical = 0
 PlayPanel = NodePath("../PlayAreaPanel")
 DiscardPanel = NodePath("../DiscardPanel")
 FreezePanel = NodePath("../FreezePanel")
-
-[node name="DiscardPanel" type="Panel" parent="Control"]
-material = SubResource("ShaderMaterial_ffxy5")
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -124.0
-offset_top = 36.0
-offset_right = 126.0
-offset_bottom = 286.0
-grow_horizontal = 0
-grow_vertical = 2
-mouse_filter = 1
-theme_override_styles/panel = SubResource("StyleBoxFlat_i38pl")
-
-[node name="PlayAreaPanel" type="Panel" parent="Control"]
-material = SubResource("ShaderMaterial_wts0t")
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.171
-anchor_right = 0.5
-anchor_bottom = 0.171
-offset_left = -400.0
-offset_top = -29.808
-offset_right = 400.0
-offset_bottom = 259.192
-grow_horizontal = 2
-mouse_filter = 1
-theme_override_styles/panel = SubResource("StyleBoxFlat_yq0ju")
-
-[node name="FreezePanel" type="Panel" parent="Control"]
-material = SubResource("ShaderMaterial_jyflw")
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = -125.0
-offset_top = 36.0
-offset_right = 125.0
-offset_bottom = 286.0
-grow_vertical = 2
-mouse_filter = 1
-theme_override_styles/panel = SubResource("StyleBoxFlat_neh8d")
 
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/PausePlayButton" to="." method="_on_pause_play_button_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/SpeedUpButton" to="." method="_on_speed_up_button_pressed"]

@@ -26,4 +26,4 @@ position = Vector2(-400, 0)
 rotation = -0.197396
 
 [node name="ActiveCardPlacement" type="Node2D" parent="."]
-position = Vector2(400, -200)
+position = Vector2(400, -400)

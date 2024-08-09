@@ -65,7 +65,7 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_brkor")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_xw5po"]
-size = Vector3(0.125244, 0.175842, 1.32449)
+size = Vector3(0.125244, 0.175842, 2.78334)
 
 [node name="BallistaArrow" type="MeshInstance3D"]
 mesh = SubResource("ArrayMesh_jrpnw")
@@ -74,5 +74,5 @@ mesh = SubResource("ArrayMesh_jrpnw")
 collision_layer = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
-transform = Transform3D(1, 0, 0, 0, 0.999955, -0.00945954, 0, 0.00945954, 0.999955, 0.00720215, 0.00570679, 0.0758205)
+transform = Transform3D(1, 0, 0, 0, 0.999955, -0.00945954, 0, 0.00945954, 0.999955, 0.00720215, 0.0126068, -0.653571)
 shape = SubResource("BoxShape3D_xw5po")
