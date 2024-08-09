@@ -81,6 +81,11 @@ public partial class ParticleManager : Node
 			tempWraper.emitEffect(c, d);
 		}*/
 
+	public ParticleWrapper getLast()
+	{
+		return lastMade;
+	}
+
 	private void makeNormalParticle(string name, Vector3 c, Vector3 d)
 	{ 
 		PackedScene inst = (PackedScene)loadedParticles[name];
