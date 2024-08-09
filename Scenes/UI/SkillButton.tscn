@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://Scenes/UI/SkillButton.cs" id="2_8nqjf"]
 
 [node name="SkillButton" type="TextureButton"]
-custom_minimum_size = Vector2(100, 100)
+custom_minimum_size = Vector2(75, 75)
 offset_right = 40.0
 offset_bottom = 40.0
 toggle_mode = true
@@ -39,4 +39,18 @@ text = "0/3"
 horizontal_alignment = 2
 vertical_alignment = 2
 
+[node name="ProgressBar" type="ProgressBar" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+fill_mode = 3
+show_percentage = false
+
+[node name="HoldTimer" type="Timer" parent="."]
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
 [connection signal="pressed" from="." to="." method="_on_pressed"]

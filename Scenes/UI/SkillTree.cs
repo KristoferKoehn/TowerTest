@@ -1,25 +1,28 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class SkillTree : Control
 {
+    /*
     private Camera2D _camera;
     private Vector2 _lastMousePosition;
     private bool _dragging = false;
-
+    
     [Export]
     public float ZoomSpeed = 0.1f;
     [Export]
     public float MinZoom = 0.5f;
     [Export]
     public float MaxZoom = 2.0f;
-
+    */
 
     public override void _Ready()
     {
-        this._camera = GetNode<Camera2D>("Camera2D");
+        //this._camera = GetNode<Camera2D>("Camera2D");
     }
 
+    /*
     public override void _Input(InputEvent @event)
     {
         // Handle zooming
@@ -64,4 +67,12 @@ public partial class SkillTree : Control
             }
         }
     }
+    */
+
+    public static readonly Dictionary<string, int> Skills = new Dictionary<string, int>
+    {
+        // Skill, Skill Points Cost to Unlock
+        { "testskill", 2 },
+        { "testskill2", 4 },
+    };
 }
