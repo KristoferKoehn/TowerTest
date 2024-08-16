@@ -50,6 +50,7 @@ layout_mode = 2
 text = "DISCARD"
 
 [node name="DiscardPanel2" type="Panel" parent="."]
+layout_mode = 0
 offset_left = 48.0
 offset_top = 165.0
 offset_right = 194.0

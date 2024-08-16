@@ -12,8 +12,7 @@ public partial class UI : CanvasLayer
     [Export]
     Control GameOverControl;
 
-
-    public static UI Instance { get; private set; }
+    //public static UI instance { get; private set; }
 
     private float[] speedLevels = { 1.0f, 2.0f, 3.0f};
     private int currentSpeedIndex = 0;
@@ -27,15 +26,18 @@ public partial class UI : CanvasLayer
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
-        // Instance stuff
-        if (Instance != null && Instance != this)
+        /*
+        // instance stuff
+        if (instance != null && instance != this)
         {
             QueueFree();
         }
         else
         {
-            Instance = this;
+            instance = this;
         }
+        */
+        // for some reason this would delete the UI when you tried to do another run, so i commented it out
 
         _playerHand = GetNode<PlayerHand2>("Control/PlayerHand2");
         _gameLoop = GetParent<GameLoop>();
@@ -45,8 +47,20 @@ public partial class UI : CanvasLayer
         TowerHealthBar.MaxValue = PlayerStatsManager.GetInstance().GetStat(StatType.MaxHealth);
         TowerHealthBar.Value = PlayerStatsManager.GetInstance().GetStat(StatType.Health);
 
+        this.GameOverControl.Visible = false;
     }
-    
+
+    /*
+    public static UI GetInstance()
+    {
+        if (instance == null)
+        {
+            instance = new UI();
+        }
+        return instance;
+    }
+    */
+
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
 	{
