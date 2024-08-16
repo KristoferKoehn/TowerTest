@@ -106,6 +106,8 @@ public partial class BaseEnemy : PathFollow3D
 			Die();
         }
         EmitSignal("DamageTaken", this, source);
+		Vector2 damage_num_position = this.GetViewport().GetCamera3D().UnprojectPosition(this.GlobalPosition);
+		DamageNumbers.GetInstance().DisplayDamageNumbers(damage, damage_num_position, false);
 	}
 
 	public float GetProgress()

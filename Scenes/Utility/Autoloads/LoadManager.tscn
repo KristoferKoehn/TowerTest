@@ -1,0 +1,173 @@
+[gd_scene load_steps=5 format=3 uid="uid://j1ltjkxnvqo1"]
+
+[sub_resource type="CSharpScript" id="CSharpScript_d0aby"]
+script/source = "using Godot;
+using System;
+using System.Collections.Generic;
+
+public partial class LoadManager : Node
+{
+    private string _loadScreenPath = \"res://Scenes/Utility/Autoloads/loading_screen.tscn\";
+    private LoadingScreen _loadScreen;
+    private PackedScene _loadedResource;
+    private string _scenePath;
+    private Godot.Collections.Array _progress = new Godot.Collections.Array();
+    private bool _useSubThreads = false; // if true, uses multiple threads to load resource
+
+    public Stack<Node> sceneStack = new Stack<Node>();
+    public static Node root;
+    public static GameLoop CurrentGameLoop = null;
+    public static LoadManager Instance = null;
+
+    public override void _Ready()
+    {
+        root = GetTree().Root;
+        _loadScreen = GD.Load<PackedScene>(_loadScreenPath).Instantiate<LoadingScreen>();
+        PushScene(GD.Load<PackedScene>(\"res://Scenes/menus/MainMenu.tscn\").Instantiate<Node>());
+        SettingsManager.GetInstance();
+        PlayerStatsManager.GetInstance();
+        CardLoadingManager.GetInstance();
+        DeckManager.GetInstance();
+        Instance = this;
+    }
+
+    public void PushScene(Node node)
+    {
+
+        if (sceneStack.Count > 0)
+        {
+            this.RemoveChild(sceneStack.Peek());
+        }
+
+        this.sceneStack.Push(node);
+        this.AddChild(node);
+    }
+
+    public void PopScene()
+    {
+        Node node = sceneStack.Pop();
+        this.RemoveChild(node);
+        node.QueueFree();
+        this.AddChild(sceneStack.Peek());
+    }
+
+    public void LoadScene(string scenePath, string introAnimation = null, string outroAnimation = null)
+    {
+        if (introAnimation != null)
+        {
+
+        }
+        if (outroAnimation != null)
+        {
+
+        }
+        _scenePath = scenePath; // Set global scene path to the one passed to this function
+        GetTree().Root.AddChild(_loadScreen);
+
+        StartLoad();
+    }
+
+    private void StartLoad()
+    {
+        var state = ResourceLoader.LoadThreadedRequest(_scenePath, \"\", _useSubThreads);
+        if (state == Error.Ok)
+        {
+            SetProcess(true);
+        }
+    }
+
+    public override void _Process(double delta)
+    {
+        ResourceLoader.ThreadLoadStatus loadStatus = ResourceLoader.LoadThreadedGetStatus(_scenePath, _progress);
+        switch ((int)loadStatus)
+        {
+            case 0: // THREAD_LOAD_INVALID_RESOURCE
+            case 2: // THREAD_LOAD_FAILED
+                SetProcess(false);
+                return;
+            case 1: // THREAD_LOAD_IN_PROGRESS
+                this._loadScreen.UpdateProgressBar( (float)_progress[0] );
+                break;
+            case 3: // THREAD_LOAD_LOADED
+                _loadedResource = (PackedScene)ResourceLoader.LoadThreadedGet(_scenePath);
+                this.PushScene(_loadedResource.Instantiate());
+                this._loadScreen.StartOutroAnimation();
+                SetProcess(false);
+                break;
+        }
+    }
+}
+
+/* GDscript
+extends Node
+
+signal progress_changed(progress)
+signal load_done
+
+@onready var _scene_switcher : Node = get_parent().get_node(\"SceneSwitcher\")
+var _load_screen_path : String = \"res://Scenes/Utility/Autoloads/loading_screen.tscn\"
+var _load_screen = load(_load_screen_path)
+var _loaded_resource : PackedScene
+var _scene_path : String
+var _progress : Array = []
+var use_sub_threads : bool = false #if true, uses multiple threads to load resource,
+								  #makes loading faster but may affect the main thread
+func _ready():
+	set_process(false)
+
+func load_scene(scene_path : String) -> void:
+	_scene_path = scene_path #set global scene path to the one passed to this function
+	var new_loading_screen = _load_screen.instantiate()
+	
+	get_tree().get_root().add_child.call_deferred(new_loading_screen)
+	
+	self.progress_changed.connect(new_loading_screen._update_progress_bar)
+	self.load_done.connect(new_loading_screen._start_outro_animation)
+	
+	#await Signal(new_loading_screen, \"loading_screen_has_full_coverage\")
+	start_load()
+
+func start_load() -> void:
+	var state = ResourceLoader.load_threaded_request(_scene_path, \"\", use_sub_threads)
+	if state == OK:
+		set_process(true)
+
+func _process(delta):
+	var load_status = ResourceLoader.load_threaded_get_status(_scene_path, _progress)
+	match load_status:
+		0,2: #? THREAD_LOAD_INVALID_RESOURCE, THREAD_LOAD_FAILED
+			set_process(false)
+			return
+		1: #? THREAD_LOAD_IN_PROGRESS
+			emit_signal(\"progress_changed\", _progress[0])
+			print(_progress[0])
+		3: #? THREAD_LOAD_LOADED
+			_loaded_resource = ResourceLoader.load_threaded_get(_scene_path)
+			emit_signal(\"progress_changed\", 1.0) #could use _progress.end, but it will be the end of progress anyway
+			emit_signal(\"load_done\")
+			_scene_switcher.PushScene(_loaded_resource.instantiate())
+			#get_tree().change_scene_to_packed(_loaded_resource) #another way instead of addingchild
+			set_process(false)
+*/"
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3skm4"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_kpv73"]
+sky_material = SubResource("ProceduralSkyMaterial_3skm4")
+
+[sub_resource type="Environment" id="Environment_3s4n6"]
+background_mode = 2
+sky = SubResource("Sky_kpv73")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="LoadManager" type="Node"]
+script = SubResource("CSharpScript_d0aby")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_3s4n6")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true

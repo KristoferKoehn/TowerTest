@@ -12,7 +12,6 @@ public partial class UI : CanvasLayer
     [Export]
     Control GameOverControl;
 
-
     private float[] speedLevels = { 1.0f, 2.0f, 3.0f};
     private int currentSpeedIndex = 0;
     private ScrollContainer _towersPanel;
@@ -33,8 +32,20 @@ public partial class UI : CanvasLayer
         TowerHealthBar.MaxValue = PlayerStatsManager.GetInstance().GetStat(StatType.MaxHealth);
         TowerHealthBar.Value = PlayerStatsManager.GetInstance().GetStat(StatType.Health);
 
+        this.GameOverControl.Visible = false;
     }
-    
+
+    /*
+    public static UI GetInstance()
+    {
+        if (instance == null)
+        {
+            instance = new UI();
+        }
+        return instance;
+    }
+    */
+
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
 	{
