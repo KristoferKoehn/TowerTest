@@ -22,6 +22,9 @@ public partial class PlayerHand2 : Control
     List<BaseCard> CardList = new List<BaseCard>();
     List<float> CardPositions = new List<float>();
 
+    List<BaseCard> FreezeCardList = new List<BaseCard>();
+
+
     BaseCard DraggingCard = null;
 
     BaseCard ActiveCard = null;
@@ -53,7 +56,7 @@ public partial class PlayerHand2 : Control
         Vector2 mousePos = GetViewport().GetMousePosition();
         Vector2 screenSize = GetViewportRect().Size;
 
-        if (mousePos.Y > (screenSize.Y - 230) && !Input.IsActionPressed("camera_drag") && DraggingCard == null && mousePos.X < screenSize.X * 3.0/4.0 && mousePos.X > screenSize.X / 4.0) 
+        if (mousePos.Y > (screenSize.Y - 230) && !Input.IsActionPressed("camera_drag") && DraggingCard == null) 
         {
             Tween t = GetTree().CreateTween();
             t.TweenProperty(CardPlacingPath, "global_position", new Vector2(screenSize.X / 2f, screenSize.Y - 90), 0.2);
@@ -92,7 +95,7 @@ public partial class PlayerHand2 : Control
 
     public void CardSelected(BaseCard card)
     {
-        GD.Print($"WE get here {card.CardName}");
+
         if (CardActive)
         {
             ActiveCard.CancelPlacement();
@@ -227,6 +230,22 @@ public partial class PlayerHand2 : Control
 
             }
         }
+
+        Vector2 MiddleOfFrame = (FreezePanel.GlobalPosition + FreezePanel.Size/2.0f) / 2.0f + FreezePanel.GlobalPosition - new Vector2(125, 175);
+        for (int i = 0; i < FreezeCardList.Count; i++)
+        {
+            if (!FreezeCardList[i].Active) continue;
+
+
+            FreezeCardList[i].MoveToFront();
+            Vector2 position = new Vector2(MiddleOfFrame.X + 30 * i, MiddleOfFrame.Y);
+            GD.Print(position);
+            Tween t = GetTree().CreateTween();
+            t.TweenProperty(FreezeCardList[i], "global_position", position, 0.1f);
+
+        }
+
+
     }
 
     bool hidden = false;
@@ -250,16 +269,24 @@ public partial class PlayerHand2 : Control
     {
 
         Vector2 mousePos = GetViewport().GetMousePosition();
-        Vector2 PanelEnd = PlayPanel.GlobalPosition + PlayPanel.Size;
+        Vector2 PlayPanelEnd = PlayPanel.GlobalPosition + PlayPanel.Size;
 
-        if (PlayPanel.GlobalPosition.X < mousePos.X && PanelEnd.X > mousePos.X) {
-            if (PlayPanel.GlobalPosition.Y < mousePos.Y && PanelEnd.Y > mousePos.Y)
-            {
-                baseCard.EmitSignal("Selected", baseCard);
-            }
-        } else
+        Vector2 FreezePanelEnd = FreezePanel.GlobalPosition + FreezePanel.Size;
+
+        if (PlayPanel.GlobalPosition.X < mousePos.X && PlayPanelEnd.X > mousePos.X && PlayPanel.GlobalPosition.Y < mousePos.Y && PlayPanelEnd.Y > mousePos.Y) 
         {
-            //do nothing
+            baseCard.EmitSignal("Selected", baseCard);
+        } else if (FreezePanel.GlobalPosition.X < mousePos.X && FreezePanelEnd.X > mousePos.X && FreezePanel.GlobalPosition.Y < mousePos.Y && FreezePanelEnd.Y > mousePos.Y)
+        {
+            CardList.Remove(baseCard);
+            FreezeCardList.Add(baseCard);
+        } else 
+        {
+            if (FreezeCardList.Contains(baseCard))
+            {
+                FreezeCardList.Remove(baseCard);
+                CardList.Add(baseCard);
+            }
         }
     }
 
@@ -267,29 +294,34 @@ public partial class PlayerHand2 : Control
     {
         Vector2 ScreenSize = GetViewportRect().Size;
 
-        //1152, 648
-
         Tween PlayTween = GetTree().CreateTween();
         PlayTween.TweenProperty(PlayPanel, "global_position", new Vector2(ScreenSize.X * 0.152f, ScreenSize.Y * -0.725f), 0.1);
 
         Tween DiscardTween = GetTree().CreateTween();
         DiscardTween.TweenProperty(DiscardPanel, "global_position", new Vector2(ScreenSize.X * 1.092f, ScreenSize.Y * 0.555f), 0.1);
 
-        Tween FreezeTween = GetTree().CreateTween();
-        FreezeTween.TweenProperty(FreezePanel, "global_position", new Vector2(ScreenSize.X * -0.308f, ScreenSize.Y * 0.555f), 0.1);
+        if (FreezeCardList.Count > 0)
+        {
+            Tween FreezeTween = GetTree().CreateTween();
+            FreezeTween.TweenProperty(FreezePanel, "global_position", new Vector2(-50f, ScreenSize.Y * 0.555f), 0.1);
+        } else
+        {
+            Tween FreezeTween = GetTree().CreateTween();
+            FreezeTween.TweenProperty(FreezePanel, "global_position", new Vector2(ScreenSize.X * -0.308f, ScreenSize.Y * 0.555f), 0.1);
+        }
+
     }
 
     public void RevealDropPanels(BaseCard card)
     {
         Vector2 ScreenSize = GetViewportRect().Size;
 
-        //1152, 648
-
         Tween PlayTween = GetTree().CreateTween();
         PlayTween.TweenProperty(PlayPanel, "global_position", new Vector2(ScreenSize.X * 0.152f, ScreenSize.Y * 0.125f), 0.1);
 
         Tween DiscardTween = GetTree().CreateTween();
         DiscardTween.TweenProperty(DiscardPanel, "global_position", new Vector2(ScreenSize.X * 0.892f, ScreenSize.Y * 0.555f), 0.1);
+
 
         Tween FreezeTween = GetTree().CreateTween();
         FreezeTween.TweenProperty(FreezePanel, "global_position", new Vector2(-125, ScreenSize.Y * 0.555f), 0.1);

@@ -35,11 +35,6 @@ public partial class PlayerStatsManager : Node
 
             instance.StatBlock.SetStatBlock(sb);
 
-
-
-
-
-
         }
         return instance;
     }
