@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://cuve6nt8sfn8v"]
+[gd_scene load_steps=10 format=3 uid="uid://cuve6nt8sfn8v"]
 
-[ext_resource type="Script" path="res://Scenes/Utility/Autoloads/loading_screen.gd" id="1_k4v18"]
+[ext_resource type="Script" path="res://Scenes/Utility/Autoloads/LoadingScreen.cs" id="1_50vbl"]
+[ext_resource type="Shader" path="res://Assets/Shaders/Loadingbartest.gdshader" id="2_hekw5"]
 
 [sub_resource type="Animation" id="Animation_luyq6"]
 length = 0.001
@@ -30,6 +31,20 @@ tracks/0/keys = {
 "points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1152, -0.25, 0, 0.114667, -1088),
 "times": PackedFloat32Array(0.000351145, 0.803041)
 }
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1.46667),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_fhwlk"]
 resource_name = "start_load"
@@ -45,20 +60,6 @@ tracks/0/keys = {
 "points": PackedFloat32Array(1152, -0.25, 0, 0.114667, -1088, 0, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0.0333, 0.8)
 }
-tracks/1/type = "method"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.851595),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [&"loading_screen_has_full_coverage"],
-"method": &"emit_signal"
-}]
-}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_uhewn"]
 _data = {
@@ -70,10 +71,21 @@ _data = {
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xud55"]
 bg_color = Color(0.20871, 0.20871, 0.20871, 1)
 
-[node name="loading_screen" type="CanvasLayer"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_shjwf"]
+shader = ExtResource("2_hekw5")
+shader_parameter/strength = 0.807
+shader_parameter/speed = 0.192
+shader_parameter/angle = 90.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h0too"]
+bg_color = Color(0, 1, 0, 1)
+
+[node name="LoadingScreen" type="CanvasLayer" node_paths=PackedStringArray("_animationPlayer", "_progressBar")]
 layer = 10
 follow_viewport_enabled = true
-script = ExtResource("1_k4v18")
+script = ExtResource("1_50vbl")
+_animationPlayer = NodePath("AnimationPlayer")
+_progressBar = NodePath("Panel/ProgressBar")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -85,14 +97,12 @@ autoplay = "start_load"
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 1152.0
-offset_bottom = 648.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_xud55")
-metadata/_edit_use_anchors_ = true
 
 [node name="ProgressBar" type="ProgressBar" parent="Panel"]
+material = SubResource("ShaderMaterial_shjwf")
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -105,3 +115,4 @@ offset_right = 265.0
 offset_bottom = 13.5
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_h0too")

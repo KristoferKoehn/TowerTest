@@ -3,8 +3,22 @@ using System;
 
 public partial class DamageNumbers : Node
 {
-    public async void DisplayDamageNumbers(int damage, Vector2 position, bool isCritical)
+    private static DamageNumbers instance;
+
+    public static DamageNumbers GetInstance()
     {
+        if (instance == null)
+        {
+            instance = new DamageNumbers();
+            SceneSwitcher.root.GetNode<SceneSwitcher>("SceneSwitcher").AddChild(instance);
+            instance.Name = "DamageNumbers";
+        }
+        return instance;
+    }
+
+    public async void DisplayDamageNumbers(float damage, Vector2 position, bool isCritical)
+    {
+        GD.Print("displaying damage number at " + position.X + ", " + position.Y);
         Label numberLabel = new Label();
         numberLabel.GlobalPosition = position;
         numberLabel.Text = damage.ToString();
@@ -26,7 +40,7 @@ public partial class DamageNumbers : Node
         numberLabel.Set("custom_fonts/outline_size", 1);
 
         // Add the label to the scene tree
-        CallDeferred("AddChild", numberLabel);
+        CallDeferred("add_child", numberLabel);
 
         // Wait for the label to resize (asynchronous operation)
         await ToSignal(numberLabel, "resized");
