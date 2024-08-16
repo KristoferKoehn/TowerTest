@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 public partial class SceneSwitcher : Node
 {
-
 	public Stack<Node> sceneStack = new Stack<Node>();
 
 	public static Node root;
@@ -25,7 +24,6 @@ public partial class SceneSwitcher : Node
 
 	public void PushScene(Node node)
 	{
-
 		
 		if (sceneStack.Count > 0)
 		{

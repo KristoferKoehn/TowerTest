@@ -50,7 +50,7 @@ public partial class Shop : Control
             viewport.TransparentBg = true;
             slot.AddChild(viewport);
 
-            // Instance the card scene and add it to the viewport
+            // instance the card scene and add it to the viewport
             BaseCard card = _cardScene.Instantiate<BaseCard>();
             //card.SetCard(File);
             viewport.AddChild(card);

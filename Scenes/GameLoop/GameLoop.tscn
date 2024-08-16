@@ -13,7 +13,9 @@ script = ExtResource("1_l1214")
 [node name="HomeBase" parent="." instance=ExtResource("12_lr5yx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 1)
 
-[node name="Chunk" parent="." instance=ExtResource("3_wuc8u")]
+[node name="Chunk" parent="." node_paths=PackedStringArray("NorthTile", "CenterTile") instance=ExtResource("3_wuc8u")]
+NorthTile = NodePath("0, -3")
+CenterTile = NodePath("0, 0")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 collision_mask = 0
