@@ -1,11 +1,62 @@
-[gd_scene load_steps=6 format=3 uid="uid://bqi5yficpytv4"]
+[gd_scene load_steps=15 format=3 uid="uid://bqi5yficpytv4"]
 
 [ext_resource type="Script" path="res://Scenes/GameLoop/GameLoop.cs" id="1_l1214"]
 [ext_resource type="PackedScene" uid="uid://chp22ot4ypmd3" path="res://Scenes/Chunks/c_StartingChunk.tscn" id="3_wuc8u"]
+[ext_resource type="Shader" path="res://Assets/Shaders/Water2.gdshader" id="5_txwp4"]
 [ext_resource type="PackedScene" uid="uid://c8k323ym7lt8k" path="res://Scenes/UI/UI.tscn" id="5_woyu5"]
 [ext_resource type="PackedScene" uid="uid://budchas7k1t2g" path="res://Assets/ConstructedModels/HomeBase.tscn" id="12_lr5yx"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_qk85b"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_aieg2"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_4yyqt"]
+noise = SubResource("FastNoiseLite_aieg2")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_uef4g"]
+noise_type = 2
+frequency = 0.0178
+fractal_type = 2
+fractal_octaves = 1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_xgrme"]
+seamless = true
+seamless_blend_skirt = 0.308
+noise = SubResource("FastNoiseLite_uef4g")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5mtn2"]
+render_priority = -2
+shader = ExtResource("5_txwp4")
+shader_parameter/albedo = Color(0.31, 0.7125, 1, 1)
+shader_parameter/scroll_speed1 = Vector2(0.02, 0.025)
+shader_parameter/scroll_speed2 = Vector2(0.01, 0.065)
+shader_parameter/WaterScrollDirection = Vector2(1, 0)
+shader_parameter/blend_factor = 0.5
+shader_parameter/scale1 = Vector2(1, 1)
+shader_parameter/scale2 = Vector2(1, 1)
+shader_parameter/wave_strength = 0.34
+shader_parameter/wave_scale = 0.02
+shader_parameter/pixelation_level = 64
+shader_parameter/FoamSize = 0.5
+shader_parameter/WaterOpacity = 1.0
+shader_parameter/FoamGlowIntensity = 0.5
+shader_parameter/water_texture1 = SubResource("NoiseTexture2D_xgrme")
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_4yyqt")
+
+[sub_resource type="QuadMesh" id="QuadMesh_5jrio"]
+material = SubResource("ShaderMaterial_5mtn2")
+size = Vector2(100, 100)
+subdivide_width = 30
+subdivide_depth = 30
+orientation = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_icije"]
+albedo_color = Color(0.1305, 0.611175, 0.87, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_qctbj"]
+material = SubResource("StandardMaterial3D_icije")
+size = Vector2(1000, 1000)
+orientation = 1
 
 [node name="GameLoop" type="Node3D"]
 script = ExtResource("1_l1214")
@@ -31,4 +82,13 @@ fov = 60.0
 size = 25.212
 near = 3.0
 
+[node name="WaterPlane" type="MeshInstance3D" parent="CameraGimbal"]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0, 0, 0)
+mesh = SubResource("QuadMesh_5jrio")
+skeleton = NodePath("../..")
+
 [node name="UI" parent="." instance=ExtResource("5_woyu5")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.75256, 0)
+mesh = SubResource("QuadMesh_qctbj")

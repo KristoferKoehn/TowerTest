@@ -13,8 +13,6 @@ public partial class UI : CanvasLayer
     Control GameOverControl;
 
 
-    public static UI Instance { get; private set; }
-
     private float[] speedLevels = { 1.0f, 2.0f, 3.0f};
     private int currentSpeedIndex = 0;
     private ScrollContainer _towersPanel;
@@ -27,16 +25,6 @@ public partial class UI : CanvasLayer
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
-        // Instance stuff
-        if (Instance != null && Instance != this)
-        {
-            QueueFree();
-        }
-        else
-        {
-            Instance = this;
-        }
-
         _playerHand = GetNode<PlayerHand2>("Control/PlayerHand2");
         _gameLoop = GetParent<GameLoop>();
         PlayerStatsManager.GetInstance().StatChanged += GoldUpdate;
@@ -114,6 +102,9 @@ public partial class UI : CanvasLayer
 
     public void _on_main_menu_button_pressed()
     {
+        PlayerStatsManager.GetInstance().SetStat(StatType.Health, PlayerStatsManager.GetInstance().GetStat(StatType.MaxHealth));
+        PlayerStatsManager.GetInstance().SetStat(StatType.Gold, 0);
+
         SceneSwitcher.Instance.PopScene();
     }
 }
