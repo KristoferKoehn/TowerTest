@@ -10,7 +10,7 @@ public partial class LoadingScreen : CanvasLayer
     {
         _animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
         _progressBar = GetNode<ProgressBar>("Panel/ProgressBar");
-        this._progressBar.AddThemeStyleboxOverride("rand_color", new StyleBoxFlat())
+        //this._progressBar.AddThemeStyleboxOverride("rand_color", new StyleBoxFlat());
     }
 
     public void UpdateProgressBar(float newValue)

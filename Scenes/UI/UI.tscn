@@ -1,7 +1,7 @@
 [gd_scene load_steps=18 format=3 uid="uid://c8k323ym7lt8k"]
 
 [ext_resource type="Script" path="res://Scenes/UI/UI.cs" id="1_vo24d"]
-[ext_resource type="Texture2D" uid="uid://me51xnsi1idj" path="res://Assets/Icons/CoinIcon.tres" id="2_5xsv3"]
+[ext_resource type="Texture2D" path="res://Assets/Icons/CoinIcon.tres" id="2_5xsv3"]
 [ext_resource type="Texture2D" uid="uid://b3p6kmoe4foeh" path="res://Assets/Icons/PauseButton.tres" id="3_2iek2"]
 [ext_resource type="Texture2D" uid="uid://dg85yvsjdkql5" path="res://Assets/Icons/PlayButton.tres" id="4_m4o0u"]
 [ext_resource type="Texture2D" uid="uid://t0i5wqr683y6" path="res://Assets/Icons/SpeedUpButton.tres" id="5_646jk"]
@@ -333,7 +333,7 @@ text = "GAME OVER"
 layout_mode = 2
 text = "Main Menu"
 
-[node name="PlayerHand2" parent="Control" node_paths=PackedStringArray("CardPlacingPosition", "CardPlacingPath", "PathFollow", "PlayPanel", "DiscardPanel", "FreezePanel") instance=ExtResource("8_kayuc")]
+[node name="PlayerHand2" parent="Control" node_paths=PackedStringArray("PlayPanel", "DiscardPanel", "FreezePanel") instance=ExtResource("8_kayuc")]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -344,9 +344,6 @@ offset_top = -148.0
 offset_bottom = -148.0
 grow_horizontal = 2
 grow_vertical = 0
-CardPlacingPosition = NodePath("ActiveCardPlacement")
-CardPlacingPath = NodePath("Path2D")
-PathFollow = NodePath("Path2D/PathFollow2D")
 PlayPanel = NodePath("../PlayAreaPanel")
 DiscardPanel = NodePath("../DiscardPanel")
 FreezePanel = NodePath("../FreezePanel")
