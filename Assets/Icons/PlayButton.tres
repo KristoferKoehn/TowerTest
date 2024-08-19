@@ -1,7 +1,0 @@
-[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://dg85yvsjdkql5"]
-
-[ext_resource type="Texture2D" uid="uid://dkh1mawhxuq2f" path="res://Assets/Icons/Blue_Buttons_Pixel_Upscaled2x.png" id="1_hgisw"]
-
-[resource]
-atlas = ExtResource("1_hgisw")
-region = Rect2(352.025, 0.945589, 32.1611, 30.2694)

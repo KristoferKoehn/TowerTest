@@ -36,6 +36,7 @@ public partial class BaseCard : Control
     bool dragging = false;
     bool pressed = false;
     public bool Active = true;
+    public bool Disabled = false;
 
     AbstractPlaceable QueriedPlaceable { get; set; } = null;
 
@@ -58,6 +59,7 @@ public partial class BaseCard : Control
 
     public void _on_mouse_entered()
     {
+        if (Disabled) { Highlighted = false; return; }
         Highlighted = true;
         Tween tweenscale = GetTree().CreateTween();
         tweenscale.TweenProperty(this, "scale", this.selectedScale, 0.2);
@@ -65,6 +67,7 @@ public partial class BaseCard : Control
 
     public void _on_mouse_exited()
     {
+        if (Disabled) { Highlighted = false; return; }
         Highlighted = false;
         Tween tweenscale = GetTree().CreateTween();
         tweenscale.TweenProperty(this, "scale", this.originalScale, 0.2);
@@ -72,6 +75,7 @@ public partial class BaseCard : Control
 
     public void _on_gui_input(InputEvent @event)
     {
+        if (Disabled) { Highlighted = false; return; }
         if (@event is InputEventMouseButton mouseEvent)
         {
 
@@ -151,6 +155,7 @@ public partial class BaseCard : Control
 
     public override void _Input(InputEvent @event)
     {
+        if (Disabled) { Highlighted = false; return; }
 
         if (@event is InputEventMouseButton mouseEvent)
         {
@@ -216,7 +221,7 @@ public partial class BaseCard : Control
         QueriedPlaceable.Cancelled -= CancelPlacement;
         QueriedPlaceable.Placed -= SuccessfullyPlaced;
         QueriedPlaceable = null;
-        PlayerStatsManager.GetInstance().ChangeStat(data.ResourceCostType, -data.ResourceCostValue);
+        AccountStatsManager.GetInstance().ChangeStat(data.ResourceCostType, -data.ResourceCostValue);
         EmitSignal("Placed", this);
     }
 

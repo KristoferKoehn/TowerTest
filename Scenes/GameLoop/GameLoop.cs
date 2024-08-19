@@ -8,8 +8,6 @@ public partial class GameLoop : Node3D
     public Camera3D Camera { get; set; }
 	Node3D CameraGimbal { get; set; }
 
-    //private AbstractTower selectedTower; // Reference to the currently selected tower
-
     bool turning = false;
 
 	bool DraggingCamera = false;
@@ -19,16 +17,18 @@ public partial class GameLoop : Node3D
 	public override void _EnterTree()
 	{
         //for which to not break instantly
+        PlayerStatsManager.GetInstance();
 		WaveManager.GetInstance();
         WaveDataManager.GetInstance();
 		BallistaArrowManager.GetInstance();
 		ParticleSignals.GetInstance();
 		ParticleManager.GetInstance();
-	}
+        UI.GetInstance();
+    }
 
-	public override void _Ready()
+    public override void _Ready()
 	{
-        HealthBarManager.GetInstance();
+        //HealthBarManager.GetInstance();
         SceneSwitcher.CurrentGameLoop = this;
         Camera = GetNode<Camera3D>("CameraGimbal/Camera3D");
 		CameraGimbal = GetNode<Node3D>("CameraGimbal");

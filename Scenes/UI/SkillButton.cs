@@ -11,7 +11,7 @@ public partial class SkillButton : TextureButton
     private Timer holdTimer;
 
     [Export]
-    public float HoldDuration = 1f; // Duration in seconds to hold the button
+    public float HoldDuration = 1f; // TotalDuration in seconds to hold the button
 
     [Export]
     Godot.Collections.Array<SkillButton> Prereqs = new Godot.Collections.Array<SkillButton>();

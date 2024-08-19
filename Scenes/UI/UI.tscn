@@ -1,14 +1,14 @@
 [gd_scene load_steps=18 format=3 uid="uid://c8k323ym7lt8k"]
 
 [ext_resource type="Script" path="res://Scenes/UI/UI.cs" id="1_vo24d"]
-[ext_resource type="Texture2D" uid="uid://me51xnsi1idj" path="res://Assets/Icons/CoinIcon.tres" id="2_5xsv3"]
-[ext_resource type="Texture2D" uid="uid://b3p6kmoe4foeh" path="res://Assets/Icons/PauseButton.tres" id="3_2iek2"]
-[ext_resource type="Texture2D" uid="uid://dg85yvsjdkql5" path="res://Assets/Icons/PlayButton.tres" id="4_m4o0u"]
-[ext_resource type="Texture2D" uid="uid://t0i5wqr683y6" path="res://Assets/Icons/SpeedUpButton.tres" id="5_646jk"]
-[ext_resource type="Texture2D" uid="uid://cd5cs1b3m55qf" path="res://Assets/Icons/SettingsButton.tres" id="6_ms3c1"]
+[ext_resource type="Texture2D" uid="uid://me51xnsi1idj" path="res://Assets/Icons/GameUI/CoinIcon.tres" id="2_5xsv3"]
+[ext_resource type="Texture2D" uid="uid://b3p6kmoe4foeh" path="res://Assets/Icons/GameUI/PauseButton.tres" id="3_2iek2"]
+[ext_resource type="Texture2D" uid="uid://t0i5wqr683y6" path="res://Assets/Icons/GameUI/SpeedUpButton.tres" id="5_646jk"]
+[ext_resource type="Texture2D" uid="uid://cd5cs1b3m55qf" path="res://Assets/Icons/GameUI/SettingsButton.tres" id="6_ms3c1"]
 [ext_resource type="PackedScene" uid="uid://cxj4256wgc2jn" path="res://Scenes/UI/Panels/WaveCompletedPanel.tscn" id="7_4tavd"]
 [ext_resource type="PackedScene" uid="uid://bbpphuq3csaxf" path="res://Scenes/UI/Cards/PlayerHand2.tscn" id="8_kayuc"]
 [ext_resource type="Shader" path="res://Assets/Shaders/PlayAreaEffect.gdshader" id="9_pq3hn"]
+[ext_resource type="PackedScene" uid="uid://didxub0guxul3" path="res://Scenes/menus/PauseMenu.tscn" id="9_qhxxr"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ffxy5"]
 resource_local_to_scene = true
@@ -72,11 +72,14 @@ bg_color = Color(0.926002, 0.154522, 0.240135, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2xmo1"]
 bg_color = Color(0, 0.752861, 0.134393, 1)
 
-[node name="UI" type="CanvasLayer" node_paths=PackedStringArray("CurrencyLabel", "TowerHealthBar", "GameOverControl")]
+[node name="UI" type="CanvasLayer" node_paths=PackedStringArray("_playerHand", "CurrencyLabel", "ScoreLabel", "TowerHealthBar", "GameOverControl", "PauseControl")]
 script = ExtResource("1_vo24d")
+_playerHand = NodePath("Control/PlayerHand2")
 CurrencyLabel = NodePath("Control/VBoxContainer/TopUI/PlayerInfo_HBoxContainer/Currency/Currency")
+ScoreLabel = NodePath("Control/VBoxContainer/TopUI/PlayerInfo_HBoxContainer/Score")
 TowerHealthBar = NodePath("Control/VBoxContainer/TopUI/PlayerInfo_HBoxContainer/VBoxContainer/PlayerTowerHealth")
 GameOverControl = NodePath("Control/GameOver")
+PauseControl = NodePath("Control/PauseControl")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -222,7 +225,6 @@ process_mode = 3
 layout_mode = 2
 toggle_mode = true
 texture_normal = ExtResource("3_2iek2")
-texture_pressed = ExtResource("4_m4o0u")
 stretch_mode = 3
 
 [node name="SpeedUpButton" type="Button" parent="Control/VBoxContainer/TopUI/Buttons_HBoxContainer"]
@@ -333,7 +335,7 @@ text = "GAME OVER"
 layout_mode = 2
 text = "Main Menu"
 
-[node name="PlayerHand2" parent="Control" node_paths=PackedStringArray("CardPlacingPosition", "CardPlacingPath", "PathFollow", "PlayPanel", "DiscardPanel", "FreezePanel") instance=ExtResource("8_kayuc")]
+[node name="PlayerHand2" parent="Control" node_paths=PackedStringArray("PlayPanel", "DiscardPanel", "FreezePanel") instance=ExtResource("8_kayuc")]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -344,12 +346,13 @@ offset_top = -148.0
 offset_bottom = -148.0
 grow_horizontal = 2
 grow_vertical = 0
-CardPlacingPosition = NodePath("ActiveCardPlacement")
-CardPlacingPath = NodePath("Path2D")
-PathFollow = NodePath("Path2D/PathFollow2D")
 PlayPanel = NodePath("../PlayAreaPanel")
 DiscardPanel = NodePath("../DiscardPanel")
 FreezePanel = NodePath("../FreezePanel")
+
+[node name="PauseControl" parent="Control" instance=ExtResource("9_qhxxr")]
+visible = false
+layout_mode = 1
 
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/PausePlayButton" to="." method="_on_pause_play_button_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/SpeedUpButton" to="." method="_on_speed_up_button_pressed"]

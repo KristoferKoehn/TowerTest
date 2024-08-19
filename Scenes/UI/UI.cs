@@ -5,46 +5,50 @@ using System;
 
 public partial class UI : CanvasLayer
 {
-    [Export]
-    Label CurrencyLabel;
-    [Export]
-    private ProgressBar TowerHealthBar;
-    [Export]
-    Control GameOverControl;
+    [Export] PlayerHand2 _playerHand;
+    [Export] Label CurrencyLabel;
+    [Export] Label ScoreLabel;
+    [Export] ProgressBar TowerHealthBar;
+    [Export] Control GameOverControl;
+    [Export] private Control PauseControl;
 
-    private float[] speedLevels = { 1.0f, 2.0f, 3.0f};
-    private int currentSpeedIndex = 0;
-    private ScrollContainer _towersPanel;
-    private PackedScene _cardScene;
-    private GridContainer _gridContainer; // The grid container holding the slots for the tower cards.
+    private float[] fastForwardSpeeds = { 1.0f, 2.0f, 3.0f};
+    private int currentFastForwardSpeedIndex = 0;
     private GameLoop _gameLoop; // Used for placing chunks (could probably be refactored)
- 
-    private PlayerHand2 _playerHand;
+
+    private static UI instance;
+
+    public static UI GetInstance()
+    {
+        if (!IsInstanceValid(instance))
+        {
+            GD.Print("making new UI");
+            instance = GD.Load<PackedScene>("res://Scenes/UI/UI.tscn").Instantiate<UI>();
+            SceneSwitcher.root.GetNode<GameLoop>("SceneSwitcher/GameLoop").AddChild(instance);
+            //instance.Name = "UI";
+        }
+        return instance;
+    }
+
+    public override void _ExitTree()
+    {
+        // Ensure that any connected signals are disconnected when the UI is freed
+        AccountStatsManager.GetInstance().StatChanged -= UpdateAccountStatsUI;
+        PlayerStatsManager.GetInstance().StatChanged -= UpdatePlayerStatsUI;
+    }
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
-        _playerHand = GetNode<PlayerHand2>("Control/PlayerHand2");
         _gameLoop = GetParent<GameLoop>();
-        PlayerStatsManager.GetInstance().StatChanged += GoldUpdate;
-        PlayerStatsManager.GetInstance().StatChanged += HealthBarUpdate;
-        GoldUpdate(StatType.Gold, PlayerStatsManager.GetInstance().GetStat(StatType.Gold));
+        AccountStatsManager.GetInstance().StatChanged += UpdateAccountStatsUI;
+        PlayerStatsManager.GetInstance().StatChanged += UpdatePlayerStatsUI;
+        UpdateAccountStatsUI(StatType.Gold, AccountStatsManager.GetInstance().GetStat(StatType.Gold));
+        UpdatePlayerStatsUI(StatType.Score, PlayerStatsManager.GetInstance().GetStat(StatType.Score));
         TowerHealthBar.MaxValue = PlayerStatsManager.GetInstance().GetStat(StatType.MaxHealth);
         TowerHealthBar.Value = PlayerStatsManager.GetInstance().GetStat(StatType.Health);
-
         this.GameOverControl.Visible = false;
     }
-
-    /*
-    public static UI GetInstance()
-    {
-        if (instance == null)
-        {
-            instance = new UI();
-        }
-        return instance;
-    }
-    */
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
@@ -59,14 +63,8 @@ public partial class UI : CanvasLayer
 
     public void _on_pause_play_button_pressed()
     {
-        if (GetTree().Paused)
-        {
-            GetTree().Paused = false;
-        }
-        else
-        {
-            GetTree().Paused = true;
-        }
+        GetTree().Paused = !GetTree().Paused;
+        this.PauseControl.Visible = !this.PauseControl.Visible;
     }
 
     public void _on_speed_up_button_pressed()
@@ -77,45 +75,43 @@ public partial class UI : CanvasLayer
         }
 
         // Move to the next speed level
-        currentSpeedIndex = (currentSpeedIndex + 1) % speedLevels.Length;
-        Engine.TimeScale = speedLevels[currentSpeedIndex];
+        currentFastForwardSpeedIndex = (currentFastForwardSpeedIndex + 1) % fastForwardSpeeds.Length;
+        Engine.TimeScale = fastForwardSpeeds[currentFastForwardSpeedIndex];
 
         GD.Print($"Setting speed to {Engine.TimeScale}x");
     }
 
     public void _on_settings_button_pressed()
     {
-        //this.FindParent("SceneSwitcher").PushScene(GD.Load<PackedScene>("res://Scenes/menus/SettingsMenu.tscn").Instantiate<Control>());
-        //pause
-        //add child ()
     }
 
-    public void GoldUpdate(StatType type, float value)
+    public void UpdateAccountStatsUI(StatType updatedStat, float newVal)
     {
-        if (type == StatType.Gold)
+        switch (updatedStat)
         {
-            CurrencyLabel.Text = $"Currency: {PlayerStatsManager.GetInstance().GetStat(type)}";
+            case StatType.Gold:
+                CurrencyLabel.Text = $"Currency: {newVal}";
+                break;
         }
     }
 
-    public void HealthBarUpdate(StatType type, float value)
+    public void UpdatePlayerStatsUI(StatType updatedStat, float newVal)
     {
-        if (type == StatType.Health)
+        switch (updatedStat)
         {
-            TowerHealthBar.Value = PlayerStatsManager.GetInstance().GetStat(type);
+            case StatType.Score:
+                ScoreLabel.Text = $"Score: {newVal}";
+                break;
+            case StatType.Health:
+                TowerHealthBar.Value = newVal;
+                break;
         }
-    }
-
-    public void _on_chunks_button_pressed()
-    {
-        _playerHand.ToggleHide();
     }
 
     public void _on_main_menu_button_pressed()
     {
-        PlayerStatsManager.GetInstance().SetStat(StatType.Health, PlayerStatsManager.GetInstance().GetStat(StatType.MaxHealth));
-        PlayerStatsManager.GetInstance().SetStat(StatType.Gold, 0);
+        //PlayerStatsManager.GetInstance().SetStat(StatType.Health, PlayerStatsManager.GetInstance().GetStat(StatType.MaxHealth));
 
-        SceneSwitcher.Instance.PopScene();
+        SceneSwitcher.Instance.PopScene(); // get rid of the current game loop.
     }
 }

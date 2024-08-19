@@ -1,0 +1,78 @@
+[gd_scene load_steps=2 format=3 uid="uid://didxub0guxul3"]
+
+[ext_resource type="Script" path="res://Scenes/menus/PauseMenu.cs" id="1_2a4cb"]
+
+[node name="PauseControl" type="Control" node_paths=PackedStringArray("returnToTitleConfirmationDialog", "quitConfirmationDialog")]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_2a4cb")
+returnToTitleConfirmationDialog = NodePath("PausePanel/ReturnToTitleDialog")
+quitConfirmationDialog = NodePath("PausePanel/QuitDialog")
+
+[node name="PausePanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PausePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="PausePanel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Paused"
+horizontal_alignment = 1
+
+[node name="Resume" type="Button" parent="PausePanel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Resume"
+
+[node name="SaveGame" type="Button" parent="PausePanel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Save Game"
+
+[node name="LoadGame" type="Button" parent="PausePanel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Load Game"
+
+[node name="ReturnToTitleScreen" type="Button" parent="PausePanel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Return to Title Screen"
+
+[node name="Quit" type="Button" parent="PausePanel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Quit"
+
+[node name="ReturnToTitleDialog" type="ConfirmationDialog" parent="PausePanel"]
+auto_translate_mode = 1
+title = "Return to Title?"
+dialog_text = "All unsaved progress will be lost."
+
+[node name="QuitDialog" type="ConfirmationDialog" parent="PausePanel"]
+auto_translate_mode = 1
+title = "Quit?"
+size = Vector2i(268, 100)
+dialog_text = "All unsaved progress will be lost."
+
+[connection signal="pressed" from="PausePanel/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="PausePanel/VBoxContainer/ReturnToTitleScreen" to="." method="_on_return_to_title_screen_pressed"]
+[connection signal="pressed" from="PausePanel/VBoxContainer/Quit" to="." method="_on_quit_pressed"]

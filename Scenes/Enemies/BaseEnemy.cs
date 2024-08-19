@@ -2,25 +2,27 @@ using Godot;
 using Godot.Collections;
 using MMOTest.Backend;
 using System;
+using System.Collections.Generic;
+using System.Reflection.Emit;
 
 public partial class BaseEnemy : PathFollow3D
 {
-
     [Signal]
     public delegate void DamageTakenEventHandler(Node self, Node source);
 
 	[Signal]
 	public delegate void DiedEventHandler(Node self);
 
+	public HealthBar healthBar;
+
 	public AudioStreamPlayer3D StrikeSound { get; set; }
 
-	public StatBlock StatBlock = new();
+	public StatBlock StatBlock = new StatBlock();
 	protected string ModelName;
 
 	public int ChunkCounter = 0;
 	public bool Disabled = false;
     public bool dead = false;
-
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -28,6 +30,16 @@ public partial class BaseEnemy : PathFollow3D
 		Loop = false;
         if (Disabled) return;
         EnemyManager.GetInstance().RegisterEnemy(this);
+
+        HealthBar temp = GD.Load<PackedScene>("res://Scenes/UI/HealthBar.tscn").Instantiate<HealthBar>();
+		this.healthBar = temp;
+        this.AddChild(temp);
+        this.DamageTaken += temp.UpdateHealthBar;
+    }
+
+    public void AddStatusEffect(BaseStatusEffect effect)
+    {
+        AddChild(effect);
     }
 
 
@@ -36,7 +48,7 @@ public partial class BaseEnemy : PathFollow3D
 	{
 		if (Disabled) return;
 
-		if (ProgressRatio == 1)
+        if (ProgressRatio == 1)
 		{
 			AttachNextPath();
 
@@ -45,8 +57,7 @@ public partial class BaseEnemy : PathFollow3D
 			//raycasting down (to hit the tile), asking for it's parent, then passing the tile into the chunk's thingy (GetPathsFromEntrance)
 			//reparent to new path, set progress ratio to 0
 		}
-
-		Progress += StatBlock.GetStat(StatType.Speed) * (float)delta;
+        Progress += StatBlock.GetStat(StatType.Speed) * (float)delta;
 	}
 
 	public MeshInstance3D GetTileAt(Vector3 to, Vector3 from)
@@ -94,7 +105,7 @@ public partial class BaseEnemy : PathFollow3D
 
 	}
 
-	public void TakeDamage(float damage, Node3D source)
+	public void TakeDamage(float damage, Node source)
 	{
 		if (damage <= 0) { return; }
         float CurrentHealth = this.StatBlock.GetStat(StatType.Health);
@@ -125,7 +136,10 @@ public partial class BaseEnemy : PathFollow3D
 		
         EmitSignal("Died", this);
 
-		PlayerStatsManager.GetInstance().ChangeStat(StatType.Gold, StatBlock.GetStat(StatType.Gold));
+		// Give gold:
+		AccountStatsManager.GetInstance().ChangeStat(StatType.Gold, this.StatBlock.GetStat(StatType.Gold));
+		// Give score:
+		PlayerStatsManager.GetInstance().ChangeStat(StatType.Score, 1); // just add 1 for now.
 
 
         GetNode<AnimationPlayer>("AnimationPlayer").SpeedScale = 2;
@@ -138,6 +152,6 @@ public partial class BaseEnemy : PathFollow3D
 
 	public void DamagePlayer()
 	{
-		PlayerStatsManager.GetInstance().ChangeStat(StatType.Health, -StatBlock.GetStat(StatType.Damage));
+		PlayerStatsManager.GetInstance().ChangeStat(StatType.Health, -this.StatBlock.GetStat(StatType.Damage));
 	}
 }

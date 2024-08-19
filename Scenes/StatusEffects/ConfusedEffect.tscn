@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ba5j51n3fk2by"]
+
+[ext_resource type="Script" path="res://Scenes/StatusEffects/ConfusedEffect.cs" id="1_r6wnt"]
+
+[node name="ConfusedEffect" type="Node"]
+script = ExtResource("1_r6wnt")

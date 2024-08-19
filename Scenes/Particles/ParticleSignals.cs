@@ -9,7 +9,7 @@ public partial class ParticleSignals : Node
 
 	public static ParticleSignals GetInstance()
 	{
-		if (instance == null)
+		if (!IsInstanceValid(instance))
 		{
 			instance = new ParticleSignals();
 			SceneSwitcher.root.GetNode<GameLoop>("SceneSwitcher/GameLoop").AddChild(instance);

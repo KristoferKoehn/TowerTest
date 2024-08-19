@@ -4,8 +4,6 @@ using System.Collections.Generic;
 
 public partial class PlayerHand : Control
 {
-
-
     [Export]
     Node2D CardPlacingPosition;
     [Export]
