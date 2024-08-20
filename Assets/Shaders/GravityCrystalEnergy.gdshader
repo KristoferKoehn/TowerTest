@@ -19,10 +19,10 @@ void fragment() {
 	} else {
 		alpha = texture(noise, vec2(UV.x , UV.y-TIME/2.0)).r;
 	}
-	
+
 	ALPHA = Alpha * alpha;
 	ALBEDO = color.rgb;
-	
+
 	// Called for every pixel the material is visible on.
 }
 

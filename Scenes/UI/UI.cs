@@ -1,7 +1,4 @@
 using Godot;
-using Godot.Collections;
-using MMOTest.Backend;
-using System;
 
 public partial class UI : CanvasLayer
 {
