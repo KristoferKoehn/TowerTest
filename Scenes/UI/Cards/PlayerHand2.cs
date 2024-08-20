@@ -37,7 +37,6 @@ public partial class PlayerHand2 : Control
         
     }
 
-
     public override void _Process(double delta)
     {
 
@@ -89,8 +88,6 @@ public partial class PlayerHand2 : Control
         AddChild(card);
         card.GlobalPosition = CardPlacingPosition.GlobalPosition;
         CardList.Add(card);
-
-        
     }
 
     public void CardSelected(BaseCard card)
@@ -231,15 +228,13 @@ public partial class PlayerHand2 : Control
             }
         }
 
-        Vector2 MiddleOfFrame = (FreezePanel.GlobalPosition + FreezePanel.Size/2.0f) / 2.0f + FreezePanel.GlobalPosition - new Vector2(125, 175);
+        Vector2 MiddleOfFrame = FreezePanel.GlobalPosition + new Vector2(125, 175);
         for (int i = 0; i < FreezeCardList.Count; i++)
         {
             if (!FreezeCardList[i].Active) continue;
 
-
             FreezeCardList[i].MoveToFront();
             Vector2 position = new Vector2(MiddleOfFrame.X + 30 * i, MiddleOfFrame.Y);
-            GD.Print(position);
             Tween t = GetTree().CreateTween();
             t.TweenProperty(FreezeCardList[i], "global_position", position, 0.1f);
 
@@ -321,7 +316,6 @@ public partial class PlayerHand2 : Control
 
         Tween DiscardTween = GetTree().CreateTween();
         DiscardTween.TweenProperty(DiscardPanel, "global_position", new Vector2(ScreenSize.X * 0.892f, ScreenSize.Y * 0.555f), 0.1);
-
 
         Tween FreezeTween = GetTree().CreateTween();
         FreezeTween.TweenProperty(FreezePanel, "global_position", new Vector2(-125, ScreenSize.Y * 0.555f), 0.1);
