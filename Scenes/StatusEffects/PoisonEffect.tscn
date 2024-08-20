@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://hmhfhadrsjx"]
+
+[ext_resource type="Script" path="res://Scenes/StatusEffects/PoisonEffect.cs" id="1_sbywc"]
+
+[node name="PoisonEffect" type="Node"]
+script = ExtResource("1_sbywc")

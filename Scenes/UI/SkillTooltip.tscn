@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cp51e226xyiik"]
 
-[ext_resource type="Texture2D" uid="uid://yiwwohqeio0v" path="res://Assets/Icons/leftmouseclick.png" id="1_de21j"]
+[ext_resource type="Texture2D" uid="uid://yiwwohqeio0v" path="res://Assets/Icons/GameUI/leftmouseclick.png" id="1_de21j"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_q3bc6"]
 

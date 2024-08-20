@@ -5,10 +5,7 @@ using System.Linq;
 
 public partial class CardBuilder : Node3D
 {
-    [Signal]
-    public delegate void ValuesUpdatedEventHandler();
-
-
+    [Signal] public delegate void ValuesUpdatedEventHandler();
     [Export] LineEdit NameEdit { get; set; }
 	[Export] BaseCard SmallCard { get; set; }
     [Export] BaseCard TiltedCard { get; set; }

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bfcdyxnh87nhy"]
+
+[ext_resource type="Script" path="res://Scenes/StatusEffects/SlowedEffect.cs" id="1_sy3hh"]
+
+[node name="SlowedEffect" type="Node"]
+script = ExtResource("1_sy3hh")

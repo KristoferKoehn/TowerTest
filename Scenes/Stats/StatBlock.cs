@@ -1,4 +1,5 @@
 using Godot;
+using System;
 using System.Collections.Generic;
 
 public enum StatType
@@ -23,6 +24,9 @@ public enum StatType
 	IceDamage,
 	WaterDamage,
 	HandSize,
+
+	//Game Stats
+	Score,
 }
 
 namespace MMOTest.Backend
@@ -64,7 +68,17 @@ namespace MMOTest.Backend
 
 		public void SetStatBlock(Dictionary<StatType, float> sb)
 		{
-			if(sb.ContainsKey(StatType.Health) && !sb.ContainsKey(StatType.MaxHealth)) 
+			/*
+            foreach (StatType stat in Enum.GetValues(typeof(StatType)))
+            {
+                if (sb.ContainsKey(stat))
+				{
+					this.statblock[stat] = sb[stat];
+				}
+            }
+			*/
+
+            if (sb.ContainsKey(StatType.Health) && !sb.ContainsKey(StatType.MaxHealth)) 
 			{
 				sb[StatType.MaxHealth] = sb[StatType.Health];
 			}

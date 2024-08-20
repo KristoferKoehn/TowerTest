@@ -1,16 +1,66 @@
 using Godot;
+using Godot.Collections;
 using System;
+using System.Linq;
 
 public partial class LoadingScreen : CanvasLayer
 {
     [Export] public AnimationPlayer _animationPlayer;
     [Export] public ProgressBar _progressBar;
+    [Export] public Timer _dotTimer;
+    [Export] public Label _loadingLabel;
+    [Export] public VBoxContainer _vBoxContainer;
+    [Export] public BaseCard _baseCard;
+
+    private string cardDirectory = "res://Scenes/CardData/";
+    private string[] allCardData;
+
+    private int _dotCount = 0;
+    private string _baseText = "Loading";
 
     public override void _Ready()
     {
-        _animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
-        _progressBar = GetNode<ProgressBar>("Panel/ProgressBar");
-        //this._progressBar.AddThemeStyleboxOverride("rand_color", new StyleBoxFlat());
+        allCardData = DirAccess.GetFilesAt(cardDirectory);
+        _dotTimer.Timeout += () => OnDotTimerTimeout();
+        LoadRandomCard();
+    }
+
+    /*
+    private void LoadArtifactCard()
+    {
+        CardData carddata = (CardData)ResourceLoader.Load("res://Scenes/CardData/DoubleTowerSpeed.tres");
+        this._baseCard.SetCardData(carddata);
+        this._baseCard.Disabled = true;
+    }
+    */
+    private void LoadRandomCard()
+    {
+        Random random = new Random();
+        int randomIndex = random.Next(allCardData.Length);
+        string randomCardName = allCardData[randomIndex];
+        CardData carddata = (CardData)ResourceLoader.Load(cardDirectory + randomCardName);
+        this._baseCard.SetCardData(carddata);
+        this._baseCard.Disabled = true;
+    }
+
+    private void OnDotTimerTimeout()
+    {
+        _dotCount = (_dotCount + 1) % 4; // Cycle through 0, 1, 2, 3
+        switch (_dotCount)
+        {
+            case 0:
+                _loadingLabel.Text = _baseText;
+                break;
+            case 1:
+                _loadingLabel.Text = _baseText + ".";
+                break;
+            case 2:
+                _loadingLabel.Text = _baseText + "..";
+                break;
+            case 3:
+                _loadingLabel.Text = _baseText + "...";
+                break;
+        }
     }
 
     public void UpdateProgressBar(float newValue)
@@ -23,22 +73,3 @@ public partial class LoadingScreen : CanvasLayer
         _animationPlayer.Play("end_load");
     }
 }
-
-/* GDscript code:
-extends CanvasLayer
-
-#signal loading_screen_has_full_coverage
-
-@onready var animationPlayer : AnimationPlayer = $AnimationPlayer
-@onready var progressBar : ProgressBar= $Panel/ProgressBar
-
-func _update_progress_bar(new_value : float) -> void:
-	progressBar.value = (new_value * 100)
-	
-func _start_outro_animation() -> void:
-	await Signal(animationPlayer, "animation_finished")
-	animationPlayer.play("end_load")
-	await Signal(animationPlayer, "animation_finished")
-	self.queue_free()
-
-*/

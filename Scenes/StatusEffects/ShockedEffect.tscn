@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bfvs17opshdcw"]
+
+[ext_resource type="Script" path="res://Scenes/StatusEffects/ShockedEffect.cs" id="1_byrpe"]
+
+[node name="ShockedEffect" type="Node"]
+script = ExtResource("1_byrpe")

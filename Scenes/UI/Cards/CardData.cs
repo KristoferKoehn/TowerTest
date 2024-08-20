@@ -1,4 +1,5 @@
 using Godot;
+using System.IO;
 
 [GlobalClass]
 public partial class CardData : Resource
@@ -15,4 +16,13 @@ public partial class CardData : Resource
     [Export] public StatType ResourceCostType { get; set; }
     [Export] public float ResourceCostValue { get; set; }
 
+    [Export] public CardType CardType { get; set; }
+}
+
+public enum CardType
+{
+    Tower,
+    Chunk,
+    Artifact,
+    Spell,
 }

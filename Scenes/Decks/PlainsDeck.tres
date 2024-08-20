@@ -1,11 +1,11 @@
 [gd_resource type="Resource" script_class="DeckData" load_steps=8 format=3 uid="uid://yuqox702la4v"]
 
 [ext_resource type="Script" path="res://Scenes/Utility/DeckData.cs" id="1_myq8o"]
-[ext_resource type="Resource" path="res://Scenes/CardData/The Sandy Runway.tres" id="1_t76fv"]
+[ext_resource type="Resource" uid="uid://yxirthjxca2m" path="res://Scenes/CardData/The Sandy Runway.tres" id="1_t76fv"]
 [ext_resource type="Resource" path="res://Scenes/CardData/Ballista.tres" id="2_g5r8q"]
-[ext_resource type="Resource" path="res://Scenes/CardData/The Corner.tres" id="3_ij8rb"]
-[ext_resource type="Resource" path="res://Scenes/CardData/Calm Valley.tres" id="4_ua4d5"]
-[ext_resource type="Resource" path="res://Scenes/CardData/Laneless Chunk.tres" id="5_fkod7"]
+[ext_resource type="Resource" uid="uid://dna48u485112j" path="res://Scenes/CardData/The Corner.tres" id="3_ij8rb"]
+[ext_resource type="Resource" uid="uid://brbbx84obet3b" path="res://Scenes/CardData/Calm Valley.tres" id="4_ua4d5"]
+[ext_resource type="Resource" uid="uid://cd6vx2cheonqr" path="res://Scenes/CardData/Laneless Chunk.tres" id="5_fkod7"]
 [ext_resource type="Resource" path="res://Scenes/CardData/Expensive Ballista.tres" id="6_hb7t8"]
 
 [resource]

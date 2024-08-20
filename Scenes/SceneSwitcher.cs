@@ -1,11 +1,13 @@
 using Godot;
+using System;
 using System.Collections.Generic;
+using static System.Formats.Asn1.AsnWriter;
+using System.Threading;
 
 public partial class SceneSwitcher : Node
 {
     [Signal]
     public delegate void LoadingBarAnimationFinishedEventHandler();
-
 
 
     private bool loading = false;
@@ -23,43 +25,63 @@ public partial class SceneSwitcher : Node
 
     public override void _Ready()
     {
+        // We have two types of singletons: metaprogression (account stuff), and then ones specific to a run.
         root = GetTree().Root;
         SettingsManager.GetInstance();
-        PlayerStatsManager.GetInstance();
         CardLoadingManager.GetInstance();
         DeckManager.GetInstance();
+        AccountStatsManager.GetInstance();
         Instance = this;
         PushScene("res://Scenes/menus/MainMenu.tscn");
     }
 
-    public void PushScene(string _scenePath)
+    public void PushScene(string _scenePath) // used to move to another scene
     {
-        Node topnode = null;
+        Node previousScene = null;
         if (sceneStack.Count > 0)
         {
-            topnode = sceneStack.Peek();
+            previousScene = sceneStack.Peek();
         }
+
         this.LoadScene(_scenePath);
 
         LoadingBarAnimationFinished += () =>
         {
-            if (topnode != null)
+            if (previousScene != null && previousScene.GetParent() == this)
             {
-                GD.Print($"Removing node {topnode.Name}");
-                this.RemoveChild(topnode);
+                GD.Print($"Removing node {previousScene.Name}");
+                this.RemoveChild(previousScene); // Only remove if it is still a child
             }
         };
-
-
     }
 
-    public void PopScene()
+
+    public void PopScene() // used to go back to the previous scene (gets rid of the current scene forever).
     {
+        if (sceneStack.Count == 0)
+        {
+            GD.Print("No more scenes to pop.");
+            return;
+        }
+
         Node node = sceneStack.Pop();
-        this.RemoveChild(node);
-        node.QueueFree();
-        this.AddChild(sceneStack.Peek());
+
+        if (node.GetParent() == this)
+        {
+            this.RemoveChild(node);
+            node.QueueFree();
+        }
+
+        if (sceneStack.Count > 0)
+        {
+            Node previousScene = sceneStack.Peek();
+            if (previousScene.GetParent() != this)
+            {
+                this.AddChild(previousScene);
+            }
+        }
     }
+
 
     private void LoadScene(string _scenePath)
     {
@@ -85,28 +107,27 @@ public partial class SceneSwitcher : Node
 
     private void DoLoadingLogic()
     {
-        if(loading)
+        if (!loading) return;
+
+        ResourceLoader.ThreadLoadStatus loadStatus = ResourceLoader.LoadThreadedGetStatus(_scenePath, _progress);
+        switch (loadStatus)
         {
-            ResourceLoader.ThreadLoadStatus loadStatus = ResourceLoader.LoadThreadedGetStatus(_scenePath, _progress);
-            switch ((int)loadStatus)
-            {
-                case 0: // THREAD_LOAD_INVALID_RESOURCE
-                case 2: // THREAD_LOAD_FAILED
-                    loading = false;
-                    return;
-                case 1: // THREAD_LOAD_IN_PROGRESS
-                    this._loadScreen.UpdateProgressBar((float)_progress[0]);
-                    break;
-                case 3: // THREAD_LOAD_LOADED
-                    _loadedResource = (PackedScene)ResourceLoader.LoadThreadedGet(_scenePath);
-                    Node node = _loadedResource.Instantiate();
-                    sceneStack.Push(node);
-                    CallDeferred("add_child", node); //this.AddChild(node);
-                    this._loadScreen._progressBar.Value = 100;
-                    this._loadScreen.StartOutroAnimation();
-                    loading = false;
-                    break;
-            }
+            case ResourceLoader.ThreadLoadStatus.InvalidResource: // THREAD_LOAD_INVALID_RESOURCE
+            case ResourceLoader.ThreadLoadStatus.Failed: // THREAD_LOAD_FAILED
+                loading = false;
+                return;
+            case ResourceLoader.ThreadLoadStatus.InProgress: // THREAD_LOAD_IN_PROGRESS
+                this._loadScreen.UpdateProgressBar((float)_progress[0]);
+                break;
+            case ResourceLoader.ThreadLoadStatus.Loaded: // THREAD_LOAD_LOADED
+                _loadedResource = (PackedScene)ResourceLoader.LoadThreadedGet(_scenePath);
+                Node node = _loadedResource.Instantiate();
+                sceneStack.Push(node);
+                CallDeferred("add_child", node); //this.AddChild(node);
+                this._loadScreen._progressBar.Value = 100;
+                this._loadScreen.StartOutroAnimation();
+                loading = false;
+                break;
         }
     }
 

@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://cxj4256wgc2jn"]
 
 [ext_resource type="Script" path="res://Scenes/UI/Panels/WaveCompletedPanel.cs" id="1_qlv4t"]
-[ext_resource type="Texture2D" uid="uid://cyb5mhxckoojf" path="res://Assets/Icons/CloseButton.tres" id="1_tctt3"]
-[ext_resource type="Texture2D" uid="uid://me51xnsi1idj" path="res://Assets/Icons/CoinIcon.tres" id="2_4mkf3"]
+[ext_resource type="Texture2D" uid="uid://cyb5mhxckoojf" path="res://Assets/Icons/GameUI/CloseButton.tres" id="1_tctt3"]
+[ext_resource type="Texture2D" uid="uid://me51xnsi1idj" path="res://Assets/Icons/GameUI/CoinIcon.tres" id="2_4mkf3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6ptc6"]
 bg_color = Color(0, 0, 0, 0.243137)

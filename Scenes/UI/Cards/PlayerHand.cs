@@ -4,8 +4,6 @@ using System.Collections.Generic;
 
 public partial class PlayerHand : Control
 {
-
-
     [Export]
     Node2D CardPlacingPosition;
     [Export]
@@ -103,7 +101,7 @@ public partial class PlayerHand : Control
     {
         if (CardActive)
         {
-            ActiveCard.SpawnPlaceable();
+            ActiveCard.Play();
         }
     }
 

@@ -36,6 +36,7 @@ public partial class BaseCard : Control
     bool dragging = false;
     bool pressed = false;
     public bool Active = true;
+    public bool Disabled = false;
 
     AbstractPlaceable QueriedPlaceable { get; set; } = null;
 
@@ -58,6 +59,7 @@ public partial class BaseCard : Control
 
     public void _on_mouse_entered()
     {
+        if (Disabled) { Highlighted = false; return; }
         Highlighted = true;
         Tween tweenscale = GetTree().CreateTween();
         tweenscale.TweenProperty(this, "scale", this.selectedScale, 0.2);
@@ -65,6 +67,7 @@ public partial class BaseCard : Control
 
     public void _on_mouse_exited()
     {
+        if (Disabled) { Highlighted = false; return; }
         Highlighted = false;
         Tween tweenscale = GetTree().CreateTween();
         tweenscale.TweenProperty(this, "scale", this.originalScale, 0.2);
@@ -72,6 +75,7 @@ public partial class BaseCard : Control
 
     public void _on_gui_input(InputEvent @event)
     {
+        if (Disabled) { Highlighted = false; return; }
         if (@event is InputEventMouseButton mouseEvent)
         {
 
@@ -151,6 +155,7 @@ public partial class BaseCard : Control
 
     public override void _Input(InputEvent @event)
     {
+        if (Disabled) { Highlighted = false; return; }
 
         if (@event is InputEventMouseButton mouseEvent)
         {
@@ -196,9 +201,27 @@ public partial class BaseCard : Control
         CardBackground.AddThemeStyleboxOverride("panel", CardLoadingManager.GetInstance().GetRarityTexture(data.Rarity));
     }
 
-    public void SpawnPlaceable()
+    public void Play()
     {
-        
+        switch(this.data.CardType)
+        {
+            case CardType.Tower:
+            case CardType.Chunk:
+            case CardType.Spell:
+                SpawnPlaceable();
+                break;
+            case CardType.Artifact:
+                break;
+        }
+    }
+
+    private void ActivateArtifact()
+    {
+        ArtifactManager.GetInstance().AddArtifact(CardLoadingManager.GetInstance().GetPackedScene(this.data.SubjectScene).Instantiate<BaseArtifact>());
+    }
+
+    private void SpawnPlaceable()
+    {
         // Load and instantiate the card:
         AbstractPlaceable Placeable = CardLoadingManager.GetInstance().GetPackedScene(this.data.SubjectScene).Instantiate<AbstractPlaceable>();
         QueriedPlaceable = Placeable;
@@ -216,7 +239,7 @@ public partial class BaseCard : Control
         QueriedPlaceable.Cancelled -= CancelPlacement;
         QueriedPlaceable.Placed -= SuccessfullyPlaced;
         QueriedPlaceable = null;
-        PlayerStatsManager.GetInstance().ChangeStat(data.ResourceCostType, -data.ResourceCostValue);
+        AccountStatsManager.GetInstance().ChangeStat(data.ResourceCostType, -data.ResourceCostValue);
         EmitSignal("Placed", this);
     }
 

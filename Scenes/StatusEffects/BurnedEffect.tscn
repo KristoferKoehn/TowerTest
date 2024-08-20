@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cbx28n4qw1r4e"]
+
+[ext_resource type="Script" path="res://Scenes/StatusEffects/BurnedEffect.cs" id="1_nq5xm"]
+
+[node name="BurnedEffect" type="Node"]
+script = ExtResource("1_nq5xm")
