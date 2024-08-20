@@ -10,8 +10,7 @@ public partial class CardLoadingManager : Node
 
     Dictionary<string, PackedScene> Towers = new Dictionary<string, PackedScene>();
     Dictionary<string, PackedScene> Chunks = new Dictionary<string, PackedScene>();
-    Dictionary<string, PackedScene> Artifacts = new Dictionary<string, PackedScene>();
-    Dictionary<string, PackedScene> Spells = new Dictionary<string, PackedScene>();
+    Dictionary<string, PackedScene> Actions = new Dictionary<string, PackedScene>();
     Dictionary<string, StyleBoxTexture> RarityStyles = new();
     Dictionary<string, CardData> CardData = new Dictionary<string, CardData>();
 
@@ -52,21 +51,13 @@ public partial class CardLoadingManager : Node
             }
         }
 
-        string[] ArtifactNames = DirAccess.GetFilesAt("res://Scenes/Artifacts/");
-        foreach (string name in ArtifactNames)
-        {
-            if (name.Contains(".tscn"))
-            {
-                Artifacts.Add(name, GD.Load<PackedScene>($"res://Scenes/Artifacts/{name}"));
-            }
-        }
 
-        string[] SpellNames = DirAccess.GetFilesAt("res://Scenes/Spells/");
+        string[] SpellNames = DirAccess.GetFilesAt("res://Scenes/Actions/");
         foreach (string name in SpellNames)
         {
             if (name.Contains(".tscn"))
             {
-                Spells.Add(name, GD.Load<PackedScene>($"res://Scenes/Spells/{name}"));
+                Actions.Add(name, GD.Load<PackedScene>($"res://Scenes/Actions/{name}"));
             }
         }
 
@@ -99,14 +90,11 @@ public partial class CardLoadingManager : Node
         {
             ps = Chunks[name];
         }
-        else if (Artifacts.ContainsKey(name))
+        else if (Actions.ContainsKey(name))
         {
-            ps = Artifacts[name];
+            ps = Actions[name];
         }
-        else if (Spells.ContainsKey(name))
-        {
-            ps = Spells[name];
-        }
+
         return ps;
     }
 
