@@ -34,7 +34,7 @@ public partial class ViewportVisuals : SubViewport
     [ExportGroup("")]
     [Export]
 	public PackedScene SubjectPackedScene { get; set; }
-	public AbstractPlaceable SubjectScene { get; set; }
+	public Node SubjectScene { get; set; }
 
 	public override void _Ready()
 	{
@@ -62,18 +62,25 @@ public partial class ViewportVisuals : SubViewport
 		}
 
 		SubjectPackedScene = packed;
-		SubjectScene = SubjectPackedScene.Instantiate() as AbstractPlaceable;
-		if (SubjectScene != null)
-		{
-            SubjectScene.DisplayMode();
+        var instance = SubjectPackedScene.Instantiate();
+
+        // Check if the instance is of type AbstractPlaceable
+        if (instance is AbstractPlaceable placeable)
+        {
+            SubjectScene = placeable;
+            placeable.DisplayMode();
             AddChild(SubjectScene);
-        } else
-		{
-			BaseEnemy enemy = SubjectPackedScene.Instantiate<BaseEnemy>();
-			enemy.Disabled = true;
-			AddChild(enemy);
         }
-        
+        else if (instance is BaseArtifact artifact)
+        {
+            // Handle BaseArtifact specific logic here if needed
+            SubjectScene = artifact;
+            //AddChild(SubjectScene);
+        }
+        else
+        {
+            GD.PrintErr("The instantiated scene is neither AbstractPlaceable nor BaseArtifact.");
+        }
     }
 
 }

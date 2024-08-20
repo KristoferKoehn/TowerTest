@@ -25,7 +25,7 @@ public partial class UI : CanvasLayer
             GD.Print("making new UI");
             instance = GD.Load<PackedScene>("res://Scenes/UI/UI.tscn").Instantiate<UI>();
             SceneSwitcher.root.GetNode<GameLoop>("SceneSwitcher/GameLoop").AddChild(instance);
-            //instance.Name = "UI";
+            //instance.ArtifactName = "UI";
         }
         return instance;
     }

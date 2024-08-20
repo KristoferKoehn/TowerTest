@@ -1,5 +1,7 @@
 using Godot;
+using Godot.Collections;
 using System;
+using System.Linq;
 
 public partial class LoadingScreen : CanvasLayer
 {
@@ -23,6 +25,14 @@ public partial class LoadingScreen : CanvasLayer
         LoadRandomCard();
     }
 
+    /*
+    private void LoadArtifactCard()
+    {
+        CardData carddata = (CardData)ResourceLoader.Load("res://Scenes/CardData/DoubleTowerSpeed.tres");
+        this._baseCard.SetCardData(carddata);
+        this._baseCard.Disabled = true;
+    }
+    */
     private void LoadRandomCard()
     {
         Random random = new Random();

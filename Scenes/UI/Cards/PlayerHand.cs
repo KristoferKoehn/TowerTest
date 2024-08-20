@@ -101,7 +101,7 @@ public partial class PlayerHand : Control
     {
         if (CardActive)
         {
-            ActiveCard.SpawnPlaceable();
+            ActiveCard.Play();
         }
     }
 

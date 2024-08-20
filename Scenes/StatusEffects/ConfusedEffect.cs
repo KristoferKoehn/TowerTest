@@ -40,13 +40,13 @@ public partial class ConfusedEffect : BaseStatusEffect
         float confusedSpeed = -this.OriginalSpeed;
         GD.Print($"Original Speed: {this.OriginalSpeed}, Confused Speed: {confusedSpeed}");
         this.enemy.StatBlock.SetStat(StatType.Speed, confusedSpeed);
-        //this.enemy.RotateY(Mathf.DegToRad(90));
+        this.enemy.GetNode<Node3D>("Rig").RotateY(Mathf.Pi);
     }
 
     public override void EndEffect()
     {
         this.enemy.StatBlock.SetStat(StatType.Speed, this.OriginalSpeed);
-        //this.enemy.RotateY(Mathf.DegToRad(90));
+        this.enemy.GetNode<Node3D>("Rig").RotateY(Mathf.Pi);
 
         base.EndEffect();
     }

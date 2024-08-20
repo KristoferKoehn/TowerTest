@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="CardData" load_steps=2 format=3 uid="uid://cv5senyg4m6iw"]
 
 [ext_resource type="Script" path="res://Scenes/UI/Cards/CardData.cs" id="1_riadq"]
 
@@ -15,3 +15,4 @@ CameraTilt = 0.3
 CameraZoom = 26.9
 ResourceCostType = 6
 ResourceCostValue = 20.0
+CardType = 1

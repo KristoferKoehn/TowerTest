@@ -9,8 +9,8 @@ public partial class BallistaArrowManager : Node
 
 	static BallistaArrowManager instance;
 
-	List<Ballista> ballistas = new();
-	List<MeshInstance3D> Arrows = new();
+	public List<Ballista> ballistas = new();
+	public List<MeshInstance3D> Arrows = new();
 
 	public static BallistaArrowManager GetInstance()
 	{

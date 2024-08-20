@@ -23,7 +23,7 @@ public static partial class CardDatabase
         "res://Scenes/Towers/LaserCrystal.tscn",
     };
 
-    // Type, Resources, Shop Cost,
+    // IsTemporary, Resources, Shop Cost,
     public static readonly Dictionary<string, List<string>> DATA = new Dictionary<string, List<string>>
     {
         { "res://Scenes/Chunks/c_2EAngle.tscn", new List<string> { "Chunks", "Common", "200" } },

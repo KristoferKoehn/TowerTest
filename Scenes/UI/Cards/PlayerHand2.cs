@@ -110,7 +110,7 @@ public partial class PlayerHand2 : Control
         CardActive = true;
         Tween t = GetTree().CreateTween();
         t.TweenProperty(card, "global_position", CardPlacingPosition.GlobalPosition, 0.2f);
-        t.Finished += SpawnPlaceableFromActiveCard;
+        t.Finished += PlayActiveCard;
     }
 
     public void CardPlaced(BaseCard card)
@@ -137,11 +137,11 @@ public partial class PlayerHand2 : Control
         };
     }
 
-    public void SpawnPlaceableFromActiveCard()
+    public void PlayActiveCard()
     {
         if (CardActive)
         {
-            ActiveCard.SpawnPlaceable();
+            ActiveCard.Play();
         }
     }
 

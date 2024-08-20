@@ -201,9 +201,27 @@ public partial class BaseCard : Control
         CardBackground.AddThemeStyleboxOverride("panel", CardLoadingManager.GetInstance().GetRarityTexture(data.Rarity));
     }
 
-    public void SpawnPlaceable()
+    public void Play()
     {
-        
+        switch(this.data.CardType)
+        {
+            case CardType.Tower:
+            case CardType.Chunk:
+            case CardType.Spell:
+                SpawnPlaceable();
+                break;
+            case CardType.Artifact:
+                break;
+        }
+    }
+
+    private void ActivateArtifact()
+    {
+        ArtifactManager.GetInstance().AddArtifact(CardLoadingManager.GetInstance().GetPackedScene(this.data.SubjectScene).Instantiate<BaseArtifact>());
+    }
+
+    private void SpawnPlaceable()
+    {
         // Load and instantiate the card:
         AbstractPlaceable Placeable = CardLoadingManager.GetInstance().GetPackedScene(this.data.SubjectScene).Instantiate<AbstractPlaceable>();
         QueriedPlaceable = Placeable;

@@ -115,12 +115,14 @@ text = "Type"
 [node name="OptionButton" type="OptionButton" parent="Control/Panel/VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 selected = 0
-item_count = 3
+item_count = 4
 popup/item_0/text = "Chunks"
 popup/item_1/text = "Towers"
 popup/item_1/id = 1
-popup/item_2/text = "Effects"
+popup/item_2/text = "Artifacts"
 popup/item_2/id = 2
+popup/item_3/text = "Spells"
+popup/item_3/id = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/Panel/VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2

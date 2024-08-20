@@ -26,7 +26,7 @@ public partial class TowerInfoPanel : Panel
     public void SetTowerInfo(AbstractTower tower)
     {
         /*
-        TypeLabel.Text = tower.Type.ToString();
+        TypeLabel.Text = tower.IsTemporary.ToString();
         TypeIcon.Texture = tower.TypeIcon;
         LevelLabel.Text = tower.Level.ToString();
         DPSLabel.Text = tower.DPS.ToString();
