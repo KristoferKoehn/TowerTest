@@ -18,6 +18,7 @@ public partial class PlayerHand2 : Control
     [Export] Panel PlayPanel;
     [Export] Panel DiscardPanel;
     [Export] Panel FreezePanel;
+    [Export] PackedScene DummyCard;
 
     List<BaseCard> CardList = new List<BaseCard>();
     List<float> CardPositions = new List<float>();
@@ -352,4 +353,37 @@ public partial class PlayerHand2 : Control
         t.TweenProperty(Deck, "position", new Vector2(400, -400), 1.6);
         return t;
     }
+    
+    public Timer RefreshDeck()
+    {
+        Tween t;
+        int maxCount = DeckManager.GetInstance().Discards.Count;
+        int i = 0;
+        GetTree().CreateTimer(0.15, ignoreTimeScale:true).Timeout += () => { 
+            if (i < maxCount)
+            {
+                Sprite2D dummy = DummyCard.Instantiate<Sprite2D>();
+                dummy.GlobalPosition = Discard.GlobalPosition;
+                t = GetTree().CreateTween();
+                t.TweenProperty(dummy, "global_position", Deck.GlobalPosition, 0.2);
+            }
+
+        };
+
+        /*
+        for (int i = 0; i < DeckManager.GetInstance().Discards.Count; i++)
+        {
+            Sprite2D dummy = DummyCard.Instantiate<Sprite2D>();
+            dummy.GlobalPosition = Discard.GlobalPosition;
+            t = GetTree().CreateTween();
+            t.TweenProperty(dummy, "global_position", Deck.GlobalPosition, 0.2);
+        }
+        */
+        Timer timer = new Timer();
+        this.AddChild(timer);
+        timer.Start(0.15 * maxCount);
+        return timer;
+    }
+
+
 }
