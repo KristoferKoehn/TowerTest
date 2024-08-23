@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" path="res://Scenes/Actions/DoubleTowerSpeed.cs" id="1_wutek"]
 
-[node name="DoubleTowerSpeed" type="Node"]
+[node name="DoubleTowerSpeed" type="Node3D"]
 script = ExtResource("1_wutek")

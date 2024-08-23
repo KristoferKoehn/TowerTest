@@ -10,7 +10,7 @@ public partial class DeckManager : Node
     public List<CardData> TotalCards = new();
     public List<CardData> DrawnCards = new();
     public List<CardData> Cards = new();
-
+    public List<CardData> Discards = new();
 
     public static DeckManager GetInstance()
     {
@@ -39,7 +39,7 @@ public partial class DeckManager : Node
         }
 
         TotalCards = t;
-        this.Cards = c;
+        Cards = c;
     }
 
     public List<CardData> DrawCards(int count)
@@ -62,6 +62,20 @@ public partial class DeckManager : Node
         }
 
         return draw;
+    }
+
+    public void Discard(CardData card)
+    {
+        Discards.Add(card);
+        if (Cards.Contains(card))
+        {
+            Cards.Remove(card); 
+        }
+    }
+
+    public int RemainingCards()
+    {
+        return Cards.Count;
     }
 
 }

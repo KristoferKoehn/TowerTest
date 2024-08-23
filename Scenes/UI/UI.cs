@@ -80,6 +80,7 @@ public partial class UI : CanvasLayer
 
     public void _on_settings_button_pressed()
     {
+
     }
 
     public void UpdateAccountStatsUI(StatType updatedStat, float newVal)

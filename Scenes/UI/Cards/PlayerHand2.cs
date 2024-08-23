@@ -6,14 +6,14 @@ public partial class PlayerHand2 : Control
 {
 
 
-    [Export]
-    Node2D CardPlacingPosition;
-    [Export]
-    Path2D CardPlacingPath;
-    [Export]
-    PathFollow2D PathFollow;
-    [Export]
-    PackedScene BaseCardScene;
+    [Export] Node2D CardPlacingPosition;
+    [Export] Path2D CardPlacingPath;
+    [Export] PathFollow2D PathFollow;
+    [Export] PackedScene BaseCardScene;
+
+    [Export] Node2D Discard;
+    [Export] Node2D Deck;
+
 
     [Export] Panel PlayPanel;
     [Export] Panel DiscardPanel;
@@ -24,7 +24,6 @@ public partial class PlayerHand2 : Control
 
     List<BaseCard> FreezeCardList = new List<BaseCard>();
 
-
     BaseCard DraggingCard = null;
 
     BaseCard ActiveCard = null;
@@ -34,12 +33,14 @@ public partial class PlayerHand2 : Control
 
     public override void _Ready()
     {
-        
+        HideDeck();
+        HideDiscard();
+
     }
 
     public override void _Process(double delta)
     {
-
+        /*
         if (CardList.Count == 0)
         {
             List<CardData> DrawnCards = DeckManager.GetInstance().DrawCards((int)PlayerStatsManager.GetInstance().GetStat(StatType.HandSize));
@@ -51,6 +52,7 @@ public partial class PlayerHand2 : Control
                 AddCard(chunkCard);
             }
         }
+        */
 
         Vector2 mousePos = GetViewport().GetMousePosition();
         Vector2 screenSize = GetViewportRect().Size;
@@ -71,23 +73,27 @@ public partial class PlayerHand2 : Control
 
     public void AddCard(BaseCard card)
     {
-        card.Selected += CardSelected;
-        card.Cancelled += CardCancelled;
-        card.Placed += CardPlaced;
-        card.DragStarted += (BaseCard) =>
+        ShowDeck().Finished += () =>
         {
-            DraggingCard = BaseCard;
+            card.Selected += CardSelected;
+            card.Cancelled += CardCancelled;
+            card.Placed += CardPlaced;
+            card.DragStarted += (BaseCard) =>
+            {
+                DraggingCard = BaseCard;
+            };
+            card.DragStarted += RevealDropPanels;
+            card.DragEnded += HideDropPanels;
+            card.DragEnded += CardDropCheck;
+            card.DragEnded += (BaseCard) =>
+            {
+                DraggingCard = null;
+            };
+            AddChild(card);
+            card.GlobalPosition = CardPlacingPosition.GlobalPosition;
+            CardList.Add(card);
+            HideDeck();
         };
-        card.DragStarted += RevealDropPanels;
-        card.DragEnded += HideDropPanels;
-        card.DragEnded += CardDropCheck;
-        card.DragEnded += (BaseCard) =>
-        {
-            DraggingCard = null;
-        };
-        AddChild(card);
-        card.GlobalPosition = CardPlacingPosition.GlobalPosition;
-        CardList.Add(card);
     }
 
     public void CardSelected(BaseCard card)
@@ -144,7 +150,6 @@ public partial class PlayerHand2 : Control
 
     public void UpdatePositions()
     {
-
         CardPositions.Clear();
         float PathLength = CardPlacingPath.Curve.GetBakedLength();
        
@@ -239,8 +244,6 @@ public partial class PlayerHand2 : Control
             t.TweenProperty(FreezeCardList[i], "global_position", position, 0.1f);
 
         }
-
-
     }
 
     bool hidden = false;
@@ -319,5 +322,34 @@ public partial class PlayerHand2 : Control
 
         Tween FreezeTween = GetTree().CreateTween();
         FreezeTween.TweenProperty(FreezePanel, "global_position", new Vector2(-125, ScreenSize.Y * 0.555f), 0.1);
+    }
+
+    public Tween ShowDiscard()
+    {
+        Tween t = GetTree().CreateTween();
+        t.TweenProperty(Discard, "position", new Vector2(-500, -400), 0.2);
+        return t;
+    }
+
+
+    public Tween HideDiscard()
+    {
+        Tween t = GetTree().CreateTween();
+        t.TweenProperty(Discard, "position", new Vector2(-1500, -400), 0.2);
+        return t;
+    }
+
+    public Tween HideDeck()
+    {
+        Tween t = GetTree().CreateTween();
+        t.TweenProperty(Deck, "position", new Vector2(1500, -400), 0.2);
+        return t;
+    }
+
+    public Tween ShowDeck()
+    {
+        Tween t = GetTree().CreateTween();
+        t.TweenProperty(Deck, "position", new Vector2(400, -400), 1.6);
+        return t;
     }
 }

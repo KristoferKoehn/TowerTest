@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://dr33ompxp8p4g"]
+[gd_scene load_steps=9 format=3 uid="uid://dr33ompxp8p4g"]
 
 [ext_resource type="Shader" path="res://Scenes/UI/Cards/BaseCard.gdshader" id="1_l5suo"]
 [ext_resource type="Script" path="res://Scenes/UI/Cards/BaseCard.cs" id="1_q76f4"]
 [ext_resource type="StyleBox" uid="uid://dgbw28sg4ifhi" path="res://Scenes/UI/Cards/Gradients/CommonCardGradient.tres" id="2_a4xgv"]
+[ext_resource type="Texture2D" uid="uid://0c3rqyd35rly" path="res://Assets/Textures/CardBack2.png" id="4_je5jj"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g0ef2"]
 bg_color = Color(0.125911, 0.125911, 0.125911, 1)
@@ -138,6 +139,12 @@ expand_mode = 1
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Bars"]
 layout_mode = 2
 size_flags_vertical = 3
+
+[node name="CardBack" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(125, 175)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_je5jj")
 
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

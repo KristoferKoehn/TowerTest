@@ -1,7 +1,6 @@
 [gd_scene load_steps=18 format=3 uid="uid://c8k323ym7lt8k"]
 
 [ext_resource type="Script" path="res://Scenes/UI/UI.cs" id="1_vo24d"]
-
 [ext_resource type="Texture2D" uid="uid://me51xnsi1idj" path="res://Assets/Icons/GameUI/CoinIcon.tres" id="2_5xsv3"]
 [ext_resource type="Texture2D" uid="uid://b3p6kmoe4foeh" path="res://Assets/Icons/GameUI/PauseButton.tres" id="3_2iek2"]
 [ext_resource type="Texture2D" uid="uid://t0i5wqr683y6" path="res://Assets/Icons/GameUI/SpeedUpButton.tres" id="5_646jk"]
@@ -9,22 +8,22 @@
 [ext_resource type="PackedScene" uid="uid://cxj4256wgc2jn" path="res://Scenes/UI/Panels/WaveCompletedPanel.tscn" id="7_4tavd"]
 [ext_resource type="PackedScene" uid="uid://bbpphuq3csaxf" path="res://Scenes/UI/Cards/PlayerHand2.tscn" id="8_kayuc"]
 [ext_resource type="Shader" path="res://Assets/Shaders/PlayAreaEffect.gdshader" id="9_pq3hn"]
-[ext_resource type="PackedScene" uid="uid://didxub0guxul3" path="res://Scenes/menus/PauseMenu.tscn" id="9_qhxxr"]
+[ext_resource type="PackedScene" path="res://Scenes/menus/PauseMenu.tscn" id="9_qhxxr"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ffxy5"]
 resource_local_to_scene = true
 shader = ExtResource("9_pq3hn")
 shader_parameter/AlphaScalar = 1.0
-shader_parameter/AlphaCieling = 0.085
-shader_parameter/Amplitude = 0.07
+shader_parameter/AlphaCieling = -0.455
+shader_parameter/Amplitude = 0.26
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i38pl"]
-bg_color = Color(1, 0, 0, 0.557)
+bg_color = Color(1, 1, 0, 0.556863)
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color(1, 0, 0, 1)
+border_color = Color(1, 1, 0, 1)
 corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
@@ -33,8 +32,8 @@ corner_radius_bottom_left = 20
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wts0t"]
 shader = ExtResource("9_pq3hn")
 shader_parameter/AlphaScalar = 1.0
-shader_parameter/AlphaCieling = 0.2
-shader_parameter/Amplitude = 0.07
+shader_parameter/AlphaCieling = -0.685
+shader_parameter/Amplitude = 0.505
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yq0ju"]
 resource_local_to_scene = true
@@ -52,8 +51,8 @@ corner_radius_bottom_left = 20
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jyflw"]
 shader = ExtResource("9_pq3hn")
 shader_parameter/AlphaScalar = 1.0
-shader_parameter/AlphaCieling = 0.085
-shader_parameter/Amplitude = 0.07
+shader_parameter/AlphaCieling = -0.455
+shader_parameter/Amplitude = 0.26
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_neh8d"]
 bg_color = Color(0, 1, 1, 0.556863)

@@ -29,10 +29,22 @@ public partial class PlayerHand : Control
     public override void _Process(double delta)
     {
 
+        /// when game starts, draw 7 cards.
+        /// at the end of the round, put all non-frozen cards into discard
+        /// then draw 7 more cards.
+        /// if there is not enough cards in deck, shuffle discard into deck.
+        /// these all need animations. they can be shitty.
+
+
+
+        if (DeckManager.GetInstance().RemainingCards() < 1)
+        {
+            //reshuffle;
+        }
+        //do some animations when it draws and if it needs to reshuffle
         if (CardList.Count == 0)
         {
             List<CardData> DrawnCards = DeckManager.GetInstance().DrawCards((int)PlayerStatsManager.GetInstance().GetStat(StatType.HandSize));
-            GD.Print(DrawnCards.ToString());
             foreach (CardData card in DrawnCards)
             {
                 BaseCard chunkCard = BaseCardScene.Instantiate<BaseCard>();
@@ -192,41 +204,19 @@ public partial class PlayerHand : Control
         }
     }
 
-
-    bool hidden = false;
-    public void ToggleHide()
+    public void DrawCards()
     {
-        if (hidden)
-        {
-            hidden = false;
-            Tween handTween = GetTree().CreateTween();
-            handTween.TweenProperty(CardPlacingPath, "position", Vector2.Zero, 0.2f);
 
-        } else
-        {
-            hidden = true;
-            Tween handTween = GetTree().CreateTween();
-            handTween.TweenProperty(CardPlacingPath, "position", new Vector2(0, 1200), 0.2f);
-        }
+        //get hand size from stat block
+        //animate deck and cards to hand
+        //on tween finish, add cards to hand.
+        //if not enough cards, reshuffle
     }
 
-
-
-
-    // Fills the player hand with one of every chunk card possible.
-    private void GenerateHandWithAllCards()
+    public void Reshuffle()
     {
-        foreach(BaseCard bc in CardList)
-        {
-            bc.QueueFree();
-        }
-        this.CardList.Clear();
-
-        foreach (CardData card in CardLoadingManager.GetInstance().GetAllCardData())
-        {
-            BaseCard chunkCard = BaseCardScene.Instantiate<BaseCard>();
-            chunkCard.SetCardData(card);
-            AddCard(chunkCard);
-        }
+        //animate discard deck and shuffle sound
+        //on finish, put all discards back into deck
     }
+
 }
