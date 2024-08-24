@@ -354,6 +354,7 @@ FreezePanel = NodePath("../FreezePanel")
 visible = false
 layout_mode = 1
 
+[connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/BeginWaveButton" to="." method="_on_begin_wave_button_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/PausePlayButton" to="." method="_on_pause_play_button_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/SpeedUpButton" to="." method="_on_speed_up_button_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]

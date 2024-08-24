@@ -1,7 +1,6 @@
 ﻿using Godot;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 public partial class DeckManager : Node
 {
@@ -45,11 +44,6 @@ public partial class DeckManager : Node
     public List<CardData> DrawCards(int count)
     {
 
-        if (count > Cards.Count)
-        {
-            count = Cards.Count;
-        }
-
         List<CardData> draw = new List<CardData>();
         Random random = new Random();
         int idx;
@@ -69,7 +63,7 @@ public partial class DeckManager : Node
         Discards.Add(card);
         if (Cards.Contains(card))
         {
-            Cards.Remove(card); 
+            Cards.Remove(card);
         }
     }
 
