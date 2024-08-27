@@ -8,7 +8,6 @@ public partial class Necromancer : BaseEnemy
     public override void _Ready()
 	{
 		base._Ready();
-        StrikeSound = GetNode<AudioStreamPlayer3D>("StrikeSound");
 
         Dictionary<StatType, float> sb = new()
         {

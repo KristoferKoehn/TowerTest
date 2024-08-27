@@ -145,9 +145,7 @@ public partial class BaseCard : Control
 
     public void SetCardData(CardData data)
     {
-
         this.data = data;
-        GD.Print(data.Name);
         CardNameLabel.Text = data.Name;
         CardName = data.Name;
         if (Viewport != null)
@@ -166,23 +164,14 @@ public partial class BaseCard : Control
         {
             Viewport.SetSubjectScene(CardLoadingManager.GetInstance().GetPackedScene(data.SubjectScene));
         }
-        
+
         CardViewportFrame.Texture = Viewport.GetTexture();
         CardBackground.AddThemeStyleboxOverride("panel", CardLoadingManager.GetInstance().GetRarityTexture(data.Rarity));
     }
 
     public void Play()
     {
-        switch(this.data.CardType)
-        {
-            case CardType.Tower:
-            case CardType.Chunk:
-            case CardType.Spell:
-                SpawnPlaceable();
-                break;
-            case CardType.Artifact:
-                break;
-        }
+        SpawnPlaceable();
     }
 
     private void ActivateArtifact()

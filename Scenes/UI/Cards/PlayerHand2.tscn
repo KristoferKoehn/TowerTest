@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scenes/UI/Cards/PlayerHand2.cs" id="1_mbkwo"]
 [ext_resource type="PackedScene" uid="uid://dr33ompxp8p4g" path="res://Scenes/UI/Cards/BaseCard.tscn" id="2_c3nx8"]
-[ext_resource type="PackedScene" path="res://Scenes/Utility/DummyCard.tscn" id="3_ek12e"]
+[ext_resource type="PackedScene" uid="uid://bfeabptfrqxhi" path="res://Scenes/Utility/DummyCard.tscn" id="3_ek12e"]
 [ext_resource type="Texture2D" uid="uid://0c3rqyd35rly" path="res://Assets/Textures/CardBack2.png" id="3_kinqq"]
 
 [sub_resource type="Curve2D" id="Curve2D_2sk6h"]
@@ -63,6 +63,7 @@ offset_bottom = 23.0
 text = "DISCARD"
 
 [node name="Label2" type="Label" parent="DiscardPile/Panel"]
+layout_mode = 0
 offset_left = 156.0
 offset_top = 216.0
 offset_right = 225.0

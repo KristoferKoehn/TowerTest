@@ -68,7 +68,6 @@ public partial class PlayerHand2 : Control
         ForceHandUp = true;
         //spread this out over time using timers.
         //shen the deck is fully shown, start timer. Whenever timer times out do the thing.
-        GD.Print("drawing " + count);
 
         ShowDeck().Finished += () =>
         {
@@ -103,15 +102,12 @@ public partial class PlayerHand2 : Control
                     }
                     else
                     {
-
-                        
                         ShowDiscard().Finished += () => RefreshDeck().Timeout += () => 
                         { 
                             HideDiscard();
                             DrawCards(afterShuffleCount); 
                         };
                         t.QueueFree();
-
                     }
                 };
 
