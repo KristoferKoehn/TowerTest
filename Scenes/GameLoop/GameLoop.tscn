@@ -7,7 +7,7 @@
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_qk85b"]
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_aieg2"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_csshf"]
 frequency = 0.0043
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_4yyqt"]
@@ -16,9 +16,9 @@ height = 100
 in_3d_space = true
 seamless = true
 seamless_blend_skirt = 0.318
-noise = SubResource("FastNoiseLite_aieg2")
+noise = SubResource("FastNoiseLite_csshf")
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_uef4g"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_pe6ps"]
 noise_type = 2
 frequency = 0.0282
 fractal_type = 2
@@ -27,9 +27,9 @@ fractal_octaves = 1
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_xgrme"]
 seamless = true
 seamless_blend_skirt = 0.058
-noise = SubResource("FastNoiseLite_uef4g")
+noise = SubResource("FastNoiseLite_pe6ps")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_5mtn2"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_x81f4"]
 render_priority = -2
 shader = ExtResource("5_txwp4")
 shader_parameter/albedo = Color(0.31, 0.7125, 1, 1)
@@ -49,14 +49,14 @@ shader_parameter/water_texture1 = SubResource("NoiseTexture2D_xgrme")
 shader_parameter/noise_texture = SubResource("NoiseTexture2D_4yyqt")
 
 [sub_resource type="QuadMesh" id="QuadMesh_5jrio"]
-material = SubResource("ShaderMaterial_5mtn2")
-size = Vector2(100, 100)
-subdivide_width = 25
-subdivide_depth = 25
+material = SubResource("ShaderMaterial_x81f4")
+size = Vector2(200, 200)
+subdivide_width = 50
+subdivide_depth = 50
 orientation = 1
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_icije"]
-albedo_color = Color(0.1305, 0.611175, 0.87, 1)
+albedo_color = Color(0, 0.65, 1, 1)
 
 [sub_resource type="QuadMesh" id="QuadMesh_qctbj"]
 material = SubResource("StandardMaterial3D_icije")

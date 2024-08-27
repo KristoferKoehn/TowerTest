@@ -1,14 +1,62 @@
-[gd_scene load_steps=6 format=3 uid="uid://cethdkq0dxhao"]
+[gd_scene load_steps=13 format=3 uid="uid://cethdkq0dxhao"]
 
 [ext_resource type="PackedScene" uid="uid://chp22ot4ypmd3" path="res://Scenes/Chunks/c_StartingChunk.tscn" id="1_7rlwx"]
 [ext_resource type="Script" path="res://Scenes/Components/Cinematics/MainMenuBackground.cs" id="1_qd7mp"]
 [ext_resource type="PackedScene" uid="uid://c8tmfqeiyrpqy" path="res://Assets/EnemyModels/Skeleton_Minion.glb" id="2_n3s41"]
 [ext_resource type="PackedScene" uid="uid://budchas7k1t2g" path="res://Assets/ConstructedModels/HomeBase.tscn" id="3_whjrd"]
+[ext_resource type="Shader" path="res://Assets/Shaders/Water2.gdshader" id="5_1odne"]
 [ext_resource type="PackedScene" uid="uid://cd3frymucgnea" path="res://Assets/EnemyModels/Skeleton_Golem.glb" id="5_pyvd6"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_aieg2"]
+frequency = 0.0043
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_f7yqq"]
+width = 100
+height = 100
+in_3d_space = true
+seamless = true
+seamless_blend_skirt = 0.318
+noise = SubResource("FastNoiseLite_aieg2")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_uef4g"]
+noise_type = 2
+frequency = 0.0282
+fractal_type = 2
+fractal_octaves = 1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ntpb7"]
+seamless = true
+seamless_blend_skirt = 0.058
+noise = SubResource("FastNoiseLite_uef4g")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5mtn2"]
+render_priority = -2
+shader = ExtResource("5_1odne")
+shader_parameter/albedo = Color(0.31, 0.7125, 1, 1)
+shader_parameter/scroll_speed1 = Vector2(0.9, 0.28)
+shader_parameter/scroll_speed2 = Vector2(0.01, 0.065)
+shader_parameter/WaterScrollDirection = Vector2(1, 0.485)
+shader_parameter/blend_factor = 0.5
+shader_parameter/scale1 = Vector2(1, 1)
+shader_parameter/scale2 = Vector2(1, 1)
+shader_parameter/wave_strength = 0.2
+shader_parameter/wave_scale = 0.02
+shader_parameter/pixelation_level = 64
+shader_parameter/FoamSize = 0.5
+shader_parameter/WaterOpacity = 1.0
+shader_parameter/FoamGlowIntensity = 0.5
+shader_parameter/water_texture1 = SubResource("NoiseTexture2D_ntpb7")
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_f7yqq")
+
+[sub_resource type="QuadMesh" id="QuadMesh_lerdq"]
+material = SubResource("ShaderMaterial_5mtn2")
+size = Vector2(300, 300)
+subdivide_width = 75
+subdivide_depth = 75
+orientation = 1
 
 [node name="MainMenuBackground" type="Node3D"]
 script = ExtResource("1_qd7mp")
-SpinRate = 0.229
 
 [node name="Chunk" parent="." instance=ExtResource("1_7rlwx")]
 Disabled = true
@@ -56,11 +104,16 @@ autoplay = "Sit_Floor_Idle"
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0.396, 0)
 
 [node name="CameraGimbal" type="Node3D" parent="."]
-transform = Transform3D(-1.04517, 0, 0.156443, 0, 1, 0, -0.156443, 0, -1.04517, 0, 0, 0)
+transform = Transform3D(1.58053, 0, -1.07585, 0, 1, 0, 1.07585, 0, 1.58053, 0, 0, 0)
 
 [node name="Camera3D" type="Camera3D" parent="CameraGimbal"]
-transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 6, 10)
+transform = Transform3D(1, 0, 0, 0, 0.955278, 0.295708, 0, -0.295708, 0.955278, 0, 6, 5)
 near = 2.0
+
+[node name="WaterPlane" type="MeshInstance3D" parent="CameraGimbal"]
+transform = Transform3D(0.999976, 0, 0, 0, 1, 0, 0, 0, 0.999976, 0, -0.224, -136.311)
+mesh = SubResource("QuadMesh_lerdq")
+skeleton = NodePath("../..")
 
 [node name="Skeleton_Golem" parent="." instance=ExtResource("5_pyvd6")]
 transform = Transform3D(-0.247413, 0, -0.314304, 0, 0.4, 0, 0.314304, 0, -0.247413, -2.36603, 0.485596, 1.98525)

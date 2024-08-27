@@ -8,22 +8,22 @@
 [ext_resource type="PackedScene" uid="uid://cxj4256wgc2jn" path="res://Scenes/UI/Panels/WaveCompletedPanel.tscn" id="7_4tavd"]
 [ext_resource type="PackedScene" uid="uid://bbpphuq3csaxf" path="res://Scenes/UI/Cards/PlayerHand2.tscn" id="8_kayuc"]
 [ext_resource type="Shader" path="res://Assets/Shaders/PlayAreaEffect.gdshader" id="9_pq3hn"]
-[ext_resource type="PackedScene" uid="uid://didxub0guxul3" path="res://Scenes/menus/PauseMenu.tscn" id="9_qhxxr"]
+[ext_resource type="PackedScene" path="res://Scenes/menus/PauseMenu.tscn" id="9_qhxxr"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ffxy5"]
 resource_local_to_scene = true
 shader = ExtResource("9_pq3hn")
 shader_parameter/AlphaScalar = 1.0
-shader_parameter/AlphaCieling = 0.085
-shader_parameter/Amplitude = 0.07
+shader_parameter/AlphaCieling = -0.455
+shader_parameter/Amplitude = 0.26
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i38pl"]
-bg_color = Color(1, 0, 0, 0.557)
+bg_color = Color(1, 1, 0, 0.556863)
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color(1, 0, 0, 1)
+border_color = Color(1, 1, 0, 1)
 corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
@@ -32,8 +32,8 @@ corner_radius_bottom_left = 20
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wts0t"]
 shader = ExtResource("9_pq3hn")
 shader_parameter/AlphaScalar = 1.0
-shader_parameter/AlphaCieling = 0.2
-shader_parameter/Amplitude = 0.07
+shader_parameter/AlphaCieling = -0.685
+shader_parameter/Amplitude = 0.505
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yq0ju"]
 resource_local_to_scene = true
@@ -51,8 +51,8 @@ corner_radius_bottom_left = 20
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jyflw"]
 shader = ExtResource("9_pq3hn")
 shader_parameter/AlphaScalar = 1.0
-shader_parameter/AlphaCieling = 0.085
-shader_parameter/Amplitude = 0.07
+shader_parameter/AlphaCieling = -0.455
+shader_parameter/Amplitude = 0.26
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_neh8d"]
 bg_color = Color(0, 1, 1, 0.556863)
@@ -354,6 +354,7 @@ FreezePanel = NodePath("../FreezePanel")
 visible = false
 layout_mode = 1
 
+[connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/BeginWaveButton" to="." method="_on_begin_wave_button_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/PausePlayButton" to="." method="_on_pause_play_button_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/SpeedUpButton" to="." method="_on_speed_up_button_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]

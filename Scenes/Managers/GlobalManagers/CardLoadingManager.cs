@@ -1,8 +1,5 @@
 using Godot;
-using MMOTest.Backend;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 public partial class CardLoadingManager : Node
 {
@@ -51,7 +48,6 @@ public partial class CardLoadingManager : Node
             }
         }
 
-
         string[] SpellNames = DirAccess.GetFilesAt("res://Scenes/Actions/");
         foreach (string name in SpellNames)
         {
@@ -75,7 +71,6 @@ public partial class CardLoadingManager : Node
                 CardData.Add(name,ResourceLoader.Load<CardData>($"res://Scenes/CardData/{name}"));
             }
         }
-
     }
 
     public PackedScene GetPackedScene(string name)

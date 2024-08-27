@@ -1,4 +1,5 @@
 using Godot;
+using Managers;
 
 public partial class UI : CanvasLayer
 {
@@ -11,7 +12,6 @@ public partial class UI : CanvasLayer
 
     private float[] fastForwardSpeeds = { 1.0f, 2.0f, 3.0f};
     private int currentFastForwardSpeedIndex = 0;
-    private GameLoop _gameLoop; // Used for placing chunks (could probably be refactored)
 
     private static UI instance;
 
@@ -37,7 +37,6 @@ public partial class UI : CanvasLayer
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
-        _gameLoop = GetParent<GameLoop>();
         AccountStatsManager.GetInstance().StatChanged += UpdateAccountStatsUI;
         PlayerStatsManager.GetInstance().StatChanged += UpdatePlayerStatsUI;
         UpdateAccountStatsUI(StatType.Gold, AccountStatsManager.GetInstance().GetStat(StatType.Gold));
@@ -80,6 +79,7 @@ public partial class UI : CanvasLayer
 
     public void _on_settings_button_pressed()
     {
+
     }
 
     public void UpdateAccountStatsUI(StatType updatedStat, float newVal)
@@ -111,4 +111,27 @@ public partial class UI : CanvasLayer
         AudioManager.GetInstance().PlayMenuSwitch();
         SceneSwitcher.Instance.PopScene(); // get rid of the current game loop.
     }
+
+    public void _on_begin_wave_button_pressed()
+    {
+        WaveManager.GetInstance().StartWave();
+    }
+
+    public override void _Input(InputEvent @event)
+    {
+        if (@event.IsActionPressed("DiscardHand"))
+        {
+            //_playerHand.ShowDiscard().Finished += () => _playerHand.DiscardHand().Finished += () => _playerHand.HideDiscard();
+            GD.Print("Q");
+        }
+
+        if (@event.IsActionPressed("DrawCards"))
+        {
+
+            //_playerHand.DrawCards(7);
+            GD.Print($"E {_playerHand.CardList.Count}");
+        }
+    }
+
+
 }

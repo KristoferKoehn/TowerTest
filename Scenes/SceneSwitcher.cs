@@ -50,7 +50,6 @@ public partial class SceneSwitcher : Node
         {
             if (previousScene != null && previousScene.GetParent() == this)
             {
-                GD.Print($"Removing node {previousScene.Name}");
                 this.RemoveChild(previousScene); // Only remove if it is still a child
             }
         };
@@ -61,7 +60,6 @@ public partial class SceneSwitcher : Node
     {
         if (sceneStack.Count == 0)
         {
-            GD.Print("No more scenes to pop.");
             return;
         }
 

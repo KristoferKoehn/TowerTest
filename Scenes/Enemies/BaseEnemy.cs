@@ -2,8 +2,6 @@ using Godot;
 using Godot.Collections;
 using MMOTest.Backend;
 using System;
-using System.Collections.Generic;
-using System.Reflection.Emit;
 
 public partial class BaseEnemy : PathFollow3D
 {
@@ -15,7 +13,7 @@ public partial class BaseEnemy : PathFollow3D
 
 	public HealthBar healthBar;
 
-	public AudioStreamPlayer3D StrikeSound { get; set; }
+	[Export] public AudioStreamPlayer3D StrikeSound { get; set; }
 
 	public StatBlock StatBlock = new StatBlock();
 	protected string ModelName;

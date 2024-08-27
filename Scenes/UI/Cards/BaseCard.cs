@@ -93,35 +93,6 @@ public partial class BaseCard : Control
                 tweenscale.TweenProperty(this, "scale", originalScale, 0.2);
             }
 
-            /*
-            if (mouseEvent.ButtonIndex == MouseButton.Left && mouseEvent.IsReleased() && pressed)
-            {
-                pressed = false;
-                DragOffset = Vector2.Zero;
-                MotionAccumulation = Vector2.Zero;
-                if (!dragging)
-                {
-                    if (Active)
-                    {
-                        if (PlayerStatsManager.GetInstance().GetStat(data.ResourceCostType) >= data.ResourceCostValue)
-                        {
-                            EmitSignal("Selected", this);
-                        } else
-                        {
-                            //not enough resources, doesn't work
-                            Tween t = GetTree().CreateTween();
-                            t.TweenProperty(this, "global_position", GlobalPosition - new Vector2(0, -100), 0.1f);
-                        }
-                    }
-                }
-
-                Active = true;
-                dragging = false;
-                Tween tweenscale = GetTree().CreateTween();
-                tweenscale.TweenProperty(this, "scale", this.originalScale, 0.2);
-            }
-            */
-
 
             if (mouseEvent.ButtonIndex == MouseButton.Left && mouseEvent.IsPressed())
             {
@@ -152,7 +123,6 @@ public partial class BaseCard : Control
             Active = false;
             EmitSignal("DragStarted", this);
         }
-
     }
 
     public override void _Input(InputEvent @event)
@@ -177,9 +147,10 @@ public partial class BaseCard : Control
 
     public void SetCardData(CardData data)
     {
-
         this.data = data;
+
         if(Debugging) GD.Print(data.Name);
+
         CardNameLabel.Text = data.Name;
         CardName = data.Name;
         if (Viewport != null)
@@ -198,7 +169,7 @@ public partial class BaseCard : Control
         {
             Viewport.SetSubjectScene(CardLoadingManager.GetInstance().GetPackedScene(data.SubjectScene));
         }
-        
+
         CardViewportFrame.Texture = Viewport.GetTexture();
         CardBackground.AddThemeStyleboxOverride("panel", CardLoadingManager.GetInstance().GetRarityTexture(data.Rarity));
     }
@@ -234,7 +205,6 @@ public partial class BaseCard : Control
 
         SceneSwitcher.CurrentGameLoop.AddChild(Placeable);
         
-
         Placeable.ActivatePlacing();
     }
 
@@ -254,6 +224,12 @@ public partial class BaseCard : Control
             QueriedPlaceable = null;
         }
         EmitSignal("Cancelled", this);
+    }
+
+    public void Discard()
+    {
+        DeckManager.GetInstance().Discard(data);
+        QueueFree();
     }
 
 }
