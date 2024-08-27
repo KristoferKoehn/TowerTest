@@ -14,6 +14,7 @@ public partial class LaserCrystal : AbstractTower
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
+        this.TowerType = TowerType.LaserCrystal;
         Dictionary<StatType, float> sb = new()
         {
             {StatType.AttackSpeed, 0.0666f},

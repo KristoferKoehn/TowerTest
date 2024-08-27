@@ -6,6 +6,9 @@ using System.Linq;
 
 public partial class Ballista : AbstractTower
 {
+    PackedScene ArrowScene = GD.Load<PackedScene>("res://Scenes/Components/BalistaArrow.tscn");
+    public List<MeshInstance3D> Arrows = new();
+
     MeshInstance3D TowerBase;
     MeshInstance3D BallistaMount;
     MeshInstance3D BallistaBow;
@@ -16,10 +19,11 @@ public partial class Ballista : AbstractTower
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        this.TowerType = TowerType.Ballista;
         base._Ready();
         if (!Disabled)
         {
-            BallistaArrowManager.GetInstance().RegisterBallista(this);
+            TowerManager.GetInstance().RegisterTower(this);
         }
 
         Dictionary<StatType, float> sb = new()
@@ -37,9 +41,19 @@ public partial class Ballista : AbstractTower
         RangeHitbox = ActiveRange.GetNode<CollisionShape3D>("CollisionShape3D");
     }
 
+    private void MoveArrows(double delta)
+    {
+        foreach (MeshInstance3D arrow in Arrows)
+        {
+            arrow.TranslateObjectLocal(new Vector3(0, 0, -80.2f * (float)delta));
+        }
+    }
+
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
+        MoveArrows(delta);
+
         base._Process(delta);
         if (Disabled) return;
 
@@ -58,7 +72,10 @@ public partial class Ballista : AbstractTower
                 {
                     CanShoot = false;
                     ShotTimer.Start(StatBlock.GetStat(StatType.AttackSpeed));
-                    EmitSignal("TowerFired", this, EnemyList[index]);
+
+                    //EmitSignal("TowerFired", this, EnemyList[index]);
+                    ShootArrow(this, EnemyList[index]); // this instead.
+
                     GetNode<AudioStreamPlayer3D>("FiringSound").Play();
                 }
             }
@@ -118,6 +135,42 @@ public partial class Ballista : AbstractTower
 
         return points;
     }
+    public void ShootArrow(Node3D tower, Node3D target)
+    {
+        //make arrow at tower (in the right spot)
+        //
+        MeshInstance3D arrow = ArrowScene.Instantiate<MeshInstance3D>();
+        arrow.GetNode<Area3D>("Hitbox").AreaEntered += (Area3D area) => {
+            //overdamage protection, prevents damage being dealt to multiple enemies erroneously 
+            if (!arrow.HasMeta("struck"))
+            {
+                arrow.SetMeta("struck", "");
+                arrow.GetNode<Area3D>("Hitbox").AreaEntered -= ((Ballista)tower).DealDamage;
+                ParticleSignals.GetInstance().createParticle("CandyParticle", arrow.GlobalPosition, arrow.GlobalRotation);
+            }
+            Arrows.Remove(arrow);
+            arrow.QueueFree();
+        };
+        SceneSwitcher.root.AddChild(arrow);
+        Timer t = new Timer();
+        arrow.AddChild(t);
+        t.Start(4);
+        t.OneShot = true;
+        t.Timeout += () => {
+            if (arrow != null && !arrow.IsQueuedForDeletion())
+            {
+                Arrows.Remove(arrow);
+                arrow.QueueFree();
+            }
+            t.QueueFree();
+        };
+        arrow.GetNode<Area3D>("Hitbox").AreaEntered += ((Ballista)tower).DealDamage;
+        arrow.GlobalPosition = tower.GetNode<MeshInstance3D>("weapon_ballista2/tmpParent/weapon_ballista/bow/arrow").GlobalPosition;
+        arrow.LookAt(target.GlobalPosition + new Vector3(0, 0.5f, 0));
+
+        Arrows.Add(arrow);
+        arrow.SetMeta("target", target.GetPath());
+    }
 
     public void DealDamage(Area3D area)
     {
@@ -136,6 +189,6 @@ public partial class Ballista : AbstractTower
         GlobalPosition = SceneSwitcher.CurrentGameLoop.MousePosition3D;
         Disabled = false;
         Placing = true;
-        BallistaArrowManager.GetInstance().RegisterBallista(this);
+        TowerManager.GetInstance().RegisterTower(this);
     }
 }

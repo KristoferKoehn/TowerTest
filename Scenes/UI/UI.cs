@@ -22,7 +22,7 @@ public partial class UI : CanvasLayer
             GD.Print("making new UI");
             instance = GD.Load<PackedScene>("res://Scenes/UI/UI.tscn").Instantiate<UI>();
             SceneSwitcher.root.GetNode<GameLoop>("SceneSwitcher/GameLoop").AddChild(instance);
-            //instance.ArtifactName = "UI";
+            //instance.ActionName = "UI";
         }
         return instance;
     }
@@ -108,7 +108,7 @@ public partial class UI : CanvasLayer
     public void _on_main_menu_button_pressed()
     {
         //PlayerStatsManager.GetInstance().SetStat(StatType.Health, PlayerStatsManager.GetInstance().GetStat(StatType.MaxHealth));
-
+        AudioManager.GetInstance().PlayMenuSwitch();
         SceneSwitcher.Instance.PopScene(); // get rid of the current game loop.
     }
 

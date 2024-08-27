@@ -21,5 +21,6 @@ public enum CardType
 {
     Tower,
     Chunk,
-    Action
+    Action,
+    Spell,
 }

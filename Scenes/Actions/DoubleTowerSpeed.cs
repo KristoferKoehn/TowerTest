@@ -1,36 +1,44 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
-public partial class DoubleTowerSpeed : BaseArtifact
+public partial class DoubleTowerSpeed : BaseAction
 {
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		this.Level = 1;
         this.SetAttributesFromLevel();
-		this.ArtifactName = "DoubleTowerSpeed";
+		this.ActionName = "DoubleTowerSpeed";
 		this.Description = $"Doubles the attack speed stat of all currently placed towers for a duration of {this.DurationSeconds} seconds.";
 		this.IsTemporary = true;
 		base._Ready();
 	}
 
-    // Method to apply the artifact's effect
+    // Method to apply the action's effect
     public override void ApplyEffect()
     {
-		foreach (Ballista ballista in BallistaArrowManager.GetInstance().ballistas)
+		foreach (List<AbstractTower> towerList in TowerManager.GetInstance().activeTowers.Values)
 		{
-			ballista.StatBlock.SetStat(StatType.AttackSpeed, ballista.StatBlock.GetStat(StatType.AttackSpeed) * 2);
-		}
-        base.ApplyEffect();
+			foreach (AbstractTower tower in towerList)
+			{
+                tower.StatBlock.SetStat(StatType.AttackSpeed, tower.StatBlock.GetStat(StatType.AttackSpeed) / 2);
+            }
+        }
+        base.ApplyEffect(); // starting duration timer, etc.
     }
 
-    // Method to end the artifact's effect
+    // Method to end the action's effect
     public override void EndEffect()
     {
-        foreach (Ballista ballista in BallistaArrowManager.GetInstance().ballistas)
+        foreach (List<AbstractTower> towerList in TowerManager.GetInstance().activeTowers.Values)
         {
-            ballista.StatBlock.SetStat(StatType.AttackSpeed, ballista.StatBlock.GetStat(StatType.AttackSpeed) / 2);
+            foreach (AbstractTower tower in towerList)
+            {
+                tower.StatBlock.SetStat(StatType.AttackSpeed, tower.StatBlock.GetStat(StatType.AttackSpeed) * 2);
+            }
         }
-        base.EndEffect();
+        base.EndEffect(); // queuefreeing, etc.
     }
 
     internal override void SetAttributesFromLevel()

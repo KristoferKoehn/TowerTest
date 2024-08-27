@@ -23,6 +23,7 @@ public partial class GravityCrystal : AbstractTower
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
+        this.TowerType = TowerType.GravityCrystal;
         base._Ready();
         Dictionary<StatType, float> sb = new()
         {
