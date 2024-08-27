@@ -5,6 +5,8 @@ using TowerTest.Scenes.Components;
 [Tool]
 public partial class ViewportVisuals : SubViewport
 {
+	private bool Debugging = false;
+
 	[ExportGroup("Camera Settings")]
 	[Export]
 	public Vector3 InitialCameraPosition { get; set; } = (Vector3.Back + Vector3.Up + Vector3.Right).Normalized();
@@ -71,15 +73,9 @@ public partial class ViewportVisuals : SubViewport
             placeable.DisplayMode();
             AddChild(SubjectScene);
         }
-        else if (instance is BaseArtifact artifact)
-        {
-            // Handle BaseArtifact specific logic here if needed
-            SubjectScene = artifact;
-            //AddChild(SubjectScene);
-        }
         else
         {
-            GD.PrintErr("The instantiated scene is neither AbstractPlaceable nor BaseArtifact.");
+            if(Debugging) GD.PrintErr("The viewport instantiated scene for the card is not an AbstractPlaceable.");
         }
     }
 

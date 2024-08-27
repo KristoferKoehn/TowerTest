@@ -5,9 +5,19 @@ using System;
 using System.Collections.Generic;
 using TowerTest.Scenes.Components;
 
+public enum TowerType
+{
+    Ballista,
+    Cannon,
+    Catapult,
+    GravityCrystal,
+    LaserCrystal,
+}
+
 [Tool]
 public abstract partial class AbstractTower : AbstractPlaceable
 {
+    public TowerType TowerType { get; set; }
 
     [Signal]
     public delegate void TowerFiredEventHandler(Node3D tower, Node3D target = null);
@@ -55,7 +65,7 @@ public abstract partial class AbstractTower : AbstractPlaceable
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
-        if(Placing)
+        if (Placing)
         {
             indicator = new MeshInstance3D();
             QuadMesh q = new QuadMesh();
@@ -343,5 +353,4 @@ public abstract partial class AbstractTower : AbstractPlaceable
     {
         CanShoot = true;
     }
-
 }

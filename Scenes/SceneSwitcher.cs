@@ -31,6 +31,7 @@ public partial class SceneSwitcher : Node
         CardLoadingManager.GetInstance();
         DeckManager.GetInstance();
         AccountStatsManager.GetInstance();
+        AudioManager.GetInstance();
         Instance = this;
         PushScene("res://Scenes/menus/MainMenu.tscn");
     }
@@ -117,14 +118,20 @@ public partial class SceneSwitcher : Node
                 loading = false;
                 return;
             case ResourceLoader.ThreadLoadStatus.InProgress: // THREAD_LOAD_IN_PROGRESS
-                this._loadScreen.UpdateProgressBar((float)_progress[0]);
+                if (IsInstanceValid(this._loadScreen._progressBar))
+                {
+                    this._loadScreen.UpdateProgressBar((float)_progress[0]);
+                }
                 break;
             case ResourceLoader.ThreadLoadStatus.Loaded: // THREAD_LOAD_LOADED
                 _loadedResource = (PackedScene)ResourceLoader.LoadThreadedGet(_scenePath);
                 Node node = _loadedResource.Instantiate();
                 sceneStack.Push(node);
                 CallDeferred("add_child", node); //this.AddChild(node);
-                this._loadScreen._progressBar.Value = 100;
+                if (IsInstanceValid(this._loadScreen._progressBar))
+                {
+                    this._loadScreen._progressBar.Value = 100;
+                }
                 this._loadScreen.StartOutroAnimation();
                 loading = false;
                 break;

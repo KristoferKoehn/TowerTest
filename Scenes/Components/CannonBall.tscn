@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://c3dycm5n6lyk2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x2fhh"]
+albedo_color = Color(0.127307, 0.122143, 0.108218, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_e0uac"]
+material = SubResource("StandardMaterial3D_x2fhh")
+radius = 0.125
+height = 0.25
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_sb5t5"]
+radius = 0.762279
+
+[node name="CannonBall" type="MeshInstance3D"]
+mesh = SubResource("SphereMesh_e0uac")
+
+[node name="Hitbox" type="Area3D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
+shape = SubResource("SphereShape3D_sb5t5")

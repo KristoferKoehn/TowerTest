@@ -17,7 +17,7 @@ public enum StatType
 
 
 	//Tower Stats
-	AttackSpeed,
+	AttackSpeed, // The interval in seconds before it can attack again, so lower = faster.
 	Range,
 	SellValue,
 	FireDamage,

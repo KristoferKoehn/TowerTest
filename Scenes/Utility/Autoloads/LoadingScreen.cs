@@ -20,6 +20,7 @@ public partial class LoadingScreen : CanvasLayer
 
     public override void _Ready()
     {
+        AudioManager.GetInstance().PlayMenuSwitch();
         allCardData = DirAccess.GetFilesAt(cardDirectory);
         _dotTimer.Timeout += () => OnDotTimerTimeout();
         LoadRandomCard();

@@ -28,7 +28,7 @@ public partial class BaseStatusEffect : Node
         this.effectIcon.CustomMinimumSize = new Vector2(50, 50);
 
         // Setting Properties:
-        this.Name = EffectName; // ArtifactName the node (not really necessary but when you look at remote it will show)
+        this.Name = EffectName; // ActionName the node (not really necessary but when you look at remote it will show)
         this.enemy = this.GetParent<BaseEnemy>(); // The effect should be added as a child to the enemy. enemy doesnt have to know about the effect
 
         // Timer and Event Set Up:
