@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scenes/UI/Cards/CardData.cs" id="1_6potd"]
+
+[resource]
+script = ExtResource("1_6potd")
+Name = "Catapult"
+CardInfo = ""
+Rarity = "Rare"
+ShopCost = 0
+SubjectScene = "Catapult.tscn"
+FOV = 58.0
+CameraOrbitSpeed = 1.0
+CameraTilt = -9.8
+CameraZoom = 1.8
+ResourceCostType = 0
+ResourceCostValue = 0.0
+CardType = 0

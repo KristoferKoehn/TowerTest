@@ -20,7 +20,7 @@ public partial class GameLoop : Node3D
         PlayerStatsManager.GetInstance();
 		WaveManager.GetInstance();
         WaveDataManager.GetInstance();
-		BallistaArrowManager.GetInstance();
+		TowerManager.GetInstance();
 		ParticleSignals.GetInstance();
 		ParticleManager.GetInstance();
         UI.GetInstance();

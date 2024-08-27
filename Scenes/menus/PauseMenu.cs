@@ -36,6 +36,7 @@ public partial class PauseMenu : Control
     private void OnConfirmReturnToTitle()
     {
         GetTree().Paused = false;
+        Engine.TimeScale = 1;
         SceneSwitcher.Instance.PopScene();
     }
 

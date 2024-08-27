@@ -3,6 +3,8 @@ using TowerTest.Scenes.Components;
 
 public partial class BaseCard : Control
 {
+    private bool Debugging = false;
+
     [Signal]
     public delegate void SelectedEventHandler(BaseCard sender);
     [Signal]
@@ -177,7 +179,7 @@ public partial class BaseCard : Control
     {
 
         this.data = data;
-        GD.Print(data.Name);
+        if(Debugging) GD.Print(data.Name);
         CardNameLabel.Text = data.Name;
         CardName = data.Name;
         if (Viewport != null)
@@ -210,14 +212,16 @@ public partial class BaseCard : Control
             case CardType.Spell:
                 SpawnPlaceable();
                 break;
-            case CardType.Artifact:
+            case CardType.Action:
+                ActivateAction();
                 break;
         }
     }
 
-    private void ActivateArtifact()
+    private void ActivateAction()
     {
-        ArtifactManager.GetInstance().AddArtifact(CardLoadingManager.GetInstance().GetPackedScene(this.data.SubjectScene).Instantiate<BaseArtifact>());
+        ActionManager.GetInstance().AddAction(CardLoadingManager.GetInstance().GetPackedScene(this.data.SubjectScene).Instantiate<BaseAction>());
+        EmitSignal("Placed", this);
     }
 
     private void SpawnPlaceable()
