@@ -1,10 +1,10 @@
 using Godot;
+using Managers;
 using System;
 using System.Collections.Generic;
 
 public partial class PlayerHand2 : Control
 {
-
 
     [Export] Node2D CardPlacingPosition;
     [Export] Path2D CardPlacingPath;
@@ -14,16 +14,15 @@ public partial class PlayerHand2 : Control
     [Export] Node2D Discard;
     [Export] Node2D Deck;
 
-
     [Export] Panel PlayPanel;
     [Export] Panel DiscardPanel;
     [Export] Panel FreezePanel;
     [Export] PackedScene DummyCard;
 
-    List<BaseCard> CardList = new List<BaseCard>();
+    public List<BaseCard> CardList = new List<BaseCard>();
     List<float> CardPositions = new List<float>();
 
-    List<BaseCard> FreezeCardList = new List<BaseCard>();
+    public List<BaseCard> FreezeCardList = new List<BaseCard>();
 
     BaseCard DraggingCard = null;
 
@@ -39,6 +38,8 @@ public partial class PlayerHand2 : Control
         HideDeck();
         HideDiscard();
         DrawCards(7);
+
+        WaveManager.GetInstance().WaveEnded += () => EndOfWaveMechanics();
 
     }
 
@@ -67,6 +68,7 @@ public partial class PlayerHand2 : Control
         ForceHandUp = true;
         //spread this out over time using timers.
         //shen the deck is fully shown, start timer. Whenever timer times out do the thing.
+        GD.Print("drawing " + count);
 
         ShowDeck().Finished += () =>
         {
@@ -79,15 +81,18 @@ public partial class PlayerHand2 : Control
                 //draw rest of cards (remaining - count)
 
                 int remainingCount = DeckManager.GetInstance().Cards.Count;
-                int afterShuffleCount = remainingCount - count;
-
+                int afterShuffleCount = count - remainingCount;
                 int i = 0;
                 Timer t = new Timer();
                 AddChild(t);
                 t.Start(0.1);
                 t.Timeout += () =>
                 {
-                    
+                    if (DeckManager.GetInstance().Cards.Count == 0)
+                    {
+                        Deck.Visible = false;
+                    }
+
                     if (i < remainingCount)
                     {
                         CardData DrawnCard = DeckManager.GetInstance().DrawCards(1)[0];
@@ -98,10 +103,15 @@ public partial class PlayerHand2 : Control
                     }
                     else
                     {
-                        GD.Print($" reehehehehee {i}");
-                        Deck.Visible = false;
-                        RefreshDeck().Timeout += () => DrawCards(afterShuffleCount);
+
+                        
+                        ShowDiscard().Finished += () => RefreshDeck().Timeout += () => 
+                        { 
+                            HideDiscard();
+                            DrawCards(afterShuffleCount); 
+                        };
                         t.QueueFree();
+
                     }
                 };
 
@@ -192,6 +202,7 @@ public partial class PlayerHand2 : Control
             t.TweenProperty(card, "position", Discard.Position, 0.2f);
             t.Finished += () =>
             {
+                Discard.Visible = true;
                 card.Discard();
                 GetTree().CreateTimer(0.1).Timeout += () => HideDiscard();
             };
@@ -428,34 +439,91 @@ public partial class PlayerHand2 : Control
     
     public Timer RefreshDeck()
     {
-        Tween t;
         int maxCount = DeckManager.GetInstance().Discards.Count;
         int i = 0;
         Timer cardSpawnTimer = new Timer();
         AddChild(cardSpawnTimer);
-        cardSpawnTimer.Timeout += () => { 
+        cardSpawnTimer.Timeout += () => {
+
             if (i < maxCount)
             {
                 Sprite2D dummy = DummyCard.Instantiate<Sprite2D>();
-                dummy.GlobalPosition = Discard.GlobalPosition;
-                t = GetTree().CreateTween();
-                t.TweenProperty(dummy, "global_position", Deck.GlobalPosition, 0.2);
+                AddChild(dummy);
+                dummy.GlobalPosition = Discard.GlobalPosition + new Vector2(62.5f, 175f / 2f);
+                Tween t = GetTree().CreateTween();
+                t.TweenProperty(dummy, "global_position", Deck.GlobalPosition + new Vector2(62.5f, 175f/2f), 0.2);
+                t.Finished += () => {
+                    Deck.Visible = true;
+                    dummy.QueueFree(); 
+                };
                 i++;
+
+                //turn off deck when no cards left
+                if (i == maxCount)
+                {
+                    Discard.Visible = false;
+                }
             } else
             {
                 cardSpawnTimer.QueueFree();
             }
         };
 
+        DeckManager.GetInstance().RefreshDeck();
         cardSpawnTimer.Start(0.1);
         Timer timer = new Timer();
         this.AddChild(timer);
         timer.Start(0.1 * maxCount);
-        timer.Timeout += timer.QueueFree;
+        timer.Timeout += () =>
+        {
+            timer.QueueFree();
+            Deck.Visible = true;
+        };
         return timer;
     }
 
+    public Tween DiscardHand()
+    {
 
+        Tween t = null;
+        if (CardList.Count > 0)
+        {
+            int j = 0;
+            foreach (BaseCard card in CardList)
+            {
+                t = GetTree().CreateTween();
+                t.TweenProperty(card, "global_position", Discard.GlobalPosition, 0.2).SetDelay(j * 0.2);
+                t.Finished += () =>
+                {
+                    Discard.Visible = true;
+                    card.Discard();
+                };
+                j++;
+            }
+            CardList.Clear();
 
+            return t;
+        }
 
+        t = GetTree().CreateTween();
+        t.TweenProperty(this, "position", this.Position, 0);
+        return t;
+    }
+
+    public void EndOfWaveMechanics()
+    {
+
+        if (CardList.Count > 0)
+        {
+            ShowDiscard().Finished += () => {
+                DiscardHand().Finished += () => {
+                    HideDiscard();
+                    DrawCards(7);
+                };
+            };
+        } else
+        {
+            DrawCards(7);
+        }
+    }
 }

@@ -117,5 +117,21 @@ public partial class UI : CanvasLayer
         WaveManager.GetInstance().StartWave();
     }
 
+    public override void _Input(InputEvent @event)
+    {
+        if (@event.IsActionPressed("DiscardHand"))
+        {
+            //_playerHand.ShowDiscard().Finished += () => _playerHand.DiscardHand().Finished += () => _playerHand.HideDiscard();
+            GD.Print("Q");
+        }
+
+        if (@event.IsActionPressed("DrawCards"))
+        {
+
+            //_playerHand.DrawCards(7);
+            GD.Print($"E {_playerHand.CardList.Count}");
+        }
+    }
+
 
 }

@@ -45,6 +45,7 @@ scale = Vector2(0.25, 0.25)
 texture = ExtResource("3_kinqq")
 
 [node name="DiscardPile" type="Node2D" parent="."]
+visible = false
 position = Vector2(1000, -200)
 
 [node name="Panel" type="Panel" parent="DiscardPile"]

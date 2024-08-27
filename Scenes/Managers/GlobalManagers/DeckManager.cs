@@ -72,5 +72,10 @@ public partial class DeckManager : Node
         return Cards.Count;
     }
 
+    public void RefreshDeck()
+    {
+        Cards.AddRange(Discards);
+    }
+
 }
 
