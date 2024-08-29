@@ -5,7 +5,7 @@ public partial class CardData : Resource
 {
     [Export] public string Name { get; set; }
     [Export] public string CardInfo { get; set; }
-    [Export] public string Rarity { get; set; } = "Common";
+    [Export] public Rarity Rarity { get; set; } = Rarity.Common;
     [Export] public int ShopCost { get; set; }
     [Export] public string SubjectScene { get; set;}
     [Export] public float FOV { get; set; } = 75f;
@@ -23,4 +23,19 @@ public enum CardType
     Chunk,
     Action,
     Spell,
+}
+
+public enum Rarity
+{
+    Common,
+    Uncommon,
+    Rare,
+    Epic, 
+    Legendary
+}
+
+public enum Foil
+{
+    Smooth,
+    Confetti,
 }

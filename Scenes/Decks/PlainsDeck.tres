@@ -1,6 +1,4 @@
-
 [gd_resource type="Resource" script_class="DeckData" load_steps=11 format=3 uid="uid://yuqox702la4v"]
-
 
 [ext_resource type="Script" path="res://Scenes/Utility/DeckData.cs" id="1_myq8o"]
 [ext_resource type="Resource" uid="uid://yxirthjxca2m" path="res://Scenes/CardData/The Sandy Runway.tres" id="1_t76fv"]
@@ -8,13 +6,11 @@
 [ext_resource type="Resource" uid="uid://dna48u485112j" path="res://Scenes/CardData/The Corner.tres" id="3_ij8rb"]
 [ext_resource type="Resource" uid="uid://brbbx84obet3b" path="res://Scenes/CardData/Calm Valley.tres" id="4_ua4d5"]
 [ext_resource type="Resource" uid="uid://cd6vx2cheonqr" path="res://Scenes/CardData/Laneless Chunk.tres" id="5_fkod7"]
-
 [ext_resource type="Resource" path="res://Scenes/CardData/Expensive Ballista.tres" id="6_hb7t8"]
-[ext_resource type="Resource" uid="uid://bmsm1bp17rgq7" path="res://Scenes/CardData/Cannon.tres" id="7_xjte1"]
-[ext_resource type="Resource" uid="uid://c1o1l3m74qjmg" path="res://Scenes/CardData/DoubleTowerSpeed.tres" id="8_r5jej"]
+[ext_resource type="Resource" path="res://Scenes/CardData/Cannon.tres" id="7_xjte1"]
+[ext_resource type="Resource" path="res://Scenes/CardData/DoubleTowerSpeed.tres" id="8_r5jej"]
 [ext_resource type="Resource" path="res://Scenes/CardData/Catapult.tres" id="9_21lqu"]
 
 [resource]
 script = ExtResource("1_myq8o")
 data = [ExtResource("1_t76fv"), ExtResource("1_t76fv"), ExtResource("1_t76fv"), ExtResource("2_g5r8q"), ExtResource("2_g5r8q"), ExtResource("2_g5r8q"), ExtResource("3_ij8rb"), ExtResource("3_ij8rb"), ExtResource("3_ij8rb"), ExtResource("4_ua4d5"), ExtResource("4_ua4d5"), ExtResource("4_ua4d5"), ExtResource("5_fkod7"), ExtResource("5_fkod7"), ExtResource("5_fkod7"), ExtResource("6_hb7t8"), ExtResource("7_xjte1"), ExtResource("7_xjte1"), ExtResource("8_r5jej"), ExtResource("8_r5jej"), ExtResource("9_21lqu"), ExtResource("9_21lqu")]
-

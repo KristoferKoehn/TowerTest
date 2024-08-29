@@ -1,9 +1,17 @@
-[gd_scene load_steps=7 format=3 uid="uid://bbpphuq3csaxf"]
+[gd_scene load_steps=17 format=3 uid="uid://bbpphuq3csaxf"]
 
 [ext_resource type="Script" path="res://Scenes/UI/Cards/PlayerHand2.cs" id="1_mbkwo"]
-[ext_resource type="PackedScene" uid="uid://dr33ompxp8p4g" path="res://Scenes/UI/Cards/BaseCard.tscn" id="2_c3nx8"]
-[ext_resource type="PackedScene" uid="uid://bfeabptfrqxhi" path="res://Scenes/Utility/DummyCard.tscn" id="3_ek12e"]
+[ext_resource type="PackedScene" uid="uid://bdf1nwcac22yx" path="res://Scenes/UI/Cards/Card.tscn" id="2_poku3"]
+[ext_resource type="PackedScene" path="res://Scenes/Utility/DummyCard.tscn" id="3_ek12e"]
 [ext_resource type="Texture2D" uid="uid://0c3rqyd35rly" path="res://Assets/Textures/CardBack2.png" id="3_kinqq"]
+[ext_resource type="AudioStream" uid="uid://0s5kfxkq6ex5" path="res://Assets/Audio/OtherSounds/CardSound.wav" id="5_hoslm"]
+[ext_resource type="AudioStream" uid="uid://df6mv2yvnk171" path="res://Assets/Audio/OtherSounds/CardSound2.wav" id="6_1gkha"]
+[ext_resource type="AudioStream" uid="uid://dlr48jdk41p2y" path="res://Assets/Audio/OtherSounds/CardSound3.wav" id="7_2mh1m"]
+[ext_resource type="AudioStream" uid="uid://dylv7hf4i10mx" path="res://Assets/Audio/OtherSounds/TowerPlaced1.wav" id="8_5pvxx"]
+[ext_resource type="AudioStream" uid="uid://c6m24a1w6h4k4" path="res://Assets/Audio/OtherSounds/TowerPlaced2.wav" id="9_s7w41"]
+[ext_resource type="AudioStream" uid="uid://dhtkbkupikaqp" path="res://Assets/Audio/OtherSounds/Placing1.wav" id="10_1sgvx"]
+[ext_resource type="AudioStream" uid="uid://boir27bw6y2qe" path="res://Assets/Audio/OtherSounds/Placing2.wav" id="11_37nid"]
+[ext_resource type="AudioStream" uid="uid://gmf6vrj70yym" path="res://Assets/Audio/OtherSounds/Placing3.wav" id="12_jfo7k"]
 
 [sub_resource type="Curve2D" id="Curve2D_2sk6h"]
 _data = {
@@ -11,20 +19,38 @@ _data = {
 }
 point_count = 2
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rhvrl"]
-bg_color = Color(0.6, 0, 0, 0.443137)
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_a0qm1"]
+streams_count = 3
+stream_0/stream = ExtResource("5_hoslm")
+stream_1/stream = ExtResource("6_1gkha")
+stream_2/stream = ExtResource("7_2mh1m")
 
-[node name="PlayerHand2" type="Control" node_paths=PackedStringArray("CardPlacingPosition", "CardPlacingPath", "PathFollow", "Discard", "Deck")]
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_bx38c"]
+streams_count = 2
+stream_0/stream = ExtResource("8_5pvxx")
+stream_1/stream = ExtResource("9_s7w41")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_kaj2w"]
+streams_count = 3
+stream_0/stream = ExtResource("10_1sgvx")
+stream_1/stream = ExtResource("11_37nid")
+stream_2/stream = ExtResource("12_jfo7k")
+
+[node name="PlayerHand2" type="Control" node_paths=PackedStringArray("CardPlacingPosition", "CardPlacingPath", "PathFollow", "Discard", "Deck", "CardSound", "TowerPlacedSound", "PlacingSound", "HandDisplayButton")]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_mbkwo")
 CardPlacingPosition = NodePath("ActiveCardPlacement")
 CardPlacingPath = NodePath("Path2D")
 PathFollow = NodePath("Path2D/PathFollow2D")
-BaseCardScene = ExtResource("2_c3nx8")
+CardScene = ExtResource("2_poku3")
 Discard = NodePath("DiscardPile")
 Deck = NodePath("DeckPosition")
 DummyCard = ExtResource("3_ek12e")
+CardSound = NodePath("CardSound")
+TowerPlacedSound = NodePath("TowerPlacedSound")
+PlacingSound = NodePath("PlacingSound")
+HandDisplayButton = NodePath("HandDisplayButton")
 
 [node name="Path2D" type="Path2D" parent="."]
 curve = SubResource("Curve2D_2sk6h")
@@ -34,44 +60,39 @@ position = Vector2(-400, 0)
 rotation = -0.197396
 
 [node name="ActiveCardPlacement" type="Node2D" parent="."]
-position = Vector2(400, -400)
+position = Vector2(400, -325)
 
 [node name="DeckPosition" type="Node2D" parent="."]
-position = Vector2(1000, -400)
+position = Vector2(1300, -325)
 
 [node name="Sprite2D" type="Sprite2D" parent="DeckPosition"]
-position = Vector2(62, 87)
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("3_kinqq")
 
 [node name="DiscardPile" type="Node2D" parent="."]
-visible = false
-position = Vector2(1000, -200)
-
-[node name="Panel" type="Panel" parent="DiscardPile"]
-visible = false
-offset_left = -17.0
-offset_top = -20.0
-offset_right = 142.0
-offset_bottom = 197.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_rhvrl")
-
-[node name="Label" type="Label" parent="DiscardPile/Panel"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-text = "DISCARD"
-
-[node name="Label2" type="Label" parent="DiscardPile/Panel"]
-layout_mode = 0
-offset_left = 156.0
-offset_top = 216.0
-offset_right = 225.0
-offset_bottom = 239.0
-rotation = -3.14159
-text = "DISCARD"
+position = Vector2(1300, -125)
 
 [node name="Sprite2D" type="Sprite2D" parent="DiscardPile"]
-position = Vector2(63, 88)
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("3_kinqq")
+
+[node name="HandDisplayButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = -563.0
+offset_top = 74.0
+offset_right = -416.0
+offset_bottom = 136.0
+text = "HIDE HAND"
+
+[node name="CardSound" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_a0qm1")
+max_polyphony = 5
+
+[node name="TowerPlacedSound" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_bx38c")
+volume_db = -18.0
+
+[node name="PlacingSound" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_kaj2w")
+
+[connection signal="pressed" from="HandDisplayButton" to="." method="_on_hand_display_button_pressed"]

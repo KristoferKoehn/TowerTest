@@ -10,7 +10,7 @@ public partial class LoadingScreen : CanvasLayer
     [Export] public Timer _dotTimer;
     [Export] public Label _loadingLabel;
     [Export] public VBoxContainer _vBoxContainer;
-    [Export] public BaseCard _baseCard;
+    [Export] public Card Card;
 
     private string cardDirectory = "res://Scenes/CardData/";
     private string[] allCardData;
@@ -26,22 +26,14 @@ public partial class LoadingScreen : CanvasLayer
         LoadRandomCard();
     }
 
-    /*
-    private void LoadArtifactCard()
-    {
-        CardData carddata = (CardData)ResourceLoader.Load("res://Scenes/CardData/DoubleTowerSpeed.tres");
-        this._baseCard.SetCardData(carddata);
-        this._baseCard.Disabled = true;
-    }
-    */
     private void LoadRandomCard()
     {
         Random random = new Random();
         int randomIndex = random.Next(allCardData.Length);
         string randomCardName = allCardData[randomIndex];
         CardData carddata = (CardData)ResourceLoader.Load(cardDirectory + randomCardName);
-        this._baseCard.SetCardData(carddata);
-        this._baseCard.Disabled = true;
+        Card.SetCardData(carddata);
+        Card.Disabled = true;
     }
 
     private void OnDotTimerTimeout()

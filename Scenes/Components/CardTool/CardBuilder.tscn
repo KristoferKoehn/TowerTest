@@ -1,7 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://ct5pu2kl2cmk0"]
+[gd_scene load_steps=11 format=3 uid="uid://ct5pu2kl2cmk0"]
 
-[ext_resource type="PackedScene" uid="uid://dr33ompxp8p4g" path="res://Scenes/UI/Cards/BaseCard.tscn" id="1_0prre"]
 [ext_resource type="Script" path="res://Scenes/Components/CardTool/CardBuilder.cs" id="1_7haud"]
+[ext_resource type="PackedScene" uid="uid://bdf1nwcac22yx" path="res://Scenes/UI/Cards/Card.tscn" id="2_5u6yw"]
 [ext_resource type="PackedScene" uid="uid://bvfxokd17td3t" path="res://Scenes/Components/WaveTool/FileSelector.tscn" id="3_pshew"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_mm4tt"]
@@ -19,12 +19,21 @@ glow_enabled = true
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_lpf1i"]
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_dgx24"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_mre4s"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_wexar"]
+viewport_path = NodePath("SubViewport")
+
 [node name="CardBuilder" type="Node3D" node_paths=PackedStringArray("NameEdit", "SmallCard", "TiltedCard", "BigCard", "ItemList", "SubjectTypeSelector", "TextEdit", "RarityOptionButton", "ResourceTypeOptionButton", "ResourceCostSpinbox", "FileSelector", "ShopCostSpinBox", "OrbitSlider", "TiltSlider", "ZoomSlider", "FOVSlider", "CardInfoTextEdit")]
 script = ExtResource("1_7haud")
 NameEdit = NodePath("Control/Panel/VBoxContainer/HBoxContainer/VBoxContainer/LineEdit")
-SmallCard = NodePath("Control/CardBase")
-TiltedCard = NodePath("Control/CardBase3")
-BigCard = NodePath("Control/CardBase2")
+SmallCard = NodePath("Card3")
+TiltedCard = NodePath("Card2")
+BigCard = NodePath("Card")
 ItemList = NodePath("Control/Panel/VBoxContainer/HBoxContainer/ScrollContainer/ItemList")
 SubjectTypeSelector = NodePath("Control/Panel/VBoxContainer/HBoxContainer/VBoxContainer/OptionButton")
 TextEdit = NodePath("Control/Panel/VBoxContainer/TextEdit")
@@ -288,35 +297,23 @@ text = "Save"
 layout_mode = 2
 text = "Load"
 
-[node name="CardBase" parent="Control" instance=ExtResource("1_0prre")]
-offset_left = 93.0
-offset_top = 88.0
-offset_right = 343.0
-offset_bottom = 438.0
-grow_horizontal = 1
-grow_vertical = 1
-
-[node name="CardBase2" parent="Control" instance=ExtResource("1_0prre")]
-offset_left = 333.0
-offset_top = 139.0
-offset_right = 583.0
-offset_bottom = 489.0
-grow_horizontal = 1
-grow_vertical = 1
-scale = Vector2(1, 1)
-
-[node name="CardBase3" parent="Control" instance=ExtResource("1_0prre")]
-offset_left = 119.0
-offset_top = 329.0
-offset_right = 369.0
-offset_bottom = 679.0
-grow_horizontal = 1
-grow_vertical = 1
-rotation = 0.131955
-
 [node name="FileSelector" parent="." instance=ExtResource("3_pshew")]
 visible = false
 SearchDirectory = "res://Scenes/CardData/"
+
+[node name="Card" parent="." instance=ExtResource("2_5u6yw")]
+position = Vector2(437, 264)
+scale = Vector2(1, 1)
+texture = SubResource("ViewportTexture_dgx24")
+
+[node name="Card2" parent="." instance=ExtResource("2_5u6yw")]
+position = Vector2(175, 459)
+rotation = 0.37001
+texture = SubResource("ViewportTexture_mre4s")
+
+[node name="Card3" parent="." instance=ExtResource("2_5u6yw")]
+position = Vector2(149, 178)
+texture = SubResource("ViewportTexture_wexar")
 
 [connection signal="ValuesUpdated" from="." to="." method="_on_values_updated"]
 [connection signal="text_changed" from="Control/Panel/VBoxContainer/HBoxContainer/VBoxContainer/LineEdit" to="." method="_on_line_edit_text_changed"]
