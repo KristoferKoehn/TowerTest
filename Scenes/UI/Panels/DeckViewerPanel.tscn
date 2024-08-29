@@ -1,0 +1,383 @@
+[gd_scene load_steps=2 format=3 uid="uid://b3t1u0ejkjvhy"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_ww1fl"]
+
+[node name="DeckViewerPanel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Panel" type="Panel" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="MarginContainer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Deck"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Panel" type="Panel" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer2/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer2/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Deck Info"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer2/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Towers: 7"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer2/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer2/Panel/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer2/Panel/VBoxContainer/ScrollContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer2/Panel/VBoxContainer/ScrollContainer/HBoxContainer/MarginContainer"]
+custom_minimum_size = Vector2(62.5, 87.5)
+layout_mode = 2
+texture = SubResource("CanvasTexture_ww1fl")
+
+[node name="Label3" type="Label" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer2/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Chunks: 10"
+
+[node name="ScrollContainer2" type="ScrollContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer2/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer2/Panel/VBoxContainer/ScrollContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label4" type="Label" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer2/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Actions: 4"
+
+[node name="ScrollContainer3" type="ScrollContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer2/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer2/Panel/VBoxContainer/ScrollContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Panel" type="Panel" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Cards"
+horizontal_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 5
+columns = 8
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer/MarginContainer"]
+custom_minimum_size = Vector2(62.5, 87.5)
+layout_mode = 2
+texture = SubResource("CanvasTexture_ww1fl")
+
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer/MarginContainer2"]
+custom_minimum_size = Vector2(62.5, 87.5)
+layout_mode = 2
+texture = SubResource("CanvasTexture_ww1fl")
+
+[node name="MarginContainer3" type="MarginContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer/MarginContainer3"]
+custom_minimum_size = Vector2(62.5, 87.5)
+layout_mode = 2
+texture = SubResource("CanvasTexture_ww1fl")
+
+[node name="MarginContainer4" type="MarginContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer/MarginContainer4"]
+custom_minimum_size = Vector2(62.5, 87.5)
+layout_mode = 2
+texture = SubResource("CanvasTexture_ww1fl")
+
+[node name="MarginContainer5" type="MarginContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer/MarginContainer5"]
+custom_minimum_size = Vector2(62.5, 87.5)
+layout_mode = 2
+texture = SubResource("CanvasTexture_ww1fl")
+
+[node name="MarginContainer6" type="MarginContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer/MarginContainer6"]
+custom_minimum_size = Vector2(62.5, 87.5)
+layout_mode = 2
+texture = SubResource("CanvasTexture_ww1fl")
+
+[node name="MarginContainer7" type="MarginContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer/MarginContainer7"]
+custom_minimum_size = Vector2(62.5, 87.5)
+layout_mode = 2
+texture = SubResource("CanvasTexture_ww1fl")
+
+[node name="MarginContainer8" type="MarginContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer/MarginContainer8"]
+custom_minimum_size = Vector2(62.5, 87.5)
+layout_mode = 2
+texture = SubResource("CanvasTexture_ww1fl")
+
+[node name="MarginContainer9" type="MarginContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer/MarginContainer9"]
+custom_minimum_size = Vector2(62.5, 87.5)
+layout_mode = 2
+texture = SubResource("CanvasTexture_ww1fl")
+
+[node name="MarginContainer10" type="MarginContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer/MarginContainer10"]
+custom_minimum_size = Vector2(62.5, 87.5)
+layout_mode = 2
+texture = SubResource("CanvasTexture_ww1fl")
+
+[node name="MarginContainer11" type="MarginContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer/MarginContainer11"]
+custom_minimum_size = Vector2(62.5, 87.5)
+layout_mode = 2
+texture = SubResource("CanvasTexture_ww1fl")
+
+[node name="MarginContainer12" type="MarginContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer/MarginContainer12"]
+custom_minimum_size = Vector2(62.5, 87.5)
+layout_mode = 2
+texture = SubResource("CanvasTexture_ww1fl")
+
+[node name="MarginContainer13" type="MarginContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer/MarginContainer13"]
+custom_minimum_size = Vector2(62.5, 87.5)
+layout_mode = 2
+texture = SubResource("CanvasTexture_ww1fl")
+
+[node name="MarginContainer14" type="MarginContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer/MarginContainer14"]
+custom_minimum_size = Vector2(62.5, 87.5)
+layout_mode = 2
+texture = SubResource("CanvasTexture_ww1fl")
+
+[node name="MarginContainer15" type="MarginContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer/MarginContainer15"]
+custom_minimum_size = Vector2(62.5, 87.5)
+layout_mode = 2
+texture = SubResource("CanvasTexture_ww1fl")
+
+[node name="MarginContainer16" type="MarginContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer/MarginContainer16"]
+custom_minimum_size = Vector2(62.5, 87.5)
+layout_mode = 2
+texture = SubResource("CanvasTexture_ww1fl")
+
+[node name="MarginContainer17" type="MarginContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer/MarginContainer17"]
+custom_minimum_size = Vector2(62.5, 87.5)
+layout_mode = 2
+texture = SubResource("CanvasTexture_ww1fl")
+
+[node name="MarginContainer18" type="MarginContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/GridContainer/MarginContainer18"]
+custom_minimum_size = Vector2(62.5, 87.5)
+layout_mode = 2
+texture = SubResource("CanvasTexture_ww1fl")

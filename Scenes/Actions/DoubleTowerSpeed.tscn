@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" path="res://Scenes/Actions/DoubleTowerSpeed.cs" id="1_wutek"]
 
-
 [sub_resource type="SphereMesh" id="SphereMesh_0tvyc"]
 
 [node name="DoubleTowerSpeed" type="Node3D"]
