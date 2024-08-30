@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://datxemmgww4fm"]
+
+[ext_resource type="Script" path="res://Scenes/UI/TargetPrediction.cs" id="1_2pjf3"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_te2so"]
+
+[node name="TargetPrediction" type="PathFollow3D"]
+script = ExtResource("1_2pjf3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_te2so")

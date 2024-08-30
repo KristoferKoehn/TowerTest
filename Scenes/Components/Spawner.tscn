@@ -9,10 +9,8 @@ _data = {
 }
 point_count = 2
 
-[node name="Spawner" type="Node3D"]
+[node name="Spawner" type="Path3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45, 0)
+curve = SubResource("Curve3D_hh2vu")
 script = ExtResource("1_iosv6")
 Enabled = false
-
-[node name="Path3D" type="Path3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
-curve = SubResource("Curve3D_hh2vu")

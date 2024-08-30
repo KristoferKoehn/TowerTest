@@ -14,6 +14,7 @@ public partial class BaseEnemy : PathFollow3D
 	public HealthBar healthBar;
 
 	[Export] public AudioStreamPlayer3D StrikeSound { get; set; }
+	[Export] public TargetPrediction TargetPrediction { get; set; }
 
 	public StatBlock StatBlock = new StatBlock();
 	protected string ModelName;
@@ -49,8 +50,6 @@ public partial class BaseEnemy : PathFollow3D
         if (ProgressRatio == 1)
 		{
 			AttachNextPath();
-
-
 			//switch paths
 			//raycasting down (to hit the tile), asking for it's parent, then passing the tile into the chunk's thingy (GetPathsFromEntrance)
 			//reparent to new path, set progress ratio to 0
@@ -58,13 +57,48 @@ public partial class BaseEnemy : PathFollow3D
         Progress += StatBlock.GetStat(StatType.Speed) * (float)delta;
 	}
 
-	public MeshInstance3D GetTileAt(Vector3 to, Vector3 from)
+
+    public MeshInstance3D GetTileAt(Vector3 to, Vector3 from)
 	{
 		PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
 		PhysicsRayQueryParameters3D query = PhysicsRayQueryParameters3D.Create(to, from, collisionMask: 8);
 		Dictionary result = spaceState.IntersectRay(query);
 
-		if (result.Count > 1)
+        MeshInstance3D meshInstance3D = new MeshInstance3D();
+        meshInstance3D.TopLevel = true;
+        ImmediateMesh immediateMesh = new();
+        OrmMaterial3D material = new();
+        meshInstance3D.Mesh = immediateMesh;
+        meshInstance3D.CastShadow = GeometryInstance3D.ShadowCastingSetting.Off;
+        immediateMesh.SurfaceBegin(Mesh.PrimitiveType.Lines, material);
+        immediateMesh.SurfaceAddVertex(to);
+        immediateMesh.SurfaceAddVertex(from);
+
+        immediateMesh.SurfaceEnd();
+        material.ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded;
+
+
+        if (result.Count > 1)
+        {
+            material.AlbedoColor = Colors.Red;
+            AddChild(meshInstance3D);
+        }
+        else
+        {
+            material.AlbedoColor = Colors.LimeGreen;
+            AddChild(meshInstance3D);
+        }
+
+        Timer t = new Timer();
+        meshInstance3D.AddChild(t);
+        t.Start(0.3);
+        t.Timeout += () =>
+        {
+            meshInstance3D.QueueFree();
+            t.QueueFree();
+        };
+
+        if (result.Count > 1)
 		{
 			return ((StaticBody3D)result["collider"]).GetParent<MeshInstance3D>();
 		}
@@ -81,7 +115,6 @@ public partial class BaseEnemy : PathFollow3D
 
 	public void AttachNextPath()
 	{
-
 		MeshInstance3D temp = GetTileAt(ToGlobal(new Vector3(0,1,0)), ToGlobal(new Vector3(0, -1, 0)));
 		Chunk chunk = GetChunkReferenceFromTile(temp);
 		ChunkCounter = chunk.ChunkDistance;
@@ -97,10 +130,9 @@ public partial class BaseEnemy : PathFollow3D
 		{
 			EnemyManager.GetInstance().UnregisterEnemy(this);
 			DamagePlayer();
-
+			TargetPrediction.QueueFree();
             QueueFree();
 		}
-
 	}
 
 	public void TakeDamage(float damage, Node source)
@@ -119,7 +151,7 @@ public partial class BaseEnemy : PathFollow3D
 		DamageNumbers.GetInstance().DisplayDamageNumbers(damage, damage_num_position, false);
 	}
 
-	public float GetProgress()
+	public float GetTotalProgress()
 	{
 		return ChunkCounter - ProgressRatio;
 	}
@@ -150,6 +182,16 @@ public partial class BaseEnemy : PathFollow3D
 
 	public void DamagePlayer()
 	{
-		PlayerStatsManager.GetInstance().ChangeStat(StatType.Health, -this.StatBlock.GetStat(StatType.Damage));
+		PlayerStatsManager.GetInstance().ChangeStat(StatType.Health, -StatBlock.GetStat(StatType.Damage));
 	}
+
+	public Vector3 GetPositionIn(float seconds)
+	{
+		GD.Print(TargetPrediction.GetParent().Name);
+		TargetPrediction.Reparent(GetParent());
+        GD.Print(TargetPrediction.GetParent().Name);
+        TargetPrediction.Progress = Progress;
+		return TargetPrediction.GetPositionIn(seconds, StatBlock.GetStat(StatType.Speed));
+	}
+
 }

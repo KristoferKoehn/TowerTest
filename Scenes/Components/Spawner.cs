@@ -4,7 +4,7 @@ using Managers;
 using System;
 
 [Tool]
-public partial class Spawner : Node3D
+public partial class Spawner : Path3D
 {
 
     [Export]
@@ -96,7 +96,7 @@ public partial class Spawner : Node3D
             if (Enabled)
             {
                 BaseEnemy b = GD.Load<PackedScene>("res://Scenes/Enemies/Necromancer.tscn").Instantiate<BaseEnemy>();
-                GetNode<Path3D>("Path3D").AddChild(b);
+                AddChild(b);
             }
         }
 

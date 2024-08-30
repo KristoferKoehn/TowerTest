@@ -852,6 +852,15 @@ public partial class Chunk : AbstractPlaceable
             UpdateAdjacencyList();
             PlaceChunk(ExitDirection);
         }
+
+        foreach (Node n in GetChildren())
+        {
+            Spawner sp = n as Spawner; 
+            if (sp != null)
+            {
+                sp.Position += new Vector3(0, 0.45f, 0);
+            }
+        }
     }
 
     public void SetOverridesInvalid()

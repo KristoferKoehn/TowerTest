@@ -58,7 +58,7 @@ public partial class Minigun : AbstractTower
         if (EnemyList.Count > 0)
         {
             int index = EnemyList
-            .Select((item, index) => new { Item = item, Index = index, Progress = item.GetProgress() })
+            .Select((item, index) => new { Item = item, Index = index, Progress = item.GetTotalProgress() })
             .OrderBy(x => x.Progress)
             .First()
             .Index;

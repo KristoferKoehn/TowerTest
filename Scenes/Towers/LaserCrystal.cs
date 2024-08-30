@@ -33,7 +33,7 @@ public partial class LaserCrystal : AbstractTower
         {
 
             int index = EnemyList
-            .Select((item, index) => new { Item = item, Index = index, Progress = item.GetProgress() })
+            .Select((item, index) => new { Item = item, Index = index, Progress = item.GetTotalProgress() })
             .OrderByDescending(x => x.Progress)
             .First()
             .Index;
