@@ -3,8 +3,8 @@ using System;
 
 public partial class ParticleWrapper : Node
 {
-	GpuParticles3D particle;
-	Boolean selfDispose = true;
+	public GpuParticles3D particle;
+	public bool selfDispose = true;
 	//public bool readyToFire = true;
 
 	public ParticleWrapper(GpuParticles3D p)

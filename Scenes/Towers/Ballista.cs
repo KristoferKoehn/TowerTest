@@ -146,7 +146,7 @@ public partial class Ballista : AbstractTower
             {
                 arrow.SetMeta("struck", "");
                 arrow.GetNode<Area3D>("Hitbox").AreaEntered -= ((Ballista)tower).DealDamage;
-                ParticleSignals.GetInstance().createParticle("CandyParticle", arrow.GlobalPosition, arrow.GlobalRotation);
+                ParticleSignals.GetInstance().createParticle("Particle1", arrow.GlobalPosition, arrow.GlobalRotation);
             }
             Arrows.Remove(arrow);
             arrow.QueueFree();
