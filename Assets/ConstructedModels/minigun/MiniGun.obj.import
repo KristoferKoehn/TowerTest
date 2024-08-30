@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://b3ana3yiwcj6y"
+path="res://.godot/imported/MiniGun.obj-36bf8a4f5c35a83d9cf7f0c72219ac20.mesh"
+
+[deps]
+
+files=["res://.godot/imported/MiniGun.obj-36bf8a4f5c35a83d9cf7f0c72219ac20.mesh"]
+
+source_file="res://Assets/ConstructedModels/minigun/MiniGun.obj"
+dest_files=["res://.godot/imported/MiniGun.obj-36bf8a4f5c35a83d9cf7f0c72219ac20.mesh", "res://.godot/imported/MiniGun.obj-36bf8a4f5c35a83d9cf7f0c72219ac20.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

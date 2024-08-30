@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bojdsgqmakiw5"
-path.s3tc="res://.godot/imported/halloweenbits_texture.png-5a6cbdfad8c268de0f164eedd01dac77.s3tc.ctex"
+uid="uid://dwxqnlthsi7cl"
+path.s3tc="res://.godot/imported/beamCover.png-830cfac59455589f72f79f7193458e4e.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Assets/HalloweenModels/halloweenbits_texture.png"
-dest_files=["res://.godot/imported/halloweenbits_texture.png-5a6cbdfad8c268de0f164eedd01dac77.s3tc.ctex"]
+source_file="res://Assets/ParticleResources/beamCover.png"
+dest_files=["res://.godot/imported/beamCover.png-830cfac59455589f72f79f7193458e4e.s3tc.ctex"]
 
 [params]
 

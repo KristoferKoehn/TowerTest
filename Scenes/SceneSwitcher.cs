@@ -129,8 +129,8 @@ public partial class SceneSwitcher : Node
                 if (IsInstanceValid(this._loadScreen._progressBar))
                 {
                     this._loadScreen._progressBar.Value = 100;
+                    this._loadScreen.StartOutroAnimation();
                 }
-                this._loadScreen.StartOutroAnimation();
                 loading = false;
                 break;
         }

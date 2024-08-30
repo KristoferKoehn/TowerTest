@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bojdsgqmakiw5"
-path.s3tc="res://.godot/imported/halloweenbits_texture.png-5a6cbdfad8c268de0f164eedd01dac77.s3tc.ctex"
+uid="uid://y2u3gneqm3we"
+path.s3tc="res://.godot/imported/spark2.png-e0fb31d22f3087aa1462f95142d1e29b.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Assets/HalloweenModels/halloweenbits_texture.png"
-dest_files=["res://.godot/imported/halloweenbits_texture.png-5a6cbdfad8c268de0f164eedd01dac77.s3tc.ctex"]
+source_file="res://Assets/ParticleResources/spark2.png"
+dest_files=["res://.godot/imported/spark2.png-e0fb31d22f3087aa1462f95142d1e29b.s3tc.ctex"]
 
 [params]
 

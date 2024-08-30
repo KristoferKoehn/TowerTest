@@ -12,6 +12,7 @@ public enum TowerType
     Catapult,
     GravityCrystal,
     LaserCrystal,
+    Minigun,
 }
 
 [Tool]
@@ -39,6 +40,8 @@ public abstract partial class AbstractTower : AbstractPlaceable
     public Area3D ActiveRange;
     [Export]
     public Timer ShotTimer;
+
+    public PackedScene DummyEnemyScene = GD.Load<PackedScene>("res://Scenes/Enemies/BaseEnemy.tscn");
 
     public bool Disabled = false;
     public bool Selected = false;
@@ -352,5 +355,21 @@ public abstract partial class AbstractTower : AbstractPlaceable
     public void _on_shot_timer_timeout()
     {
         CanShoot = true;
+    }
+
+    public Vector3 CalculateShootAhead(float distance, BaseEnemy enemy)
+    {
+        // Create a temporary PathFollow3D node to simulate the progress
+        //BaseEnemy tempPathFollow = DummyEnemyScene.Instantiate<BaseEnemy>();
+
+        // Set the initial progress to the enemy's current progress
+        //tempPathFollow.Progress = enemy.Progress + distance;
+
+        // Get the global position at this new progress
+        //Vector3 shootAheadPos = tempPathFollow.GlobalPosition;
+
+        // No need to add this node to the scene, just return the position
+        //return shootAheadPos;
+        return enemy.GlobalPosition;
     }
 }

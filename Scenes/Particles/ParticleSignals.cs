@@ -51,5 +51,8 @@ public partial class ParticleSignals : Node
 	[Signal]
 	public delegate void normalParticleEventHandler(string n, Vector3 p, Vector3 r);
 
+	[Signal]
+    public delegate void continuousParticleEventHandler(string n, Vector3 p, Vector3 r);
+
 
 }

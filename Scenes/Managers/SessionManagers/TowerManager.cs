@@ -43,18 +43,6 @@ public partial class TowerManager : Node
             return;
         }
         towerTypeList.Add(tower);
-        /* could do this maybe but i made it so shooting doesn't need to emit signals.
-        switch (type)
-        {
-            case TowerType.Ballista:
-                tower.TowerFired += (Node3D tower, Node3D target) => tower.ShootProjectile(tower, target);
-                break;
-            case TowerType.Cannon:
-                break;
-            case TowerType.Catapult:
-                break;
-        }
-        */
 	}
 
 	public void UnregisterTower(AbstractTower tower)
