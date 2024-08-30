@@ -1,7 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://cuve6nt8sfn8v"]
+[gd_scene load_steps=12 format=3 uid="uid://cuve6nt8sfn8v"]
 
 [ext_resource type="Script" path="res://Scenes/Utility/Autoloads/LoadingScreen.cs" id="1_50vbl"]
-[ext_resource type="PackedScene" uid="uid://dr33ompxp8p4g" path="res://Scenes/UI/Cards/BaseCard.tscn" id="2_4kitj"]
+[ext_resource type="PackedScene" uid="uid://bdf1nwcac22yx" path="res://Scenes/UI/Cards/Card.tscn" id="2_5unjw"]
 [ext_resource type="Shader" path="res://Assets/Shaders/Loadingbartest.gdshader" id="2_hekw5"]
 
 [sub_resource type="Animation" id="Animation_luyq6"]
@@ -60,6 +60,9 @@ _data = {
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xud55"]
 bg_color = Color(0.207843, 0.207843, 0.207843, 1)
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_5v6xp"]
+viewport_path = NodePath("SubViewport")
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_shjwf"]
 shader = ExtResource("2_hekw5")
 shader_parameter/strength = 0.807
@@ -69,7 +72,7 @@ shader_parameter/angle = 90.0
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h0too"]
 bg_color = Color(0, 1, 0, 1)
 
-[node name="LoadingScreen" type="CanvasLayer" node_paths=PackedStringArray("_animationPlayer", "_progressBar", "_dotTimer", "_loadingLabel", "_vBoxContainer", "_baseCard")]
+[node name="LoadingScreen" type="CanvasLayer" node_paths=PackedStringArray("_animationPlayer", "_progressBar", "_dotTimer", "_loadingLabel", "_vBoxContainer", "Card")]
 layer = 10
 follow_viewport_enabled = true
 script = ExtResource("1_50vbl")
@@ -78,7 +81,7 @@ _progressBar = NodePath("Panel/VBoxContainer/MarginContainer/ProgressBar")
 _dotTimer = NodePath("Timer")
 _loadingLabel = NodePath("Panel/VBoxContainer/Label")
 _vBoxContainer = NodePath("Panel/VBoxContainer")
-_baseCard = NodePath("Panel/VBoxContainer/MarginContainer2/HBoxContainer/MarginContainer2/CardBase")
+Card = NodePath("Panel/VBoxContainer/MarginContainer2/HBoxContainer/MarginContainer2/Control/Card")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -120,8 +123,14 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="CardBase" parent="Panel/VBoxContainer/MarginContainer2/HBoxContainer/MarginContainer2" instance=ExtResource("2_4kitj")]
+[node name="Control" type="Control" parent="Panel/VBoxContainer/MarginContainer2/HBoxContainer/MarginContainer2"]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Card" parent="Panel/VBoxContainer/MarginContainer2/HBoxContainer/MarginContainer2/Control" instance=ExtResource("2_5unjw")]
+scale = Vector2(1, 1)
+texture = SubResource("ViewportTexture_5v6xp")
 
 [node name="MarginContainer3" type="MarginContainer" parent="Panel/VBoxContainer"]
 custom_minimum_size = Vector2(0, 40)

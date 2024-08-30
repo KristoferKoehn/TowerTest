@@ -1,0 +1,156 @@
+[gd_scene load_steps=11 format=3 uid="uid://bdf1nwcac22yx"]
+
+[ext_resource type="Script" path="res://Scenes/UI/Cards/Card.cs" id="1_gfbxa"]
+[ext_resource type="StyleBox" uid="uid://dgbw28sg4ifhi" path="res://Scenes/UI/Cards/Gradients/CommonCardGradient.tres" id="2_q1jjw"]
+[ext_resource type="Shader" path="res://Scenes/UI/Cards/BaseCard.gdshader" id="3_2bnpn"]
+[ext_resource type="Texture2D" uid="uid://0c3rqyd35rly" path="res://Assets/Textures/CardBack2.png" id="4_x1qo2"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_f0ihy"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g0ef2"]
+bg_color = Color(0.125911, 0.125911, 0.125911, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dapxs"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(0, 0, 0, 1)
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2seh6"]
+shader = ExtResource("3_2bnpn")
+shader_parameter/shine_color = Color(1, 1, 1, 0.584314)
+shader_parameter/shine_speed = 1.0
+shader_parameter/shine_size = 0.01
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_81vvd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jy8pn"]
+size = Vector2(250, 350)
+
+[node name="Card" type="Sprite2D" node_paths=PackedStringArray("CardNameLabel", "CardViewportFrame", "CardBackground", "CardViewport")]
+scale = Vector2(0.5, 0.5)
+texture = SubResource("ViewportTexture_f0ihy")
+script = ExtResource("1_gfbxa")
+CardNameLabel = NodePath("SubViewport/CardBase/MarginContainer/Bars/TopGap/TopBar/Name/SceneName")
+CardViewportFrame = NodePath("SubViewport/CardBase/MarginContainer/Bars/Panel/TextureRect")
+CardBackground = NodePath("SubViewport/CardBase/MarginContainer/MarginContainer/Background")
+CardViewport = NodePath("SubViewport")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+own_world_3d = true
+transparent_bg = true
+size = Vector2i(250, 350)
+
+[node name="CardBase" type="Control" parent="SubViewport"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 250.0
+offset_bottom = 350.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="SubViewport/CardBase"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(125, 175)
+
+[node name="BorderOfCard" type="Panel" parent="SubViewport/CardBase/MarginContainer"]
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_g0ef2")
+
+[node name="MarginContainer" type="MarginContainer" parent="SubViewport/CardBase/MarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 7
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 7
+theme_override_constants/margin_bottom = 7
+
+[node name="Background" type="Panel" parent="SubViewport/CardBase/MarginContainer/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("2_q1jjw")
+
+[node name="Bars" type="VBoxContainer" parent="SubViewport/CardBase/MarginContainer"]
+layout_mode = 2
+
+[node name="TopGap" type="MarginContainer" parent="SubViewport/CardBase/MarginContainer/Bars"]
+layout_mode = 2
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="TopBar" type="HBoxContainer" parent="SubViewport/CardBase/MarginContainer/Bars/TopGap"]
+layout_mode = 2
+
+[node name="Name" type="MarginContainer" parent="SubViewport/CardBase/MarginContainer/Bars/TopGap/TopBar"]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+
+[node name="SceneName" type="Label" parent="SubViewport/CardBase/MarginContainer/Bars/TopGap/TopBar/Name"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+text = "Scene Name"
+autowrap_mode = 2
+
+[node name="Panel" type="Panel" parent="SubViewport/CardBase/MarginContainer/Bars"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_dapxs")
+
+[node name="TextureRect" type="TextureRect" parent="SubViewport/CardBase/MarginContainer/Bars/Panel"]
+material = SubResource("ShaderMaterial_2seh6")
+custom_minimum_size = Vector2(194, 194)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -97.0
+offset_top = -97.0
+offset_right = 97.0
+offset_bottom = 97.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("ViewportTexture_81vvd")
+expand_mode = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="SubViewport/CardBase/MarginContainer/Bars"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="CardBack" type="Sprite2D" parent="SubViewport/CardBase"]
+visible = false
+position = Vector2(125, 175)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_x1qo2")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_jy8pn")
+debug_color = Color(0, 0.6, 0.701961, 0)
+
+[connection signal="input_event" from="Area2D" to="." method="_on_card_base_gui_input"]
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_card_base_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_card_base_mouse_exited"]

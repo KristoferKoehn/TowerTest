@@ -9,7 +9,7 @@ public partial class PlayerHand2 : Control
     [Export] Node2D CardPlacingPosition;
     [Export] Path2D CardPlacingPath;
     [Export] PathFollow2D PathFollow;
-    [Export] PackedScene BaseCardScene;
+    [Export] PackedScene CardScene;
 
     [Export] Node2D Discard;
     [Export] Node2D Deck;
@@ -18,21 +18,26 @@ public partial class PlayerHand2 : Control
     [Export] Panel DiscardPanel;
     [Export] Panel FreezePanel;
     [Export] PackedScene DummyCard;
+    [Export] AudioStreamPlayer2D CardSound;
+    [Export] AudioStreamPlayer2D TowerPlacedSound;
+    [Export] AudioStreamPlayer2D PlacingSound;
 
-    public List<BaseCard> CardList = new List<BaseCard>();
+    [Export] Button HandDisplayButton;
+
+    public List<Card> CardList = new List<Card>();
     List<float> CardPositions = new List<float>();
 
-    public List<BaseCard> FreezeCardList = new List<BaseCard>();
+    public List<Card> FreezeCardList = new List<Card>();
 
-    BaseCard DraggingCard = null;
+    Card DraggingCard = null;
 
-    BaseCard ActiveCard = null;
+    Card ActiveCard = null;
     bool CardActive = false;
 
     float SwapThreshold = 0;
-    bool ForceHandUp = false;
+    bool HandUp = true;
 
-
+    bool PlacingCardAnimationLock = false;
     public override void _Ready()
     {
         HideDeck();
@@ -46,26 +51,29 @@ public partial class PlayerHand2 : Control
     public override void _Process(double delta)
     {
 
-        Vector2 mousePos = GetViewport().GetMousePosition();
         Vector2 screenSize = GetViewportRect().Size;
 
-        if ((mousePos.Y > (screenSize.Y - 230) && !Input.IsActionPressed("camera_drag") && DraggingCard == null) || ForceHandUp) 
+
+        if (HandUp) 
         {
             Tween t = GetTree().CreateTween();
-            t.TweenProperty(CardPlacingPath, "global_position", new Vector2(screenSize.X / 2f, screenSize.Y - 90), 0.2);
+            t.TweenProperty(CardPlacingPath, "global_position", new Vector2(screenSize.X / 2f, screenSize.Y - 90), 0.1);
+            HandDisplayButton.Text = "HIDE HAND";
         } 
         else
         {
             Tween t = GetTree().CreateTween();
-            t.TweenProperty(CardPlacingPath, "global_position", new Vector2(screenSize.X/2f, screenSize.Y + 60), 0.1);
+            t.TweenProperty(CardPlacingPath, "global_position", new Vector2(screenSize.X/2f, screenSize.Y + 130), 0.1);
+            HandDisplayButton.Text = "SHOW HAND";
+
         }
-        
+
         UpdateCardPositions();
     }
 
     public Timer DrawCards(int count)
     {
-        ForceHandUp = true;
+        HandUp = true;
         //spread this out over time using timers.
         //shen the deck is fully shown, start timer. Whenever timer times out do the thing.
 
@@ -87,25 +95,28 @@ public partial class PlayerHand2 : Control
                 t.Start(0.1);
                 t.Timeout += () =>
                 {
-                    if (DeckManager.GetInstance().Cards.Count == 0)
-                    {
-                        Deck.Visible = false;
-                    }
+
 
                     if (i < remainingCount)
                     {
+                        CardSound.Play();
                         CardData DrawnCard = DeckManager.GetInstance().DrawCards(1)[0];
-                        BaseCard Card = BaseCardScene.Instantiate<BaseCard>();
+                        Card Card = CardScene.Instantiate<Card>();
                         Card.SetCardData(DrawnCard);
                         AddCard(Card);
                         i++;
+
+                        if (DeckManager.GetInstance().Cards.Count == 0)
+                        {
+                            Deck.Visible = false;
+                        }
                     }
                     else
                     {
                         ShowDiscard().Finished += () => RefreshDeck().Timeout += () => 
                         { 
-                            HideDiscard();
                             DrawCards(afterShuffleCount); 
+                            HideDiscard();
                         };
                         t.QueueFree();
                     }
@@ -122,8 +133,10 @@ public partial class PlayerHand2 : Control
                 {
                     if (i < count)
                     {
+                        CardSound.Play();
+
                         CardData DrawnCard = DeckManager.GetInstance().DrawCards(1)[0];
-                        BaseCard Card = BaseCardScene.Instantiate<BaseCard>();
+                        Card Card = CardScene.Instantiate<Card>();
                         Card.SetCardData(DrawnCard);
                         AddCard(Card);
                         i++;
@@ -131,7 +144,6 @@ public partial class PlayerHand2 : Control
                     {
                         HideDeck();
                         t.QueueFree();
-                        ForceHandUp = false;
                     }
                 };
             }
@@ -146,7 +158,7 @@ public partial class PlayerHand2 : Control
 
     }
 
-    public void AddCard(BaseCard card)
+    public void AddCard(Card card)
     {
 
         card.Selected += CardSelected;
@@ -168,8 +180,16 @@ public partial class PlayerHand2 : Control
         CardList.Add(card);
     }
 
-    public void CardSelected(BaseCard card)
+    public void CardSelected(Card card)
     {
+        HandUp = false;
+        HandDisplayButton.Disabled = true;
+        PlacingSound.Play();
+
+        if (PlacingCardAnimationLock)
+        {
+            return;
+        }
 
         if (CardActive)
         {
@@ -185,19 +205,30 @@ public partial class PlayerHand2 : Control
         CardActive = true;
         card.Disabled = true;
         Tween t = GetTree().CreateTween();
+        PlacingCardAnimationLock = true;
         t.TweenProperty(card, "global_position", CardPlacingPosition.GlobalPosition, 0.2f);
-        t.Finished += PlayActiveCard;
+        t.Finished += () =>
+        {
+            
+            PlacingCardAnimationLock = false;
+            PlayActiveCard();
+        };
     }
 
-    public void CardPlaced(BaseCard card)
+    public void CardPlaced(Card card)
     {
-        
+        TowerPlacedSound.Play();
+        HandDisplayButton.Disabled = false;
+        HandUp = true;
+
+
         ShowDiscard().Finished += () =>
         {
             Tween t = GetTree().CreateTween();
             t.TweenProperty(card, "position", Discard.Position, 0.2f);
             t.Finished += () =>
             {
+                CardSound.Play();
                 Discard.Visible = true;
                 card.Discard();
                 GetTree().CreateTimer(0.1).Timeout += () => HideDiscard();
@@ -208,8 +239,10 @@ public partial class PlayerHand2 : Control
         };
     }
 
-    public void CardCancelled(BaseCard card)
+    public void CardCancelled(Card card)
     {
+        HandDisplayButton.Disabled = false;
+        HandUp = true;
         Tween handTween = GetTree().CreateTween();
         handTween.TweenProperty(CardPlacingPath, "position", Vector2.Zero, 0.2f);
         handTween.Finished += () =>
@@ -271,33 +304,33 @@ public partial class PlayerHand2 : Control
 
                 if (CardList[i].Active) continue;
                 //position swapping the cards, even if dragging
-                Vector2 CurvePoint = CardPlacingPath.Curve.GetClosestPoint(CardPlacingPath.ToLocal(CardList[i].GlobalPosition + (CardList[i].Size / 2 * CardList[i].Scale)));
+                Vector2 CurvePoint = CardPlacingPath.Curve.GetClosestPoint(CardPlacingPath.ToLocal(CardList[i].GlobalPosition));
                 float RealProgress = CardPlacingPath.Curve.GetClosestOffset(CurvePoint);
 
 
                 if (RealProgress - CardPositions[i] > Mathf.Abs(SwapThreshold) && CardList.Count == 2)
                 {
-                    BaseCard temp = CardList[1];
+                    Card temp = CardList[1];
                     CardList[1] = CardList[0];
                     CardList[0] = temp;
 
                 }
                 else if (RealProgress - CardPositions[i] > SwapThreshold && i != CardList.Count)
                 {
-                    BaseCard temp = CardList[i + 1];
+                    Card temp = CardList[i + 1];
                     CardList[i + 1] = CardList[i];
                     CardList[i] = temp;
                 }
                 else if (RealProgress - CardPositions[i] < -SwapThreshold && i != 0)
                 {
-                    BaseCard temp = CardList[i - 1];
+                    Card temp = CardList[i - 1];
                     CardList[i - 1] = CardList[i];
                     CardList[i] = temp;
                 }
             }
         }
 
-        foreach (BaseCard card in CardList)
+        foreach (Card card in CardList)
         {
             if (card.Active)
             {
@@ -305,15 +338,21 @@ public partial class PlayerHand2 : Control
                 int idx = CardList.IndexOf(card);
                 //hack bullshit solution
                 card.MoveToFront();
+
+                if (!card.Highlighted)
+                {
+                    card.ZIndex = idx;
+                }
+
                 PathFollow.Progress = CardPositions[idx];
-                Vector2 Placement = new Vector2(PathFollow.GlobalPosition.X, PathFollow.GlobalPosition.Y ) - (card.Size / 2f * card.Scale);
+                Vector2 Placement = new Vector2(PathFollow.GlobalPosition.X, PathFollow.GlobalPosition.Y );
                 Tween t = GetTree().CreateTween();
                 t.TweenProperty(card, "global_position", Placement, 0.1f);
 
             }
         }
 
-        Vector2 MiddleOfFrame = FreezePanel.GlobalPosition + new Vector2(125, 175);
+        Vector2 MiddleOfFrame = FreezePanel.GlobalPosition;
         for (int i = 0; i < FreezeCardList.Count; i++)
         {
             if (!FreezeCardList[i].Active) continue;
@@ -343,7 +382,7 @@ public partial class PlayerHand2 : Control
         }
     }
 
-    public void CardDropCheck(BaseCard baseCard)
+    public void CardDropCheck(Card baseCard)
     {
 
         Vector2 mousePos = GetViewport().GetMousePosition();
@@ -368,7 +407,7 @@ public partial class PlayerHand2 : Control
         }
     }
 
-    public void HideDropPanels(BaseCard card)
+    public void HideDropPanels(Card card)
     {
         Vector2 ScreenSize = GetViewportRect().Size;
 
@@ -390,7 +429,7 @@ public partial class PlayerHand2 : Control
 
     }
 
-    public void RevealDropPanels(BaseCard card)
+    public void RevealDropPanels(Card card)
     {
         Vector2 ScreenSize = GetViewportRect().Size;
 
@@ -407,7 +446,7 @@ public partial class PlayerHand2 : Control
     public Tween ShowDiscard()
     {
         Tween t = GetTree().CreateTween();
-        t.TweenProperty(Discard, "position", new Vector2(400, -200), 0.4).SetEase(Tween.EaseType.InOut);
+        t.TweenProperty(Discard, "position", new Vector2(400, -125), 0.4).SetEase(Tween.EaseType.InOut);
         return t;
     }
 
@@ -415,21 +454,21 @@ public partial class PlayerHand2 : Control
     public Tween HideDiscard()
     {
         Tween t = GetTree().CreateTween();
-        t.TweenProperty(Discard, "position", new Vector2(1000, -200), 0.2);
+        t.TweenProperty(Discard, "position", new Vector2(1300, -125), 0.2);
         return t;
     }
 
     public Tween HideDeck()
     {
         Tween t = GetTree().CreateTween();
-        t.TweenProperty(Deck, "position", new Vector2(1000, -400), 0.2);
+        t.TweenProperty(Deck, "position", new Vector2(1300, -325), 0.2);
         return t;
     }
 
     public Tween ShowDeck()
     {
         Tween t = GetTree().CreateTween();
-        t.TweenProperty(Deck, "position", new Vector2(400, -400), 0.7).SetEase(Tween.EaseType.InOut);
+        t.TweenProperty(Deck, "position", new Vector2(400, -325), 0.7).SetEase(Tween.EaseType.InOut);
         return t;
     }
     
@@ -440,15 +479,17 @@ public partial class PlayerHand2 : Control
         Timer cardSpawnTimer = new Timer();
         AddChild(cardSpawnTimer);
         cardSpawnTimer.Timeout += () => {
-
+            
             if (i < maxCount)
             {
+                CardSound.Play();
                 Sprite2D dummy = DummyCard.Instantiate<Sprite2D>();
                 AddChild(dummy);
-                dummy.GlobalPosition = Discard.GlobalPosition + new Vector2(62.5f, 175f / 2f);
+                dummy.GlobalPosition = Discard.GlobalPosition;
                 Tween t = GetTree().CreateTween();
-                t.TweenProperty(dummy, "global_position", Deck.GlobalPosition + new Vector2(62.5f, 175f/2f), 0.2);
+                t.TweenProperty(dummy, "global_position", Deck.GlobalPosition, 0.2);
                 t.Finished += () => {
+                    CardSound.Play();
                     Deck.Visible = true;
                     dummy.QueueFree(); 
                 };
@@ -466,10 +507,10 @@ public partial class PlayerHand2 : Control
         };
 
         DeckManager.GetInstance().RefreshDeck();
-        cardSpawnTimer.Start(0.1);
+        cardSpawnTimer.Start(0.7f/maxCount);
         Timer timer = new Timer();
         this.AddChild(timer);
-        timer.Start(0.1 * maxCount);
+        timer.Start(0.7);
         timer.Timeout += () =>
         {
             timer.QueueFree();
@@ -485,12 +526,13 @@ public partial class PlayerHand2 : Control
         if (CardList.Count > 0)
         {
             int j = 0;
-            foreach (BaseCard card in CardList)
+            foreach (Card card in CardList)
             {
                 t = GetTree().CreateTween();
                 t.TweenProperty(card, "global_position", Discard.GlobalPosition, 0.2).SetDelay(j * 0.2);
                 t.Finished += () =>
                 {
+                    CardSound.Play();
                     Discard.Visible = true;
                     card.Discard();
                 };
@@ -508,7 +550,7 @@ public partial class PlayerHand2 : Control
 
     public void EndOfWaveMechanics()
     {
-
+        HandUp = true;
         if (CardList.Count > 0)
         {
             ShowDiscard().Finished += () => {
@@ -521,5 +563,10 @@ public partial class PlayerHand2 : Control
         {
             DrawCards(7);
         }
+    }
+
+    public void _on_hand_display_button_pressed()
+    {
+        HandUp = !HandUp;
     }
 }

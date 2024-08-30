@@ -7,9 +7,9 @@ public partial class CardBuilder : Node3D
 {
     [Signal] public delegate void ValuesUpdatedEventHandler();
     [Export] LineEdit NameEdit { get; set; }
-	[Export] BaseCard SmallCard { get; set; }
-    [Export] BaseCard TiltedCard { get; set; }
-    [Export] BaseCard BigCard { get; set; }
+	[Export] Card SmallCard { get; set; }
+    [Export] Card TiltedCard { get; set; }
+    [Export] Card BigCard { get; set; }
     [Export] ItemList ItemList { get; set; }
     [Export] OptionButton SubjectTypeSelector { get; set; }
     [Export] TextEdit TextEdit { get; set; }
@@ -23,9 +23,6 @@ public partial class CardBuilder : Node3D
     [Export] HSlider ZoomSlider {  get; set; }
     [Export] HSlider FOVSlider {  get; set; }
     [Export] TextEdit CardInfoTextEdit { get; set; }
-
-
-
 
     CardData cd = new();
     string subject = null;
@@ -131,7 +128,8 @@ public partial class CardBuilder : Node3D
     public void _on_rarity_option_button_item_selected(int idx)
     {
         string rarity = RarityOptionButton.GetItemText(idx);
-        cd.Rarity = rarity;
+        Enum.TryParse(rarity, out Rarity cr);
+        cd.Rarity = cr;
         EmitSignal("ValuesUpdated");
     }
 
@@ -172,7 +170,10 @@ public partial class CardBuilder : Node3D
         ResourceCostSpinbox.Value = cd.ResourceCostValue;
         for (int i = 0; i < RarityOptionButton.ItemCount; i++)
         {
-            if (RarityOptionButton.GetItemText(i) == cd.Rarity)
+            string rarity = RarityOptionButton.GetItemText(idx);
+            Enum.TryParse(rarity, out Rarity cr);
+
+            if (cr == cd.Rarity)
             {
                 RarityOptionButton.Select(i);
             }

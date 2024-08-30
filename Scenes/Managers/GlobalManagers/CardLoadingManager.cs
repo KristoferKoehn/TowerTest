@@ -8,7 +8,7 @@ public partial class CardLoadingManager : Node
     Dictionary<string, PackedScene> Towers = new Dictionary<string, PackedScene>();
     Dictionary<string, PackedScene> Chunks = new Dictionary<string, PackedScene>();
     Dictionary<string, PackedScene> Actions = new Dictionary<string, PackedScene>();
-    Dictionary<string, StyleBoxTexture> RarityStyles = new();
+    Dictionary<Rarity, StyleBoxTexture> RarityStyles = new();
     Dictionary<string, CardData> CardData = new Dictionary<string, CardData>();
 
     private CardLoadingManager() { }
@@ -57,11 +57,11 @@ public partial class CardLoadingManager : Node
             }
         }
 
-        RarityStyles["Common"] = GD.Load<StyleBoxTexture>("res://Scenes/UI/Cards/Gradients/CommonRarityStyleBox.tres");
-        RarityStyles["Uncommon"] = GD.Load<StyleBoxTexture>("res://Scenes/UI/Cards/Gradients/UncommonRarityStyleBox.tres");
-        RarityStyles["Rare"] = GD.Load<StyleBoxTexture>("res://Scenes/UI/Cards/Gradients/RareRarityStyleBox.tres");
-        RarityStyles["Epic"] = GD.Load<StyleBoxTexture>("res://Scenes/UI/Cards/Gradients/EpicRarityStyleBox.tres");
-        RarityStyles["Legendary"] = GD.Load<StyleBoxTexture>("res://Scenes/UI/Cards/Gradients/LegendaryRarityStyleBox.tres");
+        RarityStyles[Rarity.Common] = GD.Load<StyleBoxTexture>("res://Scenes/UI/Cards/Gradients/CommonRarityStyleBox.tres");
+        RarityStyles[Rarity.Uncommon] = GD.Load<StyleBoxTexture>("res://Scenes/UI/Cards/Gradients/UncommonRarityStyleBox.tres");
+        RarityStyles[Rarity.Rare] = GD.Load<StyleBoxTexture>("res://Scenes/UI/Cards/Gradients/RareRarityStyleBox.tres");
+        RarityStyles[Rarity.Epic] = GD.Load<StyleBoxTexture>("res://Scenes/UI/Cards/Gradients/EpicRarityStyleBox.tres");
+        RarityStyles[Rarity.Legendary] = GD.Load<StyleBoxTexture>("res://Scenes/UI/Cards/Gradients/LegendaryRarityStyleBox.tres");
 
         string[] CardNames = DirAccess.GetFilesAt("res://Scenes/CardData/");
         foreach (string name in CardNames)
@@ -93,10 +93,12 @@ public partial class CardLoadingManager : Node
         return ps;
     }
 
-    public StyleBoxTexture GetRarityTexture(string name)
+    public StyleBoxTexture GetRarityTexture(Rarity name)
     {
         return RarityStyles[name];
     }
+
+
 
     public List<CardData> GetAllCardData()
     {

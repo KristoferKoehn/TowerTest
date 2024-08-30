@@ -16,7 +16,7 @@ uniform float wave_strength = 1.0;
 uniform float wave_scale = 0.02;
 uniform int pixelation_level = 64;
 uniform float FoamSize = 0.5;
-uniform sampler2D DepthTexture : hint_depth_texture; 
+uniform sampler2D DepthTexture : hint_depth_texture;
 uniform float WaterOpacity = 1.0;
 uniform float FoamGlowIntensity = 0.5;
 
@@ -50,7 +50,7 @@ void fragment() {
     float foamOpacity = 1.0 - foamEffect;
     float foamEffectRounded = round(foamOpacity);
     float finalOpacity = foamEffectRounded + WaterOpacity;
-	
+
     ALBEDO = blended_water_color.rgb * albedo;
     ALPHA = finalOpacity;
     EMISSION = vec3(foamEffectRounded) * FoamGlowIntensity;
