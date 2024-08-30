@@ -5,6 +5,8 @@ public partial class DamageNumbers : Node
 {
     private static DamageNumbers instance;
 
+    private bool Debugging = false;
+
     public static DamageNumbers GetInstance()
     {
         if (instance == null)
@@ -18,7 +20,7 @@ public partial class DamageNumbers : Node
 
     public async void DisplayDamageNumbers(float damage, Vector2 position, bool isCritical)
     {
-        GD.Print("displaying damage number at " + position.X + ", " + position.Y);
+        if (Debugging) GD.Print("displaying damage number at " + position.X + ", " + position.Y);
         Label numberLabel = new Label();
         numberLabel.GlobalPosition = position;
         numberLabel.Text = damage.ToString();

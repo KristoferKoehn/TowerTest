@@ -8,7 +8,8 @@ public partial class UI : CanvasLayer
     [Export] Label ScoreLabel;
     [Export] ProgressBar TowerHealthBar;
     [Export] Control GameOverControl;
-    [Export] private Control PauseControl;
+    [Export] Control PauseControl;
+    [Export] Control DeckViewerControl;
 
     private float[] fastForwardSpeeds = { 1.0f, 2.0f, 3.0f};
     private int currentFastForwardSpeedIndex = 0;
@@ -108,6 +109,7 @@ public partial class UI : CanvasLayer
     public void _on_main_menu_button_pressed()
     {
         //PlayerStatsManager.GetInstance().SetStat(StatType.Health, PlayerStatsManager.GetInstance().GetStat(StatType.MaxHealth));
+        Engine.TimeScale = 1;
         AudioManager.GetInstance().PlayMenuSwitch();
         SceneSwitcher.Instance.PopScene(); // get rid of the current game loop.
     }
@@ -115,6 +117,13 @@ public partial class UI : CanvasLayer
     public void _on_begin_wave_button_pressed()
     {
         WaveManager.GetInstance().StartWave();
+    }
+
+    public void _on_deck_button_pressed()
+    {
+        DeckViewerPanel deckViewerPanel = GD.Load<PackedScene>("res://Scenes/UI/Panels/DeckViewerPanel.tscn").Instantiate<DeckViewerPanel>();
+        DeckViewerControl.AddChild(deckViewerPanel);
+        deckViewerPanel.SetAnchorsPreset(Control.LayoutPreset.FullRect);
     }
 
     public override void _Input(InputEvent @event)
