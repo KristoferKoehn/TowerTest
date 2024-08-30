@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://blm33tainqvxb"]
+
+[ext_resource type="Texture2D" uid="uid://dwxqnlthsi7cl" path="res://Assets/ParticleResources/beamCover.png" id="1_0ptm3"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_x1yur"]
+orbit_velocity_max = 0.168
+radial_velocity_max = 218.49
+gravity = Vector3(0, 0, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wd58i"]
+transparency = 2
+alpha_scissor_threshold = 0.3
+alpha_antialiasing_mode = 0
+albedo_texture = ExtResource("1_0ptm3")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_5lt5q"]
+lightmap_size_hint = Vector2i(17, 19)
+material = SubResource("StandardMaterial3D_wd58i")
+cap_top = false
+cap_bottom = false
+
+[node name="Particle3" type="GPUParticles3D"]
+emitting = false
+amount = 1
+lifetime = 600.0
+process_material = SubResource("ParticleProcessMaterial_x1yur")
+draw_pass_1 = SubResource("CylinderMesh_5lt5q")

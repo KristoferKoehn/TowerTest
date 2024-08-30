@@ -5,7 +5,7 @@ using Managers;
 public partial class GameLoop : Node3D
 {
 
-    public Camera3D Camera { get; set; }
+	public Camera3D Camera { get; set; }
 	Node3D CameraGimbal { get; set; }
 
     bool turning = false;
@@ -45,25 +45,25 @@ public partial class GameLoop : Node3D
 
     }
 
-    private void HandleCameraMovement()
-    {
-        if (Input.IsActionPressed("ui_left"))
-        {
-            CameraGimbal.TranslateObjectLocal(new Vector3(-0.1f, 0, 0));
-        }
-        if (Input.IsActionPressed("ui_right"))
-        {
-            CameraGimbal.TranslateObjectLocal(new Vector3(0.1f, 0, 0));
-        }
-        if (Input.IsActionPressed("ui_up"))
-        {
-            CameraGimbal.TranslateObjectLocal(new Vector3(0, 0, -0.1f));
-        }
-        if (Input.IsActionPressed("ui_down"))
-        {
-            CameraGimbal.TranslateObjectLocal(new Vector3(0, 0, 0.1f));
-        }
-    }
+	private void HandleCameraMovement()
+	{
+		if (Input.IsActionPressed("ui_left"))
+		{
+			CameraGimbal.TranslateObjectLocal(new Vector3(-0.1f, 0, 0));
+		}
+		if (Input.IsActionPressed("ui_right"))
+		{
+			CameraGimbal.TranslateObjectLocal(new Vector3(0.1f, 0, 0));
+		}
+		if (Input.IsActionPressed("ui_up"))
+		{
+			CameraGimbal.TranslateObjectLocal(new Vector3(0, 0, -0.1f));
+		}
+		if (Input.IsActionPressed("ui_down"))
+		{
+			CameraGimbal.TranslateObjectLocal(new Vector3(0, 0, 0.1f));
+		}
+	}
 
     public override void _Input(InputEvent @event)
 	{
@@ -86,34 +86,34 @@ public partial class GameLoop : Node3D
             MousePosition3D = (Vector3)result["position"];
         }
 
-        if (@event is InputEventMouseButton mouseEvent)
-        {
-            if (@event.IsActionPressed("zoom_in"))
+		if (@event is InputEventMouseButton mouseEvent)
+		{
+			if (@event.IsActionPressed("zoom_in"))
 			{
-                if (Camera.Position.Length() > 7)
-                {
+				if (Camera.Position.Length() > 7)
+				{
 					Tween t = GetTree().CreateTween();
 					t.TweenProperty(Camera, "position", Camera.Position - new Vector3(0, 2.5f, 2.5f), 0.06);
-                }
-            }
-            if (@event.IsActionPressed("zoom_out"))
-            {
-                if (Camera.Position.Length() < 50)
-                {
-                    Tween t = GetTree().CreateTween();
-                    t.TweenProperty(Camera, "position", Camera.Position + new Vector3(0, 2.5f, 2.5f), 0.06);
-                }
-            }
+				}
+			}
+			if (@event.IsActionPressed("zoom_out"))
+			{
+				if (Camera.Position.Length() < 50)
+				{
+					Tween t = GetTree().CreateTween();
+					t.TweenProperty(Camera, "position", Camera.Position + new Vector3(0, 2.5f, 2.5f), 0.06);
+				}
+			}
 
 			if (@event.IsActionPressed("camera_drag"))
 			{
 				DraggingCamera = true;
-            } 
+			} 
 			if(@event.IsActionReleased("camera_drag"))
 			{
-                DraggingCamera = false;
-            }
-        }
+				DraggingCamera = false;
+			}
+		}
 
         if (@event is InputEventMouseMotion mouseMotion)
         {
@@ -123,7 +123,7 @@ public partial class GameLoop : Node3D
             }
         }
 
-    }
+	}
 
 	public void _on_begin_wave_button_pressed()
 	{

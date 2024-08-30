@@ -4,6 +4,7 @@ using System;
 public partial class ParticleWrapper : Node
 {
 	GpuParticles3D particle;
+	Boolean selfDispose = true;
 	//public bool readyToFire = true;
 
 	public ParticleWrapper(GpuParticles3D p)
@@ -21,7 +22,7 @@ public partial class ParticleWrapper : Node
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		if (particle.OneShot == true && particle.Emitting == false)
+		if (selfDispose == true && particle.OneShot == true && particle.Emitting == false)
 		{ 
 			this.QueueFree();
 		}
@@ -33,6 +34,11 @@ public partial class ParticleWrapper : Node
 		particle.GlobalPosition= position;
 		particle.GlobalRotation= rotation;
 		particle.Emitting = true;
+	}
+
+	public void setDispose(bool d)
+	{
+		selfDispose = d;
 	}
 
 /*	private void resetReady()

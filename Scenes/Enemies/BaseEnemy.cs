@@ -22,8 +22,8 @@ public partial class BaseEnemy : PathFollow3D
 	public bool Disabled = false;
     public bool dead = false;
 
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
+	// Called when the node enters the scene tree for the first time.
+	public override void _Ready()
 	{
 		Loop = false;
         if (Disabled) return;
@@ -41,8 +41,8 @@ public partial class BaseEnemy : PathFollow3D
     }
 
 
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
+	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	public override void _Process(double delta)
 	{
 		if (Disabled) return;
 
@@ -84,7 +84,7 @@ public partial class BaseEnemy : PathFollow3D
 
 		MeshInstance3D temp = GetTileAt(ToGlobal(new Vector3(0,1,0)), ToGlobal(new Vector3(0, -1, 0)));
 		Chunk chunk = GetChunkReferenceFromTile(temp);
-        ChunkCounter = chunk.ChunkDistance;
+		ChunkCounter = chunk.ChunkDistance;
 		Array<Path3D> paths = chunk.GetPathsFromEntrance(temp);
 
 		if (paths != null)
@@ -106,9 +106,9 @@ public partial class BaseEnemy : PathFollow3D
 	public void TakeDamage(float damage, Node source)
 	{
 		if (damage <= 0) { return; }
-        float CurrentHealth = this.StatBlock.GetStat(StatType.Health);
+		float CurrentHealth = this.StatBlock.GetStat(StatType.Health);
 		float NewHealth = CurrentHealth - damage;
-        this.StatBlock.SetStat(StatType.Health, NewHealth);
+		this.StatBlock.SetStat(StatType.Health, NewHealth);
 
 		if (NewHealth <= 0)
 		{
