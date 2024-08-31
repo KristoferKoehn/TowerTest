@@ -23,7 +23,5 @@ public partial class Necromancer : BaseEnemy
 	public override void _Process(double delta)
 	{
 		base._Process(delta);
-        GD.Print(GetParent().Name);
-        GetPositionIn(1f);
 	}
 }

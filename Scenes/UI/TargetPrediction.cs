@@ -7,7 +7,7 @@ public partial class TargetPrediction : PathFollow3D
 {
 
     float DistanceRemaining = 0;
-    bool disabled = false;
+    public bool disabled = false;
 
     public Chunk GetChunkReferenceFromTile(MeshInstance3D tile)
     {
@@ -16,7 +16,8 @@ public partial class TargetPrediction : PathFollow3D
 
     public void AttachNextPath()
     {
-        MeshInstance3D temp = GetTileAt(ToGlobal(new Vector3(0, 1, -0.7f)), ToGlobal(new Vector3(0, -1, -0.7f)));
+        GlobalPosition = GetParent<Path3D>().Curve.SampleBaked(Progress);
+        MeshInstance3D temp = GetTileAt(ToGlobal(new Vector3(0, 1, 0)), ToGlobal(new Vector3(0, -1, 0)));
 
         if (temp == null)
         {
@@ -24,7 +25,7 @@ public partial class TargetPrediction : PathFollow3D
             GD.Print(GlobalPosition);
             GD.Print("Can't find chunk");
             return;
-        } 
+        }
 
         Chunk chunk = GetChunkReferenceFromTile(temp);
  
@@ -34,6 +35,7 @@ public partial class TargetPrediction : PathFollow3D
         {
             Random random = new Random();
             int randomIndex = random.Next(paths.Count);
+            GD.Print($"Reparenting to {paths[randomIndex].Name}");
             Reparent(paths[randomIndex]);
             ProgressRatio = 0;
         }
@@ -117,11 +119,11 @@ public partial class TargetPrediction : PathFollow3D
             {
                 Progress = DistanceRemaining;
                 DistanceRemaining -= Progress;
+                GD.Print($"break at the end {DistanceRemaining}");
                 break;
             }
-
+            GD.Print("f");
         }
-
 
         return GlobalPosition;
     }

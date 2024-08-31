@@ -67,14 +67,16 @@ public partial class Ballista : AbstractTower
 
             if (index != -1)
             {
-                BallistaMount.LookAt(EnemyList[index].GlobalPosition);
+                Vector3 predicted = PredictionManager.GetInstance().PredictTarget(EnemyList[index], 1.2f);
+                BallistaMount.LookAt(predicted);
+                //BallistaMount.LookAt(EnemyList[index].GlobalPosition);
                 if (CanShoot)
                 {
                     CanShoot = false;
                     ShotTimer.Start(StatBlock.GetStat(StatType.AttackSpeed));
 
                     //EmitSignal("TowerFired", this, EnemyList[index]);
-                    ShootArrow(this, EnemyList[index]); // this instead.
+                    ShootArrow(this, EnemyList[index], predicted); // this instead.
 
                     GetNode<AudioStreamPlayer3D>("FiringSound").Play();
                 }
@@ -135,7 +137,7 @@ public partial class Ballista : AbstractTower
 
         return points;
     }
-    public void ShootArrow(Node3D tower, Node3D target)
+    public void ShootArrow(Node3D tower, Node3D target, Vector3 dir)
     {
         //make arrow at tower (in the right spot)
         //
@@ -166,7 +168,7 @@ public partial class Ballista : AbstractTower
         };
         arrow.GetNode<Area3D>("Hitbox").AreaEntered += ((Ballista)tower).DealDamage;
         arrow.GlobalPosition = tower.GetNode<MeshInstance3D>("weapon_ballista2/tmpParent/weapon_ballista/bow/arrow").GlobalPosition;
-        arrow.LookAt(target.GlobalPosition + new Vector3(0, 0.5f, 0));
+        arrow.LookAt(dir + new Vector3(0, 0.5f, 0));
 
         Arrows.Add(arrow);
         arrow.SetMeta("target", target.GetPath());

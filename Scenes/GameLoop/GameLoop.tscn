@@ -1,7 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://bqi5yficpytv4"]
+[gd_scene load_steps=17 format=3 uid="uid://bqi5yficpytv4"]
 
 [ext_resource type="Script" path="res://Scenes/GameLoop/GameLoop.cs" id="1_l1214"]
 [ext_resource type="PackedScene" uid="uid://chp22ot4ypmd3" path="res://Scenes/Chunks/c_StartingChunk.tscn" id="3_wuc8u"]
+[ext_resource type="PackedScene" uid="uid://datxemmgww4fm" path="res://Scenes/UI/TargetPrediction.tscn" id="5_b7d7w"]
 [ext_resource type="Shader" path="res://Assets/Shaders/Water2.gdshader" id="5_txwp4"]
 [ext_resource type="PackedScene" uid="uid://budchas7k1t2g" path="res://Assets/ConstructedModels/HomeBase.tscn" id="12_lr5yx"]
 
@@ -106,3 +107,6 @@ mesh = SubResource("QuadMesh_qctbj")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, -3)
 visible = false
 mesh = SubResource("SphereMesh_vkke5")
+
+[node name="TargetPrediction" parent="." instance=ExtResource("5_b7d7w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.39727, -1.84883)

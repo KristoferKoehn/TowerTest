@@ -14,7 +14,6 @@ public partial class BaseEnemy : PathFollow3D
 	public HealthBar healthBar;
 
 	[Export] public AudioStreamPlayer3D StrikeSound { get; set; }
-	[Export] public TargetPrediction TargetPrediction { get; set; }
 
 	public StatBlock StatBlock = new StatBlock();
 	protected string ModelName;
@@ -130,7 +129,6 @@ public partial class BaseEnemy : PathFollow3D
 		{
 			EnemyManager.GetInstance().UnregisterEnemy(this);
 			DamagePlayer();
-			TargetPrediction.QueueFree();
             QueueFree();
 		}
 	}
@@ -183,15 +181,6 @@ public partial class BaseEnemy : PathFollow3D
 	public void DamagePlayer()
 	{
 		PlayerStatsManager.GetInstance().ChangeStat(StatType.Health, -StatBlock.GetStat(StatType.Damage));
-	}
-
-	public Vector3 GetPositionIn(float seconds)
-	{
-		GD.Print(TargetPrediction.GetParent().Name);
-		TargetPrediction.Reparent(GetParent());
-        GD.Print(TargetPrediction.GetParent().Name);
-        TargetPrediction.Progress = Progress;
-		return TargetPrediction.GetPositionIn(seconds, StatBlock.GetStat(StatType.Speed));
 	}
 
 }
