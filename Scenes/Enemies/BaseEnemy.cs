@@ -22,6 +22,7 @@ public partial class BaseEnemy : PathFollow3D
 	public int ChunkCounter = 0;
 	public bool Disabled = false;
     public bool dead = false;
+	public Array<int> ForkDecisions = new Array<int>();
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -34,6 +35,11 @@ public partial class BaseEnemy : PathFollow3D
 		this.healthBar = temp;
         this.AddChild(temp);
         this.DamageTaken += temp.UpdateHealthBar;
+		Random r = new Random();
+		for(int i = 0; i < 64; i++)
+		{
+
+		}
     }
 
     public void AddStatusEffect(BaseStatusEffect effect)
