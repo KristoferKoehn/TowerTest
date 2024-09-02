@@ -14,6 +14,7 @@ public partial class BaseEnemy : PathFollow3D
 	public HealthBar healthBar;
 
 	[Export] public AudioStreamPlayer3D StrikeSound { get; set; }
+	public Path3D CurrentPath { get; set; }
 
 	public StatBlock StatBlock = new StatBlock();
 	protected string ModelName;
@@ -114,15 +115,26 @@ public partial class BaseEnemy : PathFollow3D
 
 	public void AttachNextPath()
 	{
-		MeshInstance3D temp = GetTileAt(ToGlobal(new Vector3(0,1,0)), ToGlobal(new Vector3(0, -1, 0)));
-		Chunk chunk = GetChunkReferenceFromTile(temp);
-		ChunkCounter = chunk.ChunkDistance;
-		Array<Path3D> paths = chunk.GetPathsFromEntrance(temp);
 
-		if (paths != null)
+        Array<Path3D> paths = null;
+
+        Chunk chunk = GetParent().GetParent() as Chunk;
+		Spawner spawner = GetParent() as Spawner;
+		if(chunk != null && spawner == null)
+		{
+			paths = chunk.NextPaths;
+            ChunkCounter = chunk.ChunkDistance;
+        } else if (spawner != null)
+		{
+			paths = spawner.NextPaths;
+            ChunkCounter = int.MaxValue;
+        }
+
+		if (paths != null && paths.Count > 0)
 		{
 			Random random = new Random();
 			int randomIndex = random.Next(paths.Count);
+			CurrentPath = paths[randomIndex];
 			Reparent(paths[randomIndex]);
 			ProgressRatio = 0;
 		} else
@@ -172,6 +184,7 @@ public partial class BaseEnemy : PathFollow3D
 
         GetNode<AnimationPlayer>("AnimationPlayer").SpeedScale = 2;
         GetNode<AnimationPlayer>("AnimationPlayer").Play("Death_A");
+
 		GetNode<AnimationPlayer>("AnimationPlayer").AnimationFinished += (StringName anim) =>
 		{
 			QueueFree();

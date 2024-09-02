@@ -123,6 +123,8 @@ public partial class Chunk : AbstractPlaceable
 
     Dictionary<MeshInstance3D, Array<Path3D>> EntrancePathList = new();
 
+    [Export] public Array<Path3D> NextPaths = new();
+
     public int ChunkDistance = 0;
 
 
@@ -519,6 +521,13 @@ public partial class Chunk : AbstractPlaceable
             default:
                 ChunkDistance = 0;
                 break;
+        }
+
+        if (connectorTile != null)
+        {
+
+            NextPaths = connectorTile.GetParent<Chunk>().GetPathsFromEntrance(connectorTile);
+            GD.Print($"{NextPaths.Count}, {NextPaths[0].GlobalPosition}");
         }
 
         EmitSignal("Placed", this, this.GlobalPosition);

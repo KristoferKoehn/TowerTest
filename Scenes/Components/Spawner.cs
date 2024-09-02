@@ -3,13 +3,13 @@ using Godot.Collections;
 using Managers;
 using System;
 
-[Tool]
 public partial class Spawner : Path3D
 {
 
     [Export]
     public bool Enabled = true;
     public int ChunkDistance = 0;
+    public Array<Path3D> NextPaths = new();
 
     public void CheckValid()
     {
@@ -38,7 +38,7 @@ public partial class Spawner : Path3D
         }
 
         Enabled = true;
-
+        NextPaths = GetParent<Chunk>().GetPathsFromEntrance(NextMesh);
     }
 
 
@@ -97,6 +97,7 @@ public partial class Spawner : Path3D
             {
                 BaseEnemy b = GD.Load<PackedScene>("res://Scenes/Enemies/Necromancer.tscn").Instantiate<BaseEnemy>();
                 AddChild(b);
+                b.CurrentPath = this;
             }
         }
 

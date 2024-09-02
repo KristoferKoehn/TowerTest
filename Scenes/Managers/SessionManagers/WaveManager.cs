@@ -159,6 +159,7 @@ namespace Managers
 						be.ChunkCounter = item.ChunkDistance;
 						WaveBuckets[t].Remove(WaveBuckets[t][0]);
 						t.GetParent<Spawner>().AddChild(be);
+						be.CurrentPath = t.GetParent<Spawner>();
 						GD.Print("Spawn Stuff");
 					} else
 					{
