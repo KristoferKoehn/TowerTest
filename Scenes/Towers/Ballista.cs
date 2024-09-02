@@ -67,7 +67,10 @@ public partial class Ballista : AbstractTower
 
             if (index != -1)
             {
+
+
                 Vector3 predicted = PredictionManager.GetInstance().PredictTarget(EnemyList[index], 1.2f);
+
                 BallistaMount.LookAt(predicted);
 
                 //BallistaMount.LookAt(EnemyList[index].GlobalPosition);

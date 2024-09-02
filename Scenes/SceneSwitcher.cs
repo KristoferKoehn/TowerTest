@@ -32,6 +32,7 @@ public partial class SceneSwitcher : Node
         DeckManager.GetInstance();
         AccountStatsManager.GetInstance();
         AudioManager.GetInstance();
+        RNGManager.GetInstance();
         Instance = this;
         PushScene("res://Scenes/menus/MainMenu.tscn");
     }
