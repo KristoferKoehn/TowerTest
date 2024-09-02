@@ -35,10 +35,10 @@ public partial class BaseEnemy : PathFollow3D
 		this.healthBar = temp;
         this.AddChild(temp);
         this.DamageTaken += temp.UpdateHealthBar;
-		Random r = new Random();
+		
 		for(int i = 0; i < 64; i++)
 		{
-
+			ForkDecisions.Add(Mathf.Abs((int)RNGManager.GetInstance().rng.Randi()));
 		}
     }
 
@@ -138,10 +138,9 @@ public partial class BaseEnemy : PathFollow3D
 
 		if (paths != null && paths.Count > 0)
 		{
-			Random random = new Random();
-			int randomIndex = random.Next(paths.Count);
-			CurrentPath = paths[randomIndex];
-			Reparent(paths[randomIndex]);
+			int ForkDecision = ForkDecisions[ChunkCounter % 64] % paths.Count;
+			CurrentPath = paths[ForkDecision];
+			Reparent(paths[ForkDecision]);
 			ProgressRatio = 0;
 		} else
 		{

@@ -6,6 +6,7 @@ public partial class PredictionManager : Node
 {
 
     static PredictionManager instance;
+    MeshInstance3D meshInstance;
 
 
     public static PredictionManager GetInstance()
@@ -21,15 +22,10 @@ public partial class PredictionManager : Node
 
     public override void _Ready()
     {
-
+        meshInstance = new MeshInstance3D();
+        this.AddChild(meshInstance);
+        meshInstance.Mesh = new SphereMesh();
     }
-
-
-
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
-	{
-	}
 
     /// <summary>
     /// predicts the position of the target along the path3d in 'seconds' seconds
@@ -43,7 +39,6 @@ public partial class PredictionManager : Node
         float Distance = target.StatBlock.GetStat(StatType.Speed) * seconds;
         float currentOffset = target.Progress;
         Path3D currentPath = target.GetParent<Path3D>();
-
         
         while (Distance > 0)
         {
@@ -51,13 +46,11 @@ public partial class PredictionManager : Node
             {
                 Distance -= currentPath.Curve.GetBakedLength() - currentOffset;
 
-                Random r = new Random();
-                Path3D nextPath = GetNextPath(target, r.Next());
+                Path3D nextPath = GetNextPath(target);
 
                 if (nextPath == null)
                 {
-                    //no solution (end of path)
-                    GD.Print("END OF PATH NO SOLUTION");
+
                     currentOffset = currentPath.Curve.GetBakedLength();
                     break;
                 }
@@ -73,28 +66,35 @@ public partial class PredictionManager : Node
         }
 
         Vector3 pos = currentPath.Curve.SampleBaked(currentOffset);
+        meshInstance.GlobalPosition = currentPath.GlobalTransform * pos;
         return currentPath.GlobalTransform * pos;
 	}
 
-    public Path3D GetNextPath(BaseEnemy target, int idx)
+    public Path3D GetNextPath(BaseEnemy target)
     {
 
         Array<Path3D> paths = null;
-        
+        Array<int> ForkDecisions = target.ForkDecisions;
         Chunk chunk = target.GetParent().GetParent() as Chunk;
+        int chunkDistance = -1;
         Spawner spawner = target.GetParent() as Spawner;
         if (chunk != null && spawner == null)
         {
             paths = chunk.NextPaths;
+            chunkDistance = chunk.ChunkDistance;
         }
         else if (spawner != null)
         {
             paths = spawner.NextPaths;
+            chunkDistance = int.MaxValue;
+
         }
+
+
 
         if (paths != null && paths.Count > 0)
         {
-            return paths[idx % paths.Count];
+            return paths[ForkDecisions[chunkDistance % 64] % paths.Count];
         }
         else
         {
