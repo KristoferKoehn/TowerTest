@@ -282,7 +282,7 @@ _data = {
 "launch_cannonball": SubResource("Animation_rxtgn")
 }
 
-[node name="Cannon" type="Node3D" node_paths=PackedStringArray("_animationPlayer", "Outline", "SelectorHitbox", "ActiveRange", "ShotTimer")]
+[node name="Cannon" type="Node3D" node_paths=PackedStringArray("_animationPlayer", "Outline", "SelectorHitbox", "ActiveRange", "ShotTimer", "FiringSound", "RangeHitbox")]
 script = ExtResource("1_rte8q")
 _animationPlayer = NodePath("AnimationPlayer")
 Outline = NodePath("Outline/MeshInstance3D")
@@ -293,6 +293,8 @@ ValidMaterial = ExtResource("5_6yyg7")
 SelectorHitbox = NodePath("StaticBody3D")
 ActiveRange = NodePath("ActiveRange")
 ShotTimer = NodePath("ShotTimer")
+FiringSound = NodePath("FiringSound")
+RangeHitbox = NodePath("ActiveRange/CollisionShape3D")
 TowerPanel = ExtResource("6_i4cuh")
 
 [node name="weapon_cannon2" type="Node3D" parent="."]

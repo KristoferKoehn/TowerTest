@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://cfm1veh32dnc0"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c0y2s"]
+albedo_color = Color(0.24, 0.354, 1, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_lj5u7"]
+material = SubResource("StandardMaterial3D_c0y2s")
+top_radius = 0.08
+bottom_radius = 0.08
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_k6va8"]
+size = Vector3(0.25, 3.5, 0.35)
+
+[node name="WaterShot" type="MeshInstance3D"]
+transform = Transform3D(0.2364, 0, 0, 0, 0.2364, 0, 0, 0, 0.2364, 0, 0, 0)
+
+[node name="WaterShot" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.91069e-15, 4.37114e-08, 1, 1, -4.37114e-08, 0, 4.37114e-08, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_lj5u7")
+
+[node name="Hitbox" type="Area3D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
+transform = Transform3D(1, 0, 0, 0, 0.999955, -0.00945954, 0, 0.00945954, 0.999955, 0, 0.7, 0)
+shape = SubResource("BoxShape3D_k6va8")

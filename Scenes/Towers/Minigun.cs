@@ -6,18 +6,17 @@ using System.Linq;
 
 public partial class Minigun : AbstractTower
 {
-    PackedScene BulletScene = GD.Load<PackedScene>("res://Scenes/Components/MinigunBullet.tscn");
+    PackedScene BulletScene = GD.Load<PackedScene>("res://Scenes/TowerProjectiles/MinigunBullet.tscn");
     public List<MeshInstance3D> Bullets = new();
 
     MeshInstance3D TowerBase;
     Node3D MinigunMount;
     MeshInstance3D LoadedBullet;
 
-    CollisionShape3D RangeHitbox;
-
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        this.DamageType = DamageType.Physical;
         this.TowerType = TowerType.Minigun;
         base._Ready();
         if (!Disabled)
@@ -28,8 +27,9 @@ public partial class Minigun : AbstractTower
         Dictionary<StatType, float> sb = new()
         {
             {StatType.AttackSpeed, 0.05f},
-            {StatType.Damage, 10.0f},
+            {StatType.Damage, 12.0f},
             {StatType.Range, 14.0f},
+            {StatType.CritRate, 5.0f },
         };
         StatBlock.SetStatBlock(sb);
 
@@ -74,11 +74,7 @@ public partial class Minigun : AbstractTower
 
                     //EmitSignal("TowerFired", this, EnemyList[index]);
                     ShootBullet(this, EnemyList[index]); // this instead.
-                    AudioStreamPlayer3D firingSound = GetNode<AudioStreamPlayer3D>("FiringSound");
-                    if (!firingSound.Playing)
-                    {
-                        firingSound.Play();
-                    }
+                    FiringSound.Play();
                 }
             }
         }
@@ -123,21 +119,6 @@ public partial class Minigun : AbstractTower
 
     }
 
-    public static List<Vector3> GeneratePoints(int n, Vector3 pos, float r)
-    {
-        List<Vector3> points = new List<Vector3>();
-        double angleStep = 2 * Math.PI / n;
-
-        for (int i = 0; i < n; i++)
-        {
-            double angle = i * angleStep;
-            float x = pos.X + r * (float)Math.Cos(angle);
-            float z = pos.Z + r * (float)Math.Sin(angle);
-            points.Add(new Vector3(x, pos.Y + 0.4f, z));
-        }
-
-        return points;
-    }
     public void ShootBullet(Node3D tower, Node3D target)
     {
         //make bullet at tower (in the right spot)
@@ -176,24 +157,5 @@ public partial class Minigun : AbstractTower
         bullet.SetMeta("target", target.GetPath());
     }
 
-    public void DealDamage(Area3D area)
-    {
-        BaseEnemy be = area.GetParent<BaseEnemy>();
-        be.TakeDamage(StatBlock.GetStat(StatType.Damage), this);
-        be.StrikeSound.Play();
-    }
-
-    public override void DisplayMode()
-    {
-        Disabled = true;
-    }
-
-    public override void ActivatePlacing()
-    {
-        GlobalPosition = SceneSwitcher.CurrentGameLoop.MousePosition3D;
-        Disabled = false;
-        Placing = true;
-        TowerManager.GetInstance().RegisterTower(this);
-    }
 }
 

@@ -1,0 +1,78 @@
+[gd_scene load_steps=6 format=4 uid="uid://cghjwfq1ampdt"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e5y8r"]
+resource_name = "wood"
+albedo_color = Color(0.944534, 0.756899, 0.634878, 1)
+metallic = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nuiwl"]
+resource_name = "stone"
+albedo_color = Color(0.831624, 0.9276, 0.948242, 1)
+metallic = 1.0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_brkor"]
+_surfaces = [{
+"aabb": AABB(-0.025, -0.025, -0.43, 0.05001, 0.05, 1.12001),
+"format": 34896613377,
+"index_count": 54,
+"index_data": PackedByteArray("AgAAAAEAAQADAAIABAAAAAIAAgAFAAQABQAGAAQABQAHAAYAAgADAAgACAAFAAIABAAJAAEAAQAAAAQACAADAAEAAQAJAAgACQAKAAgACQALAAoABgALAAkACQAEAAYABQAIAAoACgAHAAUA"),
+"name": "wood",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 12,
+"vertex_data": PackedByteArray("8f//P/7/AAAAAP8//v8AAPH//7/+/wAAAAD/v/7/AADx/wAAbRsAAPH///9tGwAA8f8AAAAAAADx////AAAAAAAA//9tGwAAAAAAAG0bAAAAAP//AAAAAAAAAAAAAAAA")
+}, {
+"aabb": AABB(-0.03425, -0.03425, -0.69, 0.0685, 0.0685, 0.26),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray("AgAAAAEAAQADAAIABgAEAAUABQAHAAYABAAGAAEAAQAAAAQAAgADAAcABwAFAAIABQAEAAgACAACAAUAAgAIAAAACAAEAAAA"),
+"name": "stone",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 9,
+"vertex_data": PackedByteArray("AAAAAOvEAACRIpEi//8AAP//AADrxAAAbd2RIv//AAAAAP//68QAAP/////rxAAAkSJt3f//AABt3W3d//8AAP9//38AAAAA")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_jrpnw"]
+resource_name = "weapon_ballista_Mesh arrow"
+_surfaces = [{
+"aabb": AABB(-0.025, -0.025, -0.43, 0.05001, 0.05, 1.12001),
+"attribute_data": PackedByteArray("ooTHhlx7x4aihE6CXHtOggAAx4YAAE6CgbkEiYG5EYDDzwSJw88RgFx7//9cewJNooT//6KEAk1cexO8XHsXCaKEE7yihBcJ//9Ogv//x4Z9RhGAfUYEiTswEYA7MASJooSWN6KEEE1ce5Y3XHsQTVx7EE1ce5Y3ooQQTaKEljc="),
+"format": 34896613399,
+"index_count": 54,
+"index_data": PackedByteArray("AgAAAAEAAQADAAIABgAEAAUABQAHAAYABwAIAAYABwAJAAgADAAKAAsACwANAAwAEAAOAA8ADwARABAAFAASABMAEwAVABQAFQAWABQAFQAXABYAGgAYABkAGQAbABoAHgAcAB0AHQAfAB4A"),
+"material": SubResource("StandardMaterial3D_e5y8r"),
+"name": "wood",
+"primitive": 3,
+"uv_scale": Vector4(54.3307, 56.3142, 0, 0),
+"vertex_count": 32,
+"vertex_data": PackedByteArray("8f//P/7/AIAAAP8//v8AgPH//7/+/wCAAAD/v/7/AIDx//8//v//v/H//7/+//+/8f8AAG0b/7/x////bRv/v/H/AAAAAP+/8f///wAA/78AAP+//v98vwAA//9tG3y/8f//v/7/fL/x////bRt8vwAAAABtG3y/AAD/P/7/fL/x/wAAbRt8v/H//z/+/3y/AAD/v/7//78AAP8//v//vwAA//9tG/+/AAAAAG0b/78AAP//AAD/vwAAAAAAAP+/AAAAAAAA//8AAAAAbRv///H/AAAAAP//8f8AAG0b//8AAP//bRv/vwAA//8AAP+/8f///20b/7/x////AAD/v/9/////f////3////9/////fwAA/38AAP9/AAD/fwAA/38AAP9/AAD///9/////f////3////9/AAD/fwAA/38AAP9/AAD/f/9/////f////3////9/////f////3////9//z//f/8//3//P/9//z////9/////f////3////9/")
+}, {
+"aabb": AABB(-0.03425, -0.03425, -0.69, 0.0685, 0.0685, 0.26),
+"attribute_data": PackedByteArray("jXlq3Up7ZtJxhmrdtIRm0o15zCtxhswrSnvPNrSEzzZMLxKATC8kid8jZH7fI9GKstAkibLQEoAf3NGKH9xkfnGGLtv/f///jXku287Z0YrO2WR+//+bhP9/NwlxhgcujXkHLjAmZH4wJtGKAACbhA=="),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AgAAAAEAAQADAAIABgAEAAUABQAHAAYACgAIAAkACQALAAoADgAMAA0ADQAPAA4AEgAQABEAFQATABQAGAAWABcAGwAZABoA"),
+"material": SubResource("StandardMaterial3D_nuiwl"),
+"name": "stone",
+"primitive": 3,
+"uv_scale": Vector4(53.5511, 55.5511, 0, 0),
+"vertex_count": 28,
+"vertex_data": PackedByteArray("AAAAAOvEw7mRIpEi///Duf//AADrxMO5bd2RIv//w7kAAP//68TDuf/////rxMO5kSJt3f//w7lt3W3d///DuZEibd3//8O5kSKRIv//w7kAAP//68TDuQAAAADrxMO5bd2RIv//w7lt3W3d///Duf//AADrxMO5/////+vEw7kAAP//68T///9//38AAP///////+vE/////wAA68Toxv/////rxOjG/3//fwAA6Mb/f/9/AAD//wAAAADrxP////8AAOvE//8AAP//68ToxgAAAADrxOjG/3//fwAA6MYAAP9/AAD/fwAA/38AAP9/////f////3////9/////f/9/////f////3////9/////fwAA/38AAP9/AAD/fwAA/39vxf9/b8X/f2/F/38AAP9/AAD/fwAAjrr//466//+Ouv///3////9/////f///")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_brkor")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xw5po"]
+size = Vector3(0.125244, 0.175842, 2.78334)
+
+[node name="BallistaArrow" type="MeshInstance3D"]
+mesh = SubResource("ArrayMesh_jrpnw")
+
+[node name="Hitbox" type="Area3D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
+transform = Transform3D(1, 0, 0, 0, 0.999955, -0.00945954, 0, 0.00945954, 0.999955, 0.00720215, 0.0126068, -0.653571)
+shape = SubResource("BoxShape3D_xw5po")

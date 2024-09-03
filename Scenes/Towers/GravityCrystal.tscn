@@ -306,12 +306,11 @@ outer_radius = 3.981
 rings = 16
 ring_segments = 4
 
-[node name="GravityCrystal" type="Node3D" node_paths=PackedStringArray("EnergyBand", "AmbientParticles", "AttackParticles", "FiringSound", "Outline", "SelectorHitbox", "ActiveRange", "ShotTimer")]
+[node name="GravityCrystal" type="Node3D" node_paths=PackedStringArray("EnergyBand", "AmbientParticles", "AttackParticles", "Outline", "SelectorHitbox", "ActiveRange", "ShotTimer", "FiringSound", "RangeHitbox")]
 script = ExtResource("1_mycn0")
 EnergyBand = NodePath("EnergyEffect")
 AmbientParticles = NodePath("DarkAmbient")
 AttackParticles = NodePath("AttackParticles")
-FiringSound = NodePath("FiringSound")
 Outline = NodePath("Outline")
 MouseOverOutline = ExtResource("2_eolrd")
 SelectOutline = ExtResource("3_36s4a")
@@ -320,6 +319,8 @@ ValidMaterial = ExtResource("5_hx0t3")
 SelectorHitbox = NodePath("StaticBody3D")
 ActiveRange = NodePath("ActiveRange")
 ShotTimer = NodePath("Timer")
+FiringSound = NodePath("FiringSound")
+RangeHitbox = NodePath("ActiveRange/CollisionShape3D")
 TowerPanel = ExtResource("6_7watd")
 
 [node name="towerRound_crystals2" type="Node3D" parent="."]

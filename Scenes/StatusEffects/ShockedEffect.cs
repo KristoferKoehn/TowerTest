@@ -17,7 +17,7 @@ public partial class ShockedEffect : BaseStatusEffect
         this.EffectName = "Shocked";
         this.ApplicationInterval = 3.0f;
         this.ApplyOnce = true;
-        SetParalysisFromLevel();
+        SetPropertiesFromLevel();
         base._Ready();
         this.OriginalSpeed = this.enemy.StatBlock.GetStat(StatType.Speed);
         this.effectIcon.Texture = ResourceLoader.Load<AtlasTexture>(effectIconPath);
@@ -27,7 +27,7 @@ public partial class ShockedEffect : BaseStatusEffect
         this.AddChild(ParalyzedTimer);
     }
 
-    private void SetParalysisFromLevel()
+    public override void SetPropertiesFromLevel()
     {
         switch (Level)
         {
@@ -53,7 +53,7 @@ public partial class ShockedEffect : BaseStatusEffect
     {
         this.applicationTimer.Stop();
         this.enemy.StatBlock.SetStat(StatType.Speed, 0.0f);
-        this.enemy.TakeDamage(Damage, this);
+        this.enemy.TakeDamage(Damage, this, false, DamageType.Shock);
         this.ParalyzedTimer.Start();
     }
 

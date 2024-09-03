@@ -4,7 +4,7 @@ using TowerTest.Scenes.Components;
 
 public partial class BaseAction : AbstractPlaceable
 {
-    private bool Debugging = true;
+    private bool Debugging = false;
     // Action name
     public string ActionName { get; set; }
 

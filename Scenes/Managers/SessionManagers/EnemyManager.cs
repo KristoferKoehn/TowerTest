@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 public partial class EnemyManager : Node
 {
+	public float CurrentEnemyTimeScale = 1.0f;
+
 	[Signal]
 	public delegate void SpawnedEventHandler(BaseEnemy enemy);
 
@@ -32,6 +34,7 @@ public partial class EnemyManager : Node
 	public void RegisterEnemy(BaseEnemy enemy)
 	{
 		Enemies.Add(enemy);
+		enemy.TimeScale = CurrentEnemyTimeScale;
 		EmitSignal("Spawned", enemy);
 	}
 

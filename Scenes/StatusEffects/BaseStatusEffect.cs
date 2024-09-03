@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class BaseStatusEffect : Node
+public abstract partial class BaseStatusEffect : Node
 {
     public Timer totalDurationTimer;
     public Timer applicationTimer;
@@ -45,15 +45,13 @@ public partial class BaseStatusEffect : Node
     }
 
     // Method to apply the effect (to be overridden by derived classes)
-    public virtual void ApplyEffect()
-    {
-    }
+    public abstract void ApplyEffect();
 
     // Method to end the effect
     public virtual void EndEffect()
     {
-        this.effectIcon.QueueFree(); // Remove the icon which was reparented to the health bar
-        IsActive = false;
-        this.QueueFree(); // Remove the effect from the scene tree
+        this.enemy.RemoveStatusEffect(this);
     }
+
+    public abstract void SetPropertiesFromLevel();
 }

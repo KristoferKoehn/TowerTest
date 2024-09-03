@@ -9,7 +9,7 @@ public partial class PlayerHand2 : Control
     [Export] Node2D CardPlacingPosition;
     [Export] Path2D CardPlacingPath;
     [Export] PathFollow2D PathFollow;
-    [Export] PackedScene CardScene;
+    [Export] PackedScene CardScene = GD.Load<PackedScene>("res://Scenes/UI/Cards/Card.tscn");
 
     [Export] Node2D Discard;
     [Export] Node2D Deck;
@@ -35,7 +35,7 @@ public partial class PlayerHand2 : Control
     bool CardActive = false;
 
     float SwapThreshold = 0;
-    bool HandUp = true;
+    public bool HandUp = true;
 
     bool PlacingCardAnimationLock = false;
     public override void _Ready()

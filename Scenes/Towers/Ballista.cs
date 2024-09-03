@@ -6,7 +6,7 @@ using System.Linq;
 
 public partial class Ballista : AbstractTower
 {
-    PackedScene ArrowScene = GD.Load<PackedScene>("res://Scenes/Components/BalistaArrow.tscn");
+    PackedScene ArrowScene = GD.Load<PackedScene>("res://Scenes/TowerProjectiles/BallistaArrow.tscn");
     public List<MeshInstance3D> Arrows = new();
 
     MeshInstance3D TowerBase;
@@ -14,12 +14,11 @@ public partial class Ballista : AbstractTower
     MeshInstance3D BallistaBow;
     MeshInstance3D Arrow;
 
-    CollisionShape3D RangeHitbox;
-
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         this.TowerType = TowerType.Ballista;
+        this.DamageType = DamageType.Physical;
         base._Ready();
         if (!Disabled)
         {
@@ -31,6 +30,7 @@ public partial class Ballista : AbstractTower
             {StatType.AttackSpeed, 1.0f},
             {StatType.Damage, 201.0f},
             {StatType.Range, 7.0f},
+            {StatType.CritRate, 5.0f }
         };
         StatBlock.SetStatBlock(sb);
 
@@ -38,7 +38,6 @@ public partial class Ballista : AbstractTower
         BallistaMount = GetNode<MeshInstance3D>("weapon_ballista2/tmpParent/weapon_ballista");
         BallistaBow = GetNode<MeshInstance3D>("weapon_ballista2/tmpParent/weapon_ballista/bow");
         Arrow = GetNode<MeshInstance3D>("weapon_ballista2/tmpParent/weapon_ballista/bow/arrow");
-        RangeHitbox = ActiveRange.GetNode<CollisionShape3D>("CollisionShape3D");
     }
 
     private void MoveArrows(double delta)
@@ -122,21 +121,6 @@ public partial class Ballista : AbstractTower
 
 	}
 
-    public static List<Vector3> GeneratePoints(int n, Vector3 pos, float r)
-    {
-        List<Vector3> points = new List<Vector3>();
-        double angleStep = 2 * Math.PI / n;
-
-        for (int i = 0; i < n; i++)
-        {
-            double angle = i * angleStep;
-            float x = pos.X + r * (float)Math.Cos(angle);
-            float z = pos.Z + r * (float)Math.Sin(angle);
-            points.Add(new Vector3(x, pos.Y + 0.4f, z));
-        }
-
-        return points;
-    }
     public void ShootArrow(Node3D tower, Node3D target, Vector3 dir)
     {
         //make arrow at tower (in the right spot)
@@ -172,25 +156,5 @@ public partial class Ballista : AbstractTower
 
         Arrows.Add(arrow);
         arrow.SetMeta("target", target.GetPath());
-    }
-
-    public void DealDamage(Area3D area)
-    {
-        BaseEnemy be = area.GetParent<BaseEnemy>();
-        be.TakeDamage(StatBlock.GetStat(StatType.Damage), this);
-        be.StrikeSound.Play();
-    }
-
-    public override void DisplayMode()
-    {
-        Disabled = true;
-    }
-
-    public override void ActivatePlacing()
-    {
-        GlobalPosition = SceneSwitcher.CurrentGameLoop.MousePosition3D;
-        Disabled = false;
-        Placing = true;
-        TowerManager.GetInstance().RegisterTower(this);
     }
 }

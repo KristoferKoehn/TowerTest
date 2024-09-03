@@ -185,9 +185,8 @@ bottom_radius = 0.03
 height = 1.853
 radial_segments = 12
 
-[node name="LaserCrystal" type="Node3D" node_paths=PackedStringArray("RangeHitbox", "Outline", "SelectorHitbox", "ActiveRange", "ShotTimer")]
+[node name="LaserCrystal" type="Node3D" node_paths=PackedStringArray("Outline", "SelectorHitbox", "ActiveRange", "ShotTimer", "FiringSound", "RangeHitbox")]
 script = ExtResource("1_atqql")
-RangeHitbox = NodePath("ActiveRange/CollisionShape3D")
 Outline = NodePath("Outline/Outline")
 MouseOverOutline = ExtResource("1_a7rcm")
 SelectOutline = ExtResource("3_5if72")
@@ -196,6 +195,8 @@ ValidMaterial = ExtResource("5_74va3")
 SelectorHitbox = NodePath("StaticBody3D")
 ActiveRange = NodePath("ActiveRange")
 ShotTimer = NodePath("ShotTimer")
+FiringSound = NodePath("FiringSound")
+RangeHitbox = NodePath("ActiveRange/CollisionShape3D")
 
 [node name="towerRound_crystals2" type="Node3D" parent="."]
 

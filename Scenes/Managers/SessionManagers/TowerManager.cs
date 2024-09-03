@@ -8,6 +8,8 @@ using MMOTest.Backend;
 
 public partial class TowerManager : Node
 {
+    public float CurrentTowerTimeScale = 1.0f;
+
     static TowerManager instance;
 
     public System.Collections.Generic.Dictionary<TowerType, List<AbstractTower>> activeTowers = new();

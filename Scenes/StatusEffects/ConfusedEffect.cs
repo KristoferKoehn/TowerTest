@@ -13,26 +13,10 @@ public partial class ConfusedEffect : BaseStatusEffect
         this.EffectName = "Confused";
         this.ApplicationInterval = 0.001f;
         this.ApplyOnce = true;
-        SetConfuseAmountFromLevel();
+        SetPropertiesFromLevel();
         base._Ready();
         this.OriginalSpeed = this.enemy.StatBlock.GetStat(StatType.Speed);
         this.effectIcon.Texture = ResourceLoader.Load<AtlasTexture>(effectIconPath);
-    }
-
-    private void SetConfuseAmountFromLevel()
-    {
-        switch (Level)
-        {
-            case 1:
-                this.TotalDuration = 10.0f;
-                break;
-            case 2:
-                this.TotalDuration = 20.0f;
-                break;
-            case 3:
-                this.TotalDuration = 30.0f;
-                break;
-        }
     }
 
     public override void ApplyEffect()
@@ -49,5 +33,21 @@ public partial class ConfusedEffect : BaseStatusEffect
         this.enemy.GetNode<Node3D>("Rig").RotateY(Mathf.Pi);
 
         base.EndEffect();
+    }
+
+    public override void SetPropertiesFromLevel()
+    {
+        switch (Level)
+        {
+            case 1:
+                this.TotalDuration = 10.0f;
+                break;
+            case 2:
+                this.TotalDuration = 20.0f;
+                break;
+            case 3:
+                this.TotalDuration = 30.0f;
+                break;
+        }
     }
 }

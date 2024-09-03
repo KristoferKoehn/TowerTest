@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvjmsdbdiviwe"]
+
+[ext_resource type="Script" path="res://Scenes/StatusEffects/WetEffect.cs" id="1_nsxdp"]
+
+[node name="WetEffect" type="Node"]
+script = ExtResource("1_nsxdp")

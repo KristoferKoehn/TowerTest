@@ -12,12 +12,12 @@ public partial class BurnedEffect : BaseStatusEffect
     {
         this.EffectName = "Burned";
         this.ApplicationInterval = 0.2f; // burn damage is almost constantly applied.
-        SetDamageFromLevel();
+        SetPropertiesFromLevel();
         base._Ready();
         this.effectIcon.Texture = ResourceLoader.Load<AtlasTexture>(effectIconPath);
     }
 
-    private void SetDamageFromLevel()
+    public override void SetPropertiesFromLevel()
     {
         switch (Level)
         {
@@ -38,7 +38,7 @@ public partial class BurnedEffect : BaseStatusEffect
 
     public override void ApplyEffect()
     {
-        this.enemy.TakeDamage(Damage, this);
+        this.enemy.TakeDamage(Damage, this, false, DamageType.Fire);
     }
 
     // We wont have to do anything with removing the effect because we aren't changing stats, so we dont have to reset them.

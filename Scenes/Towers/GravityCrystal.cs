@@ -11,8 +11,6 @@ public partial class GravityCrystal : AbstractTower
     GpuParticles3D AmbientParticles;
     [Export]
     GpuParticles3D AttackParticles;
-    [Export]
-    AudioStreamPlayer3D FiringSound;
 
     ShaderMaterial EnergyBandMaterial;
 
@@ -23,6 +21,7 @@ public partial class GravityCrystal : AbstractTower
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
+        this.DamageType = DamageType.Physical;
         this.TowerType = TowerType.GravityCrystal;
         base._Ready();
         Dictionary<StatType, float> sb = new()
@@ -30,6 +29,7 @@ public partial class GravityCrystal : AbstractTower
             {StatType.AttackSpeed, 1.3f},
             {StatType.Damage, 50.0f},
             {StatType.Range, 4.0f},
+            {StatType.CritRate, 10.0f },
         };
         StatBlock.SetStatBlock(sb);
 
@@ -101,7 +101,7 @@ public partial class GravityCrystal : AbstractTower
             {
                 CanShoot = false;
                 AttackParticles.Emitting = true;
-                GetTree().CreateTimer(0.14).Timeout += DamageEnemies;
+                GetTree().CreateTimer(0.14).Timeout += DealDamageAOE;
             }
 
         } else
@@ -119,43 +119,4 @@ public partial class GravityCrystal : AbstractTower
         ShotTimer.Start(StatBlock.GetStat(StatType.AttackSpeed));
     }
 
-    public void DamageEnemies()
-    {
-        EmitSignal("TowerFired", this);
-        FiringSound.Play();
-        foreach (BaseEnemy be in EnemyList)
-        {
-            be.TakeDamage(StatBlock.GetStat(StatType.Damage), this);
-        }
-    }
-
-
-    public static List<Vector3> GeneratePoints(int n, Vector3 pos, float r)
-    {
-        List<Vector3> points = new List<Vector3>();
-        double angleStep = 2 * Math.PI / n;
-
-        for (int i = 0; i < n; i++)
-        {
-            double angle = i * angleStep;
-            float x = pos.X + r * (float)Math.Cos(angle);
-            float z = pos.Z + r * (float)Math.Sin(angle);
-            points.Add(new Vector3(x, pos.Y + 0.4f, z));
-        }
-
-        return points;
-    }
-
-    public override void DisplayMode()
-    {
-        Disabled = true;
-    }
-
-    public override void ActivatePlacing()
-    {
-        GlobalPosition = SceneSwitcher.CurrentGameLoop.MousePosition3D;
-
-        Placing = true;
-        Disabled = false;
-    }
 }

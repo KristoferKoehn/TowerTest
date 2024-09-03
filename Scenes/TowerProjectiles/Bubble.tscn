@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://bixh322tn8mlu"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eq3r3"]
+transparency = 1
+albedo_color = Color(0.36, 0.498667, 1, 0.611765)
+emission = Color(1, 1, 1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_tfirh"]
+material = SubResource("StandardMaterial3D_eq3r3")
+radius = 2.0
+height = 4.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_0vkcy"]
+radius = 3.54579
+
+[node name="Bubble" type="MeshInstance3D"]
+transform = Transform3D(0.04, 0, 0, 0, 0.04, 0, 0, 0, 0.04, 0, 0, 0)
+mesh = SubResource("SphereMesh_tfirh")
+
+[node name="Hitbox" type="Area3D" parent="."]
+transform = Transform3D(1, 2.98023e-08, 0, -2.98023e-08, 1, 0, 0, 0, 1, 0, 0, 0)
+collision_layer = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
+transform = Transform3D(1, 0, 0, 0, 0.999955, -0.00945954, 0, 0.00945954, 0.999955, 0, 0, 0)
+shape = SubResource("SphereShape3D_0vkcy")

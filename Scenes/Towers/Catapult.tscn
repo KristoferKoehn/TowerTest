@@ -6,7 +6,7 @@
 [ext_resource type="Material" uid="uid://bpfrh7v7vj33w" path="res://Assets/Materials/QueryInvalid.tres" id="4_h6lb5"]
 [ext_resource type="Material" uid="uid://dp23b2u2d2c2f" path="res://Assets/Materials/QueryValid.tres" id="5_rthrm"]
 [ext_resource type="PackedScene" uid="uid://1w1umbiov4do" path="res://Scenes/Utility/TowerPanel.tscn" id="6_x2fb4"]
-[ext_resource type="PackedScene" uid="uid://c3dycm5n6lyk2" path="res://Scenes/Components/CannonBall.tscn" id="7_66a3k"]
+[ext_resource type="PackedScene" uid="uid://c3dycm5n6lyk2" path="res://Scenes/TowerProjectiles/CannonBall.tscn" id="7_66a3k"]
 [ext_resource type="PackedScene" uid="uid://bla62bopkwx4a" path="res://Assets/TowerModels/towerSquare_bottomA.glb" id="7_ovja3"]
 [ext_resource type="AudioStream" uid="uid://bsuxdkybsglwl" path="res://Assets/Audio/sfx/impact/Catapult Firing Sound Effect.mp3" id="8_p1fxi"]
 [ext_resource type="AudioStream" uid="uid://cn0do7xxewta5" path="res://Assets/Audio/sfx/impact/impactWood_light_000.ogg" id="9_pd1do"]
@@ -198,7 +198,7 @@ _data = {
 "launch_catapult": SubResource("Animation_i3pe4")
 }
 
-[node name="Catapult" type="Node3D" node_paths=PackedStringArray("_animationPlayer", "Outline", "SelectorHitbox", "ActiveRange", "ShotTimer")]
+[node name="Catapult" type="Node3D" node_paths=PackedStringArray("_animationPlayer", "Outline", "SelectorHitbox", "ActiveRange", "ShotTimer", "FiringSound", "RangeHitbox")]
 script = ExtResource("1_07vv0")
 _animationPlayer = NodePath("AnimationPlayer")
 Outline = NodePath("Outline/MeshInstance3D")
@@ -209,6 +209,8 @@ ValidMaterial = ExtResource("5_rthrm")
 SelectorHitbox = NodePath("StaticBody3D")
 ActiveRange = NodePath("ActiveRange")
 ShotTimer = NodePath("ShotTimer")
+FiringSound = NodePath("FiringSound")
+RangeHitbox = NodePath("ActiveRange/CollisionShape3D")
 TowerPanel = ExtResource("6_x2fb4")
 
 [node name="weapon_catapult2" type="Node3D" parent="."]

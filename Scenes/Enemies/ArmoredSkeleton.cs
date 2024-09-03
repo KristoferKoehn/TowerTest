@@ -16,7 +16,16 @@ public partial class ArmoredSkeleton : BaseEnemy
 			{StatType.Speed, 2 },
 			{StatType.Armor, 500 },
 			{StatType.Gold, 4 },
-		};
+
+			// Damage Multipliers:
+			{StatType.PhysicalMultiplier, 1 },
+            {StatType.FireMultiplier, 1 },
+            {StatType.IceMultiplier, 1 },
+            {StatType.WindMultiplier, 1 },
+            {StatType.WaterMultiplier, 1 },
+            {StatType.ShockMultiplier, 1 },
+            {StatType.PoisonMultiplier, 1 },
+        };
 
 		StatBlock.SetStatBlock(sb);
 	}

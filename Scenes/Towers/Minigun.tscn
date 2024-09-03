@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bcvq3jm4d814f"]
+[gd_scene load_steps=26 format=3 uid="uid://bcvq3jm4d814f"]
 
 [ext_resource type="PackedScene" uid="uid://bchqenh37pd04" path="res://Assets/TowerModels/towerRound_base.glb" id="1_2yfva"]
 [ext_resource type="Script" path="res://Scenes/Towers/Minigun.cs" id="1_i5h7i"]
@@ -9,16 +9,28 @@
 [ext_resource type="Material" uid="uid://dp23b2u2d2c2f" path="res://Assets/Materials/QueryValid.tres" id="5_hs0eb"]
 [ext_resource type="PackedScene" uid="uid://1w1umbiov4do" path="res://Scenes/Utility/TowerPanel.tscn" id="6_02f05"]
 [ext_resource type="AudioStream" uid="uid://cn0do7xxewta5" path="res://Assets/Audio/sfx/impact/impactWood_light_000.ogg" id="8_pk71f"]
-[ext_resource type="AudioStream" uid="uid://b11h0ovgghsr6" path="res://Assets/Audio/sfx/impact/MiniGun.mp3" id="9_4auod"]
 [ext_resource type="AudioStream" uid="uid://wyh4ahwpivb" path="res://Assets/Audio/sfx/impact/impactWood_light_001.ogg" id="9_op4rf"]
+[ext_resource type="AudioStream" uid="uid://bgqxqmufj28s0" path="res://Assets/Audio/sfx/impact/footstep_snow_001.ogg" id="9_x3uxe"]
 [ext_resource type="AudioStream" uid="uid://dhbfnohuy118t" path="res://Assets/Audio/sfx/impact/impactWood_light_002.ogg" id="10_omctw"]
 [ext_resource type="AudioStream" uid="uid://d21rgi8jxfldc" path="res://Assets/Audio/sfx/impact/impactWood_light_003.ogg" id="11_c1g61"]
 [ext_resource type="AudioStream" uid="uid://b7ka1k0al7wo7" path="res://Assets/Audio/sfx/impact/impactWood_light_004.ogg" id="12_uj33q"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a24rs"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iyjp3"]
+albedo_color = Color(0.47, 0.47, 0.47, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_smpq8"]
+albedo_color = Color(0.44, 0.0748, 0.0748, 1)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_d807l"]
 top_radius = 0.125
 bottom_radius = 0.125
 height = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rgd5c"]
+albedo_color = Color(0, 0, 0, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_n5fdo"]
 radius = 0.125
@@ -37,6 +49,9 @@ resource_local_to_scene = true
 flip_faces = true
 size = Vector3(1.1, 0.45, 1.1)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2y6fs"]
+albedo_color = Color(0.17, 0.17, 0.17, 1)
+
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_j2fgf"]
 streams_count = 5
 stream_0/stream = ExtResource("8_pk71f")
@@ -50,7 +65,7 @@ stream_3/weight = 0.0
 stream_4/stream = ExtResource("12_uj33q")
 stream_4/weight = 0.0
 
-[node name="Minigun" type="Node3D" node_paths=PackedStringArray("Outline", "SelectorHitbox", "ActiveRange", "ShotTimer")]
+[node name="Minigun" type="Node3D" node_paths=PackedStringArray("Outline", "SelectorHitbox", "ActiveRange", "ShotTimer", "FiringSound", "RangeHitbox")]
 script = ExtResource("1_i5h7i")
 Outline = NodePath("Outline/MeshInstance3D")
 MouseOverOutline = ExtResource("2_55wbt")
@@ -60,13 +75,21 @@ ValidMaterial = ExtResource("5_hs0eb")
 SelectorHitbox = NodePath("StaticBody3D")
 ActiveRange = NodePath("ActiveRange")
 ShotTimer = NodePath("ShotTimer")
+FiringSound = NodePath("FiringSound")
+RangeHitbox = NodePath("ActiveRange/CollisionShape3D")
 TowerPanel = ExtResource("6_02f05")
 
 [node name="towerRound_base2" parent="." instance=ExtResource("1_2yfva")]
 
+[node name="towerRound_base" parent="towerRound_base2/tmpParent" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_a24rs")
+surface_material_override/1 = SubResource("StandardMaterial3D_iyjp3")
+surface_material_override/2 = SubResource("StandardMaterial3D_smpq8")
+
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.356746, 0)
 mesh = SubResource("CylinderMesh_d807l")
+surface_material_override/0 = SubResource("StandardMaterial3D_rgd5c")
 
 [node name="MiniGun" parent="." instance=ExtResource("2_tmvl4")]
 transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0.788171, 0)
@@ -98,13 +121,14 @@ shape = SubResource("BoxShape3D_5dlew")
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.25, 0)
 cast_shadow = 0
 mesh = SubResource("BoxMesh_jkogy")
+surface_material_override/0 = SubResource("StandardMaterial3D_2y6fs")
 
 [node name="ShotTimer" type="Timer" parent="."]
 wait_time = 0.1
 autostart = true
 
 [node name="FiringSound" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("9_4auod")
+stream = ExtResource("9_x3uxe")
 volume_db = -5.0
 max_polyphony = 3
 
