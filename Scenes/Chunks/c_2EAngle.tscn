@@ -1,221 +1,415 @@
-[gd_scene load_steps=55 format=3 uid="uid://cbgrcqg2f5sem"]
+[gd_scene load_steps=102 format=3 uid="uid://cbgrcqg2f5sem"]
 
 [ext_resource type="Script" path="res://Scenes/Components/Chunk.cs" id="1_0387l"]
 [ext_resource type="PackedScene" uid="uid://c1s4nmec58fg5" path="res://Scenes/Components/Tile.tscn" id="2_pco16"]
-[ext_resource type="Material" uid="uid://w1yydihlo2w0" path="res://Assets/Materials/GrassMaterial.tres" id="3_8ye24"]
-[ext_resource type="Material" uid="uid://bwcy0e4ve716y" path="res://Assets/Materials/LaneMaterial.tres" id="4_e8j72"]
 [ext_resource type="PackedScene" uid="uid://dj42i7ptj7ycf" path="res://Scenes/Components/Spawner.tscn" id="5_psb1h"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nqkf7"]
+resource_local_to_scene = true
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_w3bcv"]
 resource_local_to_scene = true
-material = ExtResource("3_8ye24")
+material = SubResource("StandardMaterial3D_nqkf7")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mvoqw"]
+resource_local_to_scene = true
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_xb2b1"]
 resource_local_to_scene = true
-material = ExtResource("3_8ye24")
+material = SubResource("StandardMaterial3D_mvoqw")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a5wc4"]
+resource_local_to_scene = true
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_rx3ya"]
 resource_local_to_scene = true
-material = ExtResource("3_8ye24")
+material = SubResource("StandardMaterial3D_a5wc4")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rybk4"]
+resource_local_to_scene = true
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_3df7p"]
 resource_local_to_scene = true
-material = ExtResource("3_8ye24")
+material = SubResource("StandardMaterial3D_rybk4")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aqc0i"]
+resource_local_to_scene = true
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_bxupj"]
 resource_local_to_scene = true
-material = ExtResource("3_8ye24")
+material = SubResource("StandardMaterial3D_aqc0i")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y3sr4"]
+resource_local_to_scene = true
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_06x11"]
 resource_local_to_scene = true
-material = ExtResource("3_8ye24")
+material = SubResource("StandardMaterial3D_y3sr4")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ni321"]
+resource_local_to_scene = true
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_snkwq"]
 resource_local_to_scene = true
-material = ExtResource("3_8ye24")
+material = SubResource("StandardMaterial3D_ni321")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4bs3l"]
+resource_local_to_scene = true
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_lfpqj"]
 resource_local_to_scene = true
-material = ExtResource("3_8ye24")
+material = SubResource("StandardMaterial3D_4bs3l")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i28i8"]
+resource_local_to_scene = true
+albedo_color = Color(0.831373, 0.894118, 0.588235, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_btwh4"]
 resource_local_to_scene = true
-material = ExtResource("4_e8j72")
+material = SubResource("StandardMaterial3D_i28i8")
 size = Vector3(1, 0.9, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6okuk"]
+resource_local_to_scene = true
+albedo_color = Color(0.831373, 0.894118, 0.588235, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_ewh2d"]
 resource_local_to_scene = true
-material = ExtResource("4_e8j72")
+material = SubResource("StandardMaterial3D_6okuk")
 size = Vector3(1, 0.9, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xf2mm"]
+resource_local_to_scene = true
+albedo_color = Color(0.831373, 0.894118, 0.588235, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_l5v7l"]
 resource_local_to_scene = true
-material = ExtResource("4_e8j72")
+material = SubResource("StandardMaterial3D_xf2mm")
 size = Vector3(1, 0.9, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hutls"]
+resource_local_to_scene = true
+albedo_color = Color(0.831373, 0.894118, 0.588235, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_o0wfr"]
 resource_local_to_scene = true
-material = ExtResource("4_e8j72")
+material = SubResource("StandardMaterial3D_hutls")
 size = Vector3(1, 0.9, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_db7yt"]
+resource_local_to_scene = true
+albedo_color = Color(0.831373, 0.894118, 0.588235, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_xxhqa"]
 resource_local_to_scene = true
-material = ExtResource("4_e8j72")
+material = SubResource("StandardMaterial3D_db7yt")
 size = Vector3(1, 0.9, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wuji0"]
+resource_local_to_scene = true
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_g22et"]
 resource_local_to_scene = true
-material = ExtResource("3_8ye24")
+material = SubResource("StandardMaterial3D_wuji0")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nojyb"]
+resource_local_to_scene = true
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_iefjr"]
 resource_local_to_scene = true
-material = ExtResource("3_8ye24")
+material = SubResource("StandardMaterial3D_nojyb")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wp52o"]
+resource_local_to_scene = true
+albedo_color = Color(0.831373, 0.894118, 0.588235, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_aimwn"]
 resource_local_to_scene = true
-material = ExtResource("4_e8j72")
+material = SubResource("StandardMaterial3D_wp52o")
 size = Vector3(1, 0.9, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fdxv0"]
+resource_local_to_scene = true
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_xah5i"]
 resource_local_to_scene = true
-material = ExtResource("3_8ye24")
+material = SubResource("StandardMaterial3D_fdxv0")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n84ra"]
+resource_local_to_scene = true
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_d1sbx"]
 resource_local_to_scene = true
-material = ExtResource("3_8ye24")
+material = SubResource("StandardMaterial3D_n84ra")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2rjeg"]
+resource_local_to_scene = true
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_vbbqa"]
 resource_local_to_scene = true
-material = ExtResource("3_8ye24")
+material = SubResource("StandardMaterial3D_2rjeg")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xjmgy"]
+resource_local_to_scene = true
+albedo_color = Color(0.831373, 0.894118, 0.588235, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_v4onr"]
 resource_local_to_scene = true
-material = ExtResource("4_e8j72")
+material = SubResource("StandardMaterial3D_xjmgy")
 size = Vector3(1, 0.9, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8vsqh"]
+resource_local_to_scene = true
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_db7vm"]
 resource_local_to_scene = true
-material = ExtResource("3_8ye24")
+material = SubResource("StandardMaterial3D_8vsqh")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6jq2q"]
+resource_local_to_scene = true
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_8vis2"]
 resource_local_to_scene = true
-material = ExtResource("3_8ye24")
+material = SubResource("StandardMaterial3D_6jq2q")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_330a2"]
+resource_local_to_scene = true
+albedo_color = Color(0.831373, 0.894118, 0.588235, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_4qfh5"]
 resource_local_to_scene = true
-material = ExtResource("4_e8j72")
+material = SubResource("StandardMaterial3D_330a2")
 size = Vector3(1, 0.9, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_amao1"]
+resource_local_to_scene = true
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_xq3bj"]
 resource_local_to_scene = true
-material = ExtResource("3_8ye24")
+material = SubResource("StandardMaterial3D_amao1")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6mwd1"]
+resource_local_to_scene = true
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_cfnm1"]
 resource_local_to_scene = true
-material = ExtResource("3_8ye24")
+material = SubResource("StandardMaterial3D_6mwd1")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pxosi"]
+resource_local_to_scene = true
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_ots7i"]
 resource_local_to_scene = true
-material = ExtResource("3_8ye24")
+material = SubResource("StandardMaterial3D_pxosi")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_apnqs"]
+resource_local_to_scene = true
+albedo_color = Color(0.831373, 0.894118, 0.588235, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_4xgyu"]
 resource_local_to_scene = true
-material = ExtResource("4_e8j72")
+material = SubResource("StandardMaterial3D_apnqs")
 size = Vector3(1, 0.9, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mttug"]
+resource_local_to_scene = true
+albedo_color = Color(0.831373, 0.894118, 0.588235, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_iw7dx"]
 resource_local_to_scene = true
-material = ExtResource("4_e8j72")
+material = SubResource("StandardMaterial3D_mttug")
 size = Vector3(1, 0.9, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ubilo"]
+resource_local_to_scene = true
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_ue8rk"]
 resource_local_to_scene = true
-material = ExtResource("3_8ye24")
+material = SubResource("StandardMaterial3D_ubilo")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qcul8"]
+resource_local_to_scene = true
+albedo_color = Color(0.831373, 0.894118, 0.588235, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_mtkr7"]
 resource_local_to_scene = true
-material = ExtResource("4_e8j72")
+material = SubResource("StandardMaterial3D_qcul8")
 size = Vector3(1, 0.9, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mapl6"]
+resource_local_to_scene = true
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_oocts"]
 resource_local_to_scene = true
-material = ExtResource("3_8ye24")
+material = SubResource("StandardMaterial3D_mapl6")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_haixm"]
+resource_local_to_scene = true
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_0hvp5"]
 resource_local_to_scene = true
-material = ExtResource("3_8ye24")
+material = SubResource("StandardMaterial3D_haixm")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pja3o"]
+resource_local_to_scene = true
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_32tmq"]
 resource_local_to_scene = true
-material = ExtResource("3_8ye24")
+material = SubResource("StandardMaterial3D_pja3o")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uqptx"]
+resource_local_to_scene = true
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_she1b"]
 resource_local_to_scene = true
-material = ExtResource("3_8ye24")
+material = SubResource("StandardMaterial3D_uqptx")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2b1y8"]
+resource_local_to_scene = true
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_ip0eg"]
 resource_local_to_scene = true
-material = ExtResource("3_8ye24")
+material = SubResource("StandardMaterial3D_2b1y8")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iqy54"]
+resource_local_to_scene = true
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_v81cg"]
 resource_local_to_scene = true
-material = ExtResource("3_8ye24")
+material = SubResource("StandardMaterial3D_iqy54")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_blaru"]
+resource_local_to_scene = true
+albedo_color = Color(0.831373, 0.894118, 0.588235, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_8gkag"]
 resource_local_to_scene = true
-material = ExtResource("4_e8j72")
+material = SubResource("StandardMaterial3D_blaru")
 size = Vector3(1, 0.9, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ywhpt"]
+resource_local_to_scene = true
+albedo_color = Color(0.831373, 0.894118, 0.588235, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_xgpbx"]
 resource_local_to_scene = true
-material = ExtResource("4_e8j72")
+material = SubResource("StandardMaterial3D_ywhpt")
 size = Vector3(1, 0.9, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_se7hs"]
+resource_local_to_scene = true
+albedo_color = Color(0.831373, 0.894118, 0.588235, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_onptl"]
 resource_local_to_scene = true
-material = ExtResource("4_e8j72")
+material = SubResource("StandardMaterial3D_se7hs")
 size = Vector3(1, 0.9, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vhhk7"]
+resource_local_to_scene = true
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_tcjos"]
 resource_local_to_scene = true
-material = ExtResource("3_8ye24")
+material = SubResource("StandardMaterial3D_vhhk7")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xyg3q"]
+resource_local_to_scene = true
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_y18pg"]
 resource_local_to_scene = true
-material = ExtResource("3_8ye24")
+material = SubResource("StandardMaterial3D_xyg3q")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cd6vk"]
+resource_local_to_scene = true
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_fkayu"]
 resource_local_to_scene = true
-material = ExtResource("3_8ye24")
+material = SubResource("StandardMaterial3D_cd6vk")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ramhw"]
+resource_local_to_scene = true
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_3af67"]
 resource_local_to_scene = true
-material = ExtResource("3_8ye24")
+material = SubResource("StandardMaterial3D_ramhw")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s52dd"]
+resource_local_to_scene = true
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_em8bj"]
 resource_local_to_scene = true
-material = ExtResource("3_8ye24")
+material = SubResource("StandardMaterial3D_s52dd")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l46kw"]
+resource_local_to_scene = true
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_208ei"]
 resource_local_to_scene = true
-material = ExtResource("3_8ye24")
+material = SubResource("StandardMaterial3D_l46kw")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_md4h0"]
+resource_local_to_scene = true
+albedo_color = Color(0.831373, 0.894118, 0.588235, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_vwl8c"]
 resource_local_to_scene = true
-material = ExtResource("4_e8j72")
+material = SubResource("StandardMaterial3D_md4h0")
 size = Vector3(1, 0.9, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t8c1w"]
+resource_local_to_scene = true
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_3nr1r"]
 resource_local_to_scene = true
-material = ExtResource("3_8ye24")
+material = SubResource("StandardMaterial3D_t8c1w")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r8pyb"]
+resource_local_to_scene = true
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_u6rih"]
 resource_local_to_scene = true
-material = ExtResource("3_8ye24")
+material = SubResource("StandardMaterial3D_r8pyb")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i84nn"]
+resource_local_to_scene = true
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_tppm4"]
 resource_local_to_scene = true
-material = ExtResource("3_8ye24")
+material = SubResource("StandardMaterial3D_i84nn")
 
 [node name="Chunk" type="Node3D" node_paths=PackedStringArray("EastTile", "SouthTile")]
 script = ExtResource("1_0387l")
@@ -329,6 +523,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
 mesh = SubResource("BoxMesh_xq3bj")
 
 [node name="0, 0" parent="." instance=ExtResource("2_pco16")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("BoxMesh_cfnm1")
 
 [node name="0, 1" parent="." instance=ExtResource("2_pco16")]

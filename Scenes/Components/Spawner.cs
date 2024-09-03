@@ -71,7 +71,6 @@ public partial class Spawner : Path3D
         {
             WaveManager.GetInstance().RegisterSpawner(this);
         }
-        
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -90,7 +89,7 @@ public partial class Spawner : Path3D
         {
             return;
         }
-
+        /*
         if(Input.IsActionJustPressed("spawn"))
         {
             if (Enabled)
@@ -100,6 +99,7 @@ public partial class Spawner : Path3D
                 b.CurrentPath = this;
             }
         }
+        */
 
         ChunkDistance = GetParent<Chunk>().ChunkDistance;
 	}

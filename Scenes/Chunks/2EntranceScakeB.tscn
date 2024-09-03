@@ -1,10 +1,11 @@
-[gd_scene load_steps=55 format=3 uid="uid://dcmmxujx44x8x"]
+[gd_scene load_steps=57 format=3]
 
 [ext_resource type="Script" path="res://Scenes/Components/Chunk.cs" id="1_vnf8g"]
-[ext_resource type="PackedScene" uid="uid://c1s4nmec58fg5" path="res://Scenes/Components/Tile.tscn" id="2_fq7ox"]
-[ext_resource type="Material" uid="uid://w1yydihlo2w0" path="res://Assets/Materials/GrassMaterial.tres" id="3_0bjre"]
-[ext_resource type="Material" uid="uid://bwcy0e4ve716y" path="res://Assets/Materials/LaneMaterial.tres" id="4_61mv4"]
-[ext_resource type="PackedScene" uid="uid://dj42i7ptj7ycf" path="res://Scenes/Components/Spawner.tscn" id="5_2up06"]
+[ext_resource type="PackedScene" path="res://Scenes/Components/Tile.tscn" id="2_fq7ox"]
+[ext_resource type="Material" path="res://Assets/Materials/GrassMaterial.tres" id="3_0bjre"]
+[ext_resource type="Material" path="res://Assets/Materials/LaneMaterial.tres" id="4_61mv4"]
+[ext_resource type="PackedScene" path="res://Scenes/Components/Spawner.tscn" id="5_2up06"]
+[ext_resource type="Script" path="res://Scenes/Components/Spawner.cs" id="6_x007v"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_t3f7u"]
 resource_local_to_scene = true
@@ -217,213 +218,281 @@ material = ExtResource("3_0bjre")
 resource_local_to_scene = true
 material = ExtResource("3_0bjre")
 
+[sub_resource type="Curve3D" id="Curve3D_hh2vu"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
 [node name="Chunk" type="Node3D"]
 script = ExtResource("1_vnf8g")
 
-[node name="-3, -3" parent="." instance=ExtResource("2_fq7ox")]
+[node name="-3, -3" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -3)
 mesh = SubResource("BoxMesh_t3f7u")
+metadata/height = 1
 
-[node name="-3, -2" parent="." instance=ExtResource("2_fq7ox")]
+[node name="-3, -2" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -2)
 mesh = SubResource("BoxMesh_eddeq")
+metadata/height = 1
 
-[node name="-3, -1" parent="." instance=ExtResource("2_fq7ox")]
+[node name="-3, -1" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -1)
 mesh = SubResource("BoxMesh_ktvk1")
+metadata/height = 1
 
-[node name="-3, 0" parent="." instance=ExtResource("2_fq7ox")]
+[node name="-3, 0" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 0)
 mesh = SubResource("BoxMesh_ea77v")
+metadata/height = 1
 
-[node name="-3, 1" parent="." instance=ExtResource("2_fq7ox")]
+[node name="-3, 1" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 1)
 mesh = SubResource("BoxMesh_lvgv2")
+metadata/height = 1
 
-[node name="-3, 2" parent="." instance=ExtResource("2_fq7ox")]
+[node name="-3, 2" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 2)
 mesh = SubResource("BoxMesh_v64i6")
+metadata/height = 1
 
-[node name="-3, 3" parent="." instance=ExtResource("2_fq7ox")]
+[node name="-3, 3" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 3)
 mesh = SubResource("BoxMesh_b2vr3")
+metadata/height = 1
 
-[node name="-2, -3" parent="." instance=ExtResource("2_fq7ox")]
+[node name="-2, -3" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -3)
 mesh = SubResource("BoxMesh_73t1n")
+metadata/height = 1
 
-[node name="-2, -2" parent="." instance=ExtResource("2_fq7ox")]
+[node name="-2, -2" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -0.05, -2)
 mesh = SubResource("BoxMesh_nh1hk")
+metadata/height = 1
 
-[node name="-2, -1" parent="." instance=ExtResource("2_fq7ox")]
+[node name="-2, -1" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -0.05, -1)
 mesh = SubResource("BoxMesh_eql3d")
+metadata/height = 1
 
-[node name="-2, 0" parent="." instance=ExtResource("2_fq7ox")]
+[node name="-2, 0" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -0.05, 0)
 mesh = SubResource("BoxMesh_hbpa8")
+metadata/height = 1
 
-[node name="-2, 1" parent="." instance=ExtResource("2_fq7ox")]
+[node name="-2, 1" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 1)
 mesh = SubResource("BoxMesh_8x0mh")
+metadata/height = 1
 
-[node name="-2, 2" parent="." instance=ExtResource("2_fq7ox")]
+[node name="-2, 2" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 2)
 mesh = SubResource("BoxMesh_eielx")
+metadata/height = 1
 
-[node name="-2, 3" parent="." instance=ExtResource("2_fq7ox")]
+[node name="-2, 3" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 3)
 mesh = SubResource("BoxMesh_ffqad")
+metadata/height = 1
 
-[node name="-1, -3" parent="." instance=ExtResource("2_fq7ox")]
+[node name="-1, -3" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -3)
 mesh = SubResource("BoxMesh_0snet")
+metadata/height = 1
 
-[node name="-1, -2" parent="." instance=ExtResource("2_fq7ox")]
+[node name="-1, -2" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, -0.05, -2)
 mesh = SubResource("BoxMesh_scr8p")
+metadata/height = 1
 
-[node name="-1, -1" parent="." instance=ExtResource("2_fq7ox")]
+[node name="-1, -1" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -1)
 mesh = SubResource("BoxMesh_j17db")
+metadata/height = 1
 
-[node name="-1, 0" parent="." instance=ExtResource("2_fq7ox")]
+[node name="-1, 0" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, -0.05, 0)
 mesh = SubResource("BoxMesh_bw7wj")
+metadata/height = 1
 
-[node name="-1, 1" parent="." instance=ExtResource("2_fq7ox")]
+[node name="-1, 1" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 1)
 mesh = SubResource("BoxMesh_lecmm")
+metadata/height = 1
 
-[node name="-1, 2" parent="." instance=ExtResource("2_fq7ox")]
+[node name="-1, 2" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 2)
 mesh = SubResource("BoxMesh_1fjre")
+metadata/height = 1
 
-[node name="-1, 3" parent="." instance=ExtResource("2_fq7ox")]
+[node name="-1, 3" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 3)
 mesh = SubResource("BoxMesh_4w2d5")
+metadata/height = 1
 
-[node name="0, -3" parent="." instance=ExtResource("2_fq7ox")]
+[node name="0, -3" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, -3)
 mesh = SubResource("BoxMesh_alb0n")
+metadata/height = 1
 
-[node name="0, -2" parent="." instance=ExtResource("2_fq7ox")]
+[node name="0, -2" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, -2)
 mesh = SubResource("BoxMesh_og8vx")
+metadata/height = 1
 
-[node name="0, -1" parent="." instance=ExtResource("2_fq7ox")]
+[node name="0, -1" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
 mesh = SubResource("BoxMesh_6odh7")
+metadata/height = 1
 
-[node name="0, 0" parent="." instance=ExtResource("2_fq7ox")]
+[node name="0, 0" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
 mesh = SubResource("BoxMesh_ivblo")
+metadata/height = 1
 
-[node name="0, 1" parent="." instance=ExtResource("2_fq7ox")]
+[node name="0, 1" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
 mesh = SubResource("BoxMesh_uuotl")
+metadata/height = 1
 
-[node name="0, 2" parent="." instance=ExtResource("2_fq7ox")]
+[node name="0, 2" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 2)
 mesh = SubResource("BoxMesh_i7al7")
+metadata/height = 1
 
-[node name="0, 3" parent="." instance=ExtResource("2_fq7ox")]
+[node name="0, 3" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 3)
 mesh = SubResource("BoxMesh_8jd3b")
+metadata/height = 1
 
-[node name="1, -3" parent="." instance=ExtResource("2_fq7ox")]
+[node name="1, -3" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -3)
 mesh = SubResource("BoxMesh_5komm")
+metadata/height = 1
 
-[node name="1, -2" parent="." instance=ExtResource("2_fq7ox")]
+[node name="1, -2" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -2)
 mesh = SubResource("BoxMesh_8ofd2")
+metadata/height = 1
 
-[node name="1, -1" parent="." instance=ExtResource("2_fq7ox")]
+[node name="1, -1" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -1)
 mesh = SubResource("BoxMesh_i4rho")
+metadata/height = 1
 
-[node name="1, 0" parent="." instance=ExtResource("2_fq7ox")]
+[node name="1, 0" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -0.05, 0)
 mesh = SubResource("BoxMesh_jreur")
+metadata/height = 1
 
-[node name="1, 1" parent="." instance=ExtResource("2_fq7ox")]
+[node name="1, 1" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
 mesh = SubResource("BoxMesh_5skwc")
+metadata/height = 1
 
-[node name="1, 2" parent="." instance=ExtResource("2_fq7ox")]
+[node name="1, 2" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -0.05, 2)
 mesh = SubResource("BoxMesh_jw2ww")
+metadata/height = 1
 
-[node name="1, 3" parent="." instance=ExtResource("2_fq7ox")]
+[node name="1, 3" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 3)
 mesh = SubResource("BoxMesh_5snvq")
+metadata/height = 1
 
-[node name="2, -3" parent="." instance=ExtResource("2_fq7ox")]
+[node name="2, -3" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -3)
 mesh = SubResource("BoxMesh_7xf85")
+metadata/height = 1
 
-[node name="2, -2" parent="." instance=ExtResource("2_fq7ox")]
+[node name="2, -2" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -2)
 mesh = SubResource("BoxMesh_yb27g")
+metadata/height = 1
 
-[node name="2, -1" parent="." instance=ExtResource("2_fq7ox")]
+[node name="2, -1" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -1)
 mesh = SubResource("BoxMesh_o0bxw")
+metadata/height = 1
 
-[node name="2, 0" parent="." instance=ExtResource("2_fq7ox")]
+[node name="2, 0" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -0.05, 0)
 mesh = SubResource("BoxMesh_4032y")
+metadata/height = 1
 
-[node name="2, 1" parent="." instance=ExtResource("2_fq7ox")]
+[node name="2, 1" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -0.05, 1)
 mesh = SubResource("BoxMesh_p5221")
+metadata/height = 1
 
-[node name="2, 2" parent="." instance=ExtResource("2_fq7ox")]
+[node name="2, 2" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -0.05, 2)
 mesh = SubResource("BoxMesh_awgyb")
+metadata/height = 1
 
-[node name="2, 3" parent="." instance=ExtResource("2_fq7ox")]
+[node name="2, 3" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 3)
 mesh = SubResource("BoxMesh_c1qxq")
+metadata/height = 1
 
-[node name="3, -3" parent="." instance=ExtResource("2_fq7ox")]
+[node name="3, -3" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -3)
 mesh = SubResource("BoxMesh_iesd1")
+metadata/height = 1
 
-[node name="3, -2" parent="." instance=ExtResource("2_fq7ox")]
+[node name="3, -2" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -2)
 mesh = SubResource("BoxMesh_f8age")
+metadata/height = 1
 
-[node name="3, -1" parent="." instance=ExtResource("2_fq7ox")]
+[node name="3, -1" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -1)
 mesh = SubResource("BoxMesh_4n62n")
+metadata/height = 1
 
-[node name="3, 0" parent="." instance=ExtResource("2_fq7ox")]
+[node name="3, 0" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 0)
 mesh = SubResource("BoxMesh_30xkb")
+metadata/height = 1
 
-[node name="3, 1" parent="." instance=ExtResource("2_fq7ox")]
+[node name="3, 1" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 1)
 mesh = SubResource("BoxMesh_tgqg4")
+metadata/height = 1
 
-[node name="3, 2" parent="." instance=ExtResource("2_fq7ox")]
+[node name="3, 2" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 2)
 mesh = SubResource("BoxMesh_due4f")
+metadata/height = 1
 
-[node name="3, 3" parent="." instance=ExtResource("2_fq7ox")]
+[node name="3, 3" type="MeshInstance3D" parent="." instance=ExtResource("2_fq7ox")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 3)
 mesh = SubResource("BoxMesh_wsnaf")
+metadata/height = 1
 
-[node name="SpawnerNorth" parent="." instance=ExtResource("5_2up06")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -4)
+[node name="SpawnerNorth" type="Path3D" parent="." instance=ExtResource("5_2up06")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.45, -4)
+curve = SubResource("Curve3D_hh2vu")
+script = ExtResource("6_x007v")
+Enabled = false
 
-[node name="SpawnerSouth" parent="." instance=ExtResource("5_2up06")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+[node name="SpawnerSouth" type="Path3D" parent="." instance=ExtResource("5_2up06")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 4)
+curve = SubResource("Curve3D_hh2vu")
+script = ExtResource("6_x007v")
+Enabled = false
 
-[node name="SpawnerEast" parent="." instance=ExtResource("5_2up06")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 4, 0, 0)
+[node name="SpawnerEast" type="Path3D" parent="." instance=ExtResource("5_2up06")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 4, 0.45, 0)
+curve = SubResource("Curve3D_hh2vu")
+script = ExtResource("6_x007v")
+Enabled = false
 
-[node name="SpawnerWest" parent="." instance=ExtResource("5_2up06")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -4, 0, 0)
+[node name="SpawnerWest" type="Path3D" parent="." instance=ExtResource("5_2up06")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -4, 0.45, 0)
+curve = SubResource("Curve3D_hh2vu")
+script = ExtResource("6_x007v")
+Enabled = false

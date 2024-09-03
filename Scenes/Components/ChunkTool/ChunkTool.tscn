@@ -1,0 +1,237 @@
+[gd_scene load_steps=8 format=3 uid="uid://do36i8ci8vnf4"]
+
+[ext_resource type="Script" path="res://Scenes/Components/ChunkTool/ChunkTool.cs" id="1_slb3c"]
+[ext_resource type="PackedScene" uid="uid://bvfxokd17td3t" path="res://Scenes/Components/WaveTool/FileSelector.tscn" id="2_g4kvj"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4bcxx"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_xtdr8"]
+sky_material = SubResource("ProceduralSkyMaterial_4bcxx")
+
+[sub_resource type="Environment" id="Environment_wynfb"]
+background_mode = 2
+sky = SubResource("Sky_xtdr8")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="GDScript" id="GDScript_m85hp"]
+resource_name = "Camera"
+script/source = "class_name FreeLookCamera extends Camera3D
+
+# Modifier keys' speed multiplier
+const SHIFT_MULTIPLIER = 2.5
+const ALT_MULTIPLIER = 1.0 / SHIFT_MULTIPLIER
+
+
+@export_range(0.0, 1.0) var sensitivity: float = 0.25
+
+# Mouse state
+var _mouse_position = Vector2(0.0, 0.0)
+var _total_pitch = 0.0
+
+# Movement state
+var _direction = Vector3(0.0, 0.0, 0.0)
+var _velocity = Vector3(0.0, 0.0, 0.0)
+var _acceleration = 30
+var _deceleration = -10
+var _vel_multiplier = 4
+
+# Keyboard state
+var _w = false
+var _s = false
+var _a = false
+var _d = false
+var _q = false
+var _e = false
+var _shift = false
+var _alt = false
+
+func _input(event):
+	# Receives mouse motion
+	if event is InputEventMouseMotion:
+		_mouse_position = event.relative
+	
+	# Receives mouse button input
+	if event is InputEventMouseButton:
+		match event.button_index:
+			MOUSE_BUTTON_RIGHT: # Only allows rotation if right click down
+				Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED if event.pressed else Input.MOUSE_MODE_VISIBLE)
+			MOUSE_BUTTON_WHEEL_UP: # Increases max velocity
+				_vel_multiplier = clamp(_vel_multiplier * 1.1, 0.2, 20)
+			MOUSE_BUTTON_WHEEL_DOWN: # Decereases max velocity
+				_vel_multiplier = clamp(_vel_multiplier / 1.1, 0.2, 20)
+
+	# Receives key input
+	if event is InputEventKey:
+		match event.keycode:
+			KEY_W:
+				_w = event.pressed
+			KEY_S:
+				_s = event.pressed
+			KEY_A:
+				_a = event.pressed
+			KEY_D:
+				_d = event.pressed
+			KEY_Q:
+				_q = event.pressed
+			KEY_E:
+				_e = event.pressed
+			KEY_SHIFT:
+				_shift = event.pressed
+			KEY_ALT:
+				_alt = event.pressed
+
+# Updates mouselook and movement every frame
+func _process(delta):
+	_update_mouselook()
+	_update_movement(delta)
+
+# Updates camera movement
+func _update_movement(delta):
+	# Computes desired direction from key states
+	_direction = Vector3(
+		(_d as float) - (_a as float), 
+		(_e as float) - (_q as float),
+		(_s as float) - (_w as float)
+	)
+	
+	# Computes the change in velocity due to desired direction and \"drag\"
+	# The \"drag\" is a constant acceleration on the camera to bring it's velocity to 0
+	var offset = _direction.normalized() * _acceleration * _vel_multiplier * delta \\
+		+ _velocity.normalized() * _deceleration * _vel_multiplier * delta
+	
+	# Compute modifiers' speed multiplier
+	var speed_multi = 1
+	if _shift: speed_multi *= SHIFT_MULTIPLIER
+	if _alt: speed_multi *= ALT_MULTIPLIER
+	
+	# Checks if we should bother translating the camera
+	if _direction == Vector3.ZERO and offset.length_squared() > _velocity.length_squared():
+		# Sets the velocity to 0 to prevent jittering due to imperfect deceleration
+		_velocity = Vector3.ZERO
+	else:
+		# Clamps speed to stay within maximum value (_vel_multiplier)
+		_velocity.x = clamp(_velocity.x + offset.x, -_vel_multiplier, _vel_multiplier)
+		_velocity.y = clamp(_velocity.y + offset.y, -_vel_multiplier, _vel_multiplier)
+		_velocity.z = clamp(_velocity.z + offset.z, -_vel_multiplier, _vel_multiplier)
+	
+		translate(_velocity * delta * speed_multi)
+
+# Updates mouse look 
+func _update_mouselook():
+	# Only rotates mouse if the mouse is captured
+	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
+		_mouse_position *= sensitivity
+		var yaw = _mouse_position.x
+		var pitch = _mouse_position.y
+		_mouse_position = Vector2(0, 0)
+		
+		# Prevents looking up/down too far
+		pitch = clamp(pitch, -90 - _total_pitch, 90 - _total_pitch)
+		_total_pitch += pitch
+	
+		rotate_y(deg_to_rad(-yaw))
+		rotate_object_local(Vector3(1,0,0), deg_to_rad(-pitch))
+"
+
+[sub_resource type="PrismMesh" id="PrismMesh_yuuka"]
+size = Vector3(30, 30, 30)
+
+[node name="ChunkTool" type="Node3D" node_paths=PackedStringArray("Camera", "CameraGimbal", "FileSelector")]
+script = ExtResource("1_slb3c")
+Camera = NodePath("CameraGimbal/Camera3D")
+CameraGimbal = NodePath("CameraGimbal")
+FileSelector = NodePath("CanvasLayer/FileSelector")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_wynfb")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.439939, -0.763227, 0.473221, 0, 0.526956, 0.849893, -0.898028, -0.373901, 0.231829, 0, 0, 0)
+shadow_enabled = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Panel" type="Panel" parent="CanvasLayer"]
+offset_left = 30.0
+offset_top = 21.0
+offset_right = 276.0
+offset_bottom = 151.0
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Panel/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="CanvasLayer/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Panel/MarginContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+theme_override_constants/margin_right = 28
+
+[node name="LineEdit" type="LineEdit" parent="CanvasLayer/Panel/MarginContainer/VBoxContainer/HBoxContainer3/MarginContainer"]
+custom_minimum_size = Vector2(151.99, 0)
+layout_mode = 2
+placeholder_text = "FileName"
+
+[node name="GenerateButton" type="Button" parent="CanvasLayer/Panel/MarginContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+focus_mode = 0
+text = "New"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Panel/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_constants/margin_top = 40
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="LoadButton" type="Button" parent="CanvasLayer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Load"
+
+[node name="SaveButton" type="Button" parent="CanvasLayer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Save"
+
+[node name="FileSelector" parent="CanvasLayer" instance=ExtResource("2_g4kvj")]
+visible = false
+offset_left = 483.0
+offset_top = 46.0
+offset_right = 483.136
+offset_bottom = 45.696
+SearchDirectory = "res://Scenes/Chunks/"
+
+[node name="CameraGimbal" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="CameraGimbal"]
+transform = Transform3D(0.766011, 0.372095, -0.524188, 0, 0.815441, 0.57884, 0.642828, -0.443398, 0.624637, -4.29215, 3.69743, 4.27699)
+script = SubResource("GDScript_m85hp")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.655392, 0.371632, -0.657534, 0.163885, 0.77986, 0.60412, 0.737295, -0.503695, 0.450209, 45.4877, -15.6171, -61.4709)
+mesh = SubResource("PrismMesh_yuuka")
+
+[connection signal="pressed" from="CanvasLayer/Panel/MarginContainer/VBoxContainer/HBoxContainer3/GenerateButton" to="." method="_on_generate_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Panel/MarginContainer/VBoxContainer/HBoxContainer/LoadButton" to="." method="_on_load_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Panel/MarginContainer/VBoxContainer/HBoxContainer/SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="LoadFile" from="CanvasLayer/FileSelector" to="." method="_on_file_selector_load_file"]
