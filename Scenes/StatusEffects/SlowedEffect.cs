@@ -14,13 +14,13 @@ public partial class SlowedEffect : BaseStatusEffect
         this.EffectName = "Slowed";
         this.ApplicationInterval = 0.001f;
         this.ApplyOnce = true;
-        SetSlowAmountFromLevel();
+        SetPropertiesFromLevel();
         base._Ready();
         this.OriginalSpeed = this.enemy.StatBlock.GetStat(StatType.Speed);
         this.effectIcon.Texture = ResourceLoader.Load<AtlasTexture>(effectIconPath);
     }
 
-    private void SetSlowAmountFromLevel()
+    public override void SetPropertiesFromLevel()
     {
         switch (Level)
         {

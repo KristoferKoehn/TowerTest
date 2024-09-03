@@ -1,5 +1,7 @@
 using Godot;
 using Managers;
+using System;
+using System.Collections.Generic;
 
 public partial class UI : CanvasLayer
 {
@@ -9,7 +11,6 @@ public partial class UI : CanvasLayer
     [Export] ProgressBar TowerHealthBar;
     [Export] Control GameOverControl;
     [Export] Control PauseControl;
-    [Export] Control DeckViewerControl;
 
     private float[] fastForwardSpeeds = { 1.0f, 2.0f, 3.0f};
     private int currentFastForwardSpeedIndex = 0;
@@ -62,6 +63,7 @@ public partial class UI : CanvasLayer
     {
         GetTree().Paused = !GetTree().Paused;
         this.PauseControl.Visible = !this.PauseControl.Visible;
+        this.PauseControl.ZIndex = 100;
     }
 
     public void _on_speed_up_button_pressed()
@@ -70,12 +72,34 @@ public partial class UI : CanvasLayer
         {
             return;
         }
-
+        Label speedUpLabel = GetNode<Label>("Control/VBoxContainer/TopUI/Buttons_HBoxContainer/SpeedUpButton/SpeedUp");
         // Move to the next speed level
         currentFastForwardSpeedIndex = (currentFastForwardSpeedIndex + 1) % fastForwardSpeeds.Length;
-        Engine.TimeScale = fastForwardSpeeds[currentFastForwardSpeedIndex];
+        speedUpLabel.Text = (currentFastForwardSpeedIndex + 1) + "x";
 
-        GD.Print($"Setting speed to {Engine.TimeScale}x");
+        //Engine.TimeScale = fastForwardSpeeds[currentFastForwardSpeedIndex];
+        // this instead:
+        SetTowersAndEnemyTimeScale();
+
+        GD.Print($"Setting speed to {currentFastForwardSpeedIndex + 1}x");
+    }
+
+    private void SetTowersAndEnemyTimeScale()
+    {
+        foreach (BaseEnemy enemy in EnemyManager.GetInstance().Enemies)
+        {
+            enemy.TimeScale = currentFastForwardSpeedIndex + 1;
+        }
+        foreach (List<AbstractTower> towerList in TowerManager.GetInstance().activeTowers.Values)
+        {
+            foreach (AbstractTower tower in towerList)
+            {
+                tower.TimeScale = currentFastForwardSpeedIndex + 1;
+            }
+        }
+
+        TowerManager.GetInstance().CurrentTowerTimeScale = currentFastForwardSpeedIndex + 1;
+        EnemyManager.GetInstance().CurrentEnemyTimeScale = currentFastForwardSpeedIndex + 1;
     }
 
     public void _on_settings_button_pressed()
@@ -122,7 +146,8 @@ public partial class UI : CanvasLayer
     public void _on_deck_button_pressed()
     {
         DeckViewerPanel deckViewerPanel = GD.Load<PackedScene>("res://Scenes/UI/Panels/DeckViewerPanel.tscn").Instantiate<DeckViewerPanel>();
-        DeckViewerControl.AddChild(deckViewerPanel);
+        AddChild(deckViewerPanel);
+        deckViewerPanel.ZIndex = 100;
         deckViewerPanel.SetAnchorsPreset(Control.LayoutPreset.FullRect);
     }
 

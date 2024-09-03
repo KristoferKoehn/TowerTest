@@ -8,10 +8,8 @@ using System.Reflection;
 
 public partial class Catapult : AbstractTower
 {
-    PackedScene CatapultBallScene = GD.Load<PackedScene>("res://Scenes/Components/CatapultBall.tscn");
+    PackedScene CatapultBallScene = GD.Load<PackedScene>("res://Scenes/TowerProjectiles/CatapultBall.tscn");
     public List<(MeshInstance3D ball, Vector3 velocity)> CatapultBalls = new();
-
-    private bool Debugging = false;
 
     [Export] public AnimationPlayer _animationPlayer;
     public MeshInstance3D TowerBase;
@@ -21,10 +19,9 @@ public partial class Catapult : AbstractTower
 
     public float SplashRadius { get; set; } = 1; // 1 m
 
-    CollisionShape3D RangeHitbox;
-
     public override void _Ready()
     {
+        this.DamageType = DamageType.Physical;
         this.TowerType = TowerType.Catapult;
         base._Ready();
         if (!Disabled)
@@ -37,12 +34,12 @@ public partial class Catapult : AbstractTower
             { StatType.AttackSpeed, 4.0f },
             { StatType.Damage, 1000.0f },
             { StatType.Range, 16.0f },
+            {StatType.CritRate, 10.0f },
         };
         StatBlock.SetStatBlock(sb);
 
         TowerBase = GetNode<MeshInstance3D>("towerSquare_bottomA2/tmpParent/towerSquare_bottomA");
         CatapultMount = GetNode<MeshInstance3D>("weapon_catapult2/tmpParent/weapon_catapult");
-        RangeHitbox = ActiveRange.GetNode<CollisionShape3D>("CollisionShape3D");
         LoadedCatapultBall = GetNode<MeshInstance3D>("weapon_catapult2/tmpParent/weapon_catapult/catapult/CannonBall");
         LoadedCatapultBall.Visible = false;
     }
@@ -111,43 +108,6 @@ public partial class Catapult : AbstractTower
                 AddChild(meshInstance3D);
             }
         }
-    }
-
-    public static List<Vector3> GeneratePoints(int n, Vector3 pos, float r)
-    {
-        List<Vector3> points = new List<Vector3>();
-        double angleStep = 2 * Math.PI / n;
-
-        for (int i = 0; i < n; i++)
-        {
-            double angle = i * angleStep;
-            float x = pos.X + r * (float)Math.Cos(angle);
-            float z = pos.Z + r * (float)Math.Sin(angle);
-            points.Add(new Vector3(x, pos.Y + 0.4f, z));
-        }
-
-        return points;
-    }
-
-    public void DealDamage(Area3D area)
-    {
-        BaseEnemy be = area.GetParent<BaseEnemy>();
-        be.TakeDamage(StatBlock.GetStat(StatType.Damage), this);
-
-        be.StrikeSound.Play();
-    }
-
-    public override void DisplayMode()
-    {
-        Disabled = true;
-    }
-
-    public override void ActivatePlacing()
-    {
-        GlobalPosition = SceneSwitcher.CurrentGameLoop.MousePosition3D;
-        Disabled = false;
-        Placing = true;
-        TowerManager.GetInstance().RegisterTower(this);
     }
 
     private void MoveCatapultBalls(double delta)

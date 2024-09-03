@@ -2,27 +2,32 @@ using Godot;
 using Godot.Collections;
 using MMOTest.Backend;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 public partial class BaseEnemy : PathFollow3D
 {
-    [Signal]
-    public delegate void DamageTakenEventHandler(Node self, Node source);
-
-	[Signal]
-	public delegate void DiedEventHandler(Node self);
-
+	private bool Debugging = false;
+    [Signal] public delegate void DamageTakenEventHandler(Node self, Node source);
+	[Signal] public delegate void DiedEventHandler(Node self);
+    [Export] public AudioStreamPlayer3D StrikeSound { get; set; }
 	public HealthBar healthBar;
 
-	[Export] public AudioStreamPlayer3D StrikeSound { get; set; }
 	public Path3D CurrentPath { get; set; }
 
 	public StatBlock StatBlock = new StatBlock();
 	protected string ModelName;
-
 	public int ChunkCounter = 0;
 	public bool Disabled = false;
     public bool dead = false;
+
+	public float TimeScale = 1.0f;
+
+	public List<BaseStatusEffect> ActiveStatusEffects = new List<BaseStatusEffect>();
+
 	public Array<int> ForkDecisions = new Array<int>();
+
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -44,13 +49,31 @@ public partial class BaseEnemy : PathFollow3D
 
     public void AddStatusEffect(BaseStatusEffect effect)
     {
+        // Check if an effect of the same type is already active
+        if (this.ActiveStatusEffects.Any(e => e.GetType() == effect.GetType()))
+        {
+			if (Debugging) GD.Print("cannot apply same effect twice");
+            return;
+        }
+
+        this.ActiveStatusEffects.Add(effect);
         AddChild(effect);
     }
+
+	public void RemoveStatusEffect(BaseStatusEffect effect)
+	{
+        effect.IsActive = false;
+        effect.effectIcon.QueueFree(); // Remove the effect icon which was reparented to the health bar
+        this.ActiveStatusEffects.Remove(effect);
+		RemoveChild(effect);
+		effect.QueueFree();
+	}
 
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		delta *= this.TimeScale;
 		if (Disabled) return;
 
         if (ProgressRatio == 1)
@@ -150,11 +173,17 @@ public partial class BaseEnemy : PathFollow3D
 		}
 	}
 
-	public void TakeDamage(float damage, Node source)
+	public void TakeDamage(float damage, Node source, bool IsCrit, DamageType damageType)
 	{
-		if (damage <= 0) { return; }
+        // Example of damageTypeMultiplier or vulnerability per damage type
+        float damageTypeMultiplier = GetDamageTypeMultiplier(damageType);
+
+        // Adjust damage based on damageTypeMultiplier/vulnerability
+        float adjustedDamage = damage * damageTypeMultiplier;
+
+        if (adjustedDamage <= 0) { return; }
 		float CurrentHealth = this.StatBlock.GetStat(StatType.Health);
-		float NewHealth = CurrentHealth - damage;
+		float NewHealth = CurrentHealth - adjustedDamage;
 		this.StatBlock.SetStat(StatType.Health, NewHealth);
 
 		if (NewHealth <= 0)
@@ -163,10 +192,33 @@ public partial class BaseEnemy : PathFollow3D
         }
         EmitSignal("DamageTaken", this, source);
 		Vector2 damage_num_position = this.GetViewport().GetCamera3D().UnprojectPosition(this.GlobalPosition);
-		DamageNumbers.GetInstance().DisplayDamageNumbers(damage, damage_num_position, false);
+		DamageNumbers.GetInstance().DisplayDamageNumbers(damage, damage_num_position, IsCrit);
 	}
 
-	public float GetTotalProgress()
+    public float GetDamageTypeMultiplier(DamageType type)
+    {
+        switch (type)
+        {
+            case DamageType.Physical:
+                return this.StatBlock.GetStat(StatType.PhysicalMultiplier);
+            case DamageType.Fire:
+                return this.StatBlock.GetStat(StatType.FireMultiplier);
+			case DamageType.Water:
+				return this.StatBlock.GetStat(StatType.WaterMultiplier);
+			case DamageType.Shock:
+				return this.StatBlock.GetStat(StatType.ShockMultiplier);
+			case DamageType.Ice:
+				return this.StatBlock.GetStat(StatType.IceMultiplier);
+			case DamageType.Wind:
+				return this.StatBlock.GetStat(StatType.WindMultiplier);
+			case DamageType.Poison:
+				return this.StatBlock.GetStat(StatType.PoisonMultiplier);
+            default:
+                return 1.0f; // Keep the same by default
+        }
+    }
+
+    public float GetTotalProgress()
 	{
 		return ChunkCounter - ProgressRatio;
 	}

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="CardData" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="CardData" load_steps=2 format=3 uid="uid://dnh7n82qt6jx5"]
 
 [ext_resource type="Script" path="res://Scenes/UI/Cards/CardData.cs" id="1_6potd"]
 
@@ -6,7 +6,7 @@
 script = ExtResource("1_6potd")
 Name = "Catapult"
 CardInfo = ""
-Rarity = "Rare"
+Rarity = 1
 ShopCost = 0
 SubjectScene = "Catapult.tscn"
 FOV = 58.0

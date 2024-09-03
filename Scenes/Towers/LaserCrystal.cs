@@ -6,20 +6,17 @@ using System.Linq;
 
 public partial class LaserCrystal : AbstractTower
 {
-
-    [Export]
-    CollisionShape3D RangeHitbox;
-
-
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
+        this.DamageType = DamageType.Physical;
         this.TowerType = TowerType.LaserCrystal;
         Dictionary<StatType, float> sb = new()
         {
             {StatType.AttackSpeed, 0.0666f},
             {StatType.Damage, 8.0f},
             {StatType.Range, 8.0f},
+            {StatType.CritRate, 10.0f },
         };
         StatBlock.SetStatBlock(sb);
     }
@@ -50,7 +47,7 @@ public partial class LaserCrystal : AbstractTower
                 {
                     CanShoot = false;
                     EmitSignal("TowerFired", this, EnemyList[index]);
-                    EnemyList[index].TakeDamage(StatBlock.GetStat(StatType.Damage), this);
+                    EnemyList[index].TakeDamage(StatBlock.GetStat(StatType.Damage), this, false, this.DamageType);
                     ShotTimer.Start(StatBlock.GetStat(StatType.AttackSpeed));
                 }
             }
@@ -99,31 +96,4 @@ public partial class LaserCrystal : AbstractTower
         }
     }
 
-    public static List<Vector3> GeneratePoints(int n, Vector3 pos, float r)
-    {
-        List<Vector3> points = new List<Vector3>();
-        double angleStep = 2 * Math.PI / n;
-
-        for (int i = 0; i < n; i++)
-        {
-            double angle = i * angleStep;
-            float x = pos.X + r * (float)Math.Cos(angle);
-            float z = pos.Z + r * (float)Math.Sin(angle);
-            points.Add(new Vector3(x, pos.Y+0.4f, z));
-        }
-
-        return points;
-    }
-
-    public override void DisplayMode()
-    {
-        Disabled = true;
-    }
-
-    public override void ActivatePlacing()
-    {
-        GlobalPosition = SceneSwitcher.CurrentGameLoop.MousePosition3D;
-        Placing = true;
-        Disabled = false;
-    }
 }

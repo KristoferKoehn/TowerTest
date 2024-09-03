@@ -13,33 +13,31 @@ public enum TowerType
     GravityCrystal,
     LaserCrystal,
     Minigun,
+    BubbleGun,
+    WaterGun,
+    Flamethrower,
 }
 
 [Tool]
 public abstract partial class AbstractTower : AbstractPlaceable
 {
+    public bool Debugging = false;
+    public DamageType DamageType;
     public TowerType TowerType { get; set; }
 
-    [Signal]
-    public delegate void TowerFiredEventHandler(Node3D tower, Node3D target = null);
-    [Signal]
-    public delegate void TowerSoldEventHandler(Node3D tower);
-    [Export]
-    public MeshInstance3D Outline;
-    [Export]
-    public StandardMaterial3D MouseOverOutline;
-    [Export]
-    public StandardMaterial3D SelectOutline;
-    [Export]
-    public StandardMaterial3D InvalidMaterial;
-    [Export]
-    public StandardMaterial3D ValidMaterial;
-    [Export]
-    public StaticBody3D SelectorHitbox;
-    [Export]
-    public Area3D ActiveRange;
-    [Export]
-    public Timer ShotTimer;
+    [Signal] public delegate void TowerFiredEventHandler(Node3D tower, Node3D target = null);
+    [Signal] public delegate void TowerSoldEventHandler(Node3D tower);
+
+    [Export] public MeshInstance3D Outline;
+    [Export] public StandardMaterial3D MouseOverOutline;
+    [Export] public StandardMaterial3D SelectOutline;
+    [Export] public StandardMaterial3D InvalidMaterial;
+    [Export] public StandardMaterial3D ValidMaterial;
+    [Export] public StaticBody3D SelectorHitbox;
+    [Export] public Area3D ActiveRange;
+    [Export] public Timer ShotTimer;
+    [Export] public AudioStreamPlayer3D FiringSound;
+    [Export] public CollisionShape3D RangeHitbox;
 
     public PackedScene DummyEnemyScene = GD.Load<PackedScene>("res://Scenes/Enemies/BaseEnemy.tscn");
 
@@ -48,6 +46,7 @@ public abstract partial class AbstractTower : AbstractPlaceable
     public bool MouseOver = false;
     public bool PressWhileMousedOver = false;
     public bool DeselectRejectFlag = false;
+    public float TimeScale = 1.0f;
 
     public bool CanShoot = false;
 
@@ -89,6 +88,7 @@ public abstract partial class AbstractTower : AbstractPlaceable
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+        delta *= this.TimeScale;
 
         if (Disabled) return;
 
@@ -371,5 +371,100 @@ public abstract partial class AbstractTower : AbstractPlaceable
         // No need to add this node to the scene, just return the position
         //return shootAheadPos;
         return enemy.GlobalPosition;
+    }
+
+    public virtual void DealDamage(Area3D area)
+    {
+        BaseEnemy be = area.GetParent<BaseEnemy>();
+        bool isCrit = false;
+
+        // Get the crit rate and clamp it to 100%
+        float critRate = this.StatBlock.GetStat(StatType.CritRate);
+        critRate = Math.Min(critRate, 100f); // Ensure crit rate does not exceed 100%
+
+        Random rand = new Random();
+        int randomNum = rand.Next(0, 100);
+
+        // Determine if the attack is a critical hit
+        if (randomNum < critRate)
+        {
+            isCrit = true;
+        }
+
+        // Calculate damage
+        float normalDamage = StatBlock.GetStat(StatType.Damage);
+        float critMultiplier = 1.5f; // Assuming CritMultiplier is a multiplier (e.g., 1.5x for 50% bonus)
+        float damage = normalDamage;
+
+        if (isCrit)
+        {
+            damage *= critMultiplier; // Apply crit multiplier if it's a crit
+        }
+
+        // Apply damage to the enemy
+        be.TakeDamage(damage, this, isCrit, this.DamageType);
+        be.StrikeSound.Play();
+    }
+
+    public void DealDamageAOE()
+    {
+        EmitSignal("TowerFired", this);
+        foreach (BaseEnemy be in EnemyList)
+        {
+            bool isCrit = false;
+
+            // Get the crit rate and clamp it to 100%
+            float critRate = this.StatBlock.GetStat(StatType.CritRate);
+            critRate = Math.Min(critRate, 100f); // Ensure crit rate does not exceed 100%
+
+            Random rand = new Random();
+            int randomNum = rand.Next(0, 100);
+
+            // Determine if the attack is a critical hit
+            if (randomNum < critRate)
+            {
+                isCrit = true;
+            }
+
+            // Calculate damage
+            float normalDamage = StatBlock.GetStat(StatType.Damage);
+            float critMultiplier = 1.5f; // Assuming CritMultiplier is a multiplier (e.g., 1.5x for 50% bonus)
+            float damage = normalDamage;
+
+            if (isCrit)
+            {
+                damage *= critMultiplier; // Apply crit multiplier if it's a crit
+            }
+            be.TakeDamage(damage, this, isCrit, this.DamageType);
+        }
+    }
+
+    public static List<Vector3> GeneratePoints(int n, Vector3 pos, float r)
+    {
+        List<Vector3> points = new List<Vector3>();
+        double angleStep = 2 * Math.PI / n;
+
+        for (int i = 0; i < n; i++)
+        {
+            double angle = i * angleStep;
+            float x = pos.X + r * (float)Math.Cos(angle);
+            float z = pos.Z + r * (float)Math.Sin(angle);
+            points.Add(new Vector3(x, pos.Y + 0.4f, z));
+        }
+
+        return points;
+    }
+
+    public override void DisplayMode()
+    {
+        Disabled = true;
+    }
+
+    public override void ActivatePlacing()
+    {
+        GlobalPosition = SceneSwitcher.CurrentGameLoop.MousePosition3D;
+        Disabled = false;
+        Placing = true;
+        TowerManager.GetInstance().RegisterTower(this);
     }
 }

@@ -6,27 +6,35 @@ public enum StatType
 {
 	//Enemy Stats
 	MaxHealth,
-	MaxArmor,
-	Health,
-	Speed,
-	Armor,
-	FireResist,
+    Health,
+    MaxArmor,
+    Armor,
+    Speed,
 
+	// Damage Multipliers, Can be used similar to resistances.
+	PhysicalMultiplier,
+	FireMultiplier,
+    WaterMultiplier,
+    IceMultiplier,
+	ShockMultiplier,
+	WindMultiplier,
+	PoisonMultiplier,
+	
+	// Tower/Enemy Stats
 	Gold,
 	Damage,
-
 
 	//Tower Stats
 	AttackSpeed, // The interval in seconds before it can attack again, so lower = faster.
 	Range,
 	SellValue,
-	FireDamage,
-	IceDamage,
-	WaterDamage,
-	HandSize,
+    CritRate, // The percentage out of 100.
 
-	//Game Stats
-	Score,
+    //Game Stats
+    Score,
+
+    // Card Stats
+    HandSize,
 }
 
 namespace MMOTest.Backend
@@ -86,4 +94,15 @@ namespace MMOTest.Backend
 			statblock = sb;
 		}
 	}
+}
+
+public enum DamageType
+{
+	Physical,
+	Fire,
+	Ice,
+	Water,
+	Shock,
+	Wind,
+    Poison,
 }

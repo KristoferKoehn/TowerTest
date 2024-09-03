@@ -72,7 +72,7 @@ bg_color = Color(0.926002, 0.154522, 0.240135, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2xmo1"]
 bg_color = Color(0, 0.752861, 0.134393, 1)
 
-[node name="UI" type="CanvasLayer" node_paths=PackedStringArray("_playerHand", "CurrencyLabel", "ScoreLabel", "TowerHealthBar", "GameOverControl", "PauseControl", "DeckViewerControl")]
+[node name="UI" type="CanvasLayer" node_paths=PackedStringArray("_playerHand", "CurrencyLabel", "ScoreLabel", "TowerHealthBar", "GameOverControl", "PauseControl")]
 script = ExtResource("1_vo24d")
 _playerHand = NodePath("Control/PlayerHand2")
 CurrencyLabel = NodePath("Control/VBoxContainer/TopUI/PlayerInfo_HBoxContainer/Currency/Currency")
@@ -80,7 +80,6 @@ ScoreLabel = NodePath("Control/VBoxContainer/TopUI/PlayerInfo_HBoxContainer/Scor
 TowerHealthBar = NodePath("Control/VBoxContainer/TopUI/PlayerInfo_HBoxContainer/VBoxContainer/PlayerTowerHealth")
 GameOverControl = NodePath("Control/GameOver")
 PauseControl = NodePath("Control/PauseControl")
-DeckViewerControl = NodePath("Control/DeckViewerControl")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -233,6 +232,19 @@ layout_mode = 2
 theme_type_variation = &"FlatButton"
 icon = ExtResource("5_646jk")
 
+[node name="SpeedUp" type="Label" parent="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/SpeedUpButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -49.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "1x"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="SettingsButton" type="MenuButton" parent="Control/VBoxContainer/TopUI/Buttons_HBoxContainer"]
 layout_mode = 2
 icon = ExtResource("6_ms3c1")
@@ -358,6 +370,7 @@ FreezePanel = NodePath("../FreezePanel")
 [node name="PauseControl" parent="Control" instance=ExtResource("9_qhxxr")]
 visible = false
 layout_mode = 1
+
 
 [node name="DeckViewerControl" type="Control" parent="Control"]
 layout_mode = 1

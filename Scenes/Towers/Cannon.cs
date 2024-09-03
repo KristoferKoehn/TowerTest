@@ -6,10 +6,8 @@ using System.Linq;
 
 public partial class Cannon : AbstractTower
 {
-    PackedScene CannonBallScene = GD.Load<PackedScene>("res://Scenes/Components/CannonBall.tscn");
+    PackedScene CannonBallScene = GD.Load<PackedScene>("res://Scenes/TowerProjectiles/CannonBall.tscn");
     public List<MeshInstance3D> CannonBalls = new();
-
-    private bool Debugging = false;
 
     [Export] public AnimationPlayer _animationPlayer;
     public MeshInstance3D TowerBase;
@@ -18,11 +16,11 @@ public partial class Cannon : AbstractTower
 
     public float SplashRadius { get; set; } = 1; // 1 m
 
-    CollisionShape3D RangeHitbox;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        this.DamageType = DamageType.Physical;
         this.TowerType = TowerType.Cannon;
         base._Ready();
         if (!Disabled)
@@ -35,12 +33,12 @@ public partial class Cannon : AbstractTower
             {StatType.AttackSpeed, 2.5f},
             {StatType.Damage, 550.0f},
             {StatType.Range, 14.0f},
+            {StatType.CritRate, 10.0f },
         };
         StatBlock.SetStatBlock(sb);
 
         TowerBase = GetNode<MeshInstance3D>("towerSquare_bottomA2/tmpParent/towerSquare_bottomA");
         CannonMount = GetNode<MeshInstance3D>("weapon_cannon2/tmpParent/weapon_cannon");
-        RangeHitbox = ActiveRange.GetNode<CollisionShape3D>("CollisionShape3D");
         LoadedCannonBall = GetNode<MeshInstance3D>("weapon_cannon2/tmpParent/weapon_cannon/cannon/CannonBall");
         LoadedCannonBall.Visible = false;
     }
@@ -124,31 +122,12 @@ public partial class Cannon : AbstractTower
 
     }
 
-    public static List<Vector3> GeneratePoints(int n, Vector3 pos, float r)
+    public override void DealDamage(Area3D area)
     {
-        List<Vector3> points = new List<Vector3>();
-        double angleStep = 2 * Math.PI / n;
-
-        for (int i = 0; i < n; i++)
-        {
-            double angle = i * angleStep;
-            float x = pos.X + r * (float)Math.Cos(angle);
-            float z = pos.Z + r * (float)Math.Sin(angle);
-            points.Add(new Vector3(x, pos.Y + 0.4f, z));
-        }
-
-        return points;
-    }
-
-    public void DealDamage(Area3D area)
-    {
+        base.DealDamage(area);
         BaseEnemy be = area.GetParent<BaseEnemy>();
-        be.TakeDamage(StatBlock.GetStat(StatType.Damage), this);
-
         // Apply splash damage to nearby enemies
         ApplySplashDamage(be.GlobalPosition, this.SplashRadius, StatBlock.GetStat(StatType.Damage) * 0.5f, be);
-
-        be.StrikeSound.Play();
     }
 
     private void ApplySplashDamage(Vector3 explosionPosition, float radius, float damage, BaseEnemy directHitEnemy)
@@ -180,22 +159,9 @@ public partial class Cannon : AbstractTower
             if (node.GetParent() is BaseEnemy enemy && enemy != directHitEnemy)
             {
                 if (Debugging) GD.Print("splash to " + node.Name);
-                enemy.TakeDamage(damage, enemy);
+                enemy.TakeDamage(damage, enemy, false, this.DamageType); // splash damage should have no crit.
             }
         }
-    }
-
-    public override void DisplayMode()
-    {
-        Disabled = true;
-    }
-
-    public override void ActivatePlacing()
-    {
-        GlobalPosition = SceneSwitcher.CurrentGameLoop.MousePosition3D;
-        Disabled = false;
-        Placing = true;
-        TowerManager.GetInstance().RegisterTower(this);
     }
 
     public void LaunchCannon(Node3D tower, Node3D target)

@@ -13,12 +13,12 @@ public partial class PoisonEffect : BaseStatusEffect
     {
         this.EffectName = "Poison";
         this.ApplicationInterval = 1.0f; // poison damage is applied every second.
-        SetDamageFromLevel();
+        SetPropertiesFromLevel();
         base._Ready();
         this.effectIcon.Texture = ResourceLoader.Load<AtlasTexture>(effectIconPath);
     }
 
-    private void SetDamageFromLevel()
+    public override void SetPropertiesFromLevel()
     {
         switch (Level)
         {
@@ -39,7 +39,7 @@ public partial class PoisonEffect : BaseStatusEffect
 
     public override void ApplyEffect()
     {
-        this.enemy.TakeDamage(Damage, this);
+        this.enemy.TakeDamage(Damage, this, false, DamageType.Poison);
     }
 
     // We wont have to do anything with removing the effect because we aren't changing stats, so we dont have to reset them.

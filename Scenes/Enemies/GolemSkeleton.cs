@@ -15,10 +15,18 @@ public partial class GolemSkeleton : BaseEnemy
 			{StatType.Health, 500 },
 			{StatType.Speed, 2 },
 			{StatType.Armor, 100 },
-			{StatType.FireResist, 0},
 			{StatType.Damage,  500},
 
             {StatType.Gold, 4 },
+
+			// Damage Multipliers:
+			{StatType.PhysicalMultiplier, 1 },
+            {StatType.FireMultiplier, 1 },
+            {StatType.IceMultiplier, 1 },
+            {StatType.WindMultiplier, 1 },
+            {StatType.WaterMultiplier, 1 },
+            {StatType.ShockMultiplier, 1 },
+			{StatType.PoisonMultiplier, 1 },
         };
 
 		StatBlock = new StatBlock();

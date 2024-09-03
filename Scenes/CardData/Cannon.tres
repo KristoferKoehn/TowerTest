@@ -6,7 +6,7 @@
 script = ExtResource("1_xiu7u")
 Name = "Cannon"
 CardInfo = "A slow but hard-hitting tower, shoots heavy balls at the enemy."
-Rarity = "Uncommon"
+Rarity = 3
 ShopCost = 0
 SubjectScene = "Cannon.tscn"
 FOV = 53.0

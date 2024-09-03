@@ -1,11 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://b3t1u0ejkjvhy"]
+[gd_scene load_steps=5 format=3 uid="uid://b3t1u0ejkjvhy"]
 
 [ext_resource type="Script" path="res://Scenes/UI/Panels/DeckViewerPanel.cs" id="1_h18fh"]
+[ext_resource type="Texture2D" uid="uid://bso3733asaq87" path="res://Assets/Cursors/arrow_n.png" id="2_daldj"]
+[ext_resource type="Texture2D" uid="uid://cbpaprmrqlrn" path="res://Assets/Cursors/arrow_s.png" id="3_fwfox"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i2xva"]
 bg_color = Color(0.064191, 0.214963, 0.114403, 1)
 
-[node name="DeckViewerPanel" type="Control" node_paths=PackedStringArray("FlowContainer", "SizeLabel", "NumChunksLabel", "NumTowersLabel", "NumActionsLabel")]
+[node name="DeckViewerPanel" type="Control" node_paths=PackedStringArray("FlowContainer", "DeckSizeLabel", "NumChunksLabel", "NumTowersLabel", "NumActionsLabel", "CardSizeSlider")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,11 +15,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_h18fh")
-FlowContainer = NodePath("MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/HFlowContainer")
-SizeLabel = NodePath("MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer2/Panel/VBoxContainer/Label2")
+FlowContainer = NodePath("MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/ScrollContainer/HFlowContainer")
+DeckSizeLabel = NodePath("MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer2/Panel/VBoxContainer/Label2")
 NumChunksLabel = NodePath("MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer2/Panel/VBoxContainer/Label3")
 NumTowersLabel = NodePath("MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer2/Panel/VBoxContainer/Label4")
 NumActionsLabel = NodePath("MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer2/Panel/VBoxContainer/Label5")
+CardSizeSlider = NodePath("MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/Container/HBoxContainer/HSlider")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -79,7 +82,7 @@ horizontal_alignment = 1
 
 [node name="Label2" type="Label" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer2/Panel/VBoxContainer"]
 layout_mode = 2
-text = "Size: 21 / 64"
+text = "Total Cards: 21"
 
 [node name="Label3" type="Label" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer2/Panel/VBoxContainer"]
 layout_mode = 2
@@ -112,13 +115,100 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer"]
+[node name="Container" type="MarginContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Label" type="Label" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/Container"]
+layout_mode = 2
+size_flags_horizontal = 3
 text = "Cards"
 horizontal_alignment = 1
 
-[node name="HFlowContainer" type="HFlowContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/Container"]
 layout_mode = 2
+
+[node name="Label6" type="Label" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/Container/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Filter:"
+
+[node name="FilterOptionButton" type="OptionButton" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/Container/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+selected = 0
+item_count = 6
+popup/item_0/text = "All"
+popup/item_0/id = 3
+popup/item_1/text = "Chunks"
+popup/item_1/id = 1
+popup/item_2/text = "Towers"
+popup/item_2/id = 1
+popup/item_3/text = "Actions"
+popup/item_3/id = 2
+popup/item_4/text = "In Hand"
+popup/item_4/id = 4
+popup/item_5/text = "Not In Hand"
+popup/item_5/id = 5
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/Container/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="Label7" type="Label" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/Container/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Sort:"
+
+[node name="SortOptionButton" type="OptionButton" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/Container/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+selected = 0
+item_count = 3
+popup/item_0/text = "Name"
+popup/item_0/id = 2
+popup/item_1/text = "Rarity"
+popup/item_1/id = 1
+popup/item_2/text = "Type"
+popup/item_2/id = 1
+
+[node name="OrderButton" type="TextureButton" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/Container/HBoxContainer"]
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("2_daldj")
+texture_pressed = ExtResource("3_fwfox")
+
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/Container/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ShowDuplicatesButton" type="CheckButton" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/Container/HBoxContainer"]
+layout_mode = 2
+button_pressed = true
+text = "Show Duplicates?"
+
+[node name="Label8" type="Label" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/Container/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Card Size:"
+
+[node name="HSlider" type="HSlider" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/Container/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="MarginContainer3" type="MarginContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/Container/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HFlowContainer" type="HFlowContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
 
@@ -134,4 +224,9 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 25
 text = "Back"
 
+[connection signal="item_selected" from="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/Container/HBoxContainer/FilterOptionButton" to="." method="_on_filter_option_button_item_selected"]
+[connection signal="item_selected" from="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/Container/HBoxContainer/SortOptionButton" to="." method="_on_sort_option_button_item_selected"]
+[connection signal="pressed" from="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/Container/HBoxContainer/OrderButton" to="." method="_on_order_button_pressed"]
+[connection signal="pressed" from="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/Container/HBoxContainer/ShowDuplicatesButton" to="." method="_on_show_duplicates_button_pressed"]
+[connection signal="value_changed" from="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/Container/HBoxContainer/HSlider" to="." method="OnCardSizeSliderValueChanged"]
 [connection signal="pressed" from="MarginContainer/Panel/VBoxContainer/MarginContainer/Button" to="." method="_on_button_pressed"]
