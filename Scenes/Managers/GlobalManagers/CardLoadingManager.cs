@@ -63,12 +63,12 @@ public partial class CardLoadingManager : Node
         RarityStyles[Rarity.Epic] = GD.Load<StyleBoxTexture>("res://Scenes/UI/Cards/Gradients/EpicRarityStyleBox.tres");
         RarityStyles[Rarity.Legendary] = GD.Load<StyleBoxTexture>("res://Scenes/UI/Cards/Gradients/LegendaryRarityStyleBox.tres");
 
-        string[] CardNames = DirAccess.GetFilesAt("res://Scenes/CardData/");
+        string[] CardNames = DirAccess.GetFilesAt("res://Data/CardData/");
         foreach (string name in CardNames)
         {
             if (name.Contains(".tres"))
             {
-                CardData.Add(name,ResourceLoader.Load<CardData>($"res://Scenes/CardData/{name}"));
+                CardData.Add(name,ResourceLoader.Load<CardData>($"res://Data/CardData/{name}"));
             }
         }
     }

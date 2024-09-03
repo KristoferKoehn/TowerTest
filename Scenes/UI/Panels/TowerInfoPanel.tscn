@@ -1,6 +1,45 @@
-[gd_scene load_steps=2 format=3 uid="uid://bybtexsnm4y7c"]
+[gd_scene load_steps=2 format=3 uid="uid://1h7abhu6ssf0"]
 
-[ext_resource type="Script" path="res://Scenes/UI/Panels/TowerInfoPanel.cs" id="1_c6q1n"]
+[sub_resource type="CSharpScript" id="CSharpScript_6apeg"]
+script/source = "using Godot;
+using System;
+
+public partial class TowerInfoPanel : Panel
+{
+    private Label TypeLabel { get; set; }
+    private TextureRect TypeIcon { get; set; }
+    private Label LevelLabel { get; set; }
+    private Label DPSLabel { get; set; }
+    private Label CurrentLevelLabel { get; set; }
+    private Label NextLevelLabel { get; set; }
+    private Label SellCostLabel { get; set; }
+    
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
+	{
+        TypeLabel = GetNode<Label>(\"VBoxContainer/TypeInfo/ActualType\");
+        TypeIcon = GetNode<TextureRect>(\"VBoxContainer/TypeInfo/DamageTypeIcon\");
+        LevelLabel = GetNode<Label>(\"VBoxContainer/LevelInfo/ActualLevel\");
+        DPSLabel = GetNode<Label>(\"VBoxContainer/DamageInfo/ActualDPS\");
+        CurrentLevelLabel = GetNode<Label>(\"VBoxContainer/LevelUpInfo/ActualLevel\");
+        NextLevelLabel = GetNode<Label>(\"VBoxContainer/LevelUpInfo/NextLevel\");
+        SellCostLabel = GetNode<Label>(\"VBoxContainer/SellingInfo/ActualCost\");
+    }
+
+    public void SetTowerInfo(AbstractTower tower)
+    {
+        /*
+        TypeLabel.Text = tower.IsTemporary.ToString();
+        TypeIcon.Texture = tower.TypeIcon;
+        LevelLabel.Text = tower.Level.ToString();
+        DPSLabel.Text = tower.DPS.ToString();
+        CurrentLevelLabel.Text = tower.LevelUpCost.ToString();
+        NextLevelLabel.Text = tower.NextLevelInfo;
+        SellCostLabel.Text = tower.SellCost.ToString();
+        */
+    }
+}
+"
 
 [node name="TowerInfoPanel" type="Panel"]
 custom_minimum_size = Vector2(250, 300)
@@ -15,7 +54,7 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_c6q1n")
+script = SubResource("CSharpScript_6apeg")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1

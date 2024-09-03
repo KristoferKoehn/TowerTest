@@ -6,7 +6,7 @@ using System.Linq;
 
 public partial class BubbleGun : AbstractTower
 {
-    PackedScene ProjectileScene = GD.Load<PackedScene>("res://Scenes/TowerProjectiles/Bubble.tscn");
+    PackedScene ProjectileScene = GD.Load<PackedScene>("res://Resources/TowerProjectiles/Bubble.tscn");
     public List<MeshInstance3D> Bubbles = new();
 
     [Export] MeshInstance3D TowerBase;

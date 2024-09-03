@@ -371,7 +371,6 @@ FreezePanel = NodePath("../FreezePanel")
 visible = false
 layout_mode = 1
 
-
 [node name="DeckViewerControl" type="Control" parent="Control"]
 layout_mode = 1
 anchors_preset = 15

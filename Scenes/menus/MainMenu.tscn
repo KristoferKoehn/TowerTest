@@ -1,10 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://b7mmku0wx1bc0"]
+[gd_scene load_steps=5 format=3 uid="uid://b7mmku0wx1bc0"]
 
 [ext_resource type="Script" path="res://Scenes/menus/MainMenu.cs" id="1_0m3l4"]
 [ext_resource type="PackedScene" uid="uid://cethdkq0dxhao" path="res://Scenes/Components/Cinematics/MainMenuBackground.tscn" id="2_k6gl0"]
-[ext_resource type="Script" path="res://Scenes/UI/AudioButton.cs" id="2_q045w"]
+[ext_resource type="AudioStream" uid="uid://1ih8u0bswm3w" path="res://Assets/Audio/Menus/ps_menu_hover.mp3" id="3_6iy4p"]
+[ext_resource type="AudioStream" uid="uid://bb8yxn3urj7ba" path="res://Assets/Audio/Menus/ps_menu_click.mp3" id="3_jihde"]
 
-[node name="MainMenu" type="Control"]
+[node name="MainMenu" type="Control" node_paths=PackedStringArray("MouseOver", "Press")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,6 +13,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_0m3l4")
+MouseOver = NodePath("MouseOverSfx")
+Press = NodePath("PressSfx")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -30,19 +33,30 @@ grow_vertical = 2
 [node name="PlayButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "Play"
-script = ExtResource("2_q045w")
 
 [node name="SettingsButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "Settings"
-script = ExtResource("2_q045w")
 
 [node name="QuitButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "Quit"
-script = ExtResource("2_q045w")
 
 [node name="MainMenuBackground" parent="." instance=ExtResource("2_k6gl0")]
 
+[node name="MouseOverSfx" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_6iy4p")
+max_polyphony = 10
+
+[node name="PressSfx" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_jihde")
+
+[connection signal="mouse_entered" from="VBoxContainer/PlayButton" to="." method="PlayMouseOverSound"]
 [connection signal="pressed" from="VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/PlayButton" to="." method="PlayPressSound"]
+[connection signal="mouse_entered" from="VBoxContainer/SettingsButton" to="." method="PlayMouseOverSound"]
+[connection signal="pressed" from="VBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/SettingsButton" to="." method="PlayPressSound"]
+[connection signal="mouse_entered" from="VBoxContainer/QuitButton" to="." method="PlayMouseOverSound"]
 [connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="PlayPressSound"]

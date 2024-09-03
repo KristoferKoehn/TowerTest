@@ -1,9 +1,9 @@
-[gd_resource type="Resource" script_class="CardData" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="CardData" load_steps=2 format=3 uid="uid://brbbx84obet3b"]
 
-[ext_resource type="Script" path="res://Scenes/UI/Cards/CardData.cs" id="1_0ydfl"]
+[ext_resource type="Script" path="res://Scenes/UI/Cards/CardData.cs" id="1_sjenx"]
 
 [resource]
-script = ExtResource("1_0ydfl")
+script = ExtResource("1_sjenx")
 Name = "Calm Valley"
 CardInfo = ""
 Rarity = 1

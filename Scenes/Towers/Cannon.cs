@@ -6,7 +6,7 @@ using System.Linq;
 
 public partial class Cannon : AbstractTower
 {
-    PackedScene CannonBallScene = GD.Load<PackedScene>("res://Scenes/TowerProjectiles/CannonBall.tscn");
+    PackedScene CannonBallScene = GD.Load<PackedScene>("res://Resources/TowerProjectiles/CannonBall.tscn");
     public List<MeshInstance3D> CannonBalls = new();
 
     [Export] public AnimationPlayer _animationPlayer;

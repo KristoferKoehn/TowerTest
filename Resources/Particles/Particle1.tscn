@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://bg24yesvxcypd"]
 
-[ext_resource type="Shader" uid="uid://cjg8hjtttfipv" path="res://Scenes/Particles/Bloodspray.tres" id="1_lfuk6"]
+[ext_resource type="Shader" uid="uid://cjg8hjtttfipv" path="res://Resources/Particles/Bloodspray.tres" id="1_lfuk6"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6emn6"]
 render_priority = 0

@@ -6,7 +6,7 @@ using System.Linq;
 
 public partial class Minigun : AbstractTower
 {
-    PackedScene BulletScene = GD.Load<PackedScene>("res://Scenes/TowerProjectiles/MinigunBullet.tscn");
+    PackedScene BulletScene = GD.Load<PackedScene>("res://Resources/TowerProjectiles/MinigunBullet.tscn");
     public List<MeshInstance3D> Bullets = new();
 
     MeshInstance3D TowerBase;

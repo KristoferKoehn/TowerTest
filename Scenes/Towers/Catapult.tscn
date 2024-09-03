@@ -6,7 +6,7 @@
 [ext_resource type="Material" uid="uid://bpfrh7v7vj33w" path="res://Assets/Materials/QueryInvalid.tres" id="4_h6lb5"]
 [ext_resource type="Material" uid="uid://dp23b2u2d2c2f" path="res://Assets/Materials/QueryValid.tres" id="5_rthrm"]
 [ext_resource type="PackedScene" uid="uid://1w1umbiov4do" path="res://Scenes/Utility/TowerPanel.tscn" id="6_x2fb4"]
-[ext_resource type="PackedScene" uid="uid://c3dycm5n6lyk2" path="res://Scenes/TowerProjectiles/CannonBall.tscn" id="7_66a3k"]
+[ext_resource type="PackedScene" uid="uid://c3dycm5n6lyk2" path="res://Resources/TowerProjectiles/CannonBall.tscn" id="7_66a3k"]
 [ext_resource type="PackedScene" uid="uid://bla62bopkwx4a" path="res://Assets/TowerModels/towerSquare_bottomA.glb" id="7_ovja3"]
 [ext_resource type="AudioStream" uid="uid://bsuxdkybsglwl" path="res://Assets/Audio/sfx/impact/Catapult Firing Sound Effect.mp3" id="8_p1fxi"]
 [ext_resource type="AudioStream" uid="uid://cn0do7xxewta5" path="res://Assets/Audio/sfx/impact/impactWood_light_000.ogg" id="9_pd1do"]

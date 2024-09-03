@@ -79,6 +79,8 @@ public partial class PlayerHand2 : Control
 
         ShowDeck().Finished += () =>
         {
+
+            if (!IsInstanceValid(this)) return;
             if (count > DeckManager.GetInstance().Cards.Count)
             {
 

@@ -8,7 +8,7 @@ using System.Reflection;
 
 public partial class Catapult : AbstractTower
 {
-    PackedScene CatapultBallScene = GD.Load<PackedScene>("res://Scenes/TowerProjectiles/CatapultBall.tscn");
+    PackedScene CatapultBallScene = GD.Load<PackedScene>("res://Resources/TowerProjectiles/CatapultBall.tscn");
     public List<(MeshInstance3D ball, Vector3 velocity)> CatapultBalls = new();
 
     [Export] public AnimationPlayer _animationPlayer;

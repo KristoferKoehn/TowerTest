@@ -6,7 +6,7 @@ using System.Linq;
 
 public partial class Ballista : AbstractTower
 {
-    PackedScene ArrowScene = GD.Load<PackedScene>("res://Scenes/TowerProjectiles/BallistaArrow.tscn");
+    PackedScene ArrowScene = GD.Load<PackedScene>("res://Resources/TowerProjectiles/BallistaArrow.tscn");
     public List<MeshInstance3D> Arrows = new();
 
     MeshInstance3D TowerBase;
@@ -68,7 +68,7 @@ public partial class Ballista : AbstractTower
             {
 
 
-                Vector3 predicted = PredictionManager.GetInstance().PredictTarget(EnemyList[index], 1.2f);
+                Vector3 predicted = PredictionManager.GetInstance().PredictTarget(EnemyList[index], 0.2f);
 
                 BallistaMount.LookAt(predicted);
 

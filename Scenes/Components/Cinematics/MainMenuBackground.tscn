@@ -104,7 +104,7 @@ autoplay = "Sit_Floor_Idle"
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0.396, 0)
 
 [node name="CameraGimbal" type="Node3D" parent="."]
-transform = Transform3D(1.58053, 0, -1.07585, 0, 1, 0, 1.07585, 0, 1.58053, 0, 0, 0)
+transform = Transform3D(-1.68177, 0, 0.909321, 0, 1, 0, -0.909321, 0, -1.68177, 0, 0, 0)
 
 [node name="Camera3D" type="Camera3D" parent="CameraGimbal"]
 transform = Transform3D(1, 0, 0, 0, 0.955278, 0.295708, 0, -0.295708, 0.955278, 0, 6, 5)

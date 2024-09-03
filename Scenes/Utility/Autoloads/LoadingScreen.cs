@@ -12,7 +12,7 @@ public partial class LoadingScreen : CanvasLayer
     [Export] public VBoxContainer _vBoxContainer;
     [Export] public Card Card;
 
-    private string cardDirectory = "res://Scenes/CardData/";
+    private string cardDirectory = "res://Data/CardData/";
     private string[] allCardData;
 
     private int _dotCount = 0;

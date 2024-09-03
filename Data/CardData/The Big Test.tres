@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="CardData" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="CardData" load_steps=2 format=3 uid="uid://gr6f6xtl8qji"]
 
 [ext_resource type="Script" path="res://Scenes/UI/Cards/CardData.cs" id="1_g3y16"]
 

@@ -33,7 +33,7 @@ public partial class GameLoop : Node3D
         Camera = GetNode<Camera3D>("CameraGimbal/Camera3D");
 		CameraGimbal = GetNode<Node3D>("CameraGimbal");
 
-        DeckManager.GetInstance().SetDeck((DeckData)ResourceLoader.Load("res://Scenes/Decks/PlainsDeck.tres"));
+        DeckManager.GetInstance().SetDeck((DeckData)ResourceLoader.Load("res://Data/Decks/PlainsDeck.tres"));
 	}
 
 

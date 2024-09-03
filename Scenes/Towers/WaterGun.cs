@@ -6,7 +6,7 @@ using System.Linq;
 
 public partial class WaterGun : AbstractTower
 {
-    PackedScene ProjectileScene = GD.Load<PackedScene>("res://Scenes/TowerProjectiles/WaterShot.tscn");
+    PackedScene ProjectileScene = GD.Load<PackedScene>("res://Resources/TowerProjectiles/WaterShot.tscn");
     PackedScene WetEffectScene = GD.Load<PackedScene>("res://Scenes/StatusEffects/WetEffect.tscn");
     public List<MeshInstance3D> WaterShots = new();
 

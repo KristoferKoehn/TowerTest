@@ -190,7 +190,7 @@ public partial class CardBuilder : Node3D
 
     public void _on_save_button_pressed()
     {
-        string[] CardNames = DirAccess.GetFilesAt("res://Scenes/CardData/");
+        string[] CardNames = DirAccess.GetFilesAt("res://Data/CardData/");
 
         bool UniqueNameFound = false;
         int idx = 0;
@@ -207,7 +207,7 @@ public partial class CardBuilder : Node3D
         }
         
 
-        ResourceSaver.Save(cd, idx == 0 ? $"res://Scenes/CardData/{cd.Name}.tres" : $"res://Scenes/CardData/{cd.Name}{idx}.tres");
+        ResourceSaver.Save(cd, idx == 0 ? $"res://Data/CardData/{cd.Name}.tres" : $"res://Data/CardData/{cd.Name}{idx}.tres");
 
     }
 
@@ -218,7 +218,7 @@ public partial class CardBuilder : Node3D
 
     public void _on_file_selector_load_file(string text)
     {
-        cd = (CardData)ResourceLoader.Load($"res://Scenes/CardData/{text}");
+        cd = (CardData)ResourceLoader.Load($"res://Data/CardData/{text}");
         EmitSignal("ValuesUpdated");
         UpdateEditor();
     }

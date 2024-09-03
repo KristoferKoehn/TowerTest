@@ -37,12 +37,12 @@ public partial class ParticleManager : Node
 		particleSignals.normalParticle += (String n, Vector3 c, Vector3 d) => makeNormalParticle(n, c, d);
 		particleSignals.continuousParticle += (String n, Vector3 c, Vector3 d) => makeContinuousParticle(n, c, d);
         //loading particles
-        foreach (string item in DirAccess.GetFilesAt("res://Scenes/Particles/"))
+        foreach (string item in DirAccess.GetFilesAt("res://Resources/Particles/"))
 		{
 			//GD.Print(item.Substring(0, item.Length - 5));
 			if (item.Contains("tscn"))
 			{
-				PackedScene inst = GD.Load<PackedScene>("res://Scenes/Particles/" + item);
+				PackedScene inst = GD.Load<PackedScene>("res://Resources/Particles/" + item);
 				//GpuParticles3D particleScene = inst.Instantiate<GpuParticles3D>();
 				loadedParticles[item.Substring(0, item.Length-5)] = inst;
 			}

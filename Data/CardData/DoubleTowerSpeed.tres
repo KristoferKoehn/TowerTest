@@ -6,7 +6,7 @@
 script = ExtResource("1_djdy7")
 Name = "Double Tower Speed"
 CardInfo = ""
-Rarity = "Legendary"
+Rarity = 1
 ShopCost = 0
 SubjectScene = "DoubleTowerSpeed.tscn"
 FOV = 75.0

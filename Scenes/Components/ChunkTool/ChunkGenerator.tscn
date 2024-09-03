@@ -1,6 +1,6 @@
 [gd_scene load_steps=55 format=3 uid="uid://bvmpgisf2elg1"]
 
-[ext_resource type="Script" path="res://Scenes/Components/ChunkGenerator.cs" id="1_4cflw"]
+[ext_resource type="Script" path="res://Scenes/Components/ChunkTool/ChunkGenerator.cs" id="1_4cflw"]
 [ext_resource type="Script" path="res://Scenes/Components/Chunk.cs" id="2_l7slf"]
 [ext_resource type="PackedScene" uid="uid://c1s4nmec58fg5" path="res://Scenes/Components/Tile.tscn" id="3_7db1d"]
 [ext_resource type="Material" uid="uid://w1yydihlo2w0" path="res://Assets/Materials/GrassMaterial.tres" id="4_82iou"]
