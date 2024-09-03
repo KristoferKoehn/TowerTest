@@ -867,7 +867,7 @@ public partial class Chunk : AbstractPlaceable
             Spawner sp = n as Spawner; 
             if (sp != null)
             {
-                sp.Position += new Vector3(0, 0.45f, 0);
+                sp.Position = new Vector3(sp.Position.X, 0.45f, sp.Position.Z);
             }
         }
     }
@@ -1066,7 +1066,55 @@ public partial class Chunk : AbstractPlaceable
 
         UpdateAdjacencyList();
         UpdateEntrances();
+    }
 
-        
+    public void GenerateNodeData(PackedScene TileScene, PackedScene SpawnerScene)
+    {
+        int DEFAULT_CHUNK_SIZE = 7;
+
+
+        for (int i = 0; i < DEFAULT_CHUNK_SIZE; i++)
+        {
+
+            for (int j = 0; j < DEFAULT_CHUNK_SIZE; j++)
+            {
+
+                Node3D node = TileScene.Instantiate<Node3D>();
+                AddChild(node);
+                node.Owner = this;
+                node.Position = new Vector3(i - DEFAULT_CHUNK_SIZE / 2, 0, j - DEFAULT_CHUNK_SIZE / 2);
+                node.Name = $"{i - DEFAULT_CHUNK_SIZE / 2}, {j - DEFAULT_CHUNK_SIZE / 2}";
+                node.SetMeta("height", 1);
+
+            }
+        }
+
+        Spawner North = SpawnerScene.Instantiate<Spawner>();
+        North.Name = "SpawnerNorth";
+        AddChild(North);
+        North.Owner = this;
+        North.Position = new Vector3(0, 0.45f, -4);
+        North.RotateY(Mathf.Pi);
+
+        Spawner South = SpawnerScene.Instantiate<Spawner>();
+        South.Name = "SpawnerSouth";
+        AddChild(South);
+        South.Owner = this;
+        South.Position = new Vector3(0, 0.45f, 4);
+
+        Spawner East = SpawnerScene.Instantiate<Spawner>();
+        East.Name = "SpawnerEast";
+        AddChild(East);
+        East.Owner = this;
+        East.Position = new Vector3(4, 0.45f, 0);
+        East.RotateY(Mathf.Pi / 2);
+
+        Spawner West = SpawnerScene.Instantiate<Spawner>();
+        West.Name = "SpawnerWest";
+        AddChild(West);
+        West.Owner = this;
+        West.Position = new Vector3(-4, 0.45f, 0);
+        West.RotateY(-Mathf.Pi / 2);
+
     }
 }

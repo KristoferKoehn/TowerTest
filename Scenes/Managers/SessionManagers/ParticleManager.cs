@@ -52,6 +52,7 @@ public partial class ParticleManager : Node
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+
 	}
 
 	//will have to have a few of these or a switcher to tell where to put it.

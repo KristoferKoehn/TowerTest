@@ -1,8 +1,6 @@
 using Godot;
 using Godot.Collections;
-using System;
 
-[Tool]
 public partial class ChunkGenerator : Node3D
 {
     PackedScene TileScene = GD.Load<PackedScene>("res://Scenes/Components/Tile.tscn");

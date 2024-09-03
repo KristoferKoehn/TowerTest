@@ -23,7 +23,6 @@ public partial class GameLoop : Node3D
 		TowerManager.GetInstance();
 		ParticleSignals.GetInstance();
 		ParticleManager.GetInstance();
-        UI.GetInstance();
 		PredictionManager.GetInstance();
     }
 

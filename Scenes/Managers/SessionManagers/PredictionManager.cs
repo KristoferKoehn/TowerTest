@@ -90,8 +90,6 @@ public partial class PredictionManager : Node
 
         }
 
-
-
         if (paths != null && paths.Count > 0)
         {
             return paths[ForkDecisions[chunkDistance % 64] % paths.Count];
