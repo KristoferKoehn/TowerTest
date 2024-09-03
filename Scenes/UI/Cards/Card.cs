@@ -62,7 +62,6 @@ public partial class Card : Sprite2D
             if (!Highlighted)
             {
                 ZIndex += 2;
-                GD.Print(ZIndex);
             }
             Highlighted = true;
             Tween tweenscale = GetTree().CreateTween();

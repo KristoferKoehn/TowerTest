@@ -12,7 +12,7 @@ public partial class Necromancer : BaseEnemy
         Dictionary<StatType, float> sb = new()
         {
             {StatType.Health, 600 },
-            {StatType.Speed, 2 },
+            {StatType.Speed, 1 },
             {StatType.Gold, 4 },
             {StatType.Damage, 10 },
 

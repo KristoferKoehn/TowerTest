@@ -23,7 +23,6 @@ public partial class GameLoop : Node3D
 		TowerManager.GetInstance();
 		ParticleSignals.GetInstance();
 		ParticleManager.GetInstance();
-        UI.GetInstance();
 		PredictionManager.GetInstance();
     }
 
@@ -41,9 +40,6 @@ public partial class GameLoop : Node3D
 	public override void _Process(double delta)
 	{
         HandleCameraMovement();
-
-
-
     }
 
 	private void HandleCameraMovement()

@@ -1,16 +1,19 @@
 [gd_scene load_steps=4 format=3 uid="uid://c1s4nmec58fg5"]
 
-[ext_resource type="Material" uid="uid://w1yydihlo2w0" path="res://Assets/Materials/GrassMaterial.tres" id="1_uujge"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_y4byh"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_heqox"]
 resource_local_to_scene = true
-material = ExtResource("1_uujge")
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_7aq22"]
+[sub_resource type="BoxMesh" id="BoxMesh_efq4s"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_heqox")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_oot2t"]
 resource_local_to_scene = true
 
 [node name="Tile" type="MeshInstance3D"]
-mesh = SubResource("BoxMesh_y4byh")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00984037, 0, 0)
+mesh = SubResource("BoxMesh_efq4s")
 metadata/height = 1
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
@@ -18,4 +21,4 @@ collision_layer = 8
 collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-shape = SubResource("BoxShape3D_7aq22")
+shape = SubResource("BoxShape3D_oot2t")

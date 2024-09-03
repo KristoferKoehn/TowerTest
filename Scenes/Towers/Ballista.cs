@@ -28,7 +28,7 @@ public partial class Ballista : AbstractTower
         Dictionary<StatType, float> sb = new()
         {
             {StatType.AttackSpeed, 1.0f},
-            {StatType.Damage, 201.0f},
+            {StatType.Damage, 1.0f},
             {StatType.Range, 7.0f},
             {StatType.CritRate, 5.0f }
         };
@@ -44,7 +44,7 @@ public partial class Ballista : AbstractTower
     {
         foreach (MeshInstance3D arrow in Arrows)
         {
-            arrow.TranslateObjectLocal(new Vector3(0, 0, -80.2f * (float)delta));
+            arrow.TranslateObjectLocal(new Vector3(0, 0, -40.0f * (float)delta));
         }
     }
 
@@ -66,8 +66,12 @@ public partial class Ballista : AbstractTower
 
             if (index != -1)
             {
+
+
                 Vector3 predicted = PredictionManager.GetInstance().PredictTarget(EnemyList[index], 1.2f);
+
                 BallistaMount.LookAt(predicted);
+
                 //BallistaMount.LookAt(EnemyList[index].GlobalPosition);
                 if (CanShoot)
                 {

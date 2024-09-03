@@ -13,14 +13,21 @@ public partial class BaseEnemy : PathFollow3D
 	[Signal] public delegate void DiedEventHandler(Node self);
     [Export] public AudioStreamPlayer3D StrikeSound { get; set; }
 	public HealthBar healthBar;
+
+	public Path3D CurrentPath { get; set; }
+
 	public StatBlock StatBlock = new StatBlock();
 	protected string ModelName;
 	public int ChunkCounter = 0;
 	public bool Disabled = false;
     public bool dead = false;
+
 	public float TimeScale = 1.0f;
 
 	public List<BaseStatusEffect> ActiveStatusEffects = new List<BaseStatusEffect>();
+
+	public Array<int> ForkDecisions = new Array<int>();
+
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -33,6 +40,11 @@ public partial class BaseEnemy : PathFollow3D
 		this.healthBar = temp;
         this.AddChild(temp);
         this.DamageTaken += temp.UpdateHealthBar;
+		
+		for(int i = 0; i < 64; i++)
+		{
+			ForkDecisions.Add(Mathf.Abs((int)RNGManager.GetInstance().rng.Randi()));
+		}
     }
 
     public void AddStatusEffect(BaseStatusEffect effect)
@@ -132,16 +144,26 @@ public partial class BaseEnemy : PathFollow3D
 
 	public void AttachNextPath()
 	{
-		MeshInstance3D temp = GetTileAt(ToGlobal(new Vector3(0,1,0)), ToGlobal(new Vector3(0, -1, 0)));
-		Chunk chunk = GetChunkReferenceFromTile(temp);
-		ChunkCounter = chunk.ChunkDistance;
-		Array<Path3D> paths = chunk.GetPathsFromEntrance(temp);
 
-		if (paths != null)
+        Array<Path3D> paths = null;
+
+        Chunk chunk = GetParent().GetParent() as Chunk;
+		Spawner spawner = GetParent() as Spawner;
+		if(chunk != null && spawner == null)
 		{
-			Random random = new Random();
-			int randomIndex = random.Next(paths.Count);
-			Reparent(paths[randomIndex]);
+			paths = chunk.NextPaths;
+            ChunkCounter = chunk.ChunkDistance;
+        } else if (spawner != null)
+		{
+			paths = spawner.NextPaths;
+            ChunkCounter = int.MaxValue;
+        }
+
+		if (paths != null && paths.Count > 0)
+		{
+			int ForkDecision = ForkDecisions[ChunkCounter % 64] % paths.Count;
+			CurrentPath = paths[ForkDecision];
+			Reparent(paths[ForkDecision]);
 			ProgressRatio = 0;
 		} else
 		{
@@ -219,6 +241,7 @@ public partial class BaseEnemy : PathFollow3D
 
         GetNode<AnimationPlayer>("AnimationPlayer").SpeedScale = 2;
         GetNode<AnimationPlayer>("AnimationPlayer").Play("Death_A");
+
 		GetNode<AnimationPlayer>("AnimationPlayer").AnimationFinished += (StringName anim) =>
 		{
 			QueueFree();

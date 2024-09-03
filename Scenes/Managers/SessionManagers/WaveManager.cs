@@ -41,8 +41,12 @@ namespace Managers
             if (!IsInstanceValid(instance))
             {
                 instance = new WaveManager();
-                SceneSwitcher.root.GetNode<GameLoop>("SceneSwitcher/GameLoop").AddChild(instance);
-                instance.Name = "WaveManager";
+				if (SceneSwitcher.root != null)
+				{
+                    SceneSwitcher.root.GetNode<GameLoop>("SceneSwitcher/GameLoop").AddChild(instance);
+                    instance.Name = "WaveManager";
+                }
+                
             }
             return instance;
         }
@@ -159,6 +163,7 @@ namespace Managers
 						be.ChunkCounter = item.ChunkDistance;
 						WaveBuckets[t].Remove(WaveBuckets[t][0]);
 						t.GetParent<Spawner>().AddChild(be);
+						be.CurrentPath = t.GetParent<Spawner>();
 						GD.Print("Spawn Stuff");
 					} else
 					{

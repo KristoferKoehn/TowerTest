@@ -14,9 +14,13 @@ public partial class FileSelector : Control
     [Signal]
     public delegate void LoadFileEventHandler(string file);
 
-	
-
-
+	/* Connect to LoadFile signal for detecting load above this scene
+	 * 
+	 * Change SearchDirectory to display files from the correct directory
+	 * 
+	 * 
+	 * 
+	 */
 
     bool MouseInside = false;
 	bool dragging = false;

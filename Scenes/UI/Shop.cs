@@ -5,6 +5,12 @@ using System.Collections.Generic;
 
 public partial class Shop : Control
 {
+    //either through UI or this, make shop inaccessible during wave
+    //on end of wave, randomize cards using some heuristic later.
+    //differentiate common/uncommon and rare/epic/legendary slots.
+    //we can dynamically add card slots that's not a big deal. Maybe for upgrading the shop somehow
+
+
 
     [Export] PackedScene CardScene;
 
