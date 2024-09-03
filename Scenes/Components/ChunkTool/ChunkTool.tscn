@@ -1,7 +1,15 @@
-[gd_scene load_steps=8 format=3 uid="uid://do36i8ci8vnf4"]
+[gd_scene load_steps=10 format=3 uid="uid://do36i8ci8vnf4"]
 
 [ext_resource type="Script" path="res://Scenes/Components/ChunkTool/ChunkTool.cs" id="1_slb3c"]
 [ext_resource type="PackedScene" uid="uid://bvfxokd17td3t" path="res://Scenes/Components/WaveTool/FileSelector.tscn" id="2_g4kvj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6ysmm"]
+resource_local_to_scene = true
+albedo_color = Color(0.831373, 0.894118, 0.588235, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ja287"]
+resource_local_to_scene = true
+albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4bcxx"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -139,11 +147,14 @@ func _update_mouselook():
 [sub_resource type="PrismMesh" id="PrismMesh_yuuka"]
 size = Vector3(30, 30, 30)
 
-[node name="ChunkTool" type="Node3D" node_paths=PackedStringArray("Camera", "CameraGimbal", "FileSelector")]
+[node name="ChunkTool" type="Node3D" node_paths=PackedStringArray("Camera", "CameraGimbal", "FileName", "FileSelector")]
 script = ExtResource("1_slb3c")
 Camera = NodePath("CameraGimbal/Camera3D")
 CameraGimbal = NodePath("CameraGimbal")
+FileName = NodePath("CanvasLayer/Panel/MarginContainer/VBoxContainer/HBoxContainer3/MarginContainer/LineEdit")
 FileSelector = NodePath("CanvasLayer/FileSelector")
+LaneMaterial = SubResource("StandardMaterial3D_6ysmm")
+GrassMaterial = SubResource("StandardMaterial3D_ja287")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_wynfb")
@@ -185,7 +196,7 @@ theme_override_constants/margin_right = 28
 [node name="LineEdit" type="LineEdit" parent="CanvasLayer/Panel/MarginContainer/VBoxContainer/HBoxContainer3/MarginContainer"]
 custom_minimum_size = Vector2(151.99, 0)
 layout_mode = 2
-placeholder_text = "FileName"
+placeholder_text = "File name here..."
 
 [node name="GenerateButton" type="Button" parent="CanvasLayer/Panel/MarginContainer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
@@ -228,9 +239,10 @@ transform = Transform3D(0.766011, 0.372095, -0.524188, 0, 0.815441, 0.57884, 0.6
 script = SubResource("GDScript_m85hp")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.655392, 0.371632, -0.657534, 0.163885, 0.77986, 0.60412, 0.737295, -0.503695, 0.450209, 45.4877, -15.6171, -61.4709)
+transform = Transform3D(0.284009, 0.549171, -0.785971, 0.163885, 0.77986, 0.60412, 0.944712, -0.300384, 0.131486, 45.4877, -40.1697, -61.4709)
 mesh = SubResource("PrismMesh_yuuka")
 
+[connection signal="text_changed" from="CanvasLayer/Panel/MarginContainer/VBoxContainer/HBoxContainer3/MarginContainer/LineEdit" to="." method="_on_line_edit_text_changed"]
 [connection signal="pressed" from="CanvasLayer/Panel/MarginContainer/VBoxContainer/HBoxContainer3/GenerateButton" to="." method="_on_generate_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Panel/MarginContainer/VBoxContainer/HBoxContainer/LoadButton" to="." method="_on_load_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Panel/MarginContainer/VBoxContainer/HBoxContainer/SaveButton" to="." method="_on_save_button_pressed"]

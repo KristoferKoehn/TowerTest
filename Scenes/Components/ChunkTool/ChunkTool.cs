@@ -6,7 +6,11 @@ public partial class ChunkTool : Node3D
 {
 	[Export] Camera3D Camera { get; set; }
 	[Export] Node3D CameraGimbal { get; set; }
+    [Export] LineEdit FileName { get; set; }
 	[Export] FileSelector FileSelector { get; set; }
+    [Export] StandardMaterial3D LaneMaterial { get; set; }
+    [Export] StandardMaterial3D GrassMaterial { get; set; }
+
 
     PackedScene TileScene = GD.Load<PackedScene>("res://Scenes/Components/Tile.tscn");
 
@@ -29,6 +33,7 @@ public partial class ChunkTool : Node3D
     public override void _Ready()
 	{
 		AddChild(WaveManager.GetInstance());
+        
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -108,7 +113,7 @@ public partial class ChunkTool : Node3D
                     }
                 } else
                 {
-                    Tiles.Clear();
+                    //Tiles.Clear();
                 }
             }
         }
@@ -146,7 +151,8 @@ public partial class ChunkTool : Node3D
 
 		Chunk = GD.Load<PackedScene>($"res://Scenes/Chunks/{filename}").Instantiate<Chunk>();
 		AddChild( Chunk );
-		CurrentFileName = filename;
+		CurrentFileName = filename.Replace(".tscn", "");
+        FileName.Text = CurrentFileName;
     }
 
 	public void _on_save_button_pressed()
@@ -155,7 +161,7 @@ public partial class ChunkTool : Node3D
 		Error result = chunkScene.Pack(Chunk);
 		if (result == Error.Ok)
 		{
-			Error error = ResourceSaver.Save(chunkScene, $"res://Scenes/Chunks/{CurrentFileName}");
+			Error error = ResourceSaver.Save(chunkScene, $"res://Scenes/Chunks/{CurrentFileName}.tscn");
 			if (error != Error.Ok)
 			{
 				GD.PushError($"chunk not able to be saved: {error} ");
@@ -189,6 +195,17 @@ public partial class ChunkTool : Node3D
                 return;
         }
         
+
+        if (height == 0)
+        {
+            tile.Mesh.SurfaceSetMaterial(0, (StandardMaterial3D)LaneMaterial.Duplicate());
+        } else
+        {
+            tile.Mesh.SurfaceSetMaterial(0, (StandardMaterial3D)GrassMaterial.Duplicate());
+        }
+
+        tile.Mesh.SurfaceGetMaterial(0).NextPass = GD.Load<ShaderMaterial>("res://Assets/Materials/TileSelectionShader.tres");
+
         tile.Position = new Vector3(tile.Position.X, BoxSize.Y/ 2.0f - 0.5f, tile.Position.Z);
         tile.SetMeta("height", height);
         CollisionShape3D collisionShape3D = tile.GetNode<CollisionShape3D>("StaticBody3D/CollisionShape3D");
@@ -204,7 +221,8 @@ public partial class ChunkTool : Node3D
         {
             Chunk.QueueFree();
         }
-
+        CurrentFileName = "";
+        FileName.Text = "";
 
         Chunk = new Chunk();
         AddChild(Chunk);
@@ -212,5 +230,8 @@ public partial class ChunkTool : Node3D
         
     }
 
-
+    public void _on_line_edit_text_changed(string filename)
+    {
+        CurrentFileName = filename;
+    }
 }
