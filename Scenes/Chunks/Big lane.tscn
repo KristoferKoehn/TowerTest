@@ -1,8 +1,7 @@
-[gd_scene load_steps=105 format=3]
+[gd_scene load_steps=104 format=3]
 
 [ext_resource type="Script" path="res://Scenes/Components/Chunk.cs" id="1_5txmi"]
 [ext_resource type="PackedScene" path="res://Scenes/Components/Tile.tscn" id="2_003sw"]
-[ext_resource type="Material" path="res://Assets/Materials/TileSelectionShader.tres" id="3_sr37w"]
 [ext_resource type="PackedScene" path="res://Scenes/Components/Spawner.tscn" id="4_tgo7i"]
 [ext_resource type="Script" path="res://Scenes/Components/Spawner.cs" id="5_x3ae6"]
 
@@ -176,7 +175,6 @@ size = Vector3(1, 1.6, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h8nbw"]
 resource_local_to_scene = true
-next_pass = ExtResource("3_sr37w")
 albedo_color = Color(0.321569, 0.545098, 0.137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_0gn00"]

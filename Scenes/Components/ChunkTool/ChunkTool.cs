@@ -118,6 +118,10 @@ public partial class ChunkTool : Node3D
             }
         }
 
+        if (@event.IsActionPressed("deselect"))
+        {
+            FileName.ReleaseFocus();
+        }
 
         if (@event.IsActionPressed("ui_up"))
         {
@@ -157,6 +161,11 @@ public partial class ChunkTool : Node3D
 
 	public void _on_save_button_pressed()
 	{
+        Tiles.Clear();
+        //gearbox strat
+        this._Process(0.0016f);
+
+
 		PackedScene chunkScene = new PackedScene();
 		Error result = chunkScene.Pack(Chunk);
 		if (result == Error.Ok)
@@ -233,5 +242,15 @@ public partial class ChunkTool : Node3D
     public void _on_line_edit_text_changed(string filename)
     {
         CurrentFileName = filename;
+    }
+
+    public void _on_line_edit_focus_entered()
+    {
+        Camera.Set("CameraLock", true);
+    }
+
+    public void _on_line_edit_focus_exited()
+    {
+        Camera.Set("CameraLock", false);
     }
 }

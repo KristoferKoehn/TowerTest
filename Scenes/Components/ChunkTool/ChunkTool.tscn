@@ -46,6 +46,8 @@ var _acceleration = 30
 var _deceleration = -10
 var _vel_multiplier = 4
 
+var CameraLock = false;
+
 # Keyboard state
 var _w = false
 var _s = false
@@ -72,7 +74,7 @@ func _input(event):
 				_vel_multiplier = clamp(_vel_multiplier / 1.1, 0.2, 20)
 
 	# Receives key input
-	if event is InputEventKey:
+	if event is InputEventKey and not CameraLock:
 		match event.keycode:
 			KEY_W:
 				_w = event.pressed
@@ -242,6 +244,8 @@ script = SubResource("GDScript_m85hp")
 transform = Transform3D(0.284009, 0.549171, -0.785971, 0.163885, 0.77986, 0.60412, 0.944712, -0.300384, 0.131486, 45.4877, -40.1697, -61.4709)
 mesh = SubResource("PrismMesh_yuuka")
 
+[connection signal="focus_entered" from="CanvasLayer/Panel/MarginContainer/VBoxContainer/HBoxContainer3/MarginContainer/LineEdit" to="." method="_on_line_edit_focus_entered"]
+[connection signal="focus_exited" from="CanvasLayer/Panel/MarginContainer/VBoxContainer/HBoxContainer3/MarginContainer/LineEdit" to="." method="_on_line_edit_focus_exited"]
 [connection signal="text_changed" from="CanvasLayer/Panel/MarginContainer/VBoxContainer/HBoxContainer3/MarginContainer/LineEdit" to="." method="_on_line_edit_text_changed"]
 [connection signal="pressed" from="CanvasLayer/Panel/MarginContainer/VBoxContainer/HBoxContainer3/GenerateButton" to="." method="_on_generate_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Panel/MarginContainer/VBoxContainer/HBoxContainer/LoadButton" to="." method="_on_load_button_pressed"]
