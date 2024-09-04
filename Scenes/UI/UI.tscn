@@ -352,7 +352,7 @@ text = "GAME OVER"
 layout_mode = 2
 text = "Main Menu"
 
-[node name="PlayerHand2" parent="Control" node_paths=PackedStringArray("PlayPanel", "DiscardPanel", "FreezePanel") instance=ExtResource("8_kayuc")]
+[node name="PlayerHand2" parent="Control" node_paths=PackedStringArray("PlayPanel", "DiscardPanel", "FreezePanel", "RightButtonParent") instance=ExtResource("8_kayuc")]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -366,6 +366,7 @@ grow_vertical = 0
 PlayPanel = NodePath("../PlayAreaPanel")
 DiscardPanel = NodePath("../FusionPanel")
 FreezePanel = NodePath("../FreezePanel")
+RightButtonParent = NodePath("../RightHandAnchor/RightButtonParent")
 
 [node name="PauseControl" parent="Control" instance=ExtResource("9_qhxxr")]
 visible = false
@@ -390,9 +391,9 @@ anchor_bottom = 0.5
 grow_horizontal = 0
 grow_vertical = 2
 
-[node name="Node2D" type="Node2D" parent="Control/RightHandAnchor"]
+[node name="RightButtonParent" type="Node2D" parent="Control/RightHandAnchor"]
 
-[node name="ShopButton" type="Button" parent="Control/RightHandAnchor/Node2D"]
+[node name="ShopButton" type="Button" parent="Control/RightHandAnchor/RightButtonParent"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -405,6 +406,7 @@ offset_bottom = 77.0
 grow_horizontal = 2
 grow_vertical = 2
 rotation = -1.5708
+focus_mode = 0
 text = "SHOP"
 
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/BeginWaveButton" to="." method="_on_begin_wave_button_pressed"]

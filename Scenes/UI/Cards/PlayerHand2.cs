@@ -2,6 +2,7 @@ using Godot;
 using Managers;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 
 public partial class PlayerHand2 : Control
 {
@@ -23,6 +24,10 @@ public partial class PlayerHand2 : Control
     [Export] AudioStreamPlayer2D PlacingSound;
 
     [Export] Button HandDisplayButton;
+
+    [Export] Node2D RightButtonParent;
+    [Export] Node2D LeftButtonParent;
+
 
     public List<Card> CardList = new List<Card>();
     List<float> CardPositions = new List<float>();
@@ -166,6 +171,10 @@ public partial class PlayerHand2 : Control
         card.Selected += CardSelected;
         card.Cancelled += CardCancelled;
         card.Placed += CardPlaced;
+
+        card.Cancelled += (Card) => { ShowButtons(); };
+        card.Placed += (Card) => { ShowButtons(); };
+
         card.DragStarted += (BaseCard) =>
         {
             DraggingCard = BaseCard;
@@ -211,7 +220,6 @@ public partial class PlayerHand2 : Control
         t.TweenProperty(card, "global_position", CardPlacingPosition.GlobalPosition, 0.2f);
         t.Finished += () =>
         {
-            
             PlacingCardAnimationLock = false;
             PlayActiveCard();
         };
@@ -367,23 +375,6 @@ public partial class PlayerHand2 : Control
         }
     }
 
-    bool hidden = false;
-    public void ToggleHide()
-    {
-        if (hidden)
-        {
-            hidden = false;
-            Tween handTween = GetTree().CreateTween();
-            handTween.TweenProperty(CardPlacingPath, "position", Vector2.Zero, 0.2f);
-
-        } else
-        {
-            hidden = true;
-            Tween handTween = GetTree().CreateTween();
-            handTween.TweenProperty(CardPlacingPath, "position", new Vector2(0, 1200), 0.2f);
-        }
-    }
-
     public void CardDropCheck(Card baseCard)
     {
 
@@ -406,8 +397,24 @@ public partial class PlayerHand2 : Control
                 FreezeCardList.Remove(baseCard);
                 CardList.Add(baseCard);
             }
+            ShowButtons();
         }
     }
+
+    //hide buttons when drop panels are shown
+    public void HideButtons()
+    {
+        Tween t = GetTree().CreateTween();
+        t.TweenProperty(RightButtonParent, "position", new Vector2(400, 0), 0.2);
+    }
+
+    //Show buttons *only when card is no longer active*
+    public void ShowButtons()
+    {
+        Tween t = GetTree().CreateTween();
+        t.TweenProperty(RightButtonParent, "position", new Vector2(0, 0), 0.2);
+    }
+
 
     public void HideDropPanels(Card card)
     {
@@ -428,7 +435,6 @@ public partial class PlayerHand2 : Control
             Tween FreezeTween = GetTree().CreateTween();
             FreezeTween.TweenProperty(FreezePanel, "global_position", new Vector2(ScreenSize.X * -0.308f, ScreenSize.Y * 0.555f), 0.1);
         }
-
     }
 
     public void RevealDropPanels(Card card)
@@ -443,6 +449,8 @@ public partial class PlayerHand2 : Control
 
         Tween FreezeTween = GetTree().CreateTween();
         FreezeTween.TweenProperty(FreezePanel, "global_position", new Vector2(-125, ScreenSize.Y * 0.555f), 0.1);
+
+        HideButtons();
     }
 
     public Tween ShowDiscard()
