@@ -45,7 +45,7 @@ public partial class WaveDataManager : Node
 
     public string Load(string WaveFile)
     {
-        using var file = FileAccess.Open($"res://Assets/WaveData/{WaveFile}", FileAccess.ModeFlags.Read);
+        using var file = FileAccess.Open($"res://Data/WaveData/{WaveFile}", FileAccess.ModeFlags.Read);
         if (file == null)
         {
             return null;

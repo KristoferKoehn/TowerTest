@@ -197,6 +197,7 @@ public partial class Card : Sprite2D
                     MotionAccumulation = Vector2.Zero;
                     dragging = false;
                     Active = true;
+                    EmitSignal("DragEnded", this);
                 }
             }
         }
@@ -291,5 +292,7 @@ public partial class Card : Sprite2D
         DeckManager.GetInstance().Discard(data);
         QueueFree();
     }
+
+
 
 }

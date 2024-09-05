@@ -173,7 +173,6 @@ public partial class PlayerHand2 : Control
         card.Placed += CardPlaced;
 
         card.Cancelled += (Card) => { ShowButtons(); };
-        card.Placed += (Card) => { ShowButtons(); };
 
         card.DragStarted += (BaseCard) =>
         {
@@ -241,7 +240,11 @@ public partial class PlayerHand2 : Control
                 CardSound.Play();
                 Discard.Visible = true;
                 card.Discard();
-                GetTree().CreateTimer(0.1).Timeout += () => HideDiscard();
+                GetTree().CreateTimer(0.1).Timeout += () =>
+                {
+                    ShowButtons();
+                    HideDiscard();
+                };
             };
             ActiveCard = null;
             CardActive = false;
@@ -406,6 +409,9 @@ public partial class PlayerHand2 : Control
     {
         Tween t = GetTree().CreateTween();
         t.TweenProperty(RightButtonParent, "position", new Vector2(400, 0), 0.2);
+
+        Tween f = GetTree().CreateTween();
+        f.TweenProperty(LeftButtonParent, "position", new Vector2(-400, 0), 0.2);
     }
 
     //Show buttons *only when card is no longer active*
@@ -413,6 +419,9 @@ public partial class PlayerHand2 : Control
     {
         Tween t = GetTree().CreateTween();
         t.TweenProperty(RightButtonParent, "position", new Vector2(0, 0), 0.2);
+
+        Tween f = GetTree().CreateTween();
+        f.TweenProperty(LeftButtonParent, "position", new Vector2(0, 0), 0.2);
     }
 
 
@@ -578,5 +587,17 @@ public partial class PlayerHand2 : Control
     public void _on_hand_display_button_pressed()
     {
         HandUp = !HandUp;
+    }
+
+    public void ForceHandUp(bool disabled)
+    {
+        HandUp = true;
+        HandDisplayButton.Disabled = disabled;
+    }
+
+    public void ForceHandDown(bool disabled)
+    {
+        HandUp = false;
+        HandDisplayButton.Disabled = disabled;
     }
 }
