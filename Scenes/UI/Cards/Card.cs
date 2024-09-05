@@ -190,7 +190,7 @@ public partial class Card : Sprite2D
         {
             if (mouseEvent.ButtonIndex == MouseButton.Left && mouseEvent.IsReleased())
             {
-                if (dragging && !Highlighted)
+                if (dragging)
                 {
                     pressed = false;
                     DragOffset = Vector2.Zero;
