@@ -40,6 +40,7 @@ public partial class PlayerHand2 : Control
     bool PlacingCardAnimationLock = false;
     public override void _Ready()
     {
+        this.ZIndex = -100; // ensures its behind everything like pause menus and such
         HideDeck();
         HideDiscard();
         DrawCards(7);

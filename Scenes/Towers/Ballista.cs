@@ -51,10 +51,10 @@ public partial class Ballista : AbstractTower
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
-        MoveArrows(delta);
-
         base._Process(delta);
         if (Disabled) return;
+
+        MoveArrows(delta);
 
         if (EnemyList.Count > 0)
         {
@@ -76,7 +76,7 @@ public partial class Ballista : AbstractTower
                 if (CanShoot)
                 {
                     CanShoot = false;
-                    ShotTimer.Start(StatBlock.GetStat(StatType.AttackSpeed));
+                    ShotTimer.Start(StatBlock.GetStat(StatType.AttackSpeed) / this.TimeScale);
 
                     //EmitSignal("TowerFired", this, EnemyList[index]);
                     ShootArrow(this, EnemyList[index], predicted); // this instead.

@@ -46,10 +46,11 @@ public partial class BubbleGun : AbstractTower
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
-        MoveBubbles(delta);
-
         base._Process(delta);
+
         if (Disabled) return;
+
+        MoveBubbles(delta);
 
         if (EnemyList.Count > 0)
         {
@@ -65,7 +66,7 @@ public partial class BubbleGun : AbstractTower
                 if (CanShoot)
                 {
                     CanShoot = false;
-                    ShotTimer.Start(StatBlock.GetStat(StatType.AttackSpeed));
+                    ShotTimer.Start(StatBlock.GetStat(StatType.AttackSpeed) / this.TimeScale);
 
                     //EmitSignal("TowerFired", this, EnemyList[index]);
                     ShootBubbles(this, EnemyList[index]); // this instead.

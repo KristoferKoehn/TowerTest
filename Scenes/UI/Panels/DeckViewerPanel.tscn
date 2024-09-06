@@ -7,7 +7,7 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i2xva"]
 bg_color = Color(0.064191, 0.214963, 0.114403, 1)
 
-[node name="DeckViewerPanel" type="Control" node_paths=PackedStringArray("FlowContainer", "DeckSizeLabel", "NumChunksLabel", "NumTowersLabel", "NumActionsLabel", "CardSizeSlider")]
+[node name="DeckViewerPanel" type="Control" node_paths=PackedStringArray("FlowContainer", "DeckSizeLabel", "NumChunksLabel", "NumTowersLabel", "NumActionsLabel", "CardSizeSlider", "BackgroundColorPanel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -21,6 +21,7 @@ NumChunksLabel = NodePath("MarginContainer/Panel/VBoxContainer/HBoxContainer/Mar
 NumTowersLabel = NodePath("MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer2/Panel/VBoxContainer/Label4")
 NumActionsLabel = NodePath("MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer2/Panel/VBoxContainer/Label5")
 CardSizeSlider = NodePath("MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/Container/HBoxContainer/HSlider")
+BackgroundColorPanel = NodePath("MarginContainer/Panel")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -46,11 +47,46 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="MarginContainer/Panel/VBoxContainer"]
+[node name="Panel" type="Panel" parent="MarginContainer/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/Panel/VBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -35.5
+offset_top = -21.0
+offset_right = 35.5
+offset_bottom = 21.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_font_sizes/font_size = 30
 text = "Deck"
 horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Panel/VBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Panel/VBoxContainer/Panel/HBoxContainer"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/Panel/VBoxContainer/Panel/HBoxContainer"]
+layout_mode = 2
+text = "BG Color:"
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="MarginContainer/Panel/VBoxContainer/Panel/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Panel/VBoxContainer"]
 layout_mode = 2
@@ -202,6 +238,13 @@ size_flags_vertical = 4
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="AnimateCardsButton" type="CheckButton" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Animate Cards?"
+
 [node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
@@ -212,21 +255,10 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Panel/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
-
-[node name="Button" type="Button" parent="MarginContainer/Panel/VBoxContainer/MarginContainer"]
-custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
-theme_override_font_sizes/font_size = 25
-text = "Back"
-
+[connection signal="color_changed" from="MarginContainer/Panel/VBoxContainer/Panel/HBoxContainer/ColorPickerButton" to="." method="_on_color_picker_button_color_changed"]
 [connection signal="item_selected" from="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/Container/HBoxContainer/FilterOptionButton" to="." method="_on_filter_option_button_item_selected"]
 [connection signal="item_selected" from="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/Container/HBoxContainer/SortOptionButton" to="." method="_on_sort_option_button_item_selected"]
 [connection signal="pressed" from="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/Container/HBoxContainer/OrderButton" to="." method="_on_order_button_pressed"]
 [connection signal="pressed" from="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/Container/HBoxContainer/ShowDuplicatesButton" to="." method="_on_show_duplicates_button_pressed"]
 [connection signal="value_changed" from="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/Container/HBoxContainer/HSlider" to="." method="OnCardSizeSliderValueChanged"]
-[connection signal="pressed" from="MarginContainer/Panel/VBoxContainer/MarginContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="MarginContainer/Panel/VBoxContainer/HBoxContainer/MarginContainer/Panel/VBoxContainer/HBoxContainer/AnimateCardsButton" to="." method="_on_animate_cards_button_pressed"]

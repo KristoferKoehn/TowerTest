@@ -54,10 +54,11 @@ public partial class Cannon : AbstractTower
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
-        MoveCannonballs(delta);
-
         base._Process(delta);
+
         if (Disabled) return;
+
+        MoveCannonballs(delta);
 
         if (EnemyList.Count > 0)
         {
@@ -73,7 +74,7 @@ public partial class Cannon : AbstractTower
                 if (CanShoot)
                 {
                     CanShoot = false;
-                    ShotTimer.Start(StatBlock.GetStat(StatType.AttackSpeed));
+                    ShotTimer.Start(StatBlock.GetStat(StatType.AttackSpeed) / this.TimeScale);
                     //EmitSignal("TowerFired", this, EnemyList[index]);
                     LaunchCannon(this, EnemyList[index]); // this instead.
 

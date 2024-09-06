@@ -50,10 +50,9 @@ public partial class Minigun : AbstractTower
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
-        MoveBullets(delta);
-
         base._Process(delta);
         if (Disabled) return;
+        MoveBullets(delta);
 
         if (EnemyList.Count > 0)
         {
@@ -70,7 +69,7 @@ public partial class Minigun : AbstractTower
                 if (CanShoot)
                 {
                     CanShoot = false;
-                    ShotTimer.Start(StatBlock.GetStat(StatType.AttackSpeed));
+                    ShotTimer.Start(StatBlock.GetStat(StatType.AttackSpeed) / this.TimeScale);
 
                     //EmitSignal("TowerFired", this, EnemyList[index]);
                     ShootBullet(this, EnemyList[index]); // this instead.

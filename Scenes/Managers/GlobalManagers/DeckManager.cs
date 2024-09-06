@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 public partial class DeckManager : Node
 {
+    public event Action<CardData> CardAdded;
+    public event Action<CardData> CardRemoved;
+
     private static DeckManager instance;
 
     public List<CardData> TotalCards = new();
@@ -26,6 +29,8 @@ public partial class DeckManager : Node
     {
         Cards.Add(card);
         TotalCards.Add(card);
+
+        OnCardAdded(card);
     }
 
     public void SetDeck(DeckData deck) {
@@ -39,6 +44,10 @@ public partial class DeckManager : Node
 
         TotalCards = t;
         Cards = c;
+        foreach (CardData card in Cards)
+        {
+            OnCardAdded(card);
+        }
     }
 
     public List<CardData> DrawCards(int count)
@@ -54,7 +63,6 @@ public partial class DeckManager : Node
             DrawnCards.Add(Cards[idx]);
             Cards.Remove(Cards[idx]);
         }
-
         return draw;
     }
 
@@ -65,6 +73,8 @@ public partial class DeckManager : Node
         {
             Cards.Remove(card);
         }
+
+        OnCardRemoved(card);
     }
 
     public int RemainingCards()
@@ -77,5 +87,14 @@ public partial class DeckManager : Node
         Cards.AddRange(Discards);
     }
 
+    protected virtual void OnCardAdded(CardData card)
+    {
+        CardAdded?.Invoke(card);
+    }
+
+    protected virtual void OnCardRemoved(CardData card)
+    {
+        CardRemoved?.Invoke(card);
+    }
 }
 

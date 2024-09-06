@@ -15,4 +15,4 @@ CameraTilt = 0.0
 CameraZoom = 5.6
 ResourceCostType = 0
 ResourceCostValue = 0.0
-CardType = 0
+CardType = 1

@@ -61,7 +61,6 @@ public abstract partial class AbstractTower : AbstractPlaceable
 
     public List<BaseEnemy> EnemyList = new List<BaseEnemy>();
 
-
     MeshInstance3D indicator { get; set; }
 
     // Called when the node enters the scene tree for the first time.
@@ -175,7 +174,7 @@ public abstract partial class AbstractTower : AbstractPlaceable
                     }
                     */
 
-                    ShotTimer.Start(StatBlock.GetStat(StatType.AttackSpeed));
+                    ShotTimer.Start(StatBlock.GetStat(StatType.AttackSpeed) / this.TimeScale);
                 }
             }
 
@@ -375,6 +374,8 @@ public abstract partial class AbstractTower : AbstractPlaceable
 
     public virtual void DealDamage(Area3D area)
     {
+        if (!(area.GetParent() is BaseEnemy)) return;
+
         BaseEnemy be = area.GetParent<BaseEnemy>();
         bool isCrit = false;
 

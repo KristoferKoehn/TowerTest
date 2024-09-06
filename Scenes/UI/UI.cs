@@ -11,6 +11,7 @@ public partial class UI : CanvasLayer
     [Export] ProgressBar TowerHealthBar;
     [Export] Control GameOverControl;
     [Export] Control PauseControl;
+    [Export] Control DeckViewerControl;
 
     private float[] fastForwardSpeeds = { 1.0f, 2.0f, 3.0f};
     private int currentFastForwardSpeedIndex = 0;
@@ -46,6 +47,7 @@ public partial class UI : CanvasLayer
         TowerHealthBar.MaxValue = PlayerStatsManager.GetInstance().GetStat(StatType.MaxHealth);
         TowerHealthBar.Value = PlayerStatsManager.GetInstance().GetStat(StatType.Health);
         this.GameOverControl.Visible = false;
+        this.DeckViewerControl.Visible = false;
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -63,7 +65,6 @@ public partial class UI : CanvasLayer
     {
         GetTree().Paused = !GetTree().Paused;
         this.PauseControl.Visible = !this.PauseControl.Visible;
-        this.PauseControl.ZIndex = 100;
     }
 
     public void _on_speed_up_button_pressed()
@@ -77,29 +78,33 @@ public partial class UI : CanvasLayer
         currentFastForwardSpeedIndex = (currentFastForwardSpeedIndex + 1) % fastForwardSpeeds.Length;
         speedUpLabel.Text = (currentFastForwardSpeedIndex + 1) + "x";
 
-        //Engine.TimeScale = fastForwardSpeeds[currentFastForwardSpeedIndex];
-        // this instead:
-        SetTowersAndEnemyTimeScale();
+        Engine.TimeScale = fastForwardSpeeds[currentFastForwardSpeedIndex];
+        //SetTowersAndEnemyTimeScale();
+        // That one complicates stuff so its better to just have everything move faster. We'd
+        // have to put a time scale in everything that we want to move faster (enemies, towers, status effects, etc.)
 
         GD.Print($"Setting speed to {currentFastForwardSpeedIndex + 1}x");
     }
 
+    // Use this to avoid the Engine.TimeScale setting, but honestly it makes things
+    // more complicated, so i don't think we should use it.
     private void SetTowersAndEnemyTimeScale()
     {
+        float timeScale = fastForwardSpeeds[currentFastForwardSpeedIndex];
         foreach (BaseEnemy enemy in EnemyManager.GetInstance().Enemies)
         {
-            enemy.TimeScale = currentFastForwardSpeedIndex + 1;
+            enemy.TimeScale = timeScale;
         }
         foreach (List<AbstractTower> towerList in TowerManager.GetInstance().activeTowers.Values)
         {
             foreach (AbstractTower tower in towerList)
             {
-                tower.TimeScale = currentFastForwardSpeedIndex + 1;
+                tower.TimeScale = timeScale;
             }
         }
 
-        TowerManager.GetInstance().CurrentTowerTimeScale = currentFastForwardSpeedIndex + 1;
-        EnemyManager.GetInstance().CurrentEnemyTimeScale = currentFastForwardSpeedIndex + 1;
+        TowerManager.GetInstance().CurrentTowerTimeScale = timeScale;
+        EnemyManager.GetInstance().CurrentEnemyTimeScale = timeScale;
     }
 
     public void _on_settings_button_pressed()
@@ -145,10 +150,7 @@ public partial class UI : CanvasLayer
 
     public void _on_deck_button_pressed()
     {
-        DeckViewerPanel deckViewerPanel = GD.Load<PackedScene>("res://Scenes/UI/Panels/DeckViewerPanel.tscn").Instantiate<DeckViewerPanel>();
-        AddChild(deckViewerPanel);
-        deckViewerPanel.ZIndex = 100;
-        deckViewerPanel.SetAnchorsPreset(Control.LayoutPreset.FullRect);
+        this.DeckViewerControl.Visible = !this.DeckViewerControl.Visible;
     }
 
     public override void _Input(InputEvent @event)

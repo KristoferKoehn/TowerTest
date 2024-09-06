@@ -40,13 +40,15 @@ public partial class GravityCrystal : AbstractTower
         EnergyBandMaterial.SetShaderParameter("Alpha", 0.0f);
 
         ShotTimer.Timeout += ShotTimerTimeout;
-        ShotTimer.Start(StatBlock.GetStat(StatType.AttackSpeed));
+        ShotTimer.Start(StatBlock.GetStat(StatType.AttackSpeed) / this.TimeScale);
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
         base._Process(delta);
+        if (Disabled) return;
+
         if (LastRange != StatBlock.GetStat(StatType.Range))
         {
             LastRange = StatBlock.GetStat(StatType.Range);
@@ -116,7 +118,7 @@ public partial class GravityCrystal : AbstractTower
     public void ShotTimerTimeout()
     {
         CanShoot = true;
-        ShotTimer.Start(StatBlock.GetStat(StatType.AttackSpeed));
+        ShotTimer.Start(StatBlock.GetStat(StatType.AttackSpeed) / this.TimeScale);
     }
 
 }
