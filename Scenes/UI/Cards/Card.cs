@@ -124,7 +124,6 @@ public partial class Card : Sprite2D
         Highlighted = false;
         Tween tweenscale = GetTree().CreateTween();
         tweenscale.TweenProperty(this, "scale", this.originalScale, 0.2);
-
     }
 
     public void _on_card_base_gui_input(Node n, InputEvent @event, int idx)
@@ -148,9 +147,7 @@ public partial class Card : Sprite2D
                 {
                     GD.Print("clicked");
                 }
-
             }
-
 
             if (mouseEvent.ButtonIndex == MouseButton.Left && mouseEvent.IsPressed() && Highlighted)
             {
@@ -170,14 +167,7 @@ public partial class Card : Sprite2D
             }
         }
 
-        //mouse motion click/drag detection threshold
-        /*
-        if (MotionAccumulation.Length() > 1.2)
-        {
-            dragging = true;
-            Active = false;
-            
-        } */
+        
     }
 
 
@@ -237,7 +227,7 @@ public partial class Card : Sprite2D
         Tween tweenscale = GetTree().CreateTween();
         tweenscale.TweenProperty(this, "scale", this.originalScale, 0.2);
         switch (this.data.CardType)
-        {   
+        {
             case CardType.Tower:
             case CardType.Chunk:
             case CardType.Spell:

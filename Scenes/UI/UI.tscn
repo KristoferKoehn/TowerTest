@@ -394,9 +394,9 @@ grow_vertical = 2
 [node name="RightButtonParent" type="Node2D" parent="Control/RightHandAnchor"]
 
 [node name="DeckButton" type="Button" parent="Control/RightHandAnchor/RightButtonParent"]
-offset_left = -70.0
-offset_right = 174.0
-offset_bottom = 70.0
+offset_left = -35.0
+offset_right = 209.0
+offset_bottom = 35.0
 rotation = -1.5708
 text = "Deck"
 
@@ -415,10 +415,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 70.0
+offset_left = 35.0
 offset_top = -244.0
-offset_right = 314.0
-offset_bottom = -174.0
+offset_right = 279.0
+offset_bottom = -209.0
 grow_horizontal = 2
 grow_vertical = 2
 rotation = 1.5708

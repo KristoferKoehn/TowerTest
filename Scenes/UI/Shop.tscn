@@ -77,6 +77,7 @@ grow_vertical = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="Panel/HBoxContainer"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 30
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 30
@@ -113,6 +114,7 @@ theme_override_constants/margin_bottom = 87
 
 [node name="Control" type="Control" parent="Panel/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer4"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="Card" parent="Panel/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer4/Control" instance=ExtResource("2_qw1xs")]
 texture = SubResource("ViewportTexture_wo1kd")
@@ -126,6 +128,7 @@ theme_override_constants/margin_bottom = 87
 
 [node name="Control" type="Control" parent="Panel/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="Card" parent="Panel/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/Control" instance=ExtResource("2_qw1xs")]
 texture = SubResource("ViewportTexture_n1rq1")
@@ -139,6 +142,7 @@ theme_override_constants/margin_bottom = 87
 
 [node name="Control" type="Control" parent="Panel/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer3"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="Card" parent="Panel/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer3/Control" instance=ExtResource("2_qw1xs")]
 texture = SubResource("ViewportTexture_1ygn4")
@@ -157,12 +161,28 @@ theme_override_constants/margin_bottom = 87
 
 [node name="Control" type="Control" parent="Panel/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2/MarginContainer3"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="Card" parent="Panel/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2/MarginContainer3/Control" instance=ExtResource("2_qw1xs")]
 texture = SubResource("ViewportTexture_0ec5y")
 
+[node name="Button" type="Button" parent="Panel/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2/MarginContainer3/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -43.5
+offset_top = -61.5
+offset_right = 43.5
+offset_bottom = 61.5
+grow_horizontal = 2
+grow_vertical = 2
+
 [node name="MarginContainer4" type="MarginContainer" parent="Panel/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 75
 theme_override_constants/margin_top = 88
 theme_override_constants/margin_right = 75
@@ -170,12 +190,14 @@ theme_override_constants/margin_bottom = 87
 
 [node name="Control" type="Control" parent="Panel/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2/MarginContainer4"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="Card" parent="Panel/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2/MarginContainer4/Control" instance=ExtResource("2_qw1xs")]
 texture = SubResource("ViewportTexture_2bckm")
 
 [node name="MarginContainer5" type="MarginContainer" parent="Panel/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 75
 theme_override_constants/margin_top = 88
 theme_override_constants/margin_right = 75
@@ -183,6 +205,7 @@ theme_override_constants/margin_bottom = 87
 
 [node name="Control" type="Control" parent="Panel/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2/MarginContainer5"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="Card" parent="Panel/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer2/MarginContainer5/Control" instance=ExtResource("2_qw1xs")]
 texture = SubResource("ViewportTexture_r6mbu")

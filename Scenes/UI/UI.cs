@@ -156,14 +156,12 @@ public partial class UI : CanvasLayer
     {
         if (@event.IsActionPressed("DiscardHand"))
         {
-            //_playerHand.ShowDiscard().Finished += () => _playerHand.DiscardHand().Finished += () => _playerHand.HideDiscard();
-            GD.Print("Q");
+            
         }
 
         if (@event.IsActionPressed("DrawCards"))
         {
 
-            GD.Print($"E {PlayerHand.CardList.Count}");
         }
     }
 

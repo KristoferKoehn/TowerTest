@@ -1,8 +1,7 @@
 using Godot;
 using Managers;
-using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
+
 
 public partial class PlayerHand2 : Control
 {
@@ -284,9 +283,9 @@ public partial class PlayerHand2 : Control
         {
             for (int i = 0; i < CardList.Count; i++)
             {
-                CardPositions.Add((i+1) / (CardList.Count + 1.0f) * PathLength);
+                CardPositions.Add((i+2) / (CardList.Count + 3.0f) * PathLength);
             }
-            SwapThreshold = CardPlacingPath.Curve.GetBakedLength() / CardList.Count + 20;
+            SwapThreshold = CardPlacingPath.Curve.GetBakedLength() / CardList.Count + 10;
 
         } else if (CardList.Count == 1)
         {
@@ -296,13 +295,13 @@ public partial class PlayerHand2 : Control
         {
             CardPositions.Add(PathLength / 3f);
             CardPositions.Add( 2 * PathLength / 3f);
-            SwapThreshold = CardPlacingPath.Curve.GetBakedLength() / 3 + 10;
+            SwapThreshold = CardPlacingPath.Curve.GetBakedLength() / 3 + 5;
         } else if (CardList.Count == 3)
         {
             CardPositions.Add(    PathLength / 4);
             CardPositions.Add(2 * PathLength / 4);
             CardPositions.Add(3 * PathLength / 4);
-            SwapThreshold = CardPlacingPath.Curve.GetBakedLength() / 4 + 10;
+            SwapThreshold = CardPlacingPath.Curve.GetBakedLength() / 4 + 5;
         }
     }
 

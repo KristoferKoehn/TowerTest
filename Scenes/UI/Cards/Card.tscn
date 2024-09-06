@@ -39,7 +39,7 @@ shader_parameter/shine_size = 0.01
 size = Vector2(250, 350)
 
 [node name="Card" type="Sprite2D" node_paths=PackedStringArray("CardNameLabel", "CardViewportFrame", "CardBackground", "CardViewport")]
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.35, 0.35)
 texture = SubResource("ViewportTexture_f0ihy")
 script = ExtResource("1_gfbxa")
 CardNameLabel = NodePath("SubViewport/CardBase/MarginContainer/Bars/TopGap/TopBar/Name/SceneName")
@@ -106,6 +106,7 @@ custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 20
 text = "Scene Name"
 autowrap_mode = 2
 
