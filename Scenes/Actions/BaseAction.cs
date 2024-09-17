@@ -22,7 +22,8 @@ public partial class BaseAction : AbstractPlaceable
 
     public int Level { get ; set; }
 
-    private Timer durationTimer;
+    public Timer durationTimer;
+    public Label durationTimerLabel;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -35,7 +36,15 @@ public partial class BaseAction : AbstractPlaceable
             durationTimer.WaitTime = this.DurationSeconds;
             durationTimer.Timeout += () => EndEffect();
             AddChild(durationTimer);
+
+            durationTimerLabel = new Label();
+            AddChild(durationTimerLabel);
         }
+    }
+
+    public override void _Process(double delta)
+    {
+        durationTimerLabel.Text = ActionName + ": " + durationTimer.TimeLeft.ToString("F2");
     }
 
     // Method to apply the action's effect
@@ -57,6 +66,7 @@ public partial class BaseAction : AbstractPlaceable
     // Method to end the action's effect
     public virtual void EndEffect()
     {
+        durationTimerLabel.QueueFree();
         ActionManager.GetInstance().activeActions.Remove(this);
         QueueFree();
         if(Debugging) GD.Print($"{ActionName} effect ended.");

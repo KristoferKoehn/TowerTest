@@ -73,7 +73,7 @@ bg_color = Color(0.926002, 0.154522, 0.240135, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2xmo1"]
 bg_color = Color(0, 0.752861, 0.134393, 1)
 
-[node name="UI" type="CanvasLayer" node_paths=PackedStringArray("_playerHand", "CurrencyLabel", "ScoreLabel", "TowerHealthBar", "GameOverControl", "PauseControl", "DeckViewerControl")]
+[node name="UI" type="CanvasLayer" node_paths=PackedStringArray("_playerHand", "CurrencyLabel", "ScoreLabel", "TowerHealthBar", "GameOverControl", "PauseControl", "DeckViewerControl", "EffectTimerContainer")]
 script = ExtResource("1_vo24d")
 _playerHand = NodePath("Control/PlayerHand2")
 CurrencyLabel = NodePath("Control/VBoxContainer/TopUI/PlayerInfo_HBoxContainer/Currency/Currency")
@@ -82,6 +82,7 @@ TowerHealthBar = NodePath("Control/VBoxContainer/TopUI/PlayerInfo_HBoxContainer/
 GameOverControl = NodePath("Control/GameOver")
 PauseControl = NodePath("Control/PauseControl")
 DeckViewerControl = NodePath("Control/DeckViewerControl")
+EffectTimerContainer = NodePath("Control/EffectTimerContainer")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -412,6 +413,16 @@ grow_horizontal = 2
 grow_vertical = 2
 rotation = -1.5708
 text = "SHOP"
+
+[node name="EffectTimerContainer" type="PanelContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.00954861
+anchor_top = 0.112654
+anchor_right = 0.209
+anchor_bottom = 0.113
+offset_right = -229.768
+offset_bottom = -0.224007
 
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/BeginWaveButton" to="." method="_on_begin_wave_button_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/PausePlayButton" to="." method="_on_pause_play_button_pressed"]

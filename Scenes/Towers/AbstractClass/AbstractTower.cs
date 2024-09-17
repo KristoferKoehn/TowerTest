@@ -16,6 +16,7 @@ public enum TowerType
     BubbleGun,
     WaterGun,
     Flamethrower,
+    Shotgun,
 }
 
 [Tool]

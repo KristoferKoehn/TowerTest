@@ -36,8 +36,6 @@ public partial class DeckViewerPanel : Control
 
     private void OnCardAdded(CardData cardData)
     {
-        GD.Print("CardAdded");
-
         // Update card counts
         switch (cardData.CardType)
         {

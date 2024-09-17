@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://cbpaprmrqlrn" path="res://Assets/Cursors/arrow_s.png" id="3_fwfox"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i2xva"]
-bg_color = Color(0.064191, 0.214963, 0.114403, 1)
+bg_color = Color(0.28485, 0.28485, 0.28485, 1)
 
 [node name="DeckViewerPanel" type="Control" node_paths=PackedStringArray("FlowContainer", "DeckSizeLabel", "NumChunksLabel", "NumTowersLabel", "NumActionsLabel", "CardSizeSlider", "BackgroundColorPanel")]
 layout_mode = 3

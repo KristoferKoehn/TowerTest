@@ -2,6 +2,7 @@ using Godot;
 using Managers;
 using System;
 using System.Collections.Generic;
+using static System.Collections.Specialized.BitVector32;
 
 public partial class UI : CanvasLayer
 {
@@ -12,6 +13,7 @@ public partial class UI : CanvasLayer
     [Export] Control GameOverControl;
     [Export] Control PauseControl;
     [Export] Control DeckViewerControl;
+    [Export] PanelContainer EffectTimerContainer;
 
     private float[] fastForwardSpeeds = { 1.0f, 2.0f, 3.0f};
     private int currentFastForwardSpeedIndex = 0;
@@ -42,6 +44,7 @@ public partial class UI : CanvasLayer
 	{
         AccountStatsManager.GetInstance().StatChanged += UpdateAccountStatsUI;
         PlayerStatsManager.GetInstance().StatChanged += UpdatePlayerStatsUI;
+        ActionManager.GetInstance().TemporaryActionStarted += AddEffectTimeLabel;
         UpdateAccountStatsUI(StatType.Gold, AccountStatsManager.GetInstance().GetStat(StatType.Gold));
         UpdatePlayerStatsUI(StatType.Score, PlayerStatsManager.GetInstance().GetStat(StatType.Score));
         TowerHealthBar.MaxValue = PlayerStatsManager.GetInstance().GetStat(StatType.MaxHealth);
@@ -169,5 +172,12 @@ public partial class UI : CanvasLayer
         }
     }
 
-
+    public void AddEffectTimeLabel(BaseAction action)
+    {
+        GD.Print(action.IsTemporary);
+        if (action.IsTemporary)
+        {
+            action.durationTimerLabel.Reparent(EffectTimerContainer);
+        }
+    }
 }
