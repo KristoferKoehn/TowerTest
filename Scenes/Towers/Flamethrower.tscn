@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=4 uid="uid://catevb8oyub7"]
+[gd_scene load_steps=41 format=4 uid="uid://catevb8oyub7"]
 
 [ext_resource type="Script" path="res://Scenes/Towers/Flamethrower.cs" id="1_r5c0o"]
 [ext_resource type="Material" uid="uid://ts4g382dqw50" path="res://Assets/Materials/MouseOverOutline.tres" id="2_acri8"]
@@ -148,7 +148,8 @@ bottom_radius = 0.05
 height = 1.0
 
 [sub_resource type="Gradient" id="Gradient_4n1ww"]
-colors = PackedColorArray(0.386428, 0.273931, 1, 1, 0.746074, 0.301506, 2.88785e-07, 1)
+offsets = PackedFloat32Array(0.0404624, 0.144509, 0.757225)
+colors = PackedColorArray(1, 1, 1, 1, 0.921569, 0.2, 0, 0.894118, 0, 0, 0, 0.756863)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_f8qcn"]
 gradient = SubResource("Gradient_4n1ww")
@@ -160,6 +161,13 @@ point_count = 2
 [sub_resource type="CurveTexture" id="CurveTexture_6w4dx"]
 curve = SubResource("Curve_bm6aa")
 
+[sub_resource type="Curve" id="Curve_80mel"]
+_data = [Vector2(0, 0.263736), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_luxkt"]
+curve = SubResource("Curve_80mel")
+
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_86gdk"]
 direction = Vector3(0, 0, -1)
 spread = 30.0
@@ -167,15 +175,15 @@ flatness = 0.5
 initial_velocity_min = 2.0
 initial_velocity_max = 5.0
 gravity = Vector3(0, 3, 0)
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_luxkt")
 color_ramp = SubResource("GradientTexture1D_f8qcn")
 emission_curve = SubResource("CurveTexture_6w4dx")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vurq3"]
 transparency = 1
-blend_mode = 1
 shading_mode = 0
 vertex_color_use_as_albedo = true
-albedo_color = Color(0.82803, 0.243603, 0, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_0ncgv"]
 material = SubResource("StandardMaterial3D_vurq3")
@@ -263,7 +271,7 @@ mesh = SubResource("CylinderMesh_gy1ck")
 skeleton = NodePath("../..")
 
 [node name="FlameParticles" type="GPUParticles3D" parent="Sketchfab_Scene"]
-transform = Transform3D(500, 0, 0, 0, 500, 0, 0, 0, 500, 0, 266.183, -816.666)
+transform = Transform3D(500, 0, 0, 0, 500, 0, 0, 0, 500, 0, 266.183, -851.313)
 emitting = false
 amount = 70
 randomness = 1.0
