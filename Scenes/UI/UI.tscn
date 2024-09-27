@@ -425,9 +425,10 @@ rotation = 1.5708
 focus_mode = 0
 text = "SHOP"
 
-[node name="Shop" parent="Control" instance=ExtResource("10_3jgfp")]
+[node name="Shop" parent="Control" node_paths=PackedStringArray("Cards") instance=ExtResource("10_3jgfp")]
 visible = false
 layout_mode = 1
+Cards = []
 
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/BeginWaveButton" to="." method="_on_begin_wave_button_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/PausePlayButton" to="." method="_on_pause_play_button_pressed"]
@@ -437,4 +438,3 @@ layout_mode = 1
 [connection signal="pressed" from="Control/GameOver/Panel/VBoxContainer/MainMenuButton" to="." method="_on_main_menu_button_pressed"]
 [connection signal="pressed" from="Control/RightHandAnchor/RightButtonParent/DeckButton" to="." method="_on_deck_button_pressed"]
 [connection signal="pressed" from="Control/LeftHandAnchor/LeftButtonParent/ShopButton" to="." method="_on_shop_button_pressed"]
-[connection signal="ShopClosed" from="Control/Shop" to="." method="ShopClosed"]

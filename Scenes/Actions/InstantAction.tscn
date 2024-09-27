@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://yiw1pv2np2ps"]
+
+[ext_resource type="Script" path="res://Scenes/Actions/InstantAction.cs" id="1_avjuk"]
+
+[node name="InstantAction" type="Node3D"]
+script = ExtResource("1_avjuk")
+Stat = 12
+Value = 7.77778e+09

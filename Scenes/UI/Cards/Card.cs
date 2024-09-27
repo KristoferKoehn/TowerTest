@@ -251,16 +251,17 @@ public partial class Card : Sprite2D
         // Load and instantiate the card:
         AbstractPlaceable Placeable = CardLoadingManager.GetInstance().GetPackedScene(this.data.SubjectScene).Instantiate<AbstractPlaceable>();
         QueriedPlaceable = Placeable;
-        QueriedPlaceable.Cancelled += CancelPlacement;
-        QueriedPlaceable.Placed += SuccessfullyPlaced;
-
         SceneSwitcher.CurrentGameLoop.AddChild(Placeable);
+        Placeable.Cancelled += CancelPlacement;
+        Placeable.Placed += SuccessfullyPlaced;
+
         
         Placeable.ActivatePlacing();
     }
 
     public void SuccessfullyPlaced(Node3D item, Vector3 pos)
     {
+        GD.Print("Card Received Placed Signal");
         QueriedPlaceable.Cancelled -= CancelPlacement;
         QueriedPlaceable.Placed -= SuccessfullyPlaced;
         QueriedPlaceable = null;

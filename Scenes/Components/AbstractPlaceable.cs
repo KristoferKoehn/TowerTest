@@ -15,6 +15,7 @@ namespace TowerTest.Scenes.Components
 
         [Signal]
         public delegate void CancelledEventHandler();
+
         public abstract void DisplayMode();
         public abstract void ActivatePlacing();
 
