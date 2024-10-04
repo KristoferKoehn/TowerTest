@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://ct5pu2kl2cmk0"]
 
 [ext_resource type="Script" path="res://Scenes/Components/CardTool/CardBuilder.cs" id="1_7haud"]
-[ext_resource type="PackedScene" path="res://Scenes/UI/Cards/Card.tscn" id="2_5u6yw"]
+[ext_resource type="PackedScene" uid="uid://bdf1nwcac22yx" path="res://Scenes/UI/Cards/Card.tscn" id="2_5u6yw"]
 [ext_resource type="PackedScene" uid="uid://bvfxokd17td3t" path="res://Scenes/Components/WaveTool/FileSelector.tscn" id="3_pshew"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_mm4tt"]

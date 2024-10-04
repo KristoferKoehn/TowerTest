@@ -2,6 +2,8 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using TowerTest.Scenes.Components;
 
 public partial class ActionManager : Node
 {
@@ -34,6 +36,15 @@ public partial class ActionManager : Node
 
         this.activeActions.Add(action);
         AddChild(action);
+        action.ApplyEffect();
+    }
+
+    public void AddAction(InstantAction action)
+    {
+        //unimplemented for now
+
+        //register action
+        //have logic about the action
         action.ApplyEffect();
     }
 }

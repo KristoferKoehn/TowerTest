@@ -1,7 +1,7 @@
 using Godot;
 using Managers;
-using System;
 using System.Collections.Generic;
+
 
 public partial class PlayerHand2 : Control
 {
@@ -23,6 +23,10 @@ public partial class PlayerHand2 : Control
     [Export] AudioStreamPlayer2D PlacingSound;
 
     [Export] Button HandDisplayButton;
+
+    [Export] Node2D RightButtonParent;
+    [Export] Node2D LeftButtonParent;
+
 
     public List<Card> CardList = new List<Card>();
     List<float> CardPositions = new List<float>();
@@ -166,6 +170,9 @@ public partial class PlayerHand2 : Control
         card.Selected += CardSelected;
         card.Cancelled += CardCancelled;
         card.Placed += CardPlaced;
+
+        card.Cancelled += (Card) => { ShowButtons(); };
+
         card.DragStarted += (BaseCard) =>
         {
             DraggingCard = BaseCard;
@@ -211,7 +218,6 @@ public partial class PlayerHand2 : Control
         t.TweenProperty(card, "global_position", CardPlacingPosition.GlobalPosition, 0.2f);
         t.Finished += () =>
         {
-            
             PlacingCardAnimationLock = false;
             PlayActiveCard();
         };
@@ -233,7 +239,11 @@ public partial class PlayerHand2 : Control
                 CardSound.Play();
                 Discard.Visible = true;
                 card.Discard();
-                GetTree().CreateTimer(0.1).Timeout += () => HideDiscard();
+                GetTree().CreateTimer(0.1).Timeout += () =>
+                {
+                    ShowButtons();
+                    HideDiscard();
+                };
             };
             ActiveCard = null;
             CardActive = false;
@@ -273,9 +283,9 @@ public partial class PlayerHand2 : Control
         {
             for (int i = 0; i < CardList.Count; i++)
             {
-                CardPositions.Add((i+1) / (CardList.Count + 1.0f) * PathLength);
+                CardPositions.Add((i+2) / (CardList.Count + 3.0f) * PathLength);
             }
-            SwapThreshold = CardPlacingPath.Curve.GetBakedLength() / CardList.Count + 20;
+            SwapThreshold = CardPlacingPath.Curve.GetBakedLength() / CardList.Count + 10;
 
         } else if (CardList.Count == 1)
         {
@@ -285,13 +295,13 @@ public partial class PlayerHand2 : Control
         {
             CardPositions.Add(PathLength / 3f);
             CardPositions.Add( 2 * PathLength / 3f);
-            SwapThreshold = CardPlacingPath.Curve.GetBakedLength() / 3 + 10;
+            SwapThreshold = CardPlacingPath.Curve.GetBakedLength() / 3 + 5;
         } else if (CardList.Count == 3)
         {
             CardPositions.Add(    PathLength / 4);
             CardPositions.Add(2 * PathLength / 4);
             CardPositions.Add(3 * PathLength / 4);
-            SwapThreshold = CardPlacingPath.Curve.GetBakedLength() / 4 + 10;
+            SwapThreshold = CardPlacingPath.Curve.GetBakedLength() / 4 + 5;
         }
     }
 
@@ -367,23 +377,6 @@ public partial class PlayerHand2 : Control
         }
     }
 
-    bool hidden = false;
-    public void ToggleHide()
-    {
-        if (hidden)
-        {
-            hidden = false;
-            Tween handTween = GetTree().CreateTween();
-            handTween.TweenProperty(CardPlacingPath, "position", Vector2.Zero, 0.2f);
-
-        } else
-        {
-            hidden = true;
-            Tween handTween = GetTree().CreateTween();
-            handTween.TweenProperty(CardPlacingPath, "position", new Vector2(0, 1200), 0.2f);
-        }
-    }
-
     public void CardDropCheck(Card baseCard)
     {
 
@@ -406,8 +399,30 @@ public partial class PlayerHand2 : Control
                 FreezeCardList.Remove(baseCard);
                 CardList.Add(baseCard);
             }
+            ShowButtons();
         }
     }
+
+    //hide buttons when drop panels are shown
+    public void HideButtons()
+    {
+        Tween t = GetTree().CreateTween();
+        t.TweenProperty(RightButtonParent, "position", new Vector2(400, 0), 0.2);
+
+        Tween f = GetTree().CreateTween();
+        f.TweenProperty(LeftButtonParent, "position", new Vector2(-400, 0), 0.2);
+    }
+
+    //Show buttons *only when card is no longer active*
+    public void ShowButtons()
+    {
+        Tween t = GetTree().CreateTween();
+        t.TweenProperty(RightButtonParent, "position", new Vector2(0, 0), 0.2);
+
+        Tween f = GetTree().CreateTween();
+        f.TweenProperty(LeftButtonParent, "position", new Vector2(0, 0), 0.2);
+    }
+
 
     public void HideDropPanels(Card card)
     {
@@ -428,7 +443,6 @@ public partial class PlayerHand2 : Control
             Tween FreezeTween = GetTree().CreateTween();
             FreezeTween.TweenProperty(FreezePanel, "global_position", new Vector2(ScreenSize.X * -0.308f, ScreenSize.Y * 0.555f), 0.1);
         }
-
     }
 
     public void RevealDropPanels(Card card)
@@ -443,6 +457,8 @@ public partial class PlayerHand2 : Control
 
         Tween FreezeTween = GetTree().CreateTween();
         FreezeTween.TweenProperty(FreezePanel, "global_position", new Vector2(-125, ScreenSize.Y * 0.555f), 0.1);
+
+        HideButtons();
     }
 
     public Tween ShowDiscard()
@@ -570,5 +586,17 @@ public partial class PlayerHand2 : Control
     public void _on_hand_display_button_pressed()
     {
         HandUp = !HandUp;
+    }
+
+    public void ForceHandUp(bool disabled)
+    {
+        HandUp = true;
+        HandDisplayButton.Disabled = disabled;
+    }
+
+    public void ForceHandDown(bool disabled)
+    {
+        HandUp = false;
+        HandDisplayButton.Disabled = disabled;
     }
 }

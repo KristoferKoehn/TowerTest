@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://f7en4q7tewdq"
+path="res://.godot/imported/candy_orange_A.obj-3300e74980778638343e93f061aa466d.mesh"
+
+[deps]
+
+files=["res://.godot/imported/candy_orange_A.obj-3300e74980778638343e93f061aa466d.mesh"]
+
+source_file="res://Assets/HalloweenModelsObj/candy_orange_A.obj"
+dest_files=["res://.godot/imported/candy_orange_A.obj-3300e74980778638343e93f061aa466d.mesh", "res://.godot/imported/candy_orange_A.obj-3300e74980778638343e93f061aa466d.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

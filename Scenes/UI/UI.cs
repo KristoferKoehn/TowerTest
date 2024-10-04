@@ -5,12 +5,13 @@ using System.Collections.Generic;
 
 public partial class UI : CanvasLayer
 {
-    [Export] PlayerHand2 _playerHand;
+    [Export] PlayerHand2 PlayerHand;
     [Export] Label CurrencyLabel;
     [Export] Label ScoreLabel;
     [Export] ProgressBar TowerHealthBar;
     [Export] Control GameOverControl;
     [Export] Control PauseControl;
+    [Export] Shop ShopScene;
 
     private float[] fastForwardSpeeds = { 1.0f, 2.0f, 3.0f};
     private int currentFastForwardSpeedIndex = 0;
@@ -155,17 +156,25 @@ public partial class UI : CanvasLayer
     {
         if (@event.IsActionPressed("DiscardHand"))
         {
-            //_playerHand.ShowDiscard().Finished += () => _playerHand.DiscardHand().Finished += () => _playerHand.HideDiscard();
-            GD.Print("Q");
+            
         }
 
         if (@event.IsActionPressed("DrawCards"))
         {
 
-            //_playerHand.DrawCards(7);
-            GD.Print($"E {_playerHand.CardList.Count}");
         }
     }
 
+    public void _on_shop_button_pressed()
+    {
+        PlayerHand.HideButtons();
+        PlayerHand.ForceHandDown(false);
+        ShopScene.Visible = true;
+    }
 
+    public void ShopClosed()
+    {
+        PlayerHand.ShowButtons();
+        PlayerHand.ForceHandUp(false);
+    }
 }
