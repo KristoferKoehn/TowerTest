@@ -7,7 +7,7 @@ public partial class DoubleTowerSpeed : BaseAction
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		this.Level = 1;
+		this.Level = 2;
         this.SetAttributesFromLevel();
 		this.ActionName = "DoubleTowerSpeed";
 		this.Description = $"Doubles the attack speed stat of all currently placed towers for a duration of {this.DurationSeconds} seconds.";
@@ -18,6 +18,7 @@ public partial class DoubleTowerSpeed : BaseAction
     // Method to apply the action's effect
     public override void ApplyEffect()
     {
+		// make all active towers shoot at 2x speed. This wouldn't include towers placed after, but we can add that easily
 		foreach (List<AbstractTower> towerList in TowerManager.GetInstance().activeTowers.Values)
 		{
 			foreach (AbstractTower tower in towerList)

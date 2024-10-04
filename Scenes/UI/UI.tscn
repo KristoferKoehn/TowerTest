@@ -9,7 +9,11 @@
 [ext_resource type="PackedScene" uid="uid://bbpphuq3csaxf" path="res://Scenes/UI/Cards/PlayerHand2.tscn" id="8_kayuc"]
 [ext_resource type="Shader" path="res://Assets/Shaders/PlayAreaEffect.gdshader" id="9_pq3hn"]
 [ext_resource type="PackedScene" uid="uid://didxub0guxul3" path="res://Scenes/menus/PauseMenu.tscn" id="9_qhxxr"]
+
+[ext_resource type="PackedScene" uid="uid://b3t1u0ejkjvhy" path="res://Scenes/UI/Panels/DeckViewerPanel.tscn" id="10_uiid5"]
+
 [ext_resource type="PackedScene" uid="uid://b34ix3qaxnw7g" path="res://Scenes/UI/Shop.tscn" id="10_3jgfp"]
+
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ffxy5"]
 resource_local_to_scene = true
@@ -73,7 +77,9 @@ bg_color = Color(0.926002, 0.154522, 0.240135, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2xmo1"]
 bg_color = Color(0, 0.752861, 0.134393, 1)
 
-[node name="UI" type="CanvasLayer" node_paths=PackedStringArray("PlayerHand", "CurrencyLabel", "ScoreLabel", "TowerHealthBar", "GameOverControl", "PauseControl", "ShopScene")]
+
+[node name="UI" type="CanvasLayer" node_paths=PackedStringArray("_playerHand", "CurrencyLabel", "ScoreLabel", "TowerHealthBar", "GameOverControl", "PauseControl", "DeckViewerControl", "EffectTimerContainer")]
+
 script = ExtResource("1_vo24d")
 PlayerHand = NodePath("Control/PlayerHand2")
 CurrencyLabel = NodePath("Control/VBoxContainer/TopUI/PlayerInfo_HBoxContainer/Currency/Currency")
@@ -81,7 +87,12 @@ ScoreLabel = NodePath("Control/VBoxContainer/TopUI/PlayerInfo_HBoxContainer/Scor
 TowerHealthBar = NodePath("Control/VBoxContainer/TopUI/PlayerInfo_HBoxContainer/VBoxContainer/PlayerTowerHealth")
 GameOverControl = NodePath("Control/GameOver")
 PauseControl = NodePath("Control/PauseControl")
+
+DeckViewerControl = NodePath("Control/DeckViewerControl")
+EffectTimerContainer = NodePath("Control/EffectTimerContainer")
+
 ShopScene = NodePath("Control/Shop")
+
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -367,19 +378,22 @@ FreezePanel = NodePath("../FreezePanel")
 RightButtonParent = NodePath("../RightHandAnchor/RightButtonParent")
 LeftButtonParent = NodePath("../LeftHandAnchor/LeftButtonParent")
 
-[node name="PauseControl" parent="Control" instance=ExtResource("9_qhxxr")]
-visible = false
-layout_mode = 1
-
 [node name="DeckViewerControl" type="Control" parent="Control"]
 visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = 64.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
+
+[node name="DeckViewerPanel" parent="Control/DeckViewerControl" instance=ExtResource("10_uiid5")]
+layout_mode = 1
+
+[node name="PauseControl" parent="Control" instance=ExtResource("9_qhxxr")]
+visible = false
+layout_mode = 1
 
 [node name="RightHandAnchor" type="Control" parent="Control"]
 layout_mode = 1
@@ -425,10 +439,22 @@ rotation = 1.5708
 focus_mode = 0
 text = "SHOP"
 
+
+[node name="EffectTimerContainer" type="PanelContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.00954861
+anchor_top = 0.112654
+anchor_right = 0.209
+anchor_bottom = 0.113
+offset_right = -229.768
+offset_bottom = -0.224007
+
 [node name="Shop" parent="Control" node_paths=PackedStringArray("Cards") instance=ExtResource("10_3jgfp")]
 visible = false
 layout_mode = 1
 Cards = []
+
 
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/BeginWaveButton" to="." method="_on_begin_wave_button_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/PausePlayButton" to="." method="_on_pause_play_button_pressed"]

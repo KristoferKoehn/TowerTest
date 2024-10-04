@@ -8,11 +8,12 @@ public abstract partial class BaseStatusEffect : Node
     public TextureRect effectIcon;
 
     // Common properties for all status effects
-    public float ApplicationInterval { get; set; }
-    public string EffectName { get; set; }
-    public float TotalDuration { get; set; }
+    public float ApplicationInterval { get; set; } = 0.1f;
+    public string EffectName { get; set; } = string.Empty;
+    public float TotalDuration { get; set; } = 0;
     public bool IsActive { get; set; } = true;
     public bool ApplyOnce { get; set; } = false;
+    public int Level { get; set; } = 1;
 
     internal BaseEnemy enemy;
 

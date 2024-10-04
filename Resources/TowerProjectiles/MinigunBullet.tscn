@@ -5,7 +5,7 @@ radius = 0.125
 height = 0.25
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_kbesp"]
-radius = 0.28431
+radius = 0.453044
 
 [node name="MinigunBullet" type="MeshInstance3D"]
 mesh = SubResource("SphereMesh_m2b3p")

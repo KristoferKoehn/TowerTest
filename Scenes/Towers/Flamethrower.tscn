@@ -1,9 +1,14 @@
-[gd_scene load_steps=27 format=4 uid="uid://catevb8oyub7"]
+[gd_scene load_steps=41 format=4 uid="uid://catevb8oyub7"]
 
 [ext_resource type="Script" path="res://Scenes/Towers/Flamethrower.cs" id="1_r5c0o"]
+[ext_resource type="Material" uid="uid://ts4g382dqw50" path="res://Assets/Materials/MouseOverOutline.tres" id="2_acri8"]
+[ext_resource type="Material" uid="uid://bg8x6nw25lr5f" path="res://Assets/Materials/SelectOutline.tres" id="3_7w4pb"]
+[ext_resource type="Material" uid="uid://bpfrh7v7vj33w" path="res://Assets/Materials/QueryInvalid.tres" id="4_yw58p"]
+[ext_resource type="Material" uid="uid://dp23b2u2d2c2f" path="res://Assets/Materials/QueryValid.tres" id="5_5cw0v"]
+[ext_resource type="PackedScene" uid="uid://1w1umbiov4do" path="res://Scenes/Utility/TowerPanel.tscn" id="6_pbe4s"]
 [ext_resource type="Texture2D" uid="uid://b03e0ny4ujwd" path="res://Assets/ConstructedModels/flamethrower/flame-thrower_0.png" id="7_mmc3f"]
 [ext_resource type="PackedScene" uid="uid://bla62bopkwx4a" path="res://Assets/TowerModels/towerSquare_bottomA.glb" id="8_lhn0l"]
-[ext_resource type="AudioStream" uid="uid://l8gd7ydl2cge" path="res://Assets/Audio/sfx/impact/WaterGunCropped.mp3" id="9_onl1r"]
+[ext_resource type="AudioStream" uid="uid://fj25f1jobbji" path="res://Assets/Audio/sfx/impact/flamethrower.mp3" id="9_0qnjr"]
 [ext_resource type="AudioStream" uid="uid://cn0do7xxewta5" path="res://Assets/Audio/sfx/impact/impactWood_light_000.ogg" id="10_q6yki"]
 [ext_resource type="AudioStream" uid="uid://wyh4ahwpivb" path="res://Assets/Audio/sfx/impact/impactWood_light_001.ogg" id="11_nek7t"]
 [ext_resource type="AudioStream" uid="uid://dhbfnohuy118t" path="res://Assets/Audio/sfx/impact/impactWood_light_002.ogg" id="12_a5j10"]
@@ -130,9 +135,8 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_0cs4o")
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_638ob"]
-radius = 1.0
-height = 3.0
+[sub_resource type="BoxShape3D" id="BoxShape3D_axeon"]
+size = Vector3(2.526, 6, 2.206)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yf82d"]
 albedo_color = Color(0.129558, 0.129558, 0.129558, 1)
@@ -143,9 +147,50 @@ top_radius = 0.1
 bottom_radius = 0.05
 height = 1.0
 
+[sub_resource type="Gradient" id="Gradient_4n1ww"]
+offsets = PackedFloat32Array(0.0404624, 0.144509, 0.757225)
+colors = PackedColorArray(1, 1, 1, 1, 0.921569, 0.2, 0, 0.894118, 0, 0, 0, 0.756863)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_f8qcn"]
+gradient = SubResource("Gradient_4n1ww")
+
+[sub_resource type="Curve" id="Curve_bm6aa"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_6w4dx"]
+curve = SubResource("Curve_bm6aa")
+
+[sub_resource type="Curve" id="Curve_80mel"]
+_data = [Vector2(0, 0.263736), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_luxkt"]
+curve = SubResource("Curve_80mel")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_86gdk"]
+direction = Vector3(0, 0, -1)
+spread = 30.0
+flatness = 0.5
+initial_velocity_min = 2.0
+initial_velocity_max = 5.0
+gravity = Vector3(0, 3, 0)
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_luxkt")
+color_ramp = SubResource("GradientTexture1D_f8qcn")
+emission_curve = SubResource("CurveTexture_6w4dx")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vurq3"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_0ncgv"]
+material = SubResource("StandardMaterial3D_vurq3")
+
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_j16rl"]
 height = 4.43514
-radius = 5.22203
+radius = 7.0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_xpayd"]
 resource_local_to_scene = true
@@ -157,9 +202,8 @@ flip_faces = true
 size = Vector3(1.1, 0.45, 1.1)
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_u5dpy"]
-random_pitch = 1.69
 streams_count = 1
-stream_0/stream = ExtResource("9_onl1r")
+stream_0/stream = ExtResource("9_0qnjr")
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_wj043"]
 streams_count = 5
@@ -174,8 +218,23 @@ stream_3/weight = 0.0
 stream_4/stream = ExtResource("14_jsfwb")
 stream_4/weight = 0.0
 
-[node name="Flamethrower" type="Node3D"]
+[node name="Flamethrower" type="Node3D" node_paths=PackedStringArray("TowerBase", "FlamethrowerMount", "FlameArea", "FlameParticles", "Outline", "SelectorHitbox", "ActiveRange", "ShotTimer", "FiringSound", "RangeHitbox")]
 script = ExtResource("1_r5c0o")
+TowerBase = NodePath("towerSquare_bottomA2/tmpParent/towerSquare_bottomA")
+FlamethrowerMount = NodePath("Sketchfab_Scene")
+FlameArea = NodePath("Sketchfab_Scene/FlameArea")
+FlameParticles = NodePath("Sketchfab_Scene/FlameParticles")
+Outline = NodePath("Outline/MeshInstance3D")
+MouseOverOutline = ExtResource("2_acri8")
+SelectOutline = ExtResource("3_7w4pb")
+InvalidMaterial = ExtResource("4_yw58p")
+ValidMaterial = ExtResource("5_5cw0v")
+SelectorHitbox = NodePath("StaticBody3D")
+ActiveRange = NodePath("ActiveRange")
+ShotTimer = NodePath("ShotTimer")
+FiringSound = NodePath("FiringSound")
+RangeHitbox = NodePath("ActiveRange/CollisionShape3D")
+TowerPanel = ExtResource("6_pbe4s")
 
 [node name="Sketchfab_Scene" type="Node3D" parent="."]
 transform = Transform3D(0.002, 0, 0, 0, 0.002, 0, 0, 0, 0.002, 0, 0.54, -0.402)
@@ -200,14 +259,24 @@ skeleton = NodePath("")
 
 [node name="FlameArea" type="Area3D" parent="Sketchfab_Scene"]
 transform = Transform3D(500, 0, 0, 0, -2.18557e-05, -500, 0, 500, -2.18557e-05, 0, 264.058, -1345.93)
+collision_layer = 0
 
 [node name="FlameCollision" type="CollisionShape3D" parent="Sketchfab_Scene/FlameArea"]
-shape = SubResource("CapsuleShape3D_638ob")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.5, 0)
+shape = SubResource("BoxShape3D_axeon")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Sketchfab_Scene"]
 transform = Transform3D(500, 0, 0, 0, 500, 0, 0, 0, 500, 0, 6.00348, 201)
 mesh = SubResource("CylinderMesh_gy1ck")
 skeleton = NodePath("../..")
+
+[node name="FlameParticles" type="GPUParticles3D" parent="Sketchfab_Scene"]
+transform = Transform3D(500, 0, 0, 0, 500, 0, 0, 0, 500, 0, 266.183, -851.313)
+emitting = false
+amount = 70
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_86gdk")
+draw_pass_1 = SubResource("SphereMesh_0ncgv")
 
 [node name="towerSquare_bottomA2" parent="." instance=ExtResource("8_lhn0l")]
 transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 0, 0, 0)
@@ -242,7 +311,7 @@ autostart = true
 [node name="FiringSound" type="AudioStreamPlayer3D" parent="."]
 stream = SubResource("AudioStreamRandomizer_u5dpy")
 volume_db = -5.0
-max_polyphony = 3
+max_polyphony = 4
 
 [node name="SelectSound" type="AudioStreamPlayer3D" parent="."]
 stream = SubResource("AudioStreamRandomizer_wj043")

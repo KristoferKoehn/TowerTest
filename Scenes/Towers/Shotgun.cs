@@ -4,20 +4,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public partial class Minigun : AbstractTower
+public partial class Shotgun : AbstractTower
 {
     PackedScene BulletScene = GD.Load<PackedScene>("res://Resources/TowerProjectiles/MinigunBullet.tscn");
     public List<MeshInstance3D> Bullets = new();
 
     [Export] MeshInstance3D TowerBase;
-    [Export] Node3D MinigunMount;
+    [Export] Node3D ShotgunMount;
     [Export] MeshInstance3D LoadedBullet;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         this.DamageType = DamageType.Physical;
-        this.TowerType = TowerType.Minigun;
+        this.TowerType = TowerType.Shotgun;
         base._Ready();
         if (!Disabled)
         {
@@ -26,10 +26,10 @@ public partial class Minigun : AbstractTower
 
         Dictionary<StatType, float> sb = new()
         {
-            {StatType.AttackSpeed, 0.05f},
-            {StatType.Damage, 12.0f},
-            {StatType.Range, 14.0f},
-            {StatType.CritRate, 5.0f },
+            {StatType.AttackSpeed, 4.0f},
+            {StatType.Damage, 200.0f},
+            {StatType.Range, 12.0f},
+            {StatType.CritRate, 20.0f },
         };
         StatBlock.SetStatBlock(sb);
     }
@@ -59,7 +59,7 @@ public partial class Minigun : AbstractTower
 
             if (index != -1)
             {
-                MinigunMount.LookAt(EnemyList[index].GlobalPosition);
+                ShotgunMount.LookAt(EnemyList[index].GlobalPosition);
                 if (CanShoot)
                 {
                     CanShoot = false;
@@ -114,41 +114,71 @@ public partial class Minigun : AbstractTower
 
     public void ShootBullet(Node3D tower, Node3D target)
     {
-        //make bullet at tower (in the right spot)
-        //
-        MeshInstance3D bullet = BulletScene.Instantiate<MeshInstance3D>();
-        bullet.GetNode<Area3D>("Hitbox").AreaEntered += (Area3D area) => {
-            //overdamage protection, prevents damage being dealt to multiple enemies erroneously 
-            if (!bullet.HasMeta("struck"))
+        int bulletCount = 10; // Number of bullets
+        float bulletSpread = 1f; // Spread in degrees (you can adjust this value)
+
+        for (int i = 0; i < bulletCount; i++)
+        {
+            MeshInstance3D bullet = BulletScene.Instantiate<MeshInstance3D>();
+            bullet.GetNode<Area3D>("Hitbox").AreaEntered += (Area3D area) =>
             {
-                bullet.SetMeta("struck", "");
-                bullet.GetNode<Area3D>("Hitbox").AreaEntered -= ((Minigun)tower).DealDamage;
-                ParticleSignals.GetInstance().createParticle("CandyParticle", bullet.GlobalPosition, bullet.GlobalRotation);
-            }
-            Bullets.Remove(bullet);
-            bullet.QueueFree();
-        };
-        SceneSwitcher.root.AddChild(bullet);
-        Timer t = new Timer();
-        bullet.AddChild(t);
-        t.Start(4);
-        t.OneShot = true;
-        t.Timeout += () => {
-            if (bullet != null && !bullet.IsQueuedForDeletion())
-            {
+                // Prevent multiple damage events
+                if (!bullet.HasMeta("struck"))
+                {
+                    bullet.SetMeta("struck", "");
+                    bullet.GetNode<Area3D>("Hitbox").AreaEntered -= ((Shotgun)tower).DealDamage;
+                    ParticleSignals.GetInstance().createParticle("CandyParticle", bullet.GlobalPosition, bullet.GlobalRotation);
+                }
                 Bullets.Remove(bullet);
                 bullet.QueueFree();
-            }
-            t.QueueFree();
-        };
-        bullet.GetNode<Area3D>("Hitbox").AreaEntered += ((Minigun)tower).DealDamage;
-        bullet.GlobalPosition = LoadedBullet.GlobalPosition;
-        //bullet.LookAt(target.GlobalPosition + new Vector3(0, 0.5f, 0));
-        bullet.LookAt(CalculateShootAhead(0.4f, (BaseEnemy)target));
+            };
 
-        Bullets.Add(bullet);
-        bullet.SetMeta("target", target.GetPath());
+            SceneSwitcher.root.AddChild(bullet);
+
+            Timer t = new Timer();
+            bullet.AddChild(t);
+            t.Start(4);
+            t.OneShot = true;
+            t.Timeout += () =>
+            {
+                if (bullet != null && !bullet.IsQueuedForDeletion())
+                {
+                    Bullets.Remove(bullet);
+                    bullet.QueueFree();
+                }
+                t.QueueFree();
+            };
+
+            bullet.GetNode<Area3D>("Hitbox").AreaEntered += ((Shotgun)tower).DealDamage;
+
+            bullet.GlobalPosition = LoadedBullet.GlobalPosition;
+
+            // Calculate a random spread direction by slightly offsetting the target's position
+            Vector3 randomSpread = GenerateRandomSpread(target.GlobalPosition, bulletSpread);
+
+            // Make the bullet look at the randomly adjusted target position
+            bullet.LookAt(randomSpread);
+
+            Bullets.Add(bullet);
+            bullet.SetMeta("target", target.GetPath());
+        }
     }
+
+    // This function generates a random position around the target based on the spread
+    private Vector3 GenerateRandomSpread(Vector3 targetPosition, float spread)
+    {
+        RandomNumberGenerator rng = new RandomNumberGenerator();
+        rng.Randomize();
+
+        // Generate random offsets for the x and y (horizontal and vertical spread)
+        float randomX = rng.RandfRange(-spread, spread);
+        float randomY = rng.RandfRange(-spread, spread);
+
+        // Adjust the target position by the random offsets
+        Vector3 spreadPosition = targetPosition + new Vector3(randomX, randomY, 0); // Add spread only in the X and Y axes
+        return spreadPosition;
+    }
+
 
 }
 

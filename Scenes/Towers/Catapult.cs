@@ -46,9 +46,11 @@ public partial class Catapult : AbstractTower
 
     public override void _Process(double delta)
     {
-        MoveCatapultBalls(delta);
         base._Process(delta);
+
         if (Disabled) return;
+
+        MoveCatapultBalls(delta);
 
         if (EnemyList.Count > 0)
         {
@@ -64,7 +66,7 @@ public partial class Catapult : AbstractTower
                 if (CanShoot)
                 {
                     CanShoot = false;
-                    ShotTimer.Start(StatBlock.GetStat(StatType.AttackSpeed));
+                    ShotTimer.Start(StatBlock.GetStat(StatType.AttackSpeed) / this.TimeScale);
                     LaunchCatapult(this, EnemyList[index]);
                     GetNode<AudioStreamPlayer3D>("FiringSound").Play();
                 }
@@ -172,8 +174,8 @@ public partial class Catapult : AbstractTower
             }
             t.QueueFree();
         };
-
-        catapultBall.GetNode<Area3D>("Hitbox").AreaEntered += ((Catapult)tower).DealDamage;
+        Area3D projectileHitbox = catapultBall.GetNode<Area3D>("Hitbox");
+        projectileHitbox.AreaEntered += ((Catapult)tower).DealDamage;
         catapultBall.GlobalPosition = LoadedCatapultBall.GlobalPosition;
 
         // Launch stuff:

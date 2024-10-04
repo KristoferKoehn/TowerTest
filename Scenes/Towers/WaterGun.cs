@@ -47,10 +47,9 @@ public partial class WaterGun : AbstractTower
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
-        MoveWaterShots(delta);
-
         base._Process(delta);
         if (Disabled) return;
+        MoveWaterShots(delta);
 
         if (EnemyList.Count > 0)
         {
@@ -66,7 +65,7 @@ public partial class WaterGun : AbstractTower
                 if (CanShoot)
                 {
                     CanShoot = false;
-                    ShotTimer.Start(StatBlock.GetStat(StatType.AttackSpeed));
+                    ShotTimer.Start(StatBlock.GetStat(StatType.AttackSpeed) / this.TimeScale);
 
                     //EmitSignal("TowerFired", this, EnemyList[index]);
                     ShootWaterShots(this, EnemyList[index]); // this instead.

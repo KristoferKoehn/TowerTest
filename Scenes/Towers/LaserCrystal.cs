@@ -24,6 +24,7 @@ public partial class LaserCrystal : AbstractTower
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
 	{
+        base._Process(delta);
         if (Disabled) return;
 
         if (EnemyList.Count > 0)
@@ -48,7 +49,7 @@ public partial class LaserCrystal : AbstractTower
                     CanShoot = false;
                     EmitSignal("TowerFired", this, EnemyList[index]);
                     EnemyList[index].TakeDamage(StatBlock.GetStat(StatType.Damage), this, false, this.DamageType);
-                    ShotTimer.Start(StatBlock.GetStat(StatType.AttackSpeed));
+                    ShotTimer.Start(StatBlock.GetStat(StatType.AttackSpeed) / this.TimeScale);
                 }
             }
         }

@@ -1,8 +1,6 @@
 using Godot;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 public partial class DeckViewerPanel : Control
 {
@@ -12,6 +10,7 @@ public partial class DeckViewerPanel : Control
     [Export] Label NumTowersLabel;
     [Export] Label NumActionsLabel;
     [Export] HSlider CardSizeSlider;
+    [Export] Panel BackgroundColorPanel;
 
     private int ChunkCount;
     private int TowerCount;
@@ -20,7 +19,7 @@ public partial class DeckViewerPanel : Control
     private bool ShowDuplicates = true;
     private int currentSortIndex = 0; // Start sorting by name
     private int currentFilterIndex = 0; // Default should display all
-
+    private bool AnimatedCards = false;
 
     PackedScene CardScene = GD.Load<PackedScene>("res://Scenes/UI/Cards/Card.tscn");
 
@@ -29,6 +28,110 @@ public partial class DeckViewerPanel : Control
 
     public override void _Ready()
     {
+        InitializePanel();
+        DeckManager.GetInstance().CardAdded += OnCardAdded;
+        DeckManager.GetInstance().CardRemoved += OnCardRemoved;
+        CardSizeSlider.ValueChanged += OnCardSizeSliderValueChanged;
+    }
+
+    private void OnCardAdded(CardData cardData)
+    {
+        // Update card counts
+        switch (cardData.CardType)
+        {
+            case CardType.Tower:
+                this.TowerCount++;
+                break;
+            case CardType.Chunk:
+                this.ChunkCount++;
+                break;
+            case CardType.Action:
+                this.ActionCount++;
+                break;
+        }
+        UpdateCountLabels();
+
+        TextureRect textRect = new TextureRect();
+        textRect.CustomMinimumSize = new Vector2(62.5f, 87.5f);
+        textRect.ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize;
+
+        Card card = CardScene.Instantiate<Card>();
+        textRect.AddChild(card);
+        card.SetCardData(cardData);
+        card.Disabled = true;
+        card.Viewport.RenderTargetUpdateMode = SubViewport.UpdateMode.Once;
+        textRect.Texture = card.Texture;
+        card.Visible = false;
+
+        originalCardEntries.Add((textRect, card));
+        filteredCardEntries.Add((textRect, card));
+
+        FlowContainer.AddChild(textRect);
+    }
+
+    private void OnCardRemoved(CardData cardData)
+    {
+        switch (cardData.CardType)
+        {
+            case CardType.Tower:
+                this.TowerCount--;
+                break;
+            case CardType.Chunk:
+                this.ChunkCount--;
+                break;
+            case CardType.Action:
+                this.ActionCount--;
+                break;
+        }
+        UpdateCountLabels();
+
+        // Find the card visual and remove it from the panel
+        TextureRect textRect = FindCardVisual(cardData);
+        if (textRect != null)
+        {
+            FlowContainer.RemoveChild(textRect);
+            textRect.QueueFree();
+            originalCardEntries = originalCardEntries.Where(entry => entry.textureRect != textRect)
+        .ToList();
+            filteredCardEntries = filteredCardEntries.Where(entry => entry.textureRect != textRect)
+        .ToList();
+        }
+    }
+
+    private TextureRect FindCardVisual(CardData cardData)
+    {
+        foreach (var entry in originalCardEntries)
+        {
+            if (entry.card.data == cardData)
+            {
+                return entry.textureRect;
+            }
+        }
+
+        return null; // No visual found for this card data
+    }
+
+    private void UpdateCountLabels()
+    {
+        DeckSizeLabel.Text = "Total Cards: " + DeckManager.GetInstance().Cards.Count.ToString();
+        NumChunksLabel.Text = "Chunks: " + ChunkCount;
+        NumTowersLabel.Text = "Towers: " + TowerCount;
+        NumActionsLabel.Text = "Actions: " + ActionCount;
+    }
+
+
+    public void InitializePanel()
+    {
+        TowerCount = 0;
+        ChunkCount = 0;
+        ActionCount = 0;
+        originalCardEntries.Clear();
+        filteredCardEntries.Clear();
+        foreach (Node node in this.FlowContainer.GetChildren())
+        {
+            node.QueueFree();
+        }
+
         foreach (CardData cardData in DeckManager.GetInstance().TotalCards)
         {
             TextureRect textRect = new TextureRect();
@@ -38,6 +141,8 @@ public partial class DeckViewerPanel : Control
             Card card = CardScene.Instantiate<Card>();
             textRect.AddChild(card);
             card.SetCardData(cardData);
+            card.Disabled = true;
+            card.Viewport.RenderTargetUpdateMode = SubViewport.UpdateMode.Once;
             textRect.Texture = card.Texture;
             card.Visible = false;
 
@@ -54,22 +159,19 @@ public partial class DeckViewerPanel : Control
                     ActionCount++; break;
             }
 
+            /*
             if (!DeckManager.GetInstance().DrawnCards.Contains(cardData)) // Broken, contains doesnt distinguish duplicates
             {
                 // Darken the card to show it's in the discard pile
                 textRect.Modulate = new Color(0.5f, 0.5f, 0.5f, 1); // Adjust RGB to 0.5 for a darker appearance
             }
+            */
         }
-
-        DeckSizeLabel.Text = "Total Cards: " + DeckManager.GetInstance().Cards.Count.ToString();
-        NumChunksLabel.Text = "Chunks: " + ChunkCount;
-        NumTowersLabel.Text = "Towers: " + TowerCount;
-        NumActionsLabel.Text = "Actions: " + ActionCount;
 
         FilterCards();
         SortCards();
         RePopulateFlowContainer();
-        CardSizeSlider.ValueChanged += OnCardSizeSliderValueChanged;
+        UpdateCountLabels();
     }
 
     private void RePopulateFlowContainer()
@@ -95,11 +197,6 @@ public partial class DeckViewerPanel : Control
         }
 
         RePopulateFlowContainer();
-    }
-
-    public void _on_button_pressed()
-    {
-        QueueFree();
     }
 
     public void _on_filter_option_button_item_selected(int index)
@@ -243,4 +340,32 @@ public partial class DeckViewerPanel : Control
         }
     }
 
+    public void _on_color_picker_button_color_changed(Color color)
+    {
+        StyleBoxFlat styleBox = new StyleBoxFlat();
+        styleBox.BgColor = color;
+        BackgroundColorPanel.AddThemeStyleboxOverride("panel", styleBox);
+    }
+
+    public void _on_animate_cards_button_pressed()
+    {
+        this.AnimatedCards = !this.AnimatedCards;
+        UpdateCardAnimation();
+    }
+
+    private void UpdateCardAnimation()
+    {
+        foreach (var entry in originalCardEntries)
+        {
+            if (AnimatedCards)
+            {
+                entry.card.Viewport.RenderTargetUpdateMode = SubViewport.UpdateMode.WhenVisible;
+            }
+            else
+            {
+                entry.card.Viewport.RenderTargetUpdateMode = SubViewport.UpdateMode.Once;
+            }
+        }
+        FilterCards();
+    }
 }

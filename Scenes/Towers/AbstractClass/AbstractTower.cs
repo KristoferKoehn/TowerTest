@@ -16,6 +16,7 @@ public enum TowerType
     BubbleGun,
     WaterGun,
     Flamethrower,
+    Shotgun,
 }
 
 [Tool]
@@ -60,7 +61,6 @@ public abstract partial class AbstractTower : AbstractPlaceable
     public StatBlock StatBlock = new();
 
     public List<BaseEnemy> EnemyList = new List<BaseEnemy>();
-
 
     MeshInstance3D indicator { get; set; }
 
@@ -175,7 +175,7 @@ public abstract partial class AbstractTower : AbstractPlaceable
                     }
                     */
 
-                    ShotTimer.Start(StatBlock.GetStat(StatType.AttackSpeed));
+                    ShotTimer.Start(StatBlock.GetStat(StatType.AttackSpeed) / this.TimeScale);
                 }
             }
 
@@ -375,6 +375,8 @@ public abstract partial class AbstractTower : AbstractPlaceable
 
     public virtual void DealDamage(Area3D area)
     {
+        if (!(area.GetParent() is BaseEnemy)) return;
+
         BaseEnemy be = area.GetParent<BaseEnemy>();
         bool isCrit = false;
 

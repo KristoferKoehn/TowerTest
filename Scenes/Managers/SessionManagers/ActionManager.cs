@@ -13,6 +13,8 @@ public partial class ActionManager : Node
 
     public List<BaseAction> activeActions = new List<BaseAction>();
 
+    public event Action<BaseAction> TemporaryActionStarted;
+
     public static ActionManager GetInstance()
     {
         if (!IsInstanceValid(instance))
@@ -34,10 +36,12 @@ public partial class ActionManager : Node
             return;
         }
 
-        this.activeActions.Add(action);
+        this.activeActions.Add(action); // Actions will remove themselves from the list on their own when they end.
         AddChild(action);
+        OnTemporaryActionStarted(action);
         action.ApplyEffect();
     }
+
 
     public void AddAction(InstantAction action)
     {
