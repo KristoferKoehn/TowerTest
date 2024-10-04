@@ -64,6 +64,7 @@ public partial class UI : CanvasLayer
         }
 	}
 
+    // click to pause and click again to unpause
     public void _on_pause_play_button_pressed()
     {
         GetTree().Paused = !GetTree().Paused;
