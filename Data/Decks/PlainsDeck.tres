@@ -9,6 +9,7 @@
 [ext_resource type="Resource" uid="uid://leicamg0felu" path="res://Data/CardData/Minigun.tres" id="6_00gci"]
 [ext_resource type="Resource" path="res://Data/CardData/Bubble Gun.tres" id="7_tag0e"]
 [ext_resource type="Resource" path="res://Data/CardData/Water Gun.tres" id="8_65gmp"]
+
 [ext_resource type="Resource" path="res://Data/CardData/Flamethrower.tres" id="9_ijx7g"]
 [ext_resource type="Resource" path="res://Data/CardData/Shotgun.tres" id="10_deput"]
 [ext_resource type="Resource" uid="uid://c1o1l3m74qjmg" path="res://Data/CardData/DoubleTowerSpeed.tres" id="11_7vu1j"]

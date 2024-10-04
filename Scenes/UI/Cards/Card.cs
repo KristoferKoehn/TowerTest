@@ -124,7 +124,6 @@ public partial class Card : Sprite2D
         Highlighted = false;
         Tween tweenscale = GetTree().CreateTween();
         tweenscale.TweenProperty(this, "scale", this.originalScale, 0.2);
-
     }
 
     public void _on_card_base_gui_input(Node n, InputEvent @event, int idx)
@@ -148,9 +147,7 @@ public partial class Card : Sprite2D
                 {
                     GD.Print("clicked");
                 }
-
             }
-
 
             if (mouseEvent.ButtonIndex == MouseButton.Left && mouseEvent.IsPressed() && Highlighted)
             {
@@ -170,14 +167,7 @@ public partial class Card : Sprite2D
             }
         }
 
-        //mouse motion click/drag detection threshold
-        /*
-        if (MotionAccumulation.Length() > 1.2)
-        {
-            dragging = true;
-            Active = false;
-            
-        } */
+        
     }
 
 
@@ -190,13 +180,14 @@ public partial class Card : Sprite2D
         {
             if (mouseEvent.ButtonIndex == MouseButton.Left && mouseEvent.IsReleased())
             {
-                if (dragging && !Highlighted)
+                if (dragging)
                 {
                     pressed = false;
                     DragOffset = Vector2.Zero;
                     MotionAccumulation = Vector2.Zero;
                     dragging = false;
                     Active = true;
+                    EmitSignal("DragEnded", this);
                 }
             }
         }
@@ -236,7 +227,7 @@ public partial class Card : Sprite2D
         Tween tweenscale = GetTree().CreateTween();
         tweenscale.TweenProperty(this, "scale", this.originalScale, 0.2);
         switch (this.data.CardType)
-        {   
+        {
             case CardType.Tower:
             case CardType.Chunk:
             case CardType.Spell:
@@ -260,16 +251,17 @@ public partial class Card : Sprite2D
         // Load and instantiate the card:
         AbstractPlaceable Placeable = CardLoadingManager.GetInstance().GetPackedScene(this.data.SubjectScene).Instantiate<AbstractPlaceable>();
         QueriedPlaceable = Placeable;
-        QueriedPlaceable.Cancelled += CancelPlacement;
-        QueriedPlaceable.Placed += SuccessfullyPlaced;
-
         SceneSwitcher.CurrentGameLoop.AddChild(Placeable);
+        Placeable.Cancelled += CancelPlacement;
+        Placeable.Placed += SuccessfullyPlaced;
+
         
         Placeable.ActivatePlacing();
     }
 
     public void SuccessfullyPlaced(Node3D item, Vector3 pos)
     {
+        GD.Print("Card Received Placed Signal");
         QueriedPlaceable.Cancelled -= CancelPlacement;
         QueriedPlaceable.Placed -= SuccessfullyPlaced;
         QueriedPlaceable = null;
@@ -291,5 +283,7 @@ public partial class Card : Sprite2D
         DeckManager.GetInstance().Discard(data);
         QueueFree();
     }
+
+
 
 }

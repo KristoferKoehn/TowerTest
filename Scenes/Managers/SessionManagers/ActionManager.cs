@@ -2,6 +2,8 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using TowerTest.Scenes.Components;
 
 public partial class ActionManager : Node
 {
@@ -40,8 +42,13 @@ public partial class ActionManager : Node
         action.ApplyEffect();
     }
 
-    protected virtual void OnTemporaryActionStarted(BaseAction action)
+
+    public void AddAction(InstantAction action)
     {
-        TemporaryActionStarted?.Invoke(action);
+        //unimplemented for now
+
+        //register action
+        //have logic about the action
+        action.ApplyEffect();
     }
 }
