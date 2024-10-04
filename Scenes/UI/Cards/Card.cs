@@ -226,24 +226,9 @@ public partial class Card : Sprite2D
     {
         Tween tweenscale = GetTree().CreateTween();
         tweenscale.TweenProperty(this, "scale", this.originalScale, 0.2);
-        switch (this.data.CardType)
-        {
-            case CardType.Tower:
-            case CardType.Chunk:
-            case CardType.Spell:
-                SpawnPlaceable();
-                break;
-            case CardType.Action:
-                ActivateAction();
-                break;
-        }
+        SpawnPlaceable();
     }
 
-    private void ActivateAction()
-    {
-        ActionManager.GetInstance().AddAction(CardLoadingManager.GetInstance().GetPackedScene(this.data.SubjectScene).Instantiate<BaseAction>());
-        EmitSignal("Placed", this);
-    }
 
     private void SpawnPlaceable()
     {

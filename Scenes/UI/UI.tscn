@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://c8k323ym7lt8k"]
+[gd_scene load_steps=20 format=3 uid="uid://c8k323ym7lt8k"]
 
 [ext_resource type="Script" path="res://Scenes/UI/UI.cs" id="1_vo24d"]
 [ext_resource type="Texture2D" uid="uid://me51xnsi1idj" path="res://Assets/Icons/GameUI/CoinIcon.tres" id="2_5xsv3"]
@@ -9,11 +9,8 @@
 [ext_resource type="PackedScene" uid="uid://bbpphuq3csaxf" path="res://Scenes/UI/Cards/PlayerHand2.tscn" id="8_kayuc"]
 [ext_resource type="Shader" path="res://Assets/Shaders/PlayAreaEffect.gdshader" id="9_pq3hn"]
 [ext_resource type="PackedScene" uid="uid://didxub0guxul3" path="res://Scenes/menus/PauseMenu.tscn" id="9_qhxxr"]
-
-[ext_resource type="PackedScene" uid="uid://b3t1u0ejkjvhy" path="res://Scenes/UI/Panels/DeckViewerPanel.tscn" id="10_uiid5"]
-
 [ext_resource type="PackedScene" uid="uid://b34ix3qaxnw7g" path="res://Scenes/UI/Shop.tscn" id="10_3jgfp"]
-
+[ext_resource type="PackedScene" uid="uid://b3t1u0ejkjvhy" path="res://Scenes/UI/Panels/DeckViewerPanel.tscn" id="10_uiid5"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ffxy5"]
 resource_local_to_scene = true
@@ -77,22 +74,16 @@ bg_color = Color(0.926002, 0.154522, 0.240135, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2xmo1"]
 bg_color = Color(0, 0.752861, 0.134393, 1)
 
-
-[node name="UI" type="CanvasLayer" node_paths=PackedStringArray("_playerHand", "CurrencyLabel", "ScoreLabel", "TowerHealthBar", "GameOverControl", "PauseControl", "DeckViewerControl", "EffectTimerContainer")]
-
+[node name="UI" type="CanvasLayer" node_paths=PackedStringArray("CurrencyLabel", "ScoreLabel", "TowerHealthBar", "GameOverControl", "PauseControl", "DeckViewerControl", "EffectTimerContainer", "ShopScene")]
 script = ExtResource("1_vo24d")
-PlayerHand = NodePath("Control/PlayerHand2")
 CurrencyLabel = NodePath("Control/VBoxContainer/TopUI/PlayerInfo_HBoxContainer/Currency/Currency")
 ScoreLabel = NodePath("Control/VBoxContainer/TopUI/PlayerInfo_HBoxContainer/Score")
 TowerHealthBar = NodePath("Control/VBoxContainer/TopUI/PlayerInfo_HBoxContainer/VBoxContainer/PlayerTowerHealth")
 GameOverControl = NodePath("Control/GameOver")
 PauseControl = NodePath("Control/PauseControl")
-
 DeckViewerControl = NodePath("Control/DeckViewerControl")
 EffectTimerContainer = NodePath("Control/EffectTimerContainer")
-
 ShopScene = NodePath("Control/Shop")
-
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -439,7 +430,6 @@ rotation = 1.5708
 focus_mode = 0
 text = "SHOP"
 
-
 [node name="EffectTimerContainer" type="PanelContainer" parent="Control"]
 layout_mode = 1
 anchors_preset = -1
@@ -454,7 +444,6 @@ offset_bottom = -0.224007
 visible = false
 layout_mode = 1
 Cards = []
-
 
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/BeginWaveButton" to="." method="_on_begin_wave_button_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/TopUI/Buttons_HBoxContainer/PausePlayButton" to="." method="_on_pause_play_button_pressed"]

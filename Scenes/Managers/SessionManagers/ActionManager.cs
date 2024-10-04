@@ -1,9 +1,6 @@
 using Godot;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using TowerTest.Scenes.Components;
+
 
 public partial class ActionManager : Node
 {
@@ -13,7 +10,6 @@ public partial class ActionManager : Node
 
     public List<BaseAction> activeActions = new List<BaseAction>();
 
-    public event Action<BaseAction> TemporaryActionStarted;
 
     public static ActionManager GetInstance()
     {
@@ -26,21 +22,6 @@ public partial class ActionManager : Node
         return instance;
     }
 
-    public void AddAction(BaseAction action)
-    {
-        // Check if an action of the same type already exists
-        if (this.activeActions.Any(a => a.GetType() == action.GetType()))
-        {
-            // Don't add the action if one of the same type already exists
-            if(Debugging) GD.Print("already have that kind of action active.");
-            return;
-        }
-
-        this.activeActions.Add(action); // Actions will remove themselves from the list on their own when they end.
-        AddChild(action);
-        OnTemporaryActionStarted(action);
-        action.ApplyEffect();
-    }
 
 
     public void AddAction(InstantAction action)

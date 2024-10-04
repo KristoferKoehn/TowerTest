@@ -48,7 +48,6 @@ public partial class UI : CanvasLayer
 	{
         AccountStatsManager.GetInstance().StatChanged += UpdateAccountStatsUI;
         PlayerStatsManager.GetInstance().StatChanged += UpdatePlayerStatsUI;
-        ActionManager.GetInstance().TemporaryActionStarted += AddEffectTimeLabel;
         UpdateAccountStatsUI(StatType.Gold, AccountStatsManager.GetInstance().GetStat(StatType.Gold));
         UpdatePlayerStatsUI(StatType.Score, PlayerStatsManager.GetInstance().GetStat(StatType.Score));
         TowerHealthBar.MaxValue = PlayerStatsManager.GetInstance().GetStat(StatType.MaxHealth);
