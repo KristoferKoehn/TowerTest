@@ -8,8 +8,6 @@ public partial class ActionManager : Node
 
     static ActionManager instance;
 
-    public List<BaseAction> activeActions = new List<BaseAction>();
-
 
     public static ActionManager GetInstance()
     {

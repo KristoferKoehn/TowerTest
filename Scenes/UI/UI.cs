@@ -172,16 +172,6 @@ public partial class UI : CanvasLayer
 
         }
     }
-
-
-    public void AddEffectTimeLabel(BaseAction action)
-    {
-        GD.Print(action.IsTemporary);
-        if (action.IsTemporary)
-        {
-            action.durationTimerLabel.Reparent(EffectTimerContainer);
-        }
-    }
     
     public void _on_shop_button_pressed()
     {
