@@ -22,7 +22,7 @@ public enum CardType
     Tower,
     Chunk,
     Action,
-    Spell,
+    Weather,
 }
 
 public enum Rarity

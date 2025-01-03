@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="DeckData" load_steps=12 format=3 uid="uid://yuqox702la4v"]
+[gd_resource type="Resource" script_class="DeckData" load_steps=13 format=3 uid="uid://yuqox702la4v"]
 
 [ext_resource type="Script" path="res://Scenes/Utility/DeckData.cs" id="1_myq8o"]
 [ext_resource type="Resource" uid="uid://yxirthjxca2m" path="res://Data/CardData/The Sandy Runway.tres" id="1_t76fv"]
@@ -11,7 +11,8 @@
 [ext_resource type="Resource" path="res://Data/CardData/Water Gun.tres" id="8_65gmp"]
 [ext_resource type="Resource" path="res://Data/CardData/Flamethrower.tres" id="9_ijx7g"]
 [ext_resource type="Resource" path="res://Data/CardData/Shotgun.tres" id="10_deput"]
+[ext_resource type="Resource" path="res://Data/CardData/Rain.tres" id="11_v25sl"]
 
 [resource]
 script = ExtResource("1_myq8o")
-data = [ExtResource("1_t76fv"), ExtResource("1_t76fv"), ExtResource("2_g5r8q"), ExtResource("2_g5r8q"), ExtResource("4_ua4d5"), ExtResource("4_ua4d5"), ExtResource("4_8hdyb"), ExtResource("4_8hdyb"), ExtResource("4_8hdyb"), ExtResource("4_8hdyb"), ExtResource("5_k27ok"), ExtResource("6_00gci"), ExtResource("7_tag0e"), ExtResource("8_65gmp"), ExtResource("9_ijx7g"), ExtResource("10_deput")]
+data = [ExtResource("1_t76fv"), ExtResource("1_t76fv"), ExtResource("2_g5r8q"), ExtResource("2_g5r8q"), ExtResource("4_ua4d5"), ExtResource("4_ua4d5"), ExtResource("4_8hdyb"), ExtResource("4_8hdyb"), ExtResource("4_8hdyb"), ExtResource("4_8hdyb"), ExtResource("5_k27ok"), ExtResource("6_00gci"), ExtResource("7_tag0e"), ExtResource("8_65gmp"), ExtResource("9_ijx7g"), ExtResource("10_deput"), ExtResource("11_v25sl"), ExtResource("11_v25sl")]

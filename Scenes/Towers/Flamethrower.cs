@@ -91,7 +91,6 @@ public partial class Flamethrower : AbstractTower
 
     private void OnFlameAreaBodyExited(Node body)
     {
-        GD.Print(body);
         if (body.GetParent() is BaseEnemy enemy)
         {
             GD.Print("Flame exited");

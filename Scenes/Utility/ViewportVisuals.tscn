@@ -33,7 +33,7 @@ shadow_enabled = true
 transform = Transform3D(0.963245, 0, -0.272483, 0, 1, 0, 0.272483, 0, 0.963245, 0, 0, 0)
 
 [node name="CameraGimbal" type="Node3D" parent="CameraRotationPoint"]
-transform = Transform3D(0.707107, -0.407681, 0.577751, 0, 0.817064, 0.576548, -0.707107, -0.407681, 0.577751, 3.23316, 3.23316, 3.23316)
+transform = Transform3D(0.707107, -0.407681, 0.577751, 0, 0.817064, 0.576547, -0.707107, -0.407681, 0.577751, 3.23316, 3.23316, 3.23316)
 
 [node name="Camera3D" type="Camera3D" parent="CameraRotationPoint/CameraGimbal"]
 near = 0.7

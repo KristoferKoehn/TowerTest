@@ -8,6 +8,7 @@ public partial class CardLoadingManager : Node
     Dictionary<string, PackedScene> Towers = new Dictionary<string, PackedScene>();
     Dictionary<string, PackedScene> Chunks = new Dictionary<string, PackedScene>();
     Dictionary<string, PackedScene> Actions = new Dictionary<string, PackedScene>();
+    Dictionary<string, PackedScene> Weathers = new Dictionary<string, PackedScene>();
     Dictionary<Rarity, StyleBoxTexture> RarityStyles = new();
     Dictionary<string, CardData> CardData = new Dictionary<string, CardData>();
 
@@ -57,6 +58,16 @@ public partial class CardLoadingManager : Node
             }
         }
 
+        string[] WeatherNames = DirAccess.GetFilesAt("res://Scenes/Weather/");
+        foreach (string name in WeatherNames)
+        {
+            if (name.Contains(".tscn"))
+            {
+                GD.Print(name);
+                Weathers.Add(name, GD.Load<PackedScene>($"res://Scenes/Weather/{name}"));
+            }
+        }
+
         RarityStyles[Rarity.Common] = GD.Load<StyleBoxTexture>("res://Scenes/UI/Cards/Gradients/CommonRarityStyleBox.tres");
         RarityStyles[Rarity.Uncommon] = GD.Load<StyleBoxTexture>("res://Scenes/UI/Cards/Gradients/UncommonRarityStyleBox.tres");
         RarityStyles[Rarity.Rare] = GD.Load<StyleBoxTexture>("res://Scenes/UI/Cards/Gradients/RareRarityStyleBox.tres");
@@ -88,6 +99,10 @@ public partial class CardLoadingManager : Node
         else if (Actions.ContainsKey(name))
         {
             ps = Actions[name];
+        }
+        else if (Weathers.ContainsKey(name))
+        {
+            ps = Weathers[name];
         }
 
         return ps;
