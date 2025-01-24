@@ -2,7 +2,6 @@ using Godot;
 using Managers;
 using System.Collections.Generic;
 
-
 public partial class PlayerHand2 : Control
 {
 
@@ -26,7 +25,6 @@ public partial class PlayerHand2 : Control
 
     [Export] Node2D RightButtonParent;
     [Export] Node2D LeftButtonParent;
-
 
     public List<Card> CardList = new List<Card>();
     List<float> CardPositions = new List<float>();
@@ -102,7 +100,6 @@ public partial class PlayerHand2 : Control
                 t.Start(0.1);
                 t.Timeout += () =>
                 {
-
 
                     if (i < remainingCount)
                     {
@@ -320,7 +317,6 @@ public partial class PlayerHand2 : Control
                 Vector2 CurvePoint = CardPlacingPath.Curve.GetClosestPoint(CardPlacingPath.ToLocal(CardList[i].GlobalPosition));
                 float RealProgress = CardPlacingPath.Curve.GetClosestOffset(CurvePoint);
 
-
                 if (RealProgress - CardPositions[i] > Mathf.Abs(SwapThreshold) && CardList.Count == 2)
                 {
                     Card temp = CardList[1];
@@ -423,7 +419,6 @@ public partial class PlayerHand2 : Control
         Tween f = GetTree().CreateTween();
         f.TweenProperty(LeftButtonParent, "position", new Vector2(0, 0), 0.2);
     }
-
 
     public void HideDropPanels(Card card)
     {

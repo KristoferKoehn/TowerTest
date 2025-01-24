@@ -67,7 +67,6 @@ public partial class Ballista : AbstractTower
             if (index != -1)
             {
 
-
                 Vector3 predicted = PredictionManager.GetInstance().PredictTarget(EnemyList[index], 0.2f);
 
                 BallistaMount.LookAt(predicted);
@@ -120,9 +119,7 @@ public partial class Ballista : AbstractTower
                 t.Timeout += meshInstance3D.QueueFree;
                 AddChild(meshInstance3D);
             }
-
         }
-
 	}
 
     public void ShootArrow(Node3D tower, Node3D target, Vector3 dir)

@@ -68,7 +68,6 @@ public partial class Card : Sprite2D
             tweenscale.TweenProperty(this, "scale", this.selectedScale, 0.2);
         }
 
-
         //have to emulate UI tracking of inputs. if lmb is unpressed, make everything go back to normal
         //when clicked, make card follow mouse. if unclick detected AT ALL, make determination on whether or not dragged or clicked.
         //if clicked, do something different
@@ -99,7 +98,6 @@ public partial class Card : Sprite2D
         }
 
     }
-
 
     public void _on_card_base_mouse_entered()
     {
@@ -166,8 +164,6 @@ public partial class Card : Sprite2D
                 MotionAccumulation += mouseMotion.Relative;
             }
         }
-
-        
     }
 
 
@@ -268,7 +264,4 @@ public partial class Card : Sprite2D
         DeckManager.GetInstance().Discard(data);
         QueueFree();
     }
-
-
-
 }

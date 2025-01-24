@@ -16,8 +16,8 @@ public partial class Flamethrower : AbstractTower
 
     public override void _Ready()
     {
-        this.DamageType = DamageType.Fire;
-        this.TowerType = TowerType.Flamethrower;
+        DamageType = DamageType.Fire;
+        TowerType = TowerType.Flamethrower;
         base._Ready();
 
         Dictionary<StatType, float> sb = new()

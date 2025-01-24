@@ -2,9 +2,6 @@ using Godot;
 using Godot.Collections;
 using System;
 using System.Collections.Generic;
-using static Godot.TextServer;
-using System.Threading.Tasks;
-using MMOTest.Backend;
 
 public partial class TowerManager : Node
 {
